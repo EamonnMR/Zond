@@ -13,14 +13,13 @@ import ents.BaseLevel;
 import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
-import ents.OptionsEnt;
 
 public class GamePlayState extends BasicGameState{
 
 	//vars
 	private int id;
 	private float x,y;
-	private OptionsEnt ops;
+//	private OptionsEnt ops; XXX use me
 	public BasicShip player,dude;
 	public BasicGun gun;
 	public BasicEngine eng1;
@@ -36,7 +35,6 @@ public class GamePlayState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		col = new Circle(x,y,28,48);
 		
 //		level = new BaseLevel("Scratch",1600,1600);
@@ -70,7 +68,6 @@ public class GamePlayState extends BasicGameState{
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		level.render(arg2,0,0);
 		player.render();
 		dude.render();
@@ -79,7 +76,6 @@ public class GamePlayState extends BasicGameState{
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
         Input input = arg0.getInput();
         
         
@@ -137,7 +133,6 @@ public class GamePlayState extends BasicGameState{
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
