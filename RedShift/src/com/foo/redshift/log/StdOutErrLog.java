@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class StdOutErrLog {
 
-    private static final Logger logger = Logger.getLogger(StdOutErrLog.class);
+    private static final Logger LOG = Logger.getLogger(StdOutErrLog.class);
 
     public static void tieSystemOutAndErrToLog() {
 	System.setOut(createLoggingProxy(System.out));
@@ -25,7 +25,7 @@ public class StdOutErrLog {
 	return new PrintStream(realPrintStream) {
 	    public void print(final String string) {
 		realPrintStream.print(string);
-		logger.info(string);
+		LOG.info(string);
 	    }
 	};
     }
