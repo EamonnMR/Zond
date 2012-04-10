@@ -1,4 +1,4 @@
-package ents;
+package com.foo.redshift.ents;
 /**
  * 
  * @author Roohr

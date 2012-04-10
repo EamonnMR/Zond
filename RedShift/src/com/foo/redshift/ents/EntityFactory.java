@@ -1,9 +1,10 @@
-package ents;
+package com.foo.redshift.ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
-import core.GameDatabase;
+import com.foo.redshift.core.GameDatabase;
+
 /**
  * Factory design pattern, builds all necessary game classes
  * @author Roohr

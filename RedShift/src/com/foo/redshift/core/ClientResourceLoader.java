@@ -1,4 +1,4 @@
-package core;
+package com.foo.redshift.core;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
