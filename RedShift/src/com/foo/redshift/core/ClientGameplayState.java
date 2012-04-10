@@ -191,7 +191,7 @@ public class ClientGameplayState extends BasicGameState {
 	for (Map.Entry<Integer, BasicShip> currentShip : ships.entrySet()) {
 	    for (Map.Entry<Integer, BasicShot> currentShot : shots.entrySet()) {
 
-		if (specHitCheck(currentShip.getValue(), currentShot.getValue()) == true) {
+		if (specHitCheck(currentShip.getValue(), currentShot.getValue())) {
 		    double tempHp = currentShip.getValue().getHealth()
 			    - currentShot.getValue().getDamage();
 		    currentShip.getValue().setHealth(tempHp);
