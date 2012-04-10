@@ -45,7 +45,6 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		
 //		level = new BaseLevel("Scratch",1600,1600);
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
@@ -76,7 +75,6 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		level.render(arg2, 0, 0);
 //		pc.getShip().render(arg2);
 //		pc2.getShip().render(arg2);
@@ -109,7 +107,6 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		Input p = arg0.getInput();
 		
 		if(p.isKeyDown(pc.getKey(0))){
@@ -222,7 +219,6 @@ public class ClientGameplayState extends BasicGameState {
 	
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 	

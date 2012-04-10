@@ -1,10 +1,5 @@
 package core;
 
-import org.newdawn.slick.Input;
-
-import ents.BasicArmor;
-import ents.BasicEngine;
-import ents.BasicGun;
 import ents.BasicShip;
 
 /**
@@ -17,17 +12,18 @@ public class PlayerClient {
 	
 	//vars
 	private BasicShip playerShip;
-	private BasicArmor[] armorCol;
-	private BasicEngine[] engineCol;
-	private BasicGun[] gunCol;
+// XXX use member variables.
+//	private BasicArmor[] armorCol;
+//	private BasicEngine[] engineCol;
+//	private BasicGun[] gunCol;
 	private boolean isAlive;
 	private int[] keys;
 	
 	//const
 	public PlayerClient(int clientId){
-		armorCol = new BasicArmor[0];
-		engineCol = new BasicEngine[0];
-		gunCol = new BasicGun[0];
+//		armorCol = new BasicArmor[0];
+//		engineCol = new BasicEngine[0];
+//		gunCol = new BasicGun[0];
 		keys = new int[7];
 		iniKeys();
 	}

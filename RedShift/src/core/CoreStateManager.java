@@ -22,7 +22,6 @@ public class CoreStateManager extends StateBasedGame {
 	//const
 	public CoreStateManager() {
 		super("Project RedShift");
-		// TODO Auto-generated constructor stub
 		gDB = new GameDatabase();
 		player = new PlayerClient(1);
 		entFac = new EntityFactory(gDB);
@@ -36,7 +35,6 @@ public class CoreStateManager extends StateBasedGame {
 	//methods
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		// TODO Auto-generated method stub
 //		this.getState(GAMEPLAYSTATE).init(arg0, this);
 	}
 

@@ -3,12 +3,6 @@ package core;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import ents.BasicArmor;
-import ents.BasicEngine;
-import ents.BasicGun;
-import ents.BasicShip;
-import ents.BasicShot;
-
 /**
  * Master Database for media resources
  * @author proohr
@@ -183,6 +177,14 @@ public class GameDatabase {
 	 */
 	public Image getObjIMG(int i){
 		return indexObjIMG[i];
+	}
+	
+	/**
+	 * XXX use me.
+	 * @return
+	 */
+	public Image getThrust1() {
+		return thrust1;
 	}
 	
 }
