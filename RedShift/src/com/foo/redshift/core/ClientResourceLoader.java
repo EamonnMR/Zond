@@ -7,44 +7,45 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class ClientResourceLoader extends BasicGameState {
-	//vars
-	private int id;
-	private GameDatabase temp;
-	
-	//const
-	public ClientResourceLoader(int i, GameDatabase gDB){
-		id = i;
-		temp = gDB;
-	}
-	//methods
+    // vars
+    private int id;
+    private GameDatabase temp;
 
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
-	}
+    // const
+    public ClientResourceLoader(int i, GameDatabase gDB) {
+	id = i;
+	temp = gDB;
+    }
 
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-			throws SlickException {
-		
-	}
+    // methods
 
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
-			throws SlickException {
-		
-	}
+    @Override
+    public void init(GameContainer arg0, StateBasedGame arg1)
+	    throws SlickException {
+    }
 
-	@Override
-	public int getID() {
-		return id;
-	}
-	
-	public void iniImages() throws SlickException{
-		temp.loadImages();
-	}
-	
-	public GameDatabase getDB(){
-		return temp;
-	}
+    @Override
+    public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+	    throws SlickException {
+
+    }
+
+    @Override
+    public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	    throws SlickException {
+
+    }
+
+    @Override
+    public int getID() {
+	return id;
+    }
+
+    public void iniImages() throws SlickException {
+	temp.loadImages();
+    }
+
+    public GameDatabase getDB() {
+	return temp;
+    }
 }

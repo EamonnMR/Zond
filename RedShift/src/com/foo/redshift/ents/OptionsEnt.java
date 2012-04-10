@@ -1,4 +1,5 @@
 package com.foo.redshift.ents;
+
 /**
  * 
  * @author Roohr
@@ -6,76 +7,77 @@ package com.foo.redshift.ents;
  */
 public class OptionsEnt {
 
-	//vars
-	private int fullscreen, smallWin, medWin, largeWin;
-	private int musevol, fxvol, voicevol, totvol;
-	
-	//const
-	public OptionsEnt(){
-		
-	}
-	//methods
-	public int getFullscreen() {
-		return fullscreen;
-	}
+    // vars
+    private int fullscreen, smallWin, medWin, largeWin;
+    private int musevol, fxvol, voicevol, totvol;
 
-	public void setFullscreen(int fullscreen) {
-		this.fullscreen = fullscreen;
-	}
+    // const
+    public OptionsEnt() {
 
-	public int getSmallWin() {
-		return smallWin;
-	}
+    }
 
-	public void setSmallWin(int smallWin) {
-		this.smallWin = smallWin;
-	}
+    // methods
+    public int getFullscreen() {
+	return fullscreen;
+    }
 
-	public int getMedWin() {
-		return medWin;
-	}
+    public void setFullscreen(int fullscreen) {
+	this.fullscreen = fullscreen;
+    }
 
-	public void setMedWin(int medWin) {
-		this.medWin = medWin;
-	}
+    public int getSmallWin() {
+	return smallWin;
+    }
 
-	public int getLargeWin() {
-		return largeWin;
-	}
+    public void setSmallWin(int smallWin) {
+	this.smallWin = smallWin;
+    }
 
-	public void setLargeWin(int largeWin) {
-		this.largeWin = largeWin;
-	}
+    public int getMedWin() {
+	return medWin;
+    }
 
-	public int getMusevol() {
-		return musevol;
-	}
+    public void setMedWin(int medWin) {
+	this.medWin = medWin;
+    }
 
-	public void setMusevol(int musevol) {
-		this.musevol = musevol;
-	}
+    public int getLargeWin() {
+	return largeWin;
+    }
 
-	public int getFxvol() {
-		return fxvol;
-	}
+    public void setLargeWin(int largeWin) {
+	this.largeWin = largeWin;
+    }
 
-	public void setFxvol(int fxvol) {
-		this.fxvol = fxvol;
-	}
+    public int getMusevol() {
+	return musevol;
+    }
 
-	public void setTotvol(int totvol) {
-		this.totvol = totvol;
-	}
+    public void setMusevol(int musevol) {
+	this.musevol = musevol;
+    }
 
-	public int getTotvol() {
-		return totvol;
-	}
+    public int getFxvol() {
+	return fxvol;
+    }
 
-	public void setVoicevol(int voicevol) {
-		this.voicevol = voicevol;
-	}
+    public void setFxvol(int fxvol) {
+	this.fxvol = fxvol;
+    }
 
-	public int getVoicevol() {
-		return voicevol;
-	}
+    public void setTotvol(int totvol) {
+	this.totvol = totvol;
+    }
+
+    public int getTotvol() {
+	return totvol;
+    }
+
+    public void setVoicevol(int voicevol) {
+	this.voicevol = voicevol;
+    }
+
+    public int getVoicevol() {
+	return voicevol;
+    }
 }
