@@ -40,8 +40,8 @@ public class GamePlayState extends BasicGameState {
 
 	// level = new BaseLevel("Scratch",1600,1600);
 	level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
-	x = arg0.getWidth() / 2;
-	y = arg0.getHeight() / 2;
+	x = (float) (arg0.getWidth() / 2.0);
+	y = (float) (arg0.getHeight() / 2.0);
 
 	player = new BasicShip(1, new Image(
 		"assets/images/ships/nasa/mercury/mercury.png"));
