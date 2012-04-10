@@ -1,6 +1,5 @@
 package core;
 
-import org.apache.log4j.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -10,7 +9,7 @@ import ents.EntityFactory;
 
 public class CoreStateManager extends StateBasedGame {
 
-	private static Logger logger = Logger.getLogger(CoreStateManager.class);
+//	private static Logger logger = Logger.getLogger(CoreStateManager.class);
 
 	// vars
 	public static int LOADERSTATE = 1;
