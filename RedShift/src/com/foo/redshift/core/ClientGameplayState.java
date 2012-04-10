@@ -191,7 +191,7 @@ public class ClientGameplayState extends BasicGameState {
 	for (Map.Entry<Integer, BasicShip> currentShip : ships.entrySet()) {
 	    for (Map.Entry<Integer, BasicShot> currentShot : shots.entrySet()) {
 
-		if (specHitCheck(currentShip.getValue(), currentShot.getValue())) {
+		if (isSpecificHit(currentShip.getValue(), currentShot.getValue())) {
 		    double tempHp = currentShip.getValue().getHealth()
 			    - currentShot.getValue().getDamage();
 		    currentShip.getValue().setHealth(tempHp);
@@ -210,7 +210,7 @@ public class ClientGameplayState extends BasicGameState {
      *            BasicShot
      * @return boolean
      */
-    public boolean specHitCheck(BasicShip a, BasicShot b) {
+    public boolean isSpecificHit(BasicShip a, BasicShot b) {
 	if (a.getCollider().intersects(b.getCollider())) {
 	    return true;
 	} else if (b.getCollider().intersects(a.getCollider())) {
