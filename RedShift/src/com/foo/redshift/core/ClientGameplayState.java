@@ -1,4 +1,4 @@
-package core;
+package com.foo.redshift.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +12,12 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ents.BaseEnt;
-import ents.BaseLevel;
-import ents.BasicShip;
-import ents.BasicShot;
-import ents.EntityFactory;
+import com.foo.redshift.ents.BaseEnt;
+import com.foo.redshift.ents.BaseLevel;
+import com.foo.redshift.ents.BasicShip;
+import com.foo.redshift.ents.BasicShot;
+import com.foo.redshift.ents.EntityFactory;
+
 
 public class ClientGameplayState extends BasicGameState {
 

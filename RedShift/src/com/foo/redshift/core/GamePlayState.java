@@ -1,4 +1,4 @@
-package core;
+package com.foo.redshift.core;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,10 +9,11 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ents.BaseLevel;
-import ents.BasicEngine;
-import ents.BasicGun;
-import ents.BasicShip;
+import com.foo.redshift.ents.BaseLevel;
+import com.foo.redshift.ents.BasicEngine;
+import com.foo.redshift.ents.BasicGun;
+import com.foo.redshift.ents.BasicShip;
+
 
 public class GamePlayState extends BasicGameState{
 

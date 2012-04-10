@@ -1,4 +1,4 @@
-package ents;
+package com.foo.redshift.ents;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

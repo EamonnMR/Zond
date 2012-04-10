@@ -1,11 +1,12 @@
-package core;
+package com.foo.redshift.core;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ents.EntityFactory;
+import com.foo.redshift.ents.EntityFactory;
+
 
 public class CoreStateManager extends StateBasedGame {
 

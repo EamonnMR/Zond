@@ -1,4 +1,4 @@
-package core;
+package com.foo.redshift.core;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
