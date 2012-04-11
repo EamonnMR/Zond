@@ -1,4 +1,4 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Circle;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShip extends BaseEnt {
+public class BasicShip extends BaseShift {
 
     // vars
     private int ID;

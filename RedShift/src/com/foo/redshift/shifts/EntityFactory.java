@@ -1,4 +1,4 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
@@ -120,11 +120,11 @@ public class EntityFactory {
     /**
 	 * 
 	 */
-    public BaseEnt smallAst() {
-	BaseEnt smallAsteroid;
+    public BaseShift smallAst() {
+	BaseShift smallAsteroid;
 	Image img = gdb.getObjIMG(0).copy();
 	Circle col = new Circle(0, 0, img.getWidth(), img.getHeight());
-	smallAsteroid = new BaseEnt(img, col);
+	smallAsteroid = new BaseShift(img, col);
 	return smallAsteroid;
     }
 

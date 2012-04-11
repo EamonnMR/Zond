@@ -1,6 +1,6 @@
 package com.foo.redshift.core;
 
-import com.foo.redshift.ents.BasicShip;
+import com.foo.redshift.shifts.BasicShip;
 
 /**
  * 

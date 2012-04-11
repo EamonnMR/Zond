@@ -1,4 +1,4 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 
