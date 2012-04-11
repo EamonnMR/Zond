@@ -2,3 +2,6 @@ syntax: glob
 bin
 .metadata
 *.ORIG
+.~lock
+syntax: regexp
+[A1-z0.~/]*.docx#
