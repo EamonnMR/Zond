@@ -12,33 +12,33 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.foo.redshift.shifts.BaseShift;
+import com.foo.redshift.shifts.BaseShiftity;
 import com.foo.redshift.shifts.BaseLevel;
 import com.foo.redshift.shifts.BasicShip;
 import com.foo.redshift.shifts.BasicShot;
-import com.foo.redshift.shifts.EntityFactory;
+import com.foo.redshift.shifts.ShiftityFactory;
 
 public class ClientGameplayState extends BasicGameState {
 
     // vars
     private int id, entCount, objCount, shotCount;
-    private EntityFactory entFac;
+    private ShiftityFactory entFac;
     private PlayerClient pc, pc2;
     private BaseLevel level;
-    private BaseShift asteroid;
+    private BaseShiftity asteroid;
     private HashMap<Integer, BasicShip> ships;
     private HashMap<Integer, BasicShot> shots;
-    private HashMap<Integer, BaseShift> doodads;
+    private HashMap<Integer, BaseShiftity> doodads;
 
     // const
-    public ClientGameplayState(int i, EntityFactory ef, PlayerClient PC) {
+    public ClientGameplayState(int i, ShiftityFactory ef, PlayerClient PC) {
 	id = i;
 	entFac = ef;
 	pc = PC;
 	pc2 = new PlayerClient(1);
 	ships = new HashMap<Integer, BasicShip>();
 	shots = new HashMap<Integer, BasicShot>();
-	doodads = new HashMap<Integer, BaseShift>();
+	doodads = new HashMap<Integer, BaseShiftity>();
     }
 
     // methods
@@ -80,7 +80,7 @@ public class ClientGameplayState extends BasicGameState {
 	for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 	    entry.getValue().render();
 	}
-	for (Map.Entry<Integer, BaseShift> entry : doodads.entrySet()) {
+	for (Map.Entry<Integer, BaseShiftity> entry : doodads.entrySet()) {
 	    entry.getValue().render();
 	}
 
@@ -146,7 +146,7 @@ public class ClientGameplayState extends BasicGameState {
 	    }
 	}
 
-	for (Map.Entry<Integer, BaseShift> entry : doodads.entrySet()) {
+	for (Map.Entry<Integer, BaseShiftity> entry : doodads.entrySet()) {
 	    entry.getValue().update(delta);
 	}
 
@@ -167,7 +167,7 @@ public class ClientGameplayState extends BasicGameState {
      * @param e
      * @return int objCount
      */
-    public int addObject(BaseShift e) {
+    public int addObject(BaseShiftity e) {
 	objCount++;
 	doodads.put(objCount, e);
 	return objCount;
@@ -224,7 +224,7 @@ public class ClientGameplayState extends BasicGameState {
 	return id;
     }
 
-    public void setEntFac(EntityFactory ef) {
+    public void setEntFac(ShiftityFactory ef) {
 	entFac = ef;
     }
 

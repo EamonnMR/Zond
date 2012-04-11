@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Circle;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShip extends BaseShift {
+public class BasicShip extends BaseShiftity {
 
     // vars
     private int ID;
