@@ -14,6 +14,7 @@ import com.foo.redshift.shifts.BasicEngine;
 import com.foo.redshift.shifts.BasicGun;
 import com.foo.redshift.shifts.BasicShip;
 
+@Deprecated
 public class GamePlayState extends BasicGameState {
 
     // vars
