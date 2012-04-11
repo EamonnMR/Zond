@@ -1,7 +1,10 @@
 package com.foo.redshift.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,14 +15,19 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.foo.redshift.shifts.BaseShiftity;
 import com.foo.redshift.shifts.BaseLevel;
+import com.foo.redshift.shifts.BaseShiftity;
+import com.foo.redshift.shifts.BasicGun;
 import com.foo.redshift.shifts.BasicShip;
 import com.foo.redshift.shifts.BasicShot;
 import com.foo.redshift.shifts.ShiftityFactory;
 
 public class ClientGameplayState extends BasicGameState {
 
+    private static final int IMG_HEIGHT = 1600;
+    private static final int IMG_WIDTH = 1600;
+    private int height;
+    private int width;
     // vars
     private int id, entCount, objCount, shotCount;
     private ShiftityFactory entFac;
@@ -45,16 +53,19 @@ public class ClientGameplayState extends BasicGameState {
     @Override
     public void init(GameContainer arg0, StateBasedGame arg1)
 	    throws SlickException {
+	width = arg0.getWidth();
+	height = arg0.getHeight();
 
 	// level = new BaseLevel("Scratch",1600,1600);
-	level = new BaseLevel("Scratch", new Rectangle(0, 0, 1600, 1600));
+	level = new BaseLevel("Scratch", new Rectangle(0, 0, IMG_WIDTH,
+		IMG_HEIGHT));
 	level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 
 	pc.setShip(entFac.stockMercury());
 	pc.getShip().setEngine(entFac.stockEngine());
 	pc.getShip().setWeapon(entFac.stock20mm());
-	pc.getShip().setX((arg0.getWidth() / 2));
-	pc.getShip().setY((arg0.getHeight() / 2));
+	pc.getShip().setX((width / 2));
+	pc.getShip().setY((height / 2));
 
 	pc2.setShip(entFac.stockVostok());
 	pc2.getShip().setEngine(entFac.stockEngine());
@@ -88,7 +99,8 @@ public class ClientGameplayState extends BasicGameState {
 	    entry.getValue().render();
 	}
 
-	arg2.draw(pc.getShip().getCollider());
+	BasicShip ship = pc.getShip();
+	arg2.draw(ship.getCollider());
 	arg2.draw(pc2.getShip().getCollider());
 
 	String x = String.valueOf(arg0.getInput().getMouseX());
@@ -96,11 +108,16 @@ public class ClientGameplayState extends BasicGameState {
 	x = String.valueOf(arg0.getInput().getMouseY());
 	arg2.drawString(x, 25, 725);
 
-	x = String.valueOf(pc.getShip().getHealth());
+	x = String.valueOf(ship.getHealth());
 	arg2.drawString("Players Health: " + x, 10, 35);
 
+	arg2.drawString("Players X: " + (int) ship.getX(), 10, 50);
+	arg2.drawString("Players Y: " + (int) ship.getY(), 10, 65);
+
 	x = String.valueOf(pc2.getShip().getHealth());
-	arg2.drawString("Dummy Health: " + x, 10, 50);
+	arg2.drawString("Dummy Health: " + x, 10, 80);
+
+	arg2.drawString("Shottas: " + shotCount, 10, 95);
     }
 
     @Override
@@ -108,26 +125,29 @@ public class ClientGameplayState extends BasicGameState {
 	    throws SlickException {
 	Input p = arg0.getInput();
 
+	BasicShip mehShip = pc.getShip();
+	BasicGun mehWeapon = mehShip.getWeapon();
+
 	if (p.isKeyDown(pc.getKey(0))) {
-	    pc.getShip().moveForward(delta);
+	    mehShip.moveForward(delta);
 	}
 	if (p.isKeyDown(pc.getKey(1))) {
-	    pc.getShip().moveBackward(delta);
+	    mehShip.moveBackward(delta);
 	}
 	if (p.isKeyDown(pc.getKey(2))) {
-	    pc.getShip().rotateLeft(delta);
+	    mehShip.rotateLeft(delta);
 	}
 	if (p.isKeyDown(pc.getKey(3))) {
-	    pc.getShip().rotateRight(delta);
+	    mehShip.rotateRight(delta);
 	}
 	if (p.isKeyDown(pc.getKey(4))) {
-	    pc.getShip().strafeLeft(delta);
+	    mehShip.strafeLeft(delta);
 	}
 	if (p.isKeyDown(pc.getKey(5))) {
-	    pc.getShip().strafeRight(delta);
+	    mehShip.strafeRight(delta);
 	}
 	if (p.isKeyDown(pc.getKey(6))) {
-	    addShot(pc.getShip().getWeapon().makeShot());
+	    addShot(mehWeapon.makeShot());
 	}
 
 	doCollisions();
@@ -188,17 +208,63 @@ public class ClientGameplayState extends BasicGameState {
      * run collsion checks
      */
     public void doCollisions() {
-	for (Map.Entry<Integer, BasicShip> currentShip : ships.entrySet()) {
-	    for (Map.Entry<Integer, BasicShot> currentShot : shots.entrySet()) {
-
-		if (isSpecificHit(currentShip.getValue(), currentShot.getValue())) {
-		    double tempHp = currentShip.getValue().getHealth()
-			    - currentShot.getValue().getDamage();
-		    currentShip.getValue().setHealth(tempHp);
+	Set<Entry<Integer, BasicShip>> shipsEntrySet = ships.entrySet();
+	Iterator<Entry<Integer, BasicShip>> shipsEntrySetIterator = shipsEntrySet
+		.iterator();
+	while (shipsEntrySetIterator.hasNext()) {
+	    Entry<Integer, BasicShip> currentShipMap = shipsEntrySetIterator.next();
+	    BasicShip currentShip = currentShipMap.getValue();
+	    reachAround(currentShip);
+	    Set<Entry<Integer, BasicShot>> shotsEntrySet = shots.entrySet();
+	    Iterator<Entry<Integer, BasicShot>> shotsEntrySetIterator = shotsEntrySet
+		    .iterator();
+	    while (shotsEntrySetIterator.hasNext()) {
+		Entry<Integer, BasicShot> currentShot = shotsEntrySetIterator
+			.next();
+		BasicShot basicShot = currentShot.getValue();
+		if (isSpecificHit(currentShip,
+			currentShot.getValue())) {
+		    double tempHp = currentShip.getHealth()
+			    - basicShot.getDamage();
+		    currentShip.setHealth(tempHp);
+		}
+		if (isOffScreen(basicShot)) {
+		    shotCount--;
+		    shotsEntrySetIterator.remove();
 		}
 
 	    }
 	}
+    }
+
+    private void reachAround(BasicShip currentShip) {
+	double x = currentShip.getX();
+	double y = currentShip.getY();
+	if (x >= (double) width)
+	{
+	    currentShip.setX(0.0);
+	}
+	else if (x <= 0.0)
+	{
+	    currentShip.setX((double) width);
+	}
+	else if(y >= (double) height)
+	{
+	    currentShip.setY(0.0);
+	}
+	else if (y <= 0.0) {
+	    currentShip.setY((double) height);
+	}
+    }
+
+    private boolean isOffScreen(BasicShot basicShot) {
+	double x = basicShot.getX();
+	double y = basicShot.getY();
+	if (x >= (double) width || x <= 0.0 || y >= (double) height
+		|| y <= 0.0) {
+	    return true;
+	}
+	return false;
     }
 
     /**
