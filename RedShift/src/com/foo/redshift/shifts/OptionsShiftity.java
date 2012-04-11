@@ -5,14 +5,14 @@ package com.foo.redshift.shifts;
  * @author Roohr
  * 
  */
-public class OptionsEnt {
+public class OptionsShiftity {
 
     // vars
     private int fullscreen, smallWin, medWin, largeWin;
     private int musevol, fxvol, voicevol, totvol;
 
     // const
-    public OptionsEnt() {
+    public OptionsShiftity() {
 
     }
 

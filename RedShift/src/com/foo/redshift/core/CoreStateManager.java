@@ -5,7 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.foo.redshift.shifts.EntityFactory;
+import com.foo.redshift.shifts.ShiftityFactory;
 
 public class CoreStateManager extends StateBasedGame {
 
@@ -19,14 +19,14 @@ public class CoreStateManager extends StateBasedGame {
 
     private GameDatabase gDB;
     private PlayerClient player;
-    private EntityFactory entFac;
+    private ShiftityFactory entFac;
 
     // const
     public CoreStateManager() {
 	super("Project RedShift");
 	gDB = new GameDatabase();
 	player = new PlayerClient(1);
-	entFac = new EntityFactory(gDB);
+	entFac = new ShiftityFactory(gDB);
 //	this.addState(new GamePlayState(GAMEPLAYSTATE));
 //	this.addState(new ClientResourceLoader(LOADERSTATE, gDB));
 	this.addState(new ClientGameplayState(CLIENTPLAYSTATE, entFac, player));

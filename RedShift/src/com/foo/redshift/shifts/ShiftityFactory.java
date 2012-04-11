@@ -11,13 +11,13 @@ import com.foo.redshift.core.GameDatabase;
  * @author Roohr
  * @version 1.0
  */
-public class EntityFactory {
+public class ShiftityFactory {
 
     // vars
     private GameDatabase gdb;
 
     // const
-    public EntityFactory(GameDatabase gdbx) {
+    public ShiftityFactory(GameDatabase gdbx) {
 	gdb = gdbx;
     }
 
@@ -120,11 +120,11 @@ public class EntityFactory {
     /**
 	 * 
 	 */
-    public BaseShift smallAst() {
-	BaseShift smallAsteroid;
+    public BaseShiftity smallAst() {
+	BaseShiftity smallAsteroid;
 	Image img = gdb.getObjIMG(0).copy();
 	Circle col = new Circle(0, 0, img.getWidth(), img.getHeight());
-	smallAsteroid = new BaseShift(img, col);
+	smallAsteroid = new BaseShiftity(img, col);
 	return smallAsteroid;
     }
 

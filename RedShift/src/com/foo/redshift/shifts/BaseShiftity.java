@@ -3,7 +3,7 @@ package com.foo.redshift.shifts;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
-public class BaseShift {
+public class BaseShiftity {
 
     private double x, y, vx, vy;
     private String id;
@@ -11,11 +11,11 @@ public class BaseShift {
     private float turnrate;
     private Shape collider;
 
-    public BaseShift() {
+    public BaseShiftity() {
 
     }
 
-    public BaseShift(Image i, Shape col) {
+    public BaseShiftity(Image i, Shape col) {
 	collider = col;
 	img = i;
     }

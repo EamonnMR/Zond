@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Shape;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShot extends BaseShift {
+public class BasicShot extends BaseShiftity {
 
     // vars
     private int damage;
