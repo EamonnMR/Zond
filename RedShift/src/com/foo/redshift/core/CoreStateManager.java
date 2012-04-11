@@ -5,7 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.foo.redshift.ents.EntityFactory;
+import com.foo.redshift.shifts.EntityFactory;
 
 public class CoreStateManager extends StateBasedGame {
 

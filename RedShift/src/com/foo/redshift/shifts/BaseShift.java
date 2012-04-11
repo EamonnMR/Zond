@@ -1,28 +1,25 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
-public class BaseEnt {
+public class BaseShift {
 
-    // vars
     private double x, y, vx, vy;
     private String id;
     private Image img;
     private float turnrate;
     private Shape collider;
 
-    // const
-    public BaseEnt() {
+    public BaseShift() {
 
     }
 
-    public BaseEnt(Image i, Shape col) {
+    public BaseShift(Image i, Shape col) {
 	collider = col;
 	img = i;
     }
 
-    // methods
     public void render() {
 	getImg().drawCentered((float) getX(), (float) getY());
     }

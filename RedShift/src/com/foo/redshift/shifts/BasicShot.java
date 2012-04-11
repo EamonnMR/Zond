@@ -1,4 +1,4 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Shape;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShot extends BaseEnt {
+public class BasicShot extends BaseShift {
 
     // vars
     private int damage;

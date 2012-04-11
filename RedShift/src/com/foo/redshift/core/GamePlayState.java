@@ -9,10 +9,10 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.foo.redshift.ents.BaseLevel;
-import com.foo.redshift.ents.BasicEngine;
-import com.foo.redshift.ents.BasicGun;
-import com.foo.redshift.ents.BasicShip;
+import com.foo.redshift.shifts.BaseLevel;
+import com.foo.redshift.shifts.BasicEngine;
+import com.foo.redshift.shifts.BasicGun;
+import com.foo.redshift.shifts.BasicShip;
 
 public class GamePlayState extends BasicGameState {
 

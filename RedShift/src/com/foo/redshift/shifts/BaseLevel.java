@@ -1,4 +1,4 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,7 +11,6 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class BaseLevel {
 
-    // vars
     private String levelName;
     private int songID;
     private Rectangle bounds;
@@ -25,7 +24,6 @@ public class BaseLevel {
 
     // Layer 2
 
-    // const
     /**
      * @param name
      *            string, name of the level
@@ -39,7 +37,6 @@ public class BaseLevel {
 	bounds = bnds;
     }
 
-    // methods
     public void render(Graphics gfx, float x, float y) {
 	bkgIMG.draw(x, y);
     }

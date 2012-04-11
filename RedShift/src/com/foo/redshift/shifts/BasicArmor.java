@@ -1,16 +1,14 @@
-package com.foo.redshift.ents;
+package com.foo.redshift.shifts;
 
 import org.newdawn.slick.Image;
 
 public class BasicArmor {
 
-    // vars
     private int id;
     private int value;
     private Image icon;
     private int cost;
 
-    // const
     public BasicArmor(int i) {
 	id = i;
     }
@@ -22,8 +20,6 @@ public class BasicArmor {
 	icon = ico;
 	cost = cst;
     }
-
-    // methods
 
     public int getId() {
 	return id;
