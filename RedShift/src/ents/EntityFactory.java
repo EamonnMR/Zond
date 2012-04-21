@@ -44,7 +44,7 @@ public class EntityFactory {
 //		BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
 		Circle collider;
 		collider = new Circle(0,0, 16, 24);
-		Image img = gdb.getShipImage(0).copy();
+		Image img = gdb.getImage("mercury").copy();
 		BasicShip merc;
 		merc = new BasicShip(0, img, 10, 1, null, null, null, -28, 24, collider);
 		return merc;
@@ -57,7 +57,7 @@ public class EntityFactory {
 	public BasicShip stockVostok(){
 		Circle collider;
 		collider = new Circle(0,0, 16, 24);
-		Image img = gdb.getShipImage(1).copy();
+		Image img = gdb.getImage("vostok").copy();
 		BasicShip vost;
 		vost = new BasicShip(1, img,15,1,null,null,null,-30,24, collider);
 		return vost;
@@ -70,8 +70,8 @@ public class EntityFactory {
 	 */
 	public BasicGun stock20mm(){
 		BasicGun twenty;
-		Image img = gdb.getGunIMG(0).copy();
-		Image shot = gdb.getShotIMG(0).copy();
+		Image img = gdb.getImage("gun1").copy();
+		Image shot = gdb.getImage("shot1").copy();
 		twenty = new BasicGun(1,0,0,0,2, img, shot);
 		return twenty;
 	}
@@ -84,7 +84,7 @@ public class EntityFactory {
 	 */
 	public BasicEngine stockEngine(){
 		BasicEngine thruster;
-		Image img = gdb.getEngIMG(0).copy();
+		Image img = gdb.getImage("eng1").copy();
 		thruster = new BasicEngine(1, 0, 0,0, img,null,null, 0.4f );
 		return thruster;
 	}
@@ -114,7 +114,7 @@ public class EntityFactory {
 	 */
 	public BaseEnt smallAst(){
 		BaseEnt smallAsteroid;
-		Image img = gdb.getObjIMG(0).copy();
+		Image img = gdb.getImage("asteroid").copy();
 		Circle col = new Circle(0,0, img.getWidth(), img.getHeight());
 		smallAsteroid = new BaseEnt(img, col);
 		return smallAsteroid;
