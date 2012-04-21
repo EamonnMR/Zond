@@ -27,14 +27,15 @@ public class ClientLoaderState extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		gdb.loadImages();
-		gdb.populateArmIMG();
-		gdb.populateEngIMG();
-		gdb.populateGFXIMG();
-		gdb.populateGunIMG();
-		gdb.populateLvlIMG();
-		gdb.populateShipIMG();
-		gdb.populateShotIMG();
-		gdb.populateObjIMG();
+//		gdb.populateArmIMG();
+//		gdb.populateEngIMG();
+//		gdb.populateGFXIMG();
+//		gdb.populateGunIMG();
+//		gdb.populateLvlIMG();
+//		gdb.populateShipIMG();
+//		gdb.populateShotIMG();
+//		gdb.populateObjIMG();
+		gdb.populateImages();
 	}
 
 	@Override
