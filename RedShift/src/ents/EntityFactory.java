@@ -2,6 +2,8 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 
 import core.GameDatabase;
 /**
@@ -27,6 +29,7 @@ public class EntityFactory {
 	public void setDatabase(GameDatabase newDB){
 		gdb = newDB;
 	}
+	
 	/**
 	 * get GameDatabase from EntFac
 	 * @return GameDatabase 
@@ -36,18 +39,48 @@ public class EntityFactory {
 	}
 	
 	//=====SHIP BUILDERS=====
+	//	BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
+	/**
+ 	* generic ship maker, plug-in values, get a ship
+ 	* @return BasicShip
+ 	*/
+	public BasicShip buildShip(int ID, Image im, double hp, double points, BasicArmor am, BasicEngine eng, BasicGun gn, double gunPt, double engPt, Shape collider){
+		BasicShip someShip;
+		someShip = new BasicShip(ID, im, hp, points, am, eng, gn, gunPt, engPt, collider);
+		return someShip;
+	}
+	
 	/**
 	 * Builds a basic Mercury class BasicShip
 	 * @return BasicShip
 	 */
 	public  BasicShip stockMercury(){
-//		BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
 		Circle collider;
 		collider = new Circle(0,0, 16, 24);
-		Image img = gdb.getImage("mercury").copy();
-		BasicShip merc;
-		merc = new BasicShip(0, img, 10, 1, null, null, null, -28, 24, collider);
-		return merc;
+		Image img = gdb.getImage("mercury").copy();	
+		return buildShip(0, img, 10, 1, null, null, null, -28, 24, collider);
+	}
+	
+	/**
+	 * Builds a basic Gemini class BasicShip
+	 *@return BasicShip
+	 */
+	public BasicShip stockGem(){
+		Polygon collider;
+		collider = new Polygon();
+		Image img = gdb.getImage("gemini").copy();
+		return buildShip(1, img, 15,1,null,null,null,-30,24,collider);
+	}
+	
+	/**
+	 * Builds a basic Lunar Orbiter class BasicShip
+	 * @return BasicShip
+	 */
+	public BasicShip stockLunar(){
+		Polygon collider;
+		collider = new Polygon();
+		Image img = gdb.getImage("lunar").copy();
+		return buildShip(2, img, 15,1,null,null,null,-30,24,collider);
 	}
 	
 	/**
@@ -56,11 +89,31 @@ public class EntityFactory {
 	 */
 	public BasicShip stockVostok(){
 		Circle collider;
-		collider = new Circle(0,0, 16, 24);
+		collider = new Circle(3,0, 16, 24);
 		Image img = gdb.getImage("vostok").copy();
-		BasicShip vost;
-		vost = new BasicShip(1, img,15,1,null,null,null,-30,24, collider);
-		return vost;
+		return buildShip(1, img,15,1,null,null,null,-30,24, collider);
+	}
+	
+	/**
+	 * Builds a basic Voskhod class BasicShip
+	 * @return BasicShip
+	 */
+	public BasicShip stockVoskhod(){
+		Circle collider;
+		collider = new Circle(0,0, 16, 24);
+		Image img = gdb.getImage("voskhod").copy();
+		return buildShip(4,img,15,1,null,null,null,-30,24,collider);
+	}
+
+	/**
+	 * Builds a basic Zond4 class BasicShip
+	 * @return BasicShip
+	 */
+	public BasicShip stockZond(){
+		Circle collider;
+		collider = new Circle(0,0,16,24);
+		Image img = gdb.getImage("zond4").copy();
+		return buildShip(5, img, 15,1,null,null,null,-30,24,collider);
 	}
 	
 	//=====GUN BUIDLERS=====
@@ -110,7 +163,7 @@ public class EntityFactory {
 	//=====MISC STUFF=====
 	//
 	/**
-	 * 
+	 * Make some sort of asteroid
 	 */
 	public BaseEnt smallAst(){
 		BaseEnt smallAsteroid;
@@ -120,4 +173,6 @@ public class EntityFactory {
 		return smallAsteroid;
 	}
 	
+	
+
 }
