@@ -1,7 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class BasicShip extends BaseEnt{
 	}
 	
 	//FULL BUILD
-	public BasicShip(int i, Image im, double hp, double pts, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt, Circle col){
+	public BasicShip(int i, Image im, double hp, double pts, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt, Shape col){
 		ID = i; 
 		setImg(im);
 		health = hp;

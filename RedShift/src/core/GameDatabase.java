@@ -14,11 +14,10 @@ import org.newdawn.slick.SlickException;
 public class GameDatabase {
 
 	//vars
-	private Image merc, vost, engine1, gun1, level1, thrust1, shot1, ast1;
-//	private Image[] indexShipIMG, indexGunIMG, indexEngIMG, indexArmIMG, indexShotIMG, indexGFXIMG, indexLvlIMG, indexObjIMG;
+	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, thrust1, shot1, ast1;
 	private Map<String, Image> indexImages;
 	
-	//const
+	//constructor
 	public GameDatabase(){
 		//subject to update as assets are made
 		indexImages  = new HashMap<String, Image>();
@@ -26,13 +25,18 @@ public class GameDatabase {
 	
 	//methods
 	/**
-	 * loadImages() - loads all iamges
+	 * loadImages() - loads all images
 	 * @throws SlickException
 	 */
 	public void loadImages() throws SlickException{
 		//Ships
 		merc = new Image("assets/images/ships/nasa/mercury.png");
+		gem = new Image("assets/images/ships/nasa/gemini.png");
+		lunar = new Image("assets/images/ships/nasa/lunar.png");
+		
 		vost = new Image("assets/images/ships/russia/vostok1.png");
+		vosk = new Image("assets/images/ships/russia/voskhod.png");
+		zond4 = new Image("assets/images/ships/russia/zond4.png");
 		
 		//Engines
 		engine1 = new Image("assets/images/engines/engine1.png");
@@ -59,7 +63,12 @@ public class GameDatabase {
 	public void populateImages(){
 		//Ships
 		indexImages.put("mercury", merc);
+		indexImages.put("gemini", gem);
+		indexImages.put("lunar", lunar);
+		
 		indexImages.put("vostok", vost);
+		indexImages.put("voskhod", vosk);
+		indexImages.put("zond4", zond4);
 		
 		//Engines
 		indexImages.put("eng1", engine1);
@@ -84,135 +93,4 @@ public class GameDatabase {
 	public Image getImage(String key){
 		return indexImages.get(key);
 	}
-	
-//	/**
-//	 * puts Images to indexShipIMG
-//	 */
-//	public void populateShipIMG(){
-////		indexShipIMG[0] = merc; 
-////		indexShipIMG[1] = vost;
-//	}
-//	/**
-//	 * get an Image from the indexShipIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getShipImage(int i){
-////		return indexShipIMG[i];
-//	}
-//	
-//	/**
-//	 * puts Images to indexEngIMG
-//	 */
-//	public void populateEngIMG(){
-////		indexEngIMG[0] = engine1;
-//	}
-//	/**
-//	 * get an Image from the indexEngIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getEngIMG(int i){
-////		return indexEngIMG[i];
-//	}
-//	
-//	/**
-//	 * puts Images to indexGunIMG
-//	 */
-//	public void populateGunIMG(){
-////		indexGunIMG[0] = gun1;
-//	}
-//	/**
-//	 * gets an Image from the indexGunIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getGunIMG(int i){
-////		return indexGunIMG[0];
-//	}
-//	
-//	/**
-//	 * put Images to indexArmIMG
-//	 */
-//	public void populateArmIMG(){
-////		indexArmIMG[0] = null;
-//	}
-//	/**
-//	 * gets an Image from the indexArmIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getArmIMG(int i){
-////		return indexArmIMG[i];
-//	}
-//	
-//	/**
-//	 * put Images to indexShotIMG
-//	 */
-//	public void populateShotIMG(){
-////		indexShotIMG[0] = shot1;
-//	}
-//	/**
-//	 * gets an Image from indexShotIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getShotIMG(int i){
-////		return indexShotIMG[i];
-//	}
-//	
-//	/**
-//	 * puts Images to indexGFXIMG
-//	 */
-//	public void populateGFXIMG(){
-////		indexGFXIMG[0] = null;
-//	}
-//	/**
-//	 * gets an Image from indexGFXIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getGFXIMG(int i){
-////		return indexGFXIMG[i];
-//	}
-//	
-//	/**
-//	 * puts Images to indexLvlIMG
-//	 */
-//	public void populateLvlIMG(){
-////		indexLvlIMG[0] = level1;
-//	}
-//	/**
-//	 * gets an Image from indexLvlIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getLvlIMG(int i){
-////		return indexLvlIMG[i];
-//	}
-//	
-//	/**
-//	 * puts Images to indexObjIMG
-//	 */
-//	public void populateObjIMG(){
-////		indexObjIMG[0] = ast1;
-//	}
-//	
-//	/**
-//	 * gets an Image from indexObjIMG
-//	 * @param i index pointer
-//	 * @return Image
-//	 */
-//	public Image getObjIMG(int i){
-////		return indexObjIMG[i];
-//	}
-//	
-//	/**
-//	 * XXX use me.
-//	 * @return
-//	 */
-//	public Image getThrust1() {
-////		return thrust1;
-//	}
-	
 }
