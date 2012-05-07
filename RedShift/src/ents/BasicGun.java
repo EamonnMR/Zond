@@ -19,13 +19,14 @@ public class BasicGun {
 	private Image img, shot;
 	private double x,y;
 	private double angle;
+	private double rof;
 
 	//const
 	public BasicGun(int i){
 		ID = i;
 	}
 	
-	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, Image shit){
+	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, Image shit, double rate){
 		ID = i;
 		weight = wt;
 		cost = cst;
@@ -33,14 +34,16 @@ public class BasicGun {
 		damage = dmg;
 		shot = shit;
 		img = im;
+		rof = rate;
 	}
 	//methods
 	public BasicShot makeShot(){
-		BasicShot pew;
-		Image sht = shot.copy();
-		sht.rotate(img.getRotation());
-		pew = new BasicShot(sht, 0.01, 1,1, getX(), getY(), new Rectangle(0,0,6,8));
-		return pew;
+			BasicShot pew;
+			Image sht = shot.copy();
+			sht.rotate(img.getRotation());
+			pew = new BasicShot(sht, 700, 10, 5, getX(), getY(), new Rectangle(0,0,6,8));
+			return pew;
+
 	}
 	
 	public int getID() {
@@ -91,7 +94,6 @@ public class BasicGun {
 		this.img = img;
 	}
 	
-
 	public double getX() {
 		return x;
 	}
@@ -114,6 +116,22 @@ public class BasicGun {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public Image getShot() {
+		return shot;
+	}
+
+	public void setShot(Image shot) {
+		this.shot = shot;
+	}
+
+	public double getRof() {
+		return rof;
+	}
+
+	public void setRof(double rof) {
+		this.rof = rof;
 	}
 
 }

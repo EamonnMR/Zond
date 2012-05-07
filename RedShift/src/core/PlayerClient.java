@@ -34,8 +34,8 @@ public class PlayerClient {
 		keys[2] = 203;
 		keys[3] = 205;
 		keys[4] = 30;
-		keys[5] = 31;
-		keys[6] = 57;
+		keys[5] = 31;	
+		keys[6] = 57;	//spacebar
 	}
 	
 	/**
