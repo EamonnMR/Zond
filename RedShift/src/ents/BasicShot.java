@@ -11,47 +11,51 @@ import org.newdawn.slick.geom.Shape;
 public class BasicShot extends BaseEnt {
 
 	//vars
-	private int damage;
+	private double damage;
 	private Shape collider;
 	private double speed;
 	private int lifetime;
+	private int interval;
 	private double theta;
-
+	
 
 	//const
-	public BasicShot(Image img, double spd, int life, int dmg, double sx, double sy, Shape col){
-		setImg(img);
-		speed = spd;
-		lifetime = life;
-		damage = dmg;
-		setX(sx);
-		setY(sy);
-		collider = col;
-		theta = Math.PI/2;
+	public BasicShot(Image img, double spd, int life, double dmg, double sx, double sy, Shape col){
+		this.setImg(img);
+		this.speed = spd;
+		this.lifetime = life;
+		this.damage = dmg;
+		this.setX(sx);
+		this.setY(sy);
+		this.collider = col;
+		this.theta = Math.PI/2;
+		this.interval = 10;
 	}
 	//methods
 	public void update(int delta){
-		lifetime -= delta;
+		lifetime -= (delta);
+			
+			
+			collider.setCenterX((float)getX());
+			collider.setCenterY((float)getY());
+
+			//+getX()+speed/+getY()+speed
+			double gx = (-Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX(); 
+			double gy = (-Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY(); 
 		
-		collider.setCenterX((float)getX());
-		collider.setCenterY((float)getY());
-		
-		double gx = (-Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX()+speed; 
-		double gy = (-Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY()+speed; 
-		
-		setX(gx);
-		setY(gy);
+			setX(gx);
+			setY(gy);
 	}
 	
 	public void render(){
 		getImg().drawCentered((float)getX(), (float)getY());
 	}
 	
-	public int getDamage() {
+	public double getDamage() {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
+	public void setDamage(double damage) {
 		this.damage = damage;
 	}
 

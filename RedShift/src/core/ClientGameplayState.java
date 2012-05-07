@@ -128,25 +128,25 @@ public class ClientGameplayState extends BasicGameState {
 			pc.getShip().strafeRight(delta);
 		}
 		if(p.isKeyDown(pc.getKey(6))){
-			addShot(pc.getShip().getWeapon().makeShot());
+				addShot(pc.getShip().getWeapon().makeShot());
 		}
 		
 		doCollisions();
 		
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
-		}
-		
-		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()) {
-			entry.getValue().update(delta);
-		}
-		for(Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
-			if(entry.getValue().getLifetime()<=0){
-				shots.remove(entry);
+			for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
+				shot.getValue().update(delta);
+				if(entry.getValue().getCollider().contains(shot.getValue().getCollider())){
+					double entHP = entry.getValue().getHealth();
+					entry.getValue().setHealth(entHP-shot.getValue().getDamage());
+					shots.remove(shot);
+				}
+				if(shot.getValue().getLifetime()<=0){
+					shots.remove(entry);
+				}
 			}
 		}
-		
-	
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
 		}

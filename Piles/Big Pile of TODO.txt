@@ -1,0 +1,56 @@
+The Big Pile of TODO
+====================
+-projectile remove on collide
+	+make sure .remove is being called during gameplaystate update
+
+-stippled fire rate
+	+check button pressing code/checking/look into splicer
+
+-variable projectile velocity
+	+look into splicer
+
+-physics for movement
+	+use EMR's email for tips
+
+-turn rate for engines
+	+activate turnrate var for engine class, hook into BasicShip movement code
+
+-properly shaped colliders for everything
+	+polygons oh my!
+
+-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
+	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
+
+-ship swapping ability for development
+	+perhaps start low-level gui code, or just use mapped keys and stock everything
+
+-spawn-kill-die-respawn mechanics
+	+start checking on BasicShips stats, death checks, etc
+
+-level class architecture
+	+start mapping out what a level will look like
+
+-mission logic objects
+	+win conditions, lose conditions, spawners, regions, etc
+
+-camera movement
+	+look at splicer code
+
+-player data persistence
+	+save class?
+
+-sound effects
+	+create stand ins
+	+load up
+	+hook into code
+
+-map out how cutscenes are going to work
+	+generic cutscene state
+	+interior state-mechanic
+	+start/end vars
+	+next state targetted
+
+-build basic menu using framework defined in txt doc.
+	+absolutely no artwork
+	+try to animate
+	+start small

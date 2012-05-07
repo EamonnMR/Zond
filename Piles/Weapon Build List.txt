@@ -1,0 +1,25 @@
+====Weapon List====
+=Light=
+-20mm cannon		-all set
+-35mm cannon
+-Small Missile
+-particle beam
+
+=Medium=
+-Small Laser		-pending
+-Medium Laser
+-Medium Missile
+-particle beam
+-cutting torch
+-black hole gun
+
+=Heavy=
+-Large Missile
+-Rail Gun		-pending
+-cutting blast
+
+=Capital=
+-Atlas ICBM
+-Russian ICBM
+-Death Ray
+-Small Nuclear Warhead

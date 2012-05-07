@@ -125,7 +125,7 @@ public class EntityFactory {
 		BasicGun twenty;
 		Image img = gdb.getImage("gun1").copy();
 		Image shot = gdb.getImage("shot1").copy();
-		twenty = new BasicGun(1,0,0,0,2, img, shot);
+		twenty = new BasicGun(1,0,0,0,2, img, shot, 2.5);
 		return twenty;
 	}
 	
