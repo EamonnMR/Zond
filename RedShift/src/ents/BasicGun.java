@@ -46,7 +46,7 @@ public class BasicGun {
 			BasicShot pew;
 			Image sht = shot.copy();
 			sht.rotate(img.getRotation());
-			pew = new BasicShot(sht, 0.4f, 10, 5, getX(), getY(), new Rectangle(0,0,6,8));
+			pew = new BasicShot(sht, 0.4f, 500, 5, getX(), getY(), new Rectangle(0,0,6,8));
 			return pew;
 
 	}
