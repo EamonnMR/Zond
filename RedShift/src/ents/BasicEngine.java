@@ -2,31 +2,66 @@ package ents;
 
 import org.newdawn.slick.Image;
 
+/**
+ * The bare bones Engine class, this is necessary for any ship to move.
+ * @author proohr
+ * @version 1.0
+ */
 public class BasicEngine {
 
 	//vars
-	private int ID;
-	private int weight;
-	private int cost;
-	private int PID;
-	private Image inGameImg, inGuiImg, sparkleImg;
+	private int ID;			//game Id
+	private int weight;		//in-game weight of engine
+	private int cost;		//in-game cost of engine
+	private int PID;		//particle Id - not impl'ed yet
+	private Image inGameImg, icon, sparkleImg;	//images
 	private float thrustX, thrustY, turnrate, unThrustX, unThrustY;
-	private double thrustPtX, thrustPtY;
+	private double thrustPtX, thrustPtY;	//where to show particles
 
-	//const
+	//constructors
 	public BasicEngine(int i){
-		ID = i;
+		this.ID = i;
 	}
 	
+	/**
+	 * now defunct constructor, replaced by constructor that uses thrustX, and th
+	 * @deprecated
+	 */
 	public BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turn){
-		ID = i;
-		weight = wt;
-		cost = cst;
-		PID = pid;
-		inGameImg = ingame;
-		inGuiImg = gui;
-		sparkleImg = sparks;
-		turnrate = turn;
+		this.ID = i;
+		this.weight = wt;
+		this.cost = cst;
+		this.PID = pid;
+		this.inGameImg = ingame;
+		this.icon = gui;
+		this.sparkleImg = sparks;
+		this.turnrate = turn;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param weight
+	 * @param cost
+	 * @param particle_Id
+	 * @param ingame_graphic
+	 * @param gui_icon
+	 * @param sparks_particle
+	 * @param turn_rate
+	 * @param forward_thrust
+	 * @param reverse_thrust
+	 */
+	public BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turn, float thrsX, float thrsY){
+		this.ID = i;
+		this.weight = wt;
+		this.cost = cst;
+		this.PID = pid;
+		this.inGameImg = ingame;
+		this.icon = gui;
+		this.sparkleImg = sparks;
+		this.turnrate = turn;
+		this.thrustX = thrsX;
+		this.thrustY = thrsY;
 	}
 	//methods
 	public int getID() {
@@ -61,10 +96,10 @@ public class BasicEngine {
 		this.inGameImg = inGameImg;
 	}
 	public Image getInGuiImg() {
-		return inGuiImg;
+		return icon;
 	}
 	public void setInGuiImg(Image inGuiImg) {
-		this.inGuiImg = inGuiImg;
+		this.icon = inGuiImg;
 	}
 	public Image getSparkleImg() {
 		return sparkleImg;

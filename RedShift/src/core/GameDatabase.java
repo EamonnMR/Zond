@@ -8,6 +8,9 @@ import org.newdawn.slick.SlickException;
 
 /**
  * Master Database for media resources
+ * loads resources, populates maps with images
+ * ultimately a batch load approach is warranted, but a procedural will work
+ * for development
  * @author proohr
  * @version 1.0
  */
@@ -59,6 +62,7 @@ public class GameDatabase {
 	
 	/**
 	 * puts Images into the index hashmap
+	 * procedural now, but automate before beta
 	 */
 	public void populateImages(){
 		//Ships
@@ -87,7 +91,7 @@ public class GameDatabase {
 	}
 	
 	/**
-	 * 
+	 * simple Image get method.
 	 * @return Image
 	 */
 	public Image getImage(String key){

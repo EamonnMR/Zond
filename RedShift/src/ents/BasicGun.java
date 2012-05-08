@@ -6,22 +6,22 @@ import org.newdawn.slick.geom.Rectangle;
 /**
  * 
  * @author Roohr
- *
+ * @version 1.0
  */
 public class BasicGun {
 
 	//vars
-	private int ID;		//for when an item system is in play
+	private int ID;				//for when an item system is in play
 	private int weight;
 	private int cost;	
-	private int PID;	//projectile id
-	private int damage;	//record keeping
-	private Image img, shot;
+	private int PID;			//projectile id- possibly deprecated
+	private int damage;			//record keeping - possibly deprecated
+	private Image img, shot;	//img is for in-game/on-ship, shot is for makeShot
 	private double x,y;
 	private double angle;
-	private int rof;
+	private int coolDown;
 
-	//const
+	//constructor
 	public BasicGun(int i){
 		ID = i;
 	}
@@ -34,14 +34,19 @@ public class BasicGun {
 		damage = dmg;
 		shot = shit;
 		img = im;
-		rof = rate;
+		coolDown = rate;
 	}
 	//methods
+	
+	/**
+	 * creates a shot at the gunpoint and moves in direction of gun at shot time
+	 * @return BasicShot
+	 */
 	public BasicShot makeShot(){
 			BasicShot pew;
 			Image sht = shot.copy();
 			sht.rotate(img.getRotation());
-			pew = new BasicShot(sht, 700, 10, 5, getX(), getY(), new Rectangle(0,0,6,8));
+			pew = new BasicShot(sht, 0.4f, 10, 5, getX(), getY(), new Rectangle(0,0,6,8));
 			return pew;
 
 	}
@@ -127,11 +132,11 @@ public class BasicGun {
 	}
 
 	public int getRof() {
-		return rof;
+		return coolDown;
 	}
 
 	public void setRof(int rof) {
-		this.rof = rof;
+		this.coolDown = rof;
 	}
 
 }

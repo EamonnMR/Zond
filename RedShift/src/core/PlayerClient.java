@@ -3,7 +3,7 @@ package core;
 import ents.BasicShip;
 
 /**
- * 
+ * the client class for the player, both house-keeping and gameplay related
  * @author Roohr
  * @version 1.0
  */
@@ -12,22 +12,26 @@ public class PlayerClient {
 	
 	//vars
 	private BasicShip playerShip;
-// XXX use member variables.
 //	private BasicArmor[] armorCol;
 //	private BasicEngine[] engineCol;
 //	private BasicGun[] gunCol;
 	private boolean isAlive;
 	private int[] keys;
 	
-	//const
+	//constructor
 	public PlayerClient(int clientId){
-//		armorCol = new BasicArmor[0];
-//		engineCol = new BasicEngine[0];
-//		gunCol = new BasicGun[0];
-		keys = new int[7];
+//		armorCol = new BasicArmor[0];		//noooooooooooooot yet
+//		engineCol = new BasicEngine[0];		//noooooooooooooot yet
+//		gunCol = new BasicGun[0];			//noooooooooooooot yet
+		keys = new int[7];					//mappable keys...that are kinda fail
 		iniKeys();
 	}
-	//methods	
+	//methods
+	
+	/**
+	 * puts all keycodes into the keys array. Ideally
+	 * this will be configurable outside of hardcode.
+	 */
 	public void iniKeys(){
 		keys[0] = 200;
 		keys[1] = 208;

@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
 /**
- * 
+ * derive any kind of projectile from this class
  * @author Roohr
  * @version 1.0
  */
@@ -13,15 +13,13 @@ public class BasicShot extends BaseEnt {
 	//vars
 	private double damage;
 	private Shape collider;
-	private double speed;
+	private float speed;
 	private int interval;
 	private boolean isDead;
 	private int timer;
-	private double theta;
-	
 
-	//const
-	public BasicShot(Image img, double spd, int life, double dmg, double sx, double sy, Shape col){
+	//constructor
+	public BasicShot(Image img, float spd, int life, double dmg, double sx, double sy, Shape col){
 		this.setImg(img);
 		this.speed = spd;
 		this.damage = dmg;
@@ -32,19 +30,24 @@ public class BasicShot extends BaseEnt {
 		this.setInterval(400);
 		this.timer = 0;
 	}
+	
 	//methods
 	public void update(int delta){	
 		timer +=delta;
 		if(timer < interval){
-//			timer += interval;
+			float hip = speed * delta;
+			double angle = Math.toRadians(getImg().getRotation()+theta);
+			double dx = getX();
+			double dy = getY();
+			
+			dx += hip * Math.sin(angle);
+			dy -= hip * Math.cos(angle);
+			
+			setX(dx);
+			setY(dy);
+	
 			collider.setCenterX((float)getX());
 			collider.setCenterY((float)getY());
-
-			double gx = (-Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX(); 
-			double gy = (-Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY(); 
-			
-			setX(gx);
-			setY(gy);
 		}
 	}
 	
@@ -72,7 +75,7 @@ public class BasicShot extends BaseEnt {
 		return speed;
 	}
 
-	public void setSpeed(double speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 	public void setInterval(int interval) {
@@ -82,10 +85,12 @@ public class BasicShot extends BaseEnt {
 		return interval;
 	}
 	
-	public boolean getDead() {
-		return isDead;
+	public int getTimer() {
+		return timer;
 	}
-	public void setDead(boolean isD) {
-		this.isDead = isD;
+	public void setTimer(int timer) {
+		this.timer = timer;
 	}
+	private double theta;
+	
 }

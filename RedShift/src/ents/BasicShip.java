@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
 /**
- * 
+ * the big bad, this class is for making any type of ship for RedShift and beyond!
  * @author Roohr
  * @version 1.0
  */
@@ -12,18 +12,18 @@ public class BasicShip extends BaseEnt{
 
 	//vars
 	private int ID;
-	private double points;
-	private double health;
-	private BasicArmor armor;	//not implemented
-	private BasicGun weapon;
-	private double wepOffX, wepOffY;;
-	private BasicEngine engine;
-	private double engOffX, engOffY;
-	private double engPtLength;
-	private double gunPtLength;
+	private double points;				//points to award to killer
+	private double health;				//base health of the ship
+	private BasicArmor armor;			//not implemented
+	private BasicGun weapon;			//the current weapon on the ship
+	private double wepOffX, wepOffY;;	//the offset for the weapon - does not handle more tha one weapon
+	private BasicEngine engine;			//the engine mounted to the ship
+	private double engOffX, engOffY;	//the offset for the engine image
+	private double engPtLength;			//the offset for where to draw the engine
+	private double gunPtLength;			//the offset for where to draw the weapon
 	private double theta;
 
-	//const
+	//constructor
 	public BasicShip(int i, Image img){
 		ID = i;
 		setImg(img);
@@ -64,42 +64,55 @@ public class BasicShip extends BaseEnt{
 
 	public void update(double rot, double x, double y){
 		//update ship
-		setX(x);
-		setY(y);
-		getCollider().setCenterX((float)x);
-		getCollider().setCenterY((float)y);
+			setX(x);
+			setY(y);
+			getCollider().setCenterX((float)x);
+			getCollider().setCenterY((float)y);
 		
 		//update gun
-		double gx = (gunPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
-		double gy = (gunPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
+			double gx = (gunPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
+			double gy = (gunPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
 		
-		setWepOffX(gx);
-		setWepOffY(gy);
-		weapon.setX(gx);
-		weapon.setY(gy);
-		weapon.setAngle(getImg().getRotation());
+			setWepOffX(gx);
+			setWepOffY(gy);
+			weapon.setX(gx);
+			weapon.setY(gy);
+			weapon.setAngle(getImg().getRotation());
 		//update engine
-		gx = (engPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
-		gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
+			gx = (engPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
+			gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
 		
-		setEngOffX(gx);
-		setEngOffY(gy);
+			setEngOffX(gx);
+			setEngOffY(gy);
 	}
 	
+	/**
+	 * rotate the ship to the left
+	 * @param delta
+	 */
 	public void rotateLeft(int delta){
     	float rot = (-getEngine().getTurnrate())*delta;
 		getImg().rotate(rot);
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
 	}
+	/**
+	 * rotate the ship to the right
+	 * @param delta
+	 */
 	public void rotateRight(int delta){
     	float rot = getEngine().getTurnrate()*delta;
     	getImg().rotate(rot);
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
 	}
+	/**
+	 * move the ship forward
+	 * @param delta
+	 */
 	public void moveForward(int delta){
-		float hip = getEngine().getTurnrate() * delta;
+//		float hip = getEngine().getTurnrate() * delta;
+		float hip = getEngine().getThrustX() * delta;
         double rotation = getImg().getRotation(); 
         double dx  = getX();
         double dy = getY();
@@ -108,8 +121,13 @@ public class BasicShip extends BaseEnt{
         setX(dx);
         setY(dy);
 	}
+	/**
+	 * move the ship backwards
+	 * @param delta
+	 */
 	public void moveBackward(int delta){
-        float hip = getEngine().getTurnrate() * delta;
+//        float hip = getEngine().getTurnrate() * delta;
+		float hip = getEngine().getThrustY() * delta;
         double rotation = getImg().getRotation(); 
         double dx  = getX();
         double dy = getY();
@@ -119,6 +137,10 @@ public class BasicShip extends BaseEnt{
         setY(dy);
 	}
 	
+	/**
+	 * although not fully working, this will strafe the ship left
+	 * @param delta
+	 */
 	public void strafeLeft(int delta){
       float hip = getEngine().getTurnrate() * delta;
       double rotation = getImg().getRotation()+(Math.PI/2); 
@@ -130,7 +152,10 @@ public class BasicShip extends BaseEnt{
       setY(dy);
 	
 	}
-	
+	/**
+	 * although not fully working, this will strafe the ship right
+	 * @param delta
+	 */
 	public void strafeRight(int delta){
       float hip = getEngine().getTurnrate() * delta;
       double rotation = getImg().getRotation()-(Math.PI/2); 
@@ -141,6 +166,13 @@ public class BasicShip extends BaseEnt{
       setX(dx);
       setY(dy);
 	}
+	
+	/**
+	 * basic length calculating method
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public double length(double x, double y){ //How far this point is away from the origin. -EMR
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}

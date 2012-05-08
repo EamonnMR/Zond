@@ -2,16 +2,21 @@ package ents;
 
 import org.newdawn.slick.Image;
 
+/**
+ * BasicArmor class; a data class to represent Armor on a BasicShip 
+ * @author proohr
+ * @version 1.0
+ */
 public class BasicArmor {
 
 	//vars
-	private int id;
-	private int value;
-	private Image icon;
-	private int cost;
+	private int id;			//game Id
+	private int value;		//point value
+	private Image icon;		//gui-related icon
+	private int cost;		//cost to buy
 	
 	
-	//const
+	//constructor
 	public BasicArmor(int i){
 		id= i;
 	}

@@ -1,8 +1,8 @@
 package ents;
 /**
- * 
+ * persistent options class
  * @author Roohr
- * 
+ * @version 1.0
  */
 public class OptionsEnt {
 

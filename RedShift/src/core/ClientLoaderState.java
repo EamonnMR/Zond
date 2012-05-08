@@ -8,13 +8,17 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 
+/**
+ * the loader state for gameplay, always call this before 
+ * the game launches...or the gameplay state - not sure which
+ * at this point
+ * @author proohr
+ * @version 1.0
+ */
 public class ClientLoaderState extends BasicGameState {
 	//vars
 	private int id;
-	// XXX use member variables.
-//	private Image merc, vost, engine1, gun1, level1, thrust1, shot1;
-//	private PlayerClient client;
-	private GameDatabase gdb;
+	private GameDatabase gdb;	//instance of a gameDataBase
 	
 	//const
 	public ClientLoaderState(int i, GameDatabase GDB){
@@ -26,32 +30,21 @@ public class ClientLoaderState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		gdb.loadImages();
-//		gdb.populateArmIMG();
-//		gdb.populateEngIMG();
-//		gdb.populateGFXIMG();
-//		gdb.populateGunIMG();
-//		gdb.populateLvlIMG();
-//		gdb.populateShipIMG();
-//		gdb.populateShotIMG();
-//		gdb.populateObjIMG();
-		gdb.populateImages();
+		gdb.loadImages();			//call the database to load the images
+		gdb.populateImages();		//populate the database with the images
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-
+		//TODO: loading screen and loading bar?
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
-
-
-
 		arg1.enterState(4, null, new FadeInTransition(Color.black));
-		
+		//TODO: timer for loading bar etc
 	}
 
 	@Override

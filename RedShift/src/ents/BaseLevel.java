@@ -5,9 +5,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
- * 
+ * under construction at the moment, but outlines a basic level class
  * @author Roohr
- * 
+ * @version 1.0
  */
 public class BaseLevel {
 
