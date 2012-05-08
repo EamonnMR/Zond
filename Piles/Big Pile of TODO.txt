@@ -1,12 +1,12 @@
 The Big Pile of TODO
-====================
--projectile remove on collide
+============================================5/7/2012
+FINISHED-projectile remove on collide
 	+make sure .remove is being called during gameplaystate update
-FINISHED
 
--stippled fire rate
+
+FINISHED-stippled fire rate
 	+check button pressing code/checking/look into splicer
-FINISHED
+
 
 -variable projectile velocity
 	+look into splicer
@@ -14,8 +14,9 @@ FINISHED
 -physics for movement
 	+use EMR's email for tips
 
--turn rate for engines
+FINISHED-turn rate for engines
 	+activate turnrate var for engine class, hook into BasicShip movement code
+
 
 -properly shaped colliders for everything
 	+polygons oh my!
@@ -56,3 +57,8 @@ FINISHED
 	+absolutely no artwork
 	+try to animate
 	+start small
+//============================================================
+PHASE TWO 
+- damage type for weapons
+	+likewise armor for each
+-

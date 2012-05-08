@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -81,6 +82,7 @@ public class ClientGameplayState extends BasicGameState {
 		asteroid = entFac.smallAst();
 		asteroid.setX(250);
 		asteroid.setY(250);
+		asteroid.setCollider(new Circle((float)asteroid.getX(),(float)asteroid.getY(),32));
 		addObject(asteroid);
 	}
 
@@ -105,6 +107,7 @@ public class ClientGameplayState extends BasicGameState {
 		//all this below is for the DevGog system!
 		arg2.draw(pc.getShip().getCollider());
 		arg2.draw(pc2.getShip().getCollider());
+		arg2.draw(asteroid.getCollider());
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		arg2.drawString(x, 25, 700);
@@ -154,17 +157,28 @@ public class ClientGameplayState extends BasicGameState {
 //		doCollisions();
 		//TODO: organize these entity checks
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
+		ArrayList<Integer> removeShips = new ArrayList<Integer>();
+		ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
 		
+		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
 		}
+		
+		//update shots
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
 			shot.getValue().update(delta);
-			if(shot.getValue().getTimer()==0){
+			if(shot.getValue().getTimer()==shot.getValue().getInterval()){
 				removeShots.add(shot.getKey());
 			}
 		}
 		
+		//Update Doodads
+		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
+			entry.getValue().update(delta);
+		}
+		
+		//check Shot/Ship collision
 		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
@@ -175,13 +189,26 @@ public class ClientGameplayState extends BasicGameState {
 			}
 		}
 		
-		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().update(delta);
+		//check shot/doodad collision
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
+				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					removeShots.add(shot.getKey());
+				}
+			}
 		}
 		
 		//entity cleanup time
 		for(int i : removeShots){
 			shots.remove(i);
+		}
+		
+		for(int i : removeShips){
+			ships.remove(i);
+		}
+		
+		for(int i : removeDoodads){
+			doodads.remove(i);
 		}
 		
 	}

@@ -15,7 +15,6 @@ public class BasicShot extends BaseEnt {
 	private Shape collider;
 	private float speed;
 	private int interval;
-	private boolean isDead;
 	private int timer;
 
 	//constructor
@@ -27,14 +26,14 @@ public class BasicShot extends BaseEnt {
 		this.setY(sy);
 		this.collider = col;
 		this.theta = Math.PI/2;
-		this.setInterval(400);
+		this.setInterval(life);
 		this.timer = 0;
 	}
 	
 	//methods
 	public void update(int delta){	
 		timer +=delta;
-		if(timer < interval){
+		if(timer <= interval){
 			float hip = speed * delta;
 			double angle = Math.toRadians(getImg().getRotation()+theta);
 			double dx = getX();
