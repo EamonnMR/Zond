@@ -1,5 +1,6 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState {
 
 	//vars
-	private int id, entCount, objCount, shotCount;
+	private int id, entCount, objCount, shotCount, timer;
 	private EntityFactory entFac;
 	private PlayerClient pc, pc2;
 	private BaseLevel level;
@@ -36,6 +37,7 @@ public class ClientGameplayState extends BasicGameState {
 		id = i;
 		entFac = ef;
 		pc = PC;
+		timer = 0;
 		pc2 = new PlayerClient(1);
 		ships = new HashMap<Integer, BasicShip>();
 		shots = new HashMap<Integer, BasicShot>();
@@ -102,6 +104,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		x = String.valueOf(pc2.getShip().getHealth());
 		arg2.drawString("Dummy Health: "+x, 10, 50);
+			
 	}
 
 	@Override
@@ -109,44 +112,58 @@ public class ClientGameplayState extends BasicGameState {
 			throws SlickException {
 		Input p = arg0.getInput();
 		
-		if(p.isKeyDown(pc.getKey(0))){
+
+		if(p.isKeyDown(Input.KEY_UP)){
 			pc.getShip().moveForward(delta);
 		}
-		if(p.isKeyDown(pc.getKey(1))){
+		if(p.isKeyDown(Input.KEY_DOWN)){
 			pc.getShip().moveBackward(delta);
 		}
-		if(p.isKeyDown(pc.getKey(2))){
+		if(p.isKeyDown(Input.KEY_LEFT)){
 			pc.getShip().rotateLeft(delta);
 		}
-		if(p.isKeyDown(pc.getKey(3))){
+		if(p.isKeyDown(Input.KEY_RIGHT)){
 			pc.getShip().rotateRight(delta);
 		}
-		if(p.isKeyDown(pc.getKey(4))){
+		if(p.isKeyDown(Input.KEY_Q)){
 			pc.getShip().strafeLeft(delta);
 		}
-		if(p.isKeyDown(pc.getKey(5))){
+		if(p.isKeyDown(Input.KEY_E)){
 			pc.getShip().strafeRight(delta);
 		}
-		if(p.isKeyDown(pc.getKey(6))){
+		if(p.isKeyDown(Input.KEY_SPACE)){
+			timer +=delta;
+			if(timer > pc.getShip().getWeapon().getRof()){
+				timer -= pc.getShip().getWeapon().getRof();
 				addShot(pc.getShip().getWeapon().makeShot());
+			}
 		}
 		
-		doCollisions();
+//		doCollisions();
+		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
-			for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
-				shot.getValue().update(delta);
-				if(entry.getValue().getCollider().contains(shot.getValue().getCollider())){
-					double entHP = entry.getValue().getHealth();
-					entry.getValue().setHealth(entHP-shot.getValue().getDamage());
-					shots.remove(shot);
-				}
-				if(shot.getValue().getLifetime()<=0){
-					shots.remove(entry);
+		}
+		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
+			shot.getValue().update(delta);
+		}
+		
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					double tempHP =ship.getValue().getHealth();
+					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
+					removeShots.add(shot.getKey());
 				}
 			}
 		}
+		
+		for(int i : removeShots){
+			shots.remove(i);
+		}
+		
+		
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
 		}

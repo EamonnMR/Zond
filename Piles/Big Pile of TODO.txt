@@ -2,9 +2,11 @@ The Big Pile of TODO
 ====================
 -projectile remove on collide
 	+make sure .remove is being called during gameplaystate update
+FINISHED
 
 -stippled fire rate
 	+check button pressing code/checking/look into splicer
+FINISHED
 
 -variable projectile velocity
 	+look into splicer
