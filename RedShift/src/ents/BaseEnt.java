@@ -3,6 +3,11 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
+/**
+ * root entity from which BasicShip, BasicEngine, and BasicGun derive from
+ * @author proohr
+ * @version 1.0
+ */
 public class BaseEnt {
 
 	//vars
@@ -12,7 +17,7 @@ public class BaseEnt {
 	private float turnrate;
 	private Shape collider;
 
-	//const
+	//constructors
 	public BaseEnt(){
 		
 	}

@@ -14,9 +14,13 @@ import core.GameDatabase;
 public class EntityFactory {
 
 	//vars
-	private GameDatabase gdb;
+	private GameDatabase gdb;	//gamedatabase for reference
 	
 	//const
+	/**
+	 * always pass in the gamedatabase!
+	 * @param GameDataBase
+	 */
 	public EntityFactory(GameDatabase gdbx){
 		gdb = gdbx;
 	}
@@ -37,7 +41,7 @@ public class EntityFactory {
 	public GameDatabase getDatabase(){
 		return gdb;
 	}
-	
+	//TODO: when RedShift package is up and running, move the builder methods to RedShift's instantiated EntFac
 	//=====SHIP BUILDERS=====
 	//	BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
 	/**
@@ -131,17 +135,27 @@ public class EntityFactory {
 	
 	
 	//=====ENGINE BUILDERS=====
-	//BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks)
+	//BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turnrate, float thrustX, float thrustY)
 	/**
 	 * Builds the basic engine
 	 */
 	public BasicEngine stockEngine(){
 		BasicEngine thruster;
 		Image img = gdb.getImage("eng1").copy();
-		thruster = new BasicEngine(1, 0, 0,0, img,null,null, 0.4f );
+		thruster = new BasicEngine(1, 0, 0,0, img,null,null, 0.4f);
 		return thruster;
 	}
 	
+	/**
+	 * builds a test engine that implements thrustX, thrustY, and turnrate
+	 * using this will invalidate stockEngine in the BasicShip move methods
+	 */
+	public BasicEngine buildFullEngine(){
+		BasicEngine test;
+		Image img = gdb.getImage("eng1").copy();
+		test = new BasicEngine(1,0,0,0,img,null,null,0.4f, 0.3f, 0.1f);
+		return test;
+	}
 	
 	//=====ARMOR BUILDERS=====
 	//BasicArmor(int i, int val, Image ico, int cst)
@@ -164,6 +178,7 @@ public class EntityFactory {
 	//
 	/**
 	 * Make some sort of asteroid
+	 * doodle doo doo
 	 */
 	public BaseEnt smallAst(){
 		BaseEnt smallAsteroid;

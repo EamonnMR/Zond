@@ -19,6 +19,12 @@ import ents.BasicShip;
 import ents.BasicShot;
 import ents.EntityFactory;
 
+/**
+ * 
+ * @author proohr
+ * @version 1.0
+ * the core of the active game, handles an instance of play
+ */
 public class ClientGameplayState extends BasicGameState {
 
 	//vars
@@ -32,7 +38,7 @@ public class ClientGameplayState extends BasicGameState {
 	private HashMap<Integer, BaseEnt> doodads;
 	
 	
-	//const
+	//constructor
 	public ClientGameplayState(int i, EntityFactory ef, PlayerClient PC){
 		id = i;
 		entFac = ef;
@@ -43,6 +49,7 @@ public class ClientGameplayState extends BasicGameState {
 		shots = new HashMap<Integer, BasicShot>();
 		doodads = new HashMap<Integer, BaseEnt>();
 	}
+	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -52,22 +59,25 @@ public class ClientGameplayState extends BasicGameState {
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
-		
+		//create the client ship
 		pc.setShip(entFac.stockMercury());
-		pc.getShip().setEngine(entFac.stockEngine());
+		pc.getShip().setEngine(entFac.buildFullEngine());
 		pc.getShip().setWeapon(entFac.stock20mm());
 		pc.getShip().setX((arg0.getWidth()/2));
 		pc.getShip().setY((arg0.getHeight()/2));
 		
+		//make a target dummy
 		pc2.setShip(entFac.stockVostok());
-		pc2.getShip().setEngine(entFac.stockEngine());
+		pc2.getShip().setEngine(entFac.buildFullEngine());
 		pc2.getShip().setWeapon(entFac.stock20mm());
 		pc2.getShip().setX(800);
 		pc2.getShip().setY(400);
 		
+		//add both ships to the Ship hashmap
 		addShip(pc.getShip());
 		addShip(pc2.getShip());
 
+		//make a doodad, in this case an asteroid
 		asteroid = entFac.smallAst();
 		asteroid.setX(250);
 		asteroid.setY(250);
@@ -78,19 +88,21 @@ public class ClientGameplayState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		level.render(arg2, 0, 0);
-//		pc.getShip().render(arg2);
-//		pc2.getShip().render(arg2);
+		
+		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().render();
 		}
+		//draw all doodads
 		for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().render();
 		}
-		
+		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render();
 		}
 		
+		//all this below is for the DevGog system!
 		arg2.draw(pc.getShip().getCollider());
 		arg2.draw(pc2.getShip().getCollider());
 		
@@ -112,7 +124,7 @@ public class ClientGameplayState extends BasicGameState {
 			throws SlickException {
 		Input p = arg0.getInput();
 		
-
+		//TODO:there's something wrong with the input, multiple keys jamming
 		if(p.isKeyDown(Input.KEY_UP)){
 			pc.getShip().moveForward(delta);
 		}
@@ -140,6 +152,7 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 //		doCollisions();
+		//TODO: organize these entity checks
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
@@ -147,6 +160,9 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
 			shot.getValue().update(delta);
+			if(shot.getValue().getTimer()==0){
+				removeShots.add(shot.getKey());
+			}
 		}
 		
 		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
@@ -159,18 +175,17 @@ public class ClientGameplayState extends BasicGameState {
 			}
 		}
 		
+		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
+			entry.getValue().update(delta);
+		}
+		
+		//entity cleanup time
 		for(int i : removeShots){
 			shots.remove(i);
 		}
 		
-		
-		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().update(delta);
-		}
-			
 	}
 
-	
 	/**
 	 * adds entity to the hashmap
 	 */
@@ -204,6 +219,7 @@ public class ClientGameplayState extends BasicGameState {
 	
 	/**
 	 * run collsion checks
+	 * this method is on hold atm
 	 */
 	public void doCollisions(){
 		for(Map.Entry<Integer, BasicShip> currentShip : ships.entrySet()){
@@ -219,6 +235,7 @@ public class ClientGameplayState extends BasicGameState {
 	}
 	
 	/**
+	 * @deprecated
 	 * makes a specific collison check between a ship, and a shot
 	 * @param a BasicShip
 	 * @param b BasicShot
@@ -239,10 +256,18 @@ public class ClientGameplayState extends BasicGameState {
 		return id;
 	}
 	
+	/**
+	 * give this state an entityFactory to build ents from
+	 * @param EntityFactory
+	 */
 	public void setEntFac(EntityFactory ef){
 		entFac = ef;
 	}
 	
+	/**
+	 * give this state a root player client for the primary player
+	 * @param PlayerClient
+	 */
 	public void setPlayerClient(PlayerClient PC){
 		pc = PC;
 	}
