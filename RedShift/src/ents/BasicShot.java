@@ -14,8 +14,9 @@ public class BasicShot extends BaseEnt {
 	private double damage;
 	private Shape collider;
 	private double speed;
-	private int lifetime;
 	private int interval;
+	private boolean isDead;
+	private int timer;
 	private double theta;
 	
 
@@ -23,28 +24,28 @@ public class BasicShot extends BaseEnt {
 	public BasicShot(Image img, double spd, int life, double dmg, double sx, double sy, Shape col){
 		this.setImg(img);
 		this.speed = spd;
-		this.lifetime = life;
 		this.damage = dmg;
 		this.setX(sx);
 		this.setY(sy);
 		this.collider = col;
 		this.theta = Math.PI/2;
-		this.interval = 10;
+		this.setInterval(400);
+		this.timer = 0;
 	}
 	//methods
-	public void update(int delta){
-		lifetime -= (delta);
-			
-			
+	public void update(int delta){	
+		timer +=delta;
+		if(timer < interval){
+//			timer += interval;
 			collider.setCenterX((float)getX());
 			collider.setCenterY((float)getY());
 
-			//+getX()+speed/+getY()+speed
 			double gx = (-Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX(); 
 			double gy = (-Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY(); 
-		
+			
 			setX(gx);
 			setY(gy);
+		}
 	}
 	
 	public void render(){
@@ -74,12 +75,17 @@ public class BasicShot extends BaseEnt {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
-
-	public int getLifetime() {
-		return lifetime;
+	public void setInterval(int interval) {
+		this.interval = interval;
 	}
-
-	public void setLifetime(int lifetime) {
-		this.lifetime = lifetime;
+	public int getInterval() {
+		return interval;
+	}
+	
+	public boolean getDead() {
+		return isDead;
+	}
+	public void setDead(boolean isD) {
+		this.isDead = isD;
 	}
 }

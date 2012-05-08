@@ -19,14 +19,14 @@ public class BasicGun {
 	private Image img, shot;
 	private double x,y;
 	private double angle;
-	private double rof;
+	private int rof;
 
 	//const
 	public BasicGun(int i){
 		ID = i;
 	}
 	
-	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, Image shit, double rate){
+	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, Image shit, int rate){
 		ID = i;
 		weight = wt;
 		cost = cst;
@@ -126,11 +126,11 @@ public class BasicGun {
 		this.shot = shot;
 	}
 
-	public double getRof() {
+	public int getRof() {
 		return rof;
 	}
 
-	public void setRof(double rof) {
+	public void setRof(int rof) {
 		this.rof = rof;
 	}
 
