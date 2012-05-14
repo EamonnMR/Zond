@@ -1,7 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Circle;
 
 /**
  * 
@@ -20,6 +20,7 @@ public class BasicGun {
 	private double x,y;
 	private double angle;
 	private int coolDown;
+	private BasicShot proj;
 
 	//constructor
 	public BasicGun(int i){
@@ -46,7 +47,7 @@ public class BasicGun {
 			BasicShot pew;
 			Image sht = shot.copy();
 			sht.rotate(img.getRotation());
-			pew = new BasicShot(sht, 0.4f, 500, 5, getX(), getY(), new Rectangle(0,0,6,8));
+			pew = new BasicShot(sht, 0.0f, 500, 5, this.getX(), this.getY(), new Circle((float)this.getX(),(float)this.getY(),2,8));
 			return pew;
 
 	}

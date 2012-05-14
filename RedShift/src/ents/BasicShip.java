@@ -36,6 +36,7 @@ public class BasicShip extends BaseEnt{
 	public BasicShip(int i, Image im, double hp, double pts, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt, Shape col){
 		ID = i; 
 		setImg(im);
+		getImg().setRotation(0);
 		health = hp;
 		points = pts;
 		armor = arm;
@@ -45,6 +46,7 @@ public class BasicShip extends BaseEnt{
 		engPtLength = engPt;
 		setCollider(col);
 		theta = Math.PI/2;
+		
 	}
 
 	//methods
@@ -70,8 +72,9 @@ public class BasicShip extends BaseEnt{
 			getCollider().setCenterY((float)y);
 		
 		//update gun
-			double gx = (gunPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
-			double gy = (gunPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
+//			gunPtLength * 
+			double gx = (gunPtLength*Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX(); 
+			double gy = (gunPtLength*Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY(); 
 		
 			setWepOffX(gx);
 			setWepOffY(gy);

@@ -2,6 +2,7 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 /**
  * derive any kind of projectile from this class
@@ -25,6 +26,8 @@ public class BasicShot extends BaseEnt {
 		this.setX(sx);
 		this.setY(sy);
 		this.collider = col;
+		Transform angle = Transform.createRotateTransform(this.getImg().getRotation());
+		this.collider.transform(angle);
 		this.theta = Math.PI/2;
 		this.setInterval(life);
 		this.timer = 0;
@@ -35,7 +38,7 @@ public class BasicShot extends BaseEnt {
 		timer +=delta;
 		if(timer <= interval){
 			float hip = speed * delta;
-			double angle = Math.toRadians(getImg().getRotation()+theta);
+			double angle = (Math.toRadians(getImg().getRotation()+theta)-0.00005);
 			double dx = getX();
 			double dy = getY();
 			

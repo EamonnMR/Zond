@@ -102,6 +102,7 @@ public class ClientGameplayState extends BasicGameState {
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render();
+//			arg2.draw(entry.getValue().getCollider());
 		}
 		
 		//all this below is for the DevGog system!
