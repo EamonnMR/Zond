@@ -2,8 +2,8 @@
 =Light=
 -20mm cannon		-all set
 -35mm cannon
--Small Missile
--particle beam
+-Small Missile			
+-particle beam		
 
 =Medium=
 -Small Laser		-pending

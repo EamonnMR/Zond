@@ -17,7 +17,7 @@ import org.newdawn.slick.SlickException;
 public class GameDatabase {
 
 	//vars
-	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, thrust1, shot1, ast1;
+	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, thrust1, shot1, shot2,shot3, ast1;
 	private Map<String, Image> indexImages;
 	
 	//constructor
@@ -55,6 +55,8 @@ public class GameDatabase {
 		
 		//Shots
 		shot1 = new Image("assets/images/fx/shot1.png");
+		shot2 = new Image("assets/images/fx/shot2.png");
+		shot3 = new Image("assets/images/fx/laz1.png");
 		
 		//Asteroids
 		ast1 = new Image("assets/images/doodads/ast1.png");
@@ -85,6 +87,8 @@ public class GameDatabase {
 		
 		//Shots
 		indexImages.put("shot1",shot1);
+		indexImages.put("shot2", shot2);
+		indexImages.put("shot3", shot3);
 		
 		//Asteroids
 		indexImages.put("asteroid", ast1);
