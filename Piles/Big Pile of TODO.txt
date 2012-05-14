@@ -1,58 +1,63 @@
 The Big Pile of TODO
 ============================================5/7/2012
-FINISHED-projectile remove on collide
+FINISHED-projectile remove on collide-PR+EMR
 	+make sure .remove is being called during gameplaystate update
 
 
-FINISHED-stippled fire rate
+FINISHED-stippled fire rate-PR
 	+check button pressing code/checking/look into splicer
 
-FINISHED-turn rate for engines
+FINISHED-turn rate for engines-PR+EMR
 	+activate turnrate var for engine class, hook into BasicShip movement code
 
 -fix/improve the key handling for input
 	+have to handle more than 3 key presses...or something
+	+run binary check on keys, see which are counted as pressed
 
 -variable projectile velocity
 	+look into splicer
 
 -physics for movement
-	+use EMR's email for tips
+	+use EMR's email for help
 
 -begin fleshing out specific RedShift package for redshift stuff
 	+classes derived from the basicsBasicEnts, entFac
+	+5/14/2012:: not sure if necessary
+	+5/14/2012:: make level package
 
--data structures for ship/item stats
+-data structures for ship/item stats--------------------------------------------------------TONIGHT 5/14/2012:implement
 	+entFac constructors need to be simplified, use lookups instead of passing vars
+	+5/14/2012::negative, just use methods that return built classes
+	+yeah, game Database will have get methods, and hashmaps, the entFac itself is where values will be set
 
--properly shaped colliders for everything
+-properly shaped colliders for everything---------------------------------------------------TONIGHT 5/14/2012:implement
 	+polygons oh my!
+	+custom Shape objects for ships; only ships
 
-- damage type for weapons
-	+likewise armor for each
+-different projectile sprites/collider experiments
+	+can't remember what this was for...
+	+wait...collider shapes influences player tactics? hrm, kinda meta right now.
 
-- different projectile sprites/collider experiments
-
--ship swapping ability for development
+-ship swapping ability for development------------------------------------------------------TONIGHT 5/14/2012:simple implementation
 	+perhaps start low-level gui code, or just use mapped keys and stock everything
+	+5/14/2012::in effect, cleaning up and organizaing the Player Client class
 
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
 
--level class architecture
+-level class architecture-------------------------------------------------------------------TONIGHT 5/14/2012: plan
 	+start mapping out what a level will look like
 
--mission logic objects
+-mission logic objects----------------------------------------------------------------------TONIGHT 5/14/201: plane
 	+win conditions, lose conditions, spawners, regions, etc
+	+simple messaging system - EntName/TargetName
 
 -camera movement
 	+look at splicer code
+	+hinging on level class architecture at the moment.
 
--sound effects
-	+create stand ins
-	+load up
-	+hook into code
-
+//====ALPHA ONE! :D =======
+// 1 JUNE 2012
 
 //============================================================
 PHASE TWO
@@ -67,12 +72,34 @@ PHASE TWO
 	+try to animate
 	+start small
 
+-sound effects
+	+create stand ins
+	+load up
+	+hook into code
+
 -player data persistence
 	+save class?
+	+serialize clientgameplaystate as save file(?)
 
--hud
+-an official prototype hud
+	+track health, ammo, current weapon....minimap......(!?)
 
 -ammo count
 
 -'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
 	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
+
+-projectile damage types
+	+differentiate damage from weapons: slug/plasma/ etc
+
+-armor types
+	+different armors for different damage types etc
+
+//====ALPHA TWO! >:) =====
+1 JULY 2012
+
+//============================================================
+PHASE THREE
+
+
+//====BETA! =======
