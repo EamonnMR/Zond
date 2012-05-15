@@ -5,6 +5,13 @@ import java.util.Map;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+
+import ents.BasicArmor;
+import ents.BasicEngine;
+import ents.BasicGun;
+import ents.BasicShip;
+import ents.BasicShot;
 
 /**
  * Master Database for media resources
@@ -17,16 +24,50 @@ import org.newdawn.slick.SlickException;
 public class GameDatabase {
 
 	//vars
-	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, thrust1, shot1, shot2,shot3, ast1;
+	private static GameDatabase instance;
+	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, shot1, shot2,shot3, ast1;
 	private Map<String, Image> indexImages;
+	private Map<String, BasicShip> indexShip;
+	private Map<String, BasicGun> indexGuns;
+	private Map<String, BasicEngine> indexEng;
+	private Map<String, BasicShot> indexShot;
+	private Map<String, BasicArmor> indexArmor;
 	
 	//constructor
-	public GameDatabase(){
-		//subject to update as assets are made
-		indexImages  = new HashMap<String, Image>();
+	protected GameDatabase(){
 	}
 	
 	//methods
+	public static GameDatabase getInstance(){
+	    if (instance == null){
+	    	instance = new GameDatabase();
+		return instance;
+	    }
+	    return instance;
+	}
+	
+	public void iniGDB(){
+		//subject to update as assets are made
+		try {
+			loadImages();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		indexImages  = new HashMap<String, Image>();
+		indexShip = new HashMap<String, BasicShip>();
+		indexGuns = new HashMap<String, BasicGun>();
+		indexEng = new HashMap<String, BasicEngine>();
+		indexShot = new HashMap<String, BasicShot>();
+		indexArmor = new HashMap<String, BasicArmor>();
+		populateImages();
+		populateArmor();
+		populateShot();
+		populateGun();
+		populateEngine();
+		populateShips();
+	}
+	
 	/**
 	 * loadImages() - loads all images
 	 * @throws SlickException
@@ -48,7 +89,7 @@ public class GameDatabase {
 		gun1 = new Image("assets/images/weapons/20mm.png");
 		
 		//thrust fx
-		thrust1 = new Image("assets/images/fx/engine1thrust.png");
+//		thrust1 = new Image("assets/images/fx/engine1thrust.png");
 		
 		//Levels
 		level1 = new Image("assets/images/ScratchLevel.png");
@@ -101,4 +142,209 @@ public class GameDatabase {
 	public Image getImage(String key){
 		return indexImages.get(key);
 	}
+	
+	/**
+	 *build all ship instances
+	 * populate map with instances
+	 */
+	public void populateShips(){
+		//Mercury-------------------------
+		BasicShip merc = new BasicShip();
+		merc.setImg(indexImages.get("mercury"));
+		merc.setHealth(5);
+		merc.setPoints(5);
+		merc.setTotalWeight(5);
+		merc.setGunPtLength(-28);
+		merc.setEngPtLength(24);
+		merc.setCollider(new Circle(0,0,16,24));
+		indexShip.put("mercury", merc);
+		
+		//Gemini-------------------------
+		BasicShip gem = new BasicShip();
+		gem.setImg(indexImages.get("gem"));
+		gem.setHealth(5);
+		gem.setPoints(5);
+		gem.setTotalWeight(5);
+		gem.setGunPtLength(-28);
+		gem.setEngPtLength(24);
+		gem.setCollider(new Circle(0,0,16,24));
+		indexShip.put("gemini", gem);		
+		
+		//Apollo-------------------------
+		BasicShip apollo = new BasicShip();
+		apollo.setImg(indexImages.get("lunar"));
+		apollo.setHealth(5);
+		apollo.setPoints(5);
+		apollo.setTotalWeight(5);
+		apollo.setGunPtLength(-28);
+		apollo.setEngPtLength(24);
+		apollo.setCollider(new Circle(0,0,16,24));
+		indexShip.put("apollo", apollo);	
+		
+		//Voskhod-------------------------
+		BasicShip voskhod = new BasicShip();
+		voskhod.setImg(indexImages.get("vosk"));
+		voskhod.setHealth(5);
+		voskhod.setPoints(5);
+		voskhod.setTotalWeight(5);
+		voskhod.setGunPtLength(-28);
+		voskhod.setEngPtLength(24);
+		voskhod.setCollider(new Circle(0,0,16,24));
+		indexShip.put("voskhod", voskhod);	
+		
+		//Vostok-------------------------
+		BasicShip vost = new BasicShip();
+		vost.setImg(indexImages.get("vost"));
+		vost.setHealth(5);
+		vost.setPoints(5);
+		vost.setTotalWeight(5);
+		vost.setGunPtLength(-28);
+		vost.setEngPtLength(24);
+		vost.setCollider(new Circle(0,0,16,24));
+		indexShip.put("vost", vost);	
+		
+		//Zond4-------------------------
+		BasicShip zond4 = new BasicShip();
+		zond4.setImg(indexImages.get("zond4"));
+		zond4.setHealth(5);
+		zond4.setPoints(5);
+		zond4.setTotalWeight(5);
+		zond4.setGunPtLength(-28);
+		zond4.setEngPtLength(24);
+		zond4.setCollider(new Circle(0,0,16,24));
+		indexShip.put("zond4", zond4);	
+	}
+	
+	/**
+	 * simple get ship method
+	 * @return BasicShip
+	 */
+	public BasicShip getShip(String index){
+		return indexShip.get(index);
+	}
+
+	/**
+	 * build all engine instances
+	 * populate map with instances
+	 */
+	public void populateEngine(){
+		//Small Engine
+		BasicEngine smallEng = new BasicEngine();
+		smallEng.setCost(0);
+		smallEng.setWeight(0);
+		smallEng.setTurnrate(0.4f);
+		smallEng.setInGameImg(indexImages.get("engine1"));
+		
+		indexEng.put("smallEngine", smallEng);
+		//Medium Engine
+		
+		//Large Engine
+		
+	}
+	
+	/**
+	 * simple get engine method
+	 * @return BasicEngine
+	 */
+	public BasicEngine getEngine(String index){
+		return indexEng.get(index);
+	}
+	
+	/**
+	 * build all shot instances
+	 * populate map with instances
+	 */
+	public void populateShot(){
+		//20mm shot
+		BasicShot twentyShot = new BasicShot();
+		twentyShot.setImg(indexImages.get("shot1"));
+		twentyShot.setDamage(0);
+		twentyShot.setSpeed(0.4f);
+		twentyShot.setTimer(500);
+		indexShot.put("twentyShot", twentyShot);
+	}
+	
+	/**
+	 * simple get shot method
+	 * @return BasicShot
+	 */
+	public BasicShot getShot(String index){
+		return indexShot.get(index);
+	}
+	
+	/**
+	 * build all gun instances
+	 * populate map with instances
+	 */
+	public void populateGun(){
+		//20mm cannon-------------------------
+		BasicGun twenty = new BasicGun();
+		twenty.setCoolDown(150);
+		twenty.setCost(0);
+		twenty.setImg(indexImages.get("gun1"));
+		twenty.setWeight(0);
+//		twenty.setProj(proj)
+		indexGuns.put("20mm", twenty);
+		
+		//60mm cannon-------------------------
+		BasicGun sixty = new BasicGun();
+		sixty.setCoolDown(150);
+		sixty.setCost(0);
+		sixty.setImg(indexImages.get("gun1"));
+		sixty.setWeight(0);
+//		sixty.setProj(proj)
+		indexGuns.put("60mm", sixty);
+		
+		//105mm-------------------------
+		BasicGun oneOhfive = new BasicGun();
+		oneOhfive.setCoolDown(150);
+		oneOhfive.setCost(0);
+		oneOhfive.setImg(indexImages.get("gun1"));
+		oneOhfive.setWeight(0);
+//		oneOhfive(proj)
+		indexGuns.put("105mm", oneOhfive);
+		
+		//Small Plasma
+		BasicGun smallPlas = new BasicGun();
+		smallPlas.setCoolDown(150);
+		smallPlas.setCost(0);
+		smallPlas.setImg(indexImages.get("gun1"));
+		smallPlas.setWeight(0);
+//		smallPlas(proj)
+		indexGuns.put("smallPlas", smallPlas);
+		
+		//Small Laser
+		BasicGun smallLaser = new BasicGun();
+		smallLaser.setCoolDown(150);
+		smallLaser.setCost(0);
+		smallLaser.setImg(indexImages.get("gun1"));
+		smallLaser.setWeight(0);
+//		smallPlas(proj)
+		indexGuns.put("smallLaser", smallLaser);
+	}
+	
+	/**
+	 * simple get gun method
+	 * @return BasicGun
+	 */
+	public BasicGun getGun(String index){
+		return indexGuns.get(index);
+	}
+	
+	/**
+	 * build all armors 
+	 * populate map with instances
+	 */
+	public void populateArmor(){
+		
+	}
+	
+	/**
+	 * simple get armor method
+	 * @return BasicArmor
+	 */
+	public BasicArmor getArmor(String index){
+		return indexArmor.get(index);
+	}
+	
 }

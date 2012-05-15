@@ -25,7 +25,7 @@ FINISHED-turn rate for engines-PR+EMR
 	+5/14/2012:: not sure if necessary
 	+5/14/2012:: make level package
 
--data structures for ship/item stats--------------------------------------------------------TONIGHT 5/14/2012:implement
+-data structures for ship/item stats--------------------------------------------------------TONIGHT 5/14/2012:implement::debugging
 	+entFac constructors need to be simplified, use lookups instead of passing vars
 	+5/14/2012::negative, just use methods that return built classes
 	+yeah, game Database will have get methods, and hashmaps, the entFac itself is where values will be set
@@ -48,7 +48,7 @@ FINISHED-turn rate for engines-PR+EMR
 -level class architecture-------------------------------------------------------------------TONIGHT 5/14/2012: plan
 	+start mapping out what a level will look like
 
--mission logic objects----------------------------------------------------------------------TONIGHT 5/14/201: plane
+-mission logic objects----------------------------------------------------------------------TONIGHT 5/14/201: plan
 	+win conditions, lose conditions, spawners, regions, etc
 	+simple messaging system - EntName/TargetName
 

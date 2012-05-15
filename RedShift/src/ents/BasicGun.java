@@ -15,25 +15,22 @@ public class BasicGun {
 	private int weight;
 	private int cost;	
 	private int PID;			//projectile id- possibly deprecated
-	private int damage;			//record keeping - possibly deprecated
-	private Image img, shot;	//img is for in-game/on-ship, shot is for makeShot
+	private Image img;	//img is for in-game/on-ship, shot is for makeShot
 	private double x,y;
 	private double angle;
 	private int coolDown;
 	private BasicShot proj;
 
 	//constructor
-	public BasicGun(int i){
-		ID = i;
+	public BasicGun(){
+
 	}
 	
-	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, Image shit, int rate){
+	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, int rate){
 		ID = i;
 		weight = wt;
 		cost = cst;
 		PID = pid;
-		damage = dmg;
-		shot = shit;
 		img = im;
 		coolDown = rate;
 	}
@@ -44,14 +41,30 @@ public class BasicGun {
 	 * @return BasicShot
 	 */
 	public BasicShot makeShot(){
-			BasicShot pew;
-			Image sht = shot.copy();
+			BasicShot pew = proj;
+			Image sht = pew.getImg().copy();
 			sht.rotate(img.getRotation());
 			pew = new BasicShot(sht, 0.0f, 500, 5, this.getX(), this.getY(), new Circle((float)this.getX(),(float)this.getY(),2,8));
 			return pew;
 
 	}
 	
+	public int getCoolDown() {
+		return coolDown;
+	}
+
+	public void setCoolDown(int coolDown) {
+		this.coolDown = coolDown;
+	}
+
+	public BasicShot getProj() {
+		return proj;
+	}
+
+	public void setProj(BasicShot proj) {
+		this.proj = proj;
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -82,14 +95,6 @@ public class BasicGun {
 
 	public void setPID(int pID) {
 		PID = pID;
-	}
-
-	public int getDamage() {
-		return damage;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
 	}
 		
 	public Image getImg() {
@@ -122,14 +127,6 @@ public class BasicGun {
 
 	public void setY(double y) {
 		this.y = y;
-	}
-	
-	public Image getShot() {
-		return shot;
-	}
-
-	public void setShot(Image shot) {
-		this.shot = shot;
 	}
 
 	public int getRof() {

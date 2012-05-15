@@ -2,7 +2,6 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
 import core.GameDatabase;
@@ -13,34 +12,23 @@ import core.GameDatabase;
  */
 public class EntityFactory {
 
-	//vars
-	private GameDatabase gdb;	//gamedatabase for reference
+	//variables
+	private static EntityFactory instance;
 	
-	//const
-	/**
-	 * always pass in the gamedatabase!
-	 * @param GameDataBase
-	 */
-	public EntityFactory(GameDatabase gdbx){
-		gdb = gdbx;
+	//constructor
+	protected EntityFactory(){
 	}
 	
 	//methods
-	/**
-	 * Give EntFac a GameDatabase
-	 * @param GameDatabase incoming database
-	 */
-	public void setDatabase(GameDatabase newDB){
-		gdb = newDB;
+	public static EntityFactory getInstance(){
+		
+	    if (instance == null){
+	    	instance = new EntityFactory();
+		return instance;
+	    }
+	    return instance;
 	}
-	
-	/**
-	 * get GameDatabase from EntFac
-	 * @return GameDatabase 
-	 */
-	public GameDatabase getDatabase(){
-		return gdb;
-	}
+
 	//TODO: when RedShift package is up and running, move the builder methods to RedShift's instantiated EntFac
 	//=====SHIP BUILDERS=====
 	//	BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
@@ -59,10 +47,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public  BasicShip stockMercury(){
-		Circle collider;
-		collider = new Circle(0,0, 16, 24);
-		Image img = gdb.getImage("mercury").copy();	
-		return buildShip(0, img, 10, 1, null, null, null, -28, 24, collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("mercury");
+		return temp;
 	}
 	
 	/**
@@ -70,10 +56,8 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		Polygon collider;
-		collider = new Polygon();
-		Image img = gdb.getImage("gemini").copy();
-		return buildShip(1, img, 15,1,null,null,null,-30,24,collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("gemini");
+		return temp;
 	}
 	
 	/**
@@ -81,10 +65,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		Polygon collider;
-		collider = new Polygon();
-		Image img = gdb.getImage("lunar").copy();
-		return buildShip(2, img, 15,1,null,null,null,-30,24,collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("lunar");
+		return temp;
 	}
 	
 	/**
@@ -92,10 +74,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVostok(){
-		Circle collider;
-		collider = new Circle(3,0, 16, 24);
-		Image img = gdb.getImage("vostok").copy();
-		return buildShip(1, img,15,1,null,null,null,-30,24, collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("vostok");
+		return temp;
 	}
 	
 	/**
@@ -103,10 +83,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVoskhod(){
-		Circle collider;
-		collider = new Circle(0,0, 16, 24);
-		Image img = gdb.getImage("voskhod").copy();
-		return buildShip(4,img,15,1,null,null,null,-30,24,collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("voskhod");
+		return temp;
 	}
 
 	/**
@@ -114,10 +92,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockZond(){
-		Circle collider;
-		collider = new Circle(0,0,16,24);
-		Image img = gdb.getImage("zond4").copy();
-		return buildShip(5, img, 15,1,null,null,null,-30,24,collider);
+		BasicShip temp = GameDatabase.getInstance().getShip("zond4");
+		return temp;
 	}
 	
 	//=====GUN BUIDLERS=====
@@ -126,11 +102,10 @@ public class EntityFactory {
 	 * Builds a stock 20mm cannon
 	 */
 	public BasicGun stock20mm(){
-		BasicGun twenty;
-		Image img = gdb.getImage("gun1").copy();
-		Image shot = gdb.getImage("shot3").copy();
-		twenty = new BasicGun(1,0,0,0,2, img, shot, 150);
-		return twenty;
+		BasicGun temp = GameDatabase.getInstance().getGun("20mm");
+		BasicShot ts = GameDatabase.getInstance().getShot("twentyShot");
+		temp.setProj(ts);
+		return temp;
 	}
 	
 	
@@ -140,21 +115,17 @@ public class EntityFactory {
 	 * Builds the basic engine
 	 */
 	public BasicEngine stockEngine(){
-		BasicEngine thruster;
-		Image img = gdb.getImage("eng1").copy();
-		thruster = new BasicEngine(1, 0, 0,0, img,null,null, 0.4f);
-		return thruster;
+		BasicEngine temp = GameDatabase.getInstance().getEngine("smallEngine");
+		return temp;
 	}
 	
 	/**
 	 * builds a test engine that implements thrustX, thrustY, and turnrate
 	 * using this will invalidate stockEngine in the BasicShip move methods
 	 */
-	public BasicEngine buildFullEngine(){
-		BasicEngine test;
-		Image img = gdb.getImage("eng1").copy();
-		test = new BasicEngine(1,0,0,0,img,null,null,0.4f, 0.3f, 0.1f);
-		return test;
+	public BasicEngine smallEngine(){
+		BasicEngine temp = GameDatabase.getInstance().getEngine("smallEngine");
+		return temp;
 	}
 	
 	//=====ARMOR BUILDERS=====
@@ -182,12 +153,10 @@ public class EntityFactory {
 	 */
 	public BaseEnt smallAst(){
 		BaseEnt smallAsteroid;
-		Image img = gdb.getImage("asteroid").copy();
+		Image img = GameDatabase.getInstance().getImage("asteroid").copy();
 		Circle col = new Circle(0,0, img.getWidth(), img.getHeight());
 		smallAsteroid = new BaseEnt(img, col);
 		return smallAsteroid;
 	}
-	
-	
 
 }

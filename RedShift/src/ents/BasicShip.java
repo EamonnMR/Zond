@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Shape;
 public class BasicShip extends BaseEnt{
 
 	//vars
-	private int ID;
+	private int totalWeight;
 	private double points;				//points to award to killer
 	private double health;				//base health of the ship
 	private BasicArmor armor;			//not implemented
@@ -24,8 +24,10 @@ public class BasicShip extends BaseEnt{
 	private double theta;
 
 	//constructor
+	public BasicShip(){}
+	
 	public BasicShip(int i, Image img){
-		ID = i;
+		totalWeight = i;
 		setImg(img);
 		gunPtLength = -30;
 		engPtLength = 24;
@@ -34,7 +36,7 @@ public class BasicShip extends BaseEnt{
 	
 	//FULL BUILD
 	public BasicShip(int i, Image im, double hp, double pts, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt, Shape col){
-		ID = i; 
+		totalWeight = i; 
 		setImg(im);
 		getImg().setRotation(0);
 		health = hp;
@@ -180,12 +182,12 @@ public class BasicShip extends BaseEnt{
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}
 
-	public int getID() {
-		return ID;
+	public int getTotalWeight() {
+		return totalWeight;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setTotalWeight(int wt) {
+		totalWeight = wt;
 	}
 
 	public double getPoints() {
@@ -259,4 +261,21 @@ public class BasicShip extends BaseEnt{
 	public void setEngOffY(double engOffY) {
 		this.engOffY = engOffY;
 	}
+	public double getEngPtLength() {
+		return engPtLength;
+	}
+
+	public void setEngPtLength(double engPtLength) {
+		this.engPtLength = engPtLength;
+	}
+
+	public double getGunPtLength() {
+		return gunPtLength;
+	}
+
+	public void setGunPtLength(double gunPtLength) {
+		this.gunPtLength = gunPtLength;
+	}
+
+
 }
