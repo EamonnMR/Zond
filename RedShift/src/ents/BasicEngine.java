@@ -19,8 +19,7 @@ public class BasicEngine {
 	private double thrustPtX, thrustPtY;	//where to show particles
 
 	//constructors
-	public BasicEngine(int i){
-		this.ID = i;
+	public BasicEngine(){
 	}
 	
 	/**

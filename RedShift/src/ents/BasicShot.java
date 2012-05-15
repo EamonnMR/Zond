@@ -19,6 +19,9 @@ public class BasicShot extends BaseEnt {
 	private int timer;
 
 	//constructor
+	public BasicShot(){
+		
+	}
 	public BasicShot(Image img, float spd, int life, double dmg, double sx, double sy, Shape col){
 		this.setImg(img);
 		this.speed = spd;

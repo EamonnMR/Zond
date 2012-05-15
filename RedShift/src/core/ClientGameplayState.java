@@ -9,7 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -30,18 +29,19 @@ public class ClientGameplayState extends BasicGameState {
 
 	//vars
 	private int id, entCount, objCount, shotCount, timer;
-	private EntityFactory entFac;
 	private PlayerClient pc, pc2;
 	private BaseLevel level;
 	private BaseEnt asteroid;
 	private HashMap<Integer, BasicShip> ships;
 	private HashMap<Integer, BasicShot> shots;
 	private HashMap<Integer, BaseEnt> doodads;
-	
+	private GameDatabase gdb;
+	private EntityFactory entFac;
 	
 	//constructor
-	public ClientGameplayState(int i, EntityFactory ef, PlayerClient PC){
+	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
 		id = i;
+		gdb = gDB;
 		entFac = ef;
 		pc = PC;
 		timer = 0;
@@ -55,6 +55,7 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
+		gdb.iniGDB();
 		
 //		level = new BaseLevel("Scratch",1600,1600);
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
@@ -62,28 +63,28 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//create the client ship
 		pc.setShip(entFac.stockMercury());
-		pc.getShip().setEngine(entFac.buildFullEngine());
+		pc.getShip().setEngine(entFac.smallEngine());
 		pc.getShip().setWeapon(entFac.stock20mm());
 		pc.getShip().setX((arg0.getWidth()/2));
 		pc.getShip().setY((arg0.getHeight()/2));
 		
 		//make a target dummy
-		pc2.setShip(entFac.stockVostok());
-		pc2.getShip().setEngine(entFac.buildFullEngine());
-		pc2.getShip().setWeapon(entFac.stock20mm());
-		pc2.getShip().setX(800);
-		pc2.getShip().setY(400);
+//		pc2.setShip(entFac.stockVostok());
+//		pc2.getShip().setEngine(entFac.smallEngine());
+//		pc2.getShip().setWeapon(entFac.stock20mm());
+//		pc2.getShip().setX(800);
+//		pc2.getShip().setY(400);
 		
 		//add both ships to the Ship hashmap
 		addShip(pc.getShip());
-		addShip(pc2.getShip());
+//		addShip(pc2.getShip());
 
 		//make a doodad, in this case an asteroid
-		asteroid = entFac.smallAst();
-		asteroid.setX(250);
-		asteroid.setY(250);
-		asteroid.setCollider(new Circle((float)asteroid.getX(),(float)asteroid.getY(),32));
-		addObject(asteroid);
+//		asteroid = entFac.smallAst();
+//		asteroid.setX(250);
+//		asteroid.setY(250);
+//		asteroid.setCollider(new Circle((float)asteroid.getX(),(float)asteroid.getY(),32));
+//		addObject(asteroid);
 	}
 
 	@Override
@@ -282,14 +283,6 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public int getID() {
 		return id;
-	}
-	
-	/**
-	 * give this state an entityFactory to build ents from
-	 * @param EntityFactory
-	 */
-	public void setEntFac(EntityFactory ef){
-		entFac = ef;
 	}
 	
 	/**
