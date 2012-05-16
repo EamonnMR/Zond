@@ -76,7 +76,7 @@ public class BasicShot extends BaseEnt {
 		this.collider = collider;
 	}
 
-	public double getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
