@@ -15,7 +15,8 @@ import ents.EntityFactory;
 public class CoreStateManager extends StateBasedGame {
 
 	//vars
-	public static int CLIENTPLAYSTATE = 4;
+	public static int CLIENTLOADERSTATE = 0;
+	public static int CLIENTPLAYSTATE = 1;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 		//perhaps in the future, any of these can be modular to install new content
@@ -27,16 +28,18 @@ public class CoreStateManager extends StateBasedGame {
 	public CoreStateManager() {
 		super("Project RedShift");
 		player = new PlayerClient(1);
-//		gDB = GameDatabase.getInstance();
-//		entFac = EntityFactory.getInstance();
+		gDB = new GameDatabase();
+		entFac = new EntityFactory();
+		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac));
-		this.enterState(CLIENTPLAYSTATE);
+		this.enterState(CLIENTLOADERSTATE);
 	}
 
 	//methods
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		this.getState(CLIENTPLAYSTATE).init(arg0, this);
+		this.getState(CLIENTLOADERSTATE).init(arg0, this);
+//		this.getState(CLIENTPLAYSTATE).init(arg0, this);
 	}
 
     public static void main(String[] args) throws SlickException

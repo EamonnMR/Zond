@@ -24,7 +24,7 @@ import ents.BasicShot;
 public class GameDatabase {
 
 	//vars
-	private static GameDatabase instance;
+//	private static GameDatabase instance;
 	private Image merc, gem, lunar, vost, vosk, zond4, engine1, gun1, level1, shot1, shot2,shot3, ast1;
 	private Map<String, Image> indexImages;
 	private Map<String, BasicShip> indexShip;
@@ -34,17 +34,17 @@ public class GameDatabase {
 	private Map<String, BasicArmor> indexArmor;
 	
 	//constructor
-	protected GameDatabase(){
+	public GameDatabase(){
 	}
 	
 	//methods
-	public static GameDatabase getInstance(){
-	    if (instance == null){
-	    	instance = new GameDatabase();
-		return instance;
-	    }
-	    return instance;
-	}
+//	public static GameDatabase getInstance(){
+//	    if (instance == null){
+//	    	instance = new GameDatabase();
+//		return instance;
+//	    }
+//	    return instance;
+//	}
 	
 	public void iniGDB(){
 		//subject to update as assets are made
@@ -60,6 +60,14 @@ public class GameDatabase {
 		indexEng = new HashMap<String, BasicEngine>();
 		indexShot = new HashMap<String, BasicShot>();
 		indexArmor = new HashMap<String, BasicArmor>();
+		populateAll();
+	}
+	
+	/**
+	 * populates all indices with their respective resources
+	 * 
+	 */
+	public void populateAll(){
 		populateImages();
 		populateArmor();
 		populateShot();
@@ -150,18 +158,19 @@ public class GameDatabase {
 	public void populateShips(){
 		//Mercury-------------------------
 		BasicShip merc = new BasicShip();
-		merc.setImg(indexImages.get("mercury"));
+		merc.setImg(indexImages.get("mercury").copy());
 		merc.setHealth(5);
 		merc.setPoints(5);
 		merc.setTotalWeight(5);
-		merc.setGunPtLength(-28);
+		merc.setGunPtLength(-30);
 		merc.setEngPtLength(24);
 		merc.setCollider(new Circle(0,0,16,24));
+		merc.getImg().setRotation(0);
 		indexShip.put("mercury", merc);
 		
 		//Gemini-------------------------
 		BasicShip gem = new BasicShip();
-		gem.setImg(indexImages.get("gem"));
+		gem.setImg(indexImages.get("gemini").copy());
 		gem.setHealth(5);
 		gem.setPoints(5);
 		gem.setTotalWeight(5);
@@ -172,7 +181,7 @@ public class GameDatabase {
 		
 		//Apollo-------------------------
 		BasicShip apollo = new BasicShip();
-		apollo.setImg(indexImages.get("lunar"));
+		apollo.setImg(indexImages.get("lunar").copy());
 		apollo.setHealth(5);
 		apollo.setPoints(5);
 		apollo.setTotalWeight(5);
@@ -183,7 +192,7 @@ public class GameDatabase {
 		
 		//Voskhod-------------------------
 		BasicShip voskhod = new BasicShip();
-		voskhod.setImg(indexImages.get("vosk"));
+		voskhod.setImg(indexImages.get("voskhod").copy());
 		voskhod.setHealth(5);
 		voskhod.setPoints(5);
 		voskhod.setTotalWeight(5);
@@ -194,7 +203,7 @@ public class GameDatabase {
 		
 		//Vostok-------------------------
 		BasicShip vost = new BasicShip();
-		vost.setImg(indexImages.get("vost"));
+		vost.setImg(indexImages.get("vostok").copy());
 		vost.setHealth(5);
 		vost.setPoints(5);
 		vost.setTotalWeight(5);
@@ -205,7 +214,7 @@ public class GameDatabase {
 		
 		//Zond4-------------------------
 		BasicShip zond4 = new BasicShip();
-		zond4.setImg(indexImages.get("zond4"));
+		zond4.setImg(indexImages.get("zond4").copy());
 		zond4.setHealth(5);
 		zond4.setPoints(5);
 		zond4.setTotalWeight(5);
@@ -233,9 +242,11 @@ public class GameDatabase {
 		smallEng.setCost(0);
 		smallEng.setWeight(0);
 		smallEng.setTurnrate(0.4f);
-		smallEng.setInGameImg(indexImages.get("engine1"));
-		
+		smallEng.setThrustX(0.4f);
+		smallEng.setThrustY(0.2f);
+		smallEng.setInGameImg(indexImages.get("eng1").copy());
 		indexEng.put("smallEngine", smallEng);
+		
 		//Medium Engine
 		
 		//Large Engine
@@ -257,7 +268,7 @@ public class GameDatabase {
 	public void populateShot(){
 		//20mm shot
 		BasicShot twentyShot = new BasicShot();
-		twentyShot.setImg(indexImages.get("shot1"));
+		twentyShot.setImg(indexImages.get("shot1").copy());
 		twentyShot.setDamage(0);
 		twentyShot.setSpeed(0.4f);
 		twentyShot.setTimer(500);
@@ -281,7 +292,7 @@ public class GameDatabase {
 		BasicGun twenty = new BasicGun();
 		twenty.setCoolDown(150);
 		twenty.setCost(0);
-		twenty.setImg(indexImages.get("gun1"));
+		twenty.setImg(indexImages.get("gun1").copy());
 		twenty.setWeight(0);
 //		twenty.setProj(proj)
 		indexGuns.put("20mm", twenty);
@@ -290,7 +301,7 @@ public class GameDatabase {
 		BasicGun sixty = new BasicGun();
 		sixty.setCoolDown(150);
 		sixty.setCost(0);
-		sixty.setImg(indexImages.get("gun1"));
+		sixty.setImg(indexImages.get("gun1").copy());
 		sixty.setWeight(0);
 //		sixty.setProj(proj)
 		indexGuns.put("60mm", sixty);
@@ -299,7 +310,7 @@ public class GameDatabase {
 		BasicGun oneOhfive = new BasicGun();
 		oneOhfive.setCoolDown(150);
 		oneOhfive.setCost(0);
-		oneOhfive.setImg(indexImages.get("gun1"));
+		oneOhfive.setImg(indexImages.get("gun1").copy());
 		oneOhfive.setWeight(0);
 //		oneOhfive(proj)
 		indexGuns.put("105mm", oneOhfive);
@@ -308,7 +319,7 @@ public class GameDatabase {
 		BasicGun smallPlas = new BasicGun();
 		smallPlas.setCoolDown(150);
 		smallPlas.setCost(0);
-		smallPlas.setImg(indexImages.get("gun1"));
+		smallPlas.setImg(indexImages.get("gun1").copy());
 		smallPlas.setWeight(0);
 //		smallPlas(proj)
 		indexGuns.put("smallPlas", smallPlas);
@@ -317,7 +328,7 @@ public class GameDatabase {
 		BasicGun smallLaser = new BasicGun();
 		smallLaser.setCoolDown(150);
 		smallLaser.setCost(0);
-		smallLaser.setImg(indexImages.get("gun1"));
+		smallLaser.setImg(indexImages.get("gun1").copy());
 		smallLaser.setWeight(0);
 //		smallPlas(proj)
 		indexGuns.put("smallLaser", smallLaser);

@@ -15,52 +15,11 @@ public class BasicEngine {
 	private int cost;		//in-game cost of engine
 	private int PID;		//particle Id - not impl'ed yet
 	private Image inGameImg, icon, sparkleImg;	//images
-	private float thrustX, thrustY, turnrate, unThrustX, unThrustY;
+	private float thrustX, thrustY, turnrate;
 	private double thrustPtX, thrustPtY;	//where to show particles
 
 	//constructors
 	public BasicEngine(){
-	}
-	
-	/**
-	 * now defunct constructor, replaced by constructor that uses thrustX, and th
-	 * @deprecated
-	 */
-	public BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turn){
-		this.ID = i;
-		this.weight = wt;
-		this.cost = cst;
-		this.PID = pid;
-		this.inGameImg = ingame;
-		this.icon = gui;
-		this.sparkleImg = sparks;
-		this.turnrate = turn;
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @param weight
-	 * @param cost
-	 * @param particle_Id
-	 * @param ingame_graphic
-	 * @param gui_icon
-	 * @param sparks_particle
-	 * @param turn_rate
-	 * @param forward_thrust
-	 * @param reverse_thrust
-	 */
-	public BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turn, float thrsX, float thrsY){
-		this.ID = i;
-		this.weight = wt;
-		this.cost = cst;
-		this.PID = pid;
-		this.inGameImg = ingame;
-		this.icon = gui;
-		this.sparkleImg = sparks;
-		this.turnrate = turn;
-		this.thrustX = thrsX;
-		this.thrustY = thrsY;
 	}
 	//methods
 	public int getID() {
@@ -124,18 +83,6 @@ public class BasicEngine {
 	}
 	public void setTurnrate(float turnrate) {
 		this.turnrate = turnrate;
-	}
-	public float getUnThrustX() {
-		return unThrustX;
-	}
-	public void setUnThrustX(float unThrustX) {
-		this.unThrustX = unThrustX;
-	}
-	public float getUnThrustY() {
-		return unThrustY;
-	}
-	public void setUnThrustY(float unThrustY) {
-		this.unThrustY = unThrustY;
 	}
 	public double getThrustPtX() {
 		return thrustPtX;

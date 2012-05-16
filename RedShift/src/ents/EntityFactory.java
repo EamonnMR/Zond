@@ -13,41 +13,35 @@ import core.GameDatabase;
 public class EntityFactory {
 
 	//variables
-	private static EntityFactory instance;
+//	private static EntityFactory instance;
+	GameDatabase gdb;
 	
 	//constructor
-	protected EntityFactory(){
-	}
+	public EntityFactory(){}
 	
 	//methods
-	public static EntityFactory getInstance(){
-		
-	    if (instance == null){
-	    	instance = new EntityFactory();
-		return instance;
-	    }
-	    return instance;
-	}
+//	public static EntityFactory getInstance(){
+//	    if (instance == null){
+//	    	instance = new EntityFactory();
+//		return instance;
+//	    }
+//	    return instance;
+//	}
 
 	//TODO: when RedShift package is up and running, move the builder methods to RedShift's instantiated EntFac
-	//=====SHIP BUILDERS=====
-	//	BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
-	/**
- 	* generic ship maker, plug-in values, get a ship
- 	* @return BasicShip
- 	*/
-	public BasicShip buildShip(int ID, Image im, double hp, double points, BasicArmor am, BasicEngine eng, BasicGun gn, double gunPt, double engPt, Shape collider){
-		BasicShip someShip;
-		someShip = new BasicShip(ID, im, hp, points, am, eng, gn, gunPt, engPt, collider);
-		return someShip;
+	public void ini(GameDatabase gDB){
+		this.gdb = gDB;
 	}
 	
+	//=====SHIP BUILDERS=====
+	//	BasicShip(int id, Image im, double hp, double points, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt)
 	/**
 	 * Builds a basic Mercury class BasicShip
 	 * @return BasicShip
 	 */
-	public  BasicShip stockMercury(){
-		BasicShip temp = GameDatabase.getInstance().getShip("mercury");
+	public BasicShip stockMercury(){
+		BasicShip temp = new BasicShip();
+		temp = gdb.getShip("mercury");
 		return temp;
 	}
 	
@@ -56,7 +50,8 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		BasicShip temp = GameDatabase.getInstance().getShip("gemini");
+		BasicShip temp = new BasicShip();
+		temp = gdb.getShip("gemini");
 		return temp;
 	}
 	
@@ -65,7 +60,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		BasicShip temp = GameDatabase.getInstance().getShip("lunar");
+		BasicShip temp;
+		temp = gdb.getShip("lunar");
 		return temp;
 	}
 	
@@ -74,7 +70,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVostok(){
-		BasicShip temp = GameDatabase.getInstance().getShip("vostok");
+		BasicShip temp;
+		 temp = gdb.getShip("vostok");
 		return temp;
 	}
 	
@@ -83,7 +80,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVoskhod(){
-		BasicShip temp = GameDatabase.getInstance().getShip("voskhod");
+		BasicShip temp;
+		temp = gdb.getShip("voskhod");
 		return temp;
 	}
 
@@ -92,7 +90,8 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockZond(){
-		BasicShip temp = GameDatabase.getInstance().getShip("zond4");
+		BasicShip temp;
+		temp = gdb.getShip("zond4");
 		return temp;
 	}
 	
@@ -102,8 +101,8 @@ public class EntityFactory {
 	 * Builds a stock 20mm cannon
 	 */
 	public BasicGun stock20mm(){
-		BasicGun temp = GameDatabase.getInstance().getGun("20mm");
-		BasicShot ts = GameDatabase.getInstance().getShot("twentyShot");
+		BasicGun temp = gdb.getGun("20mm");
+		BasicShot ts = gdb.getShot("twentyShot");
 		temp.setProj(ts);
 		return temp;
 	}
@@ -112,19 +111,12 @@ public class EntityFactory {
 	//=====ENGINE BUILDERS=====
 	//BasicEngine(int i, int wt, int cst, int pid, Image ingame, Image gui, Image sparks, float turnrate, float thrustX, float thrustY)
 	/**
-	 * Builds the basic engine
-	 */
-	public BasicEngine stockEngine(){
-		BasicEngine temp = GameDatabase.getInstance().getEngine("smallEngine");
-		return temp;
-	}
-	
-	/**
 	 * builds a test engine that implements thrustX, thrustY, and turnrate
 	 * using this will invalidate stockEngine in the BasicShip move methods
 	 */
 	public BasicEngine smallEngine(){
-		BasicEngine temp = GameDatabase.getInstance().getEngine("smallEngine");
+		BasicEngine temp;
+		temp = gdb.getEngine("smallEngine");
 		return temp;
 	}
 	
@@ -153,7 +145,7 @@ public class EntityFactory {
 	 */
 	public BaseEnt smallAst(){
 		BaseEnt smallAsteroid;
-		Image img = GameDatabase.getInstance().getImage("asteroid").copy();
+		Image img = gdb.getImage("asteroid").copy();
 		Circle col = new Circle(0,0, img.getWidth(), img.getHeight());
 		smallAsteroid = new BaseEnt(img, col);
 		return smallAsteroid;
