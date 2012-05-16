@@ -31,60 +31,48 @@ public class ClientGameplayState extends BasicGameState {
 	private int id, entCount, objCount, shotCount, timer;
 	private PlayerClient pc, pc2;
 	private BaseLevel level;
-	private BaseEnt asteroid;
 	private HashMap<Integer, BasicShip> ships;
 	private HashMap<Integer, BasicShot> shots;
 	private HashMap<Integer, BaseEnt> doodads;
-	private GameDatabase gdb;
-	private EntityFactory entFac;
+	GameDatabase gdb;
+	EntityFactory entFac;
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
-		id = i;
-		gdb = gDB;
-		entFac = ef;
-		pc = PC;
-		timer = 0;
-		pc2 = new PlayerClient(1);
-		ships = new HashMap<Integer, BasicShip>();
-		shots = new HashMap<Integer, BasicShot>();
-		doodads = new HashMap<Integer, BaseEnt>();
+		this.id = i;
+		this.gdb = gDB;
+		this.entFac = ef;
+		this.pc = PC;
+		this.timer = 0;
+		this.ships = new HashMap<Integer, BasicShip>();
+		this.shots = new HashMap<Integer, BasicShot>();
+		this.doodads = new HashMap<Integer, BaseEnt>();
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
-		gdb.iniGDB();
+			throws SlickException {	
 		
-//		level = new BaseLevel("Scratch",1600,1600);
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 		//create the client ship
-		pc.setShip(entFac.stockMercury());
+		pc.setShip(entFac.stockGem());
 		pc.getShip().setEngine(entFac.smallEngine());
 		pc.getShip().setWeapon(entFac.stock20mm());
-		pc.getShip().setX((arg0.getWidth()/2));
-		pc.getShip().setY((arg0.getHeight()/2));
+		pc.getShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
 		
-		//make a target dummy
-//		pc2.setShip(entFac.stockVostok());
-//		pc2.getShip().setEngine(entFac.smallEngine());
-//		pc2.getShip().setWeapon(entFac.stock20mm());
-//		pc2.getShip().setX(800);
-//		pc2.getShip().setY(400);
-		
+		pc2 = new PlayerClient(1);
+		pc2.setShip(entFac.stockGem());
+		pc2.getShip().setEngine(entFac.smallEngine());
+		pc2.getShip().setWeapon(entFac.stock20mm());
+		pc2.getShip().ini((200), (200), 0.0f);
 		//add both ships to the Ship hashmap
 		addShip(pc.getShip());
-//		addShip(pc2.getShip());
-
+		addShip(pc2.getShip());
 		//make a doodad, in this case an asteroid
-//		asteroid = entFac.smallAst();
-//		asteroid.setX(250);
-//		asteroid.setY(250);
-//		asteroid.setCollider(new Circle((float)asteroid.getX(),(float)asteroid.getY(),32));
-//		addObject(asteroid);
+
 	}
 
 	@Override
@@ -108,8 +96,6 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//all this below is for the DevGog system!
 		arg2.draw(pc.getShip().getCollider());
-		arg2.draw(pc2.getShip().getCollider());
-		arg2.draw(asteroid.getCollider());
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		arg2.drawString(x, 25, 700);
@@ -118,9 +104,6 @@ public class ClientGameplayState extends BasicGameState {
 		
 		x = String.valueOf(pc.getShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
-		
-		x = String.valueOf(pc2.getShip().getHealth());
-		arg2.drawString("Dummy Health: "+x, 10, 50);
 			
 	}
 
@@ -244,40 +227,6 @@ public class ClientGameplayState extends BasicGameState {
 		shotCount++;
 		shots.put(shotCount, s);
 		return shotCount;
-	}
-	
-	/**
-	 * run collsion checks
-	 * this method is on hold atm
-	 */
-	public void doCollisions(){
-		for(Map.Entry<Integer, BasicShip> currentShip : ships.entrySet()){
-			  for(Map.Entry<Integer, BasicShot> currentShot : shots.entrySet()){ 
-
-				  if( specHitCheck( currentShip.getValue(), currentShot.getValue() )==true ){
-					  double tempHp = currentShip.getValue().getHealth() - currentShot.getValue().getDamage();
-					  currentShip.getValue().setHealth(tempHp);
-				  }
-
-			  }
-		}
-	}
-	
-	/**
-	 * @deprecated
-	 * makes a specific collison check between a ship, and a shot
-	 * @param a BasicShip
-	 * @param b BasicShot
-	 * @return boolean
-	 */
-	public boolean specHitCheck(BasicShip a, BasicShot b){
-		if(a.getCollider().intersects(b.getCollider())){
-			return true;
-		}
-		else if(b.getCollider().intersects(a.getCollider())){
-			return true;
-		}
-		return false;
 	}
 	
 	@Override

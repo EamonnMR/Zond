@@ -25,33 +25,14 @@ public class BasicShip extends BaseEnt{
 
 	//constructor
 	public BasicShip(){}
-	
-	public BasicShip(int i, Image img){
-		totalWeight = i;
-		setImg(img);
-		gunPtLength = -30;
-		engPtLength = 24;
-		theta = Math.PI/2;
-	}
-	
-	//FULL BUILD
-	public BasicShip(int i, Image im, double hp, double pts, BasicArmor arm, BasicEngine eng, BasicGun gun, double gunPt, double engPt, Shape col){
-		totalWeight = i; 
-		setImg(im);
-		getImg().setRotation(0);
-		health = hp;
-		points = pts;
-		armor = arm;
-		engine = eng;
-		weapon = gun;
-		gunPtLength = gunPt;
-		engPtLength = engPt;
-		setCollider(col);
-		theta = Math.PI/2;
-		
-	}
 
 	//methods
+	public void ini(double x, double y, float rotation){
+		setX(x);
+		setY(y);
+		getImg().setRotation(rotation);
+	}
+	
 	public void render(){
 		//draw the engine
 		if(weapon!=null){
@@ -75,20 +56,34 @@ public class BasicShip extends BaseEnt{
 		
 		//update gun
 //			gunPtLength * 
-			double gx = (gunPtLength*Math.cos(Math.toRadians(getImg().getRotation())+theta))+getX(); 
-			double gy = (gunPtLength*Math.sin(Math.toRadians(getImg().getRotation())+theta))+getY(); 
+			double angle = (Math.toRadians(getImg().getRotation()+theta));
+			double wx = getWepOffX();
+			double wy = getWepOffY();
+			
+			wx += gunPtLength * Math.sin(angle);
+			wy -= gunPtLength * Math.cos(angle);
+			
+//			double gx = (gunPtLength*Math.sin(Math.toRadians(getImg().getRotation())+theta))+getX(); 
+//			double gy = (gunPtLength*Math.cos(Math.toRadians(getImg().getRotation())+theta))+getY(); 
 		
-			setWepOffX(gx);
-			setWepOffY(gy);
-			weapon.setX(gx);
-			weapon.setY(gy);
+			setWepOffX(wx);
+			setWepOffY(wy);
+			
+			weapon.setX(wx);
+			weapon.setY(wy);
 			weapon.setAngle(getImg().getRotation());
 		//update engine
-			gx = (engPtLength * Math.cos(Math.toRadians(getImg().getRotation())+theta))+x; 
-			gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
-		
-			setEngOffX(gx);
-			setEngOffY(gy);
+//			gx = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+x; 
+//			gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
+			
+			double ex = getEngOffX();
+			double ey = getEngOffY();
+			
+			ex += engPtLength *Math.sin(angle);
+			ey -= engPtLength *Math.cos(angle);
+			
+			setEngOffX(ex);
+			setEngOffY(ey);
 	}
 	
 	/**
@@ -116,7 +111,6 @@ public class BasicShip extends BaseEnt{
 	 * @param delta
 	 */
 	public void moveForward(int delta){
-//		float hip = getEngine().getTurnrate() * delta;
 		float hip = getEngine().getThrustX() * delta;
         double rotation = getImg().getRotation(); 
         double dx  = getX();
@@ -131,7 +125,6 @@ public class BasicShip extends BaseEnt{
 	 * @param delta
 	 */
 	public void moveBackward(int delta){
-//        float hip = getEngine().getTurnrate() * delta;
 		float hip = getEngine().getThrustY() * delta;
         double rotation = getImg().getRotation(); 
         double dx  = getX();
