@@ -1,7 +1,6 @@
 package ents;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
 
 /**
  * 
@@ -14,7 +13,6 @@ public class BasicGun {
 	private int ID;				//for when an item system is in play
 	private int weight;
 	private int cost;	
-	private int PID;			//projectile id- possibly deprecated
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
 	private double x,y;
 	private double angle;
@@ -22,31 +20,24 @@ public class BasicGun {
 	private BasicShot proj;
 
 	//constructor
-	public BasicGun(){
-
-	}
+	public BasicGun(){}
 	
-	public BasicGun(int i, int wt, int cst, int pid, int dmg, Image im, int rate){
-		ID = i;
-		weight = wt;
-		cost = cst;
-		PID = pid;
-		img = im;
-		coolDown = rate;
-	}
 	//methods
-	
 	/**
 	 * creates a shot at the gunpoint and moves in direction of gun at shot time
 	 * @return BasicShot
 	 */
 	public BasicShot makeShot(){
-			BasicShot pew = proj;
-			Image sht = pew.getImg().copy();
-			sht.rotate(img.getRotation());
-			pew = new BasicShot(sht, 0.0f, 500, 5, this.getX(), this.getY(), new Circle((float)this.getX(),(float)this.getY(),2,8));
-			return pew;
-
+			BasicShot shot = new BasicShot();
+			shot.setImg(proj.getImg().copy());
+			shot.getImg().setRotation(img.getRotation());
+			shot.setSpeed(proj.getSpeed());
+			shot.setInterval(proj.getInterval());
+			shot.setDamage(proj.getDamage());
+			shot.setCollider(proj.getCollider());
+			shot.setX(getX());
+			shot.setY(getY());
+			return shot;
 	}
 	
 	public int getCoolDown() {
@@ -87,14 +78,6 @@ public class BasicGun {
 
 	public void setCost(int cost) {
 		this.cost = cost;
-	}
-
-	public int getPID() {
-		return PID;
-	}
-
-	public void setPID(int pID) {
-		PID = pID;
 	}
 		
 	public Image getImg() {

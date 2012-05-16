@@ -58,19 +58,17 @@ public class ClientGameplayState extends BasicGameState {
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 		//create the client ship
-		pc.setShip(entFac.stockGem());
-		pc.getShip().setEngine(entFac.smallEngine());
-		pc.getShip().setWeapon(entFac.stock20mm());
+		pc.setShip(entFac.stockMercury());
 		pc.getShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
 		
 		pc2 = new PlayerClient(1);
 		pc2.setShip(entFac.stockGem());
-		pc2.getShip().setEngine(entFac.smallEngine());
-		pc2.getShip().setWeapon(entFac.stock20mm());
 		pc2.getShip().ini((200), (200), 0.0f);
+		
 		//add both ships to the Ship hashmap
 		addShip(pc.getShip());
 		addShip(pc2.getShip());
+		
 		//make a doodad, in this case an asteroid
 
 	}

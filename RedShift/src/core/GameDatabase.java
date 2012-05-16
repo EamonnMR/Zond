@@ -46,20 +46,26 @@ public class GameDatabase {
 //	    return instance;
 //	}
 	
+	/**
+	 * initialize the gamedatabase for this instance of the game
+	 * !ORDER OF THESE METHODS MATTER!
+	 * loadImages() - always first!
+	 * indexImages() - always second!
+	 * indexShot() - always BEFORE guns
+	 * indexShip() - always LAST
+	 */
 	public void iniGDB(){
-		//subject to update as assets are made
 		try {
 			loadImages();
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		indexImages  = new HashMap<String, Image>();
-		indexShip = new HashMap<String, BasicShip>();
+		indexShot = new HashMap<String, BasicShot>();
 		indexGuns = new HashMap<String, BasicGun>();
 		indexEng = new HashMap<String, BasicEngine>();
-		indexShot = new HashMap<String, BasicShot>();
 		indexArmor = new HashMap<String, BasicArmor>();
+		indexShip = new HashMap<String, BasicShip>();
 		populateAll();
 	}
 	
@@ -269,9 +275,10 @@ public class GameDatabase {
 		//20mm shot
 		BasicShot twentyShot = new BasicShot();
 		twentyShot.setImg(indexImages.get("shot1").copy());
-		twentyShot.setDamage(0);
+		twentyShot.setDamage(5);
 		twentyShot.setSpeed(0.4f);
-		twentyShot.setTimer(500);
+		twentyShot.setInterval(500);
+		twentyShot.setCollider(new Circle(0,0,4));
 		indexShot.put("twentyShot", twentyShot);
 	}
 	
@@ -294,7 +301,7 @@ public class GameDatabase {
 		twenty.setCost(0);
 		twenty.setImg(indexImages.get("gun1").copy());
 		twenty.setWeight(0);
-//		twenty.setProj(proj)
+		twenty.setProj(indexShot.get("twentyShot"));
 		indexGuns.put("20mm", twenty);
 		
 		//60mm cannon-------------------------
@@ -347,7 +354,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void populateArmor(){
-		
+		//TODO: armor types are phase 2
 	}
 	
 	/**

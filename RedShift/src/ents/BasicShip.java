@@ -1,8 +1,5 @@
 package ents;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Shape;
-
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
  * @author Roohr

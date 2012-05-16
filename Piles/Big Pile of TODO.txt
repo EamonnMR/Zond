@@ -25,30 +25,33 @@ FINISHED-turn rate for engines-PR+EMR
 	+5/14/2012:: not sure if necessary
 	+5/14/2012:: make level package
 
--data structures for ship/item stats--------------------------------------------------------TONIGHT 5/14/2012:implement::debugging
+-data structures for ship/item stats--------------------------------------------------------5/14/2012:implement::debugging
 	+entFac constructors need to be simplified, use lookups instead of passing vars
 	+5/14/2012::negative, just use methods that return built classes
 	+yeah, game Database will have get methods, and hashmaps, the entFac itself is where values will be set
+	+5/16/2012::still debugging, making entFac work properly now
+	+5/16/2012::entFac properly configured to build any sort of ent needed, but not complete
 
--properly shaped colliders for everything---------------------------------------------------TONIGHT 5/14/2012:implement
+-properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
 	+custom Shape objects for ships; only ships
+	+5/16/2012::makre sure everyone has a collider though!
 
 -different projectile sprites/collider experiments
 	+can't remember what this was for...
 	+wait...collider shapes influences player tactics? hrm, kinda meta right now.
 
--ship swapping ability for development------------------------------------------------------TONIGHT 5/14/2012:simple implementation
+-ship swapping ability for development------------------------------------------------------5/14/2012:simple implementation
 	+perhaps start low-level gui code, or just use mapped keys and stock everything
 	+5/14/2012::in effect, cleaning up and organizaing the Player Client class
 
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
 
--level class architecture-------------------------------------------------------------------TONIGHT 5/14/2012: plan
+-level class architecture-------------------------------------------------------------------5/14/2012: plan
 	+start mapping out what a level will look like
 
--mission logic objects----------------------------------------------------------------------TONIGHT 5/14/201: plan
+-mission logic objects----------------------------------------------------------------------5/14/201: plan
 	+win conditions, lose conditions, spawners, regions, etc
 	+simple messaging system - EntName/TargetName
 
