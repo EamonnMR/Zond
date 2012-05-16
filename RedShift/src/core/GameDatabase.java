@@ -194,7 +194,7 @@ public class GameDatabase {
 		apollo.setGunPtLength(-28);
 		apollo.setEngPtLength(24);
 		apollo.setCollider(new Circle(0,0,16,24));
-		indexShip.put("apollo", apollo);	
+		indexShip.put("lunar", apollo);	
 		
 		//Voskhod-------------------------
 		BasicShip voskhod = new BasicShip();
@@ -216,7 +216,7 @@ public class GameDatabase {
 		vost.setGunPtLength(-28);
 		vost.setEngPtLength(24);
 		vost.setCollider(new Circle(0,0,16,24));
-		indexShip.put("vost", vost);	
+		indexShip.put("vostok", vost);	
 		
 		//Zond4-------------------------
 		BasicShip zond4 = new BasicShip();

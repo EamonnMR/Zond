@@ -39,9 +39,7 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		BasicShip temp = new BasicShip();
-		temp = gdb.getShip("gemini");
-		return temp;
+		return buildShip("gemini","20mm","smallEngine");
 	}
 	
 	/**
@@ -49,9 +47,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		BasicShip temp;
-		temp = gdb.getShip("lunar");
-		return temp;
+		return buildShip("lunar","20mm","smallEngine");
 	}
 	
 	/**
@@ -59,9 +55,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVostok(){
-		BasicShip temp;
-		 temp = gdb.getShip("vostok");
-		return temp;
+		return buildShip("vostok","20mm","smallEngine");
 	}
 	
 	/**
@@ -69,9 +63,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVoskhod(){
-		BasicShip temp;
-		temp = gdb.getShip("voskhod");
-		return temp;
+		return buildShip("voskhod","20mm","smallEngine");
 	}
 
 	/**
@@ -79,9 +71,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockZond(){
-		BasicShip temp;
-		temp = gdb.getShip("zond4");
-		return temp;
+		return buildShip("zond4","20mm","smallEngine");
 	}
 	
 	/**
