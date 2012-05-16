@@ -27,6 +27,8 @@ public class BasicShip extends BaseEnt{
 	public void ini(double x, double y, float rotation){
 		setX(x);
 		setY(y);
+		weapon.setX(x);
+		weapon.setY(y);
 		getImg().setRotation(rotation);
 	}
 	
@@ -53,12 +55,12 @@ public class BasicShip extends BaseEnt{
 		
 		//update gun
 //			gunPtLength * 
-			double angle = (Math.toRadians(getImg().getRotation()+theta));
-			double wx = getWepOffX();
-			double wy = getWepOffY();
+			double angle = (Math.toRadians(getImg().getRotation()));
+			double wx = getX();
+			double wy = getY();
 			
-			wx += gunPtLength * Math.sin(angle);
-			wy -= gunPtLength * Math.cos(angle);
+			wx += (gunPtLength * Math.sin(angle)+theta);
+			wy -= (gunPtLength * Math.cos(angle)+theta);
 			
 //			double gx = (gunPtLength*Math.sin(Math.toRadians(getImg().getRotation())+theta))+getX(); 
 //			double gy = (gunPtLength*Math.cos(Math.toRadians(getImg().getRotation())+theta))+getY(); 
@@ -73,11 +75,11 @@ public class BasicShip extends BaseEnt{
 //			gx = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+x; 
 //			gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
 			
-			double ex = getEngOffX();
-			double ey = getEngOffY();
+			double ex = getX();
+			double ey = getY();
 			
-			ex += engPtLength *Math.sin(angle);
-			ey -= engPtLength *Math.cos(angle);
+			ex += (engPtLength *Math.sin(angle));
+			ey -= (engPtLength *Math.cos(angle));
 			
 			setEngOffX(ex);
 			setEngOffY(ey);
