@@ -34,18 +34,8 @@ public class GameDatabase {
 	private Map<String, BasicArmor> indexArmor;
 	
 	//constructor
-	public GameDatabase(){
-	}
-	
-	//methods
-//	public static GameDatabase getInstance(){
-//	    if (instance == null){
-//	    	instance = new GameDatabase();
-//		return instance;
-//	    }
-//	    return instance;
-//	}
-	
+	public GameDatabase(){}
+
 	/**
 	 * initialize the gamedatabase for this instance of the game
 	 * !ORDER OF THESE METHODS MATTER!
@@ -168,8 +158,8 @@ public class GameDatabase {
 		merc.setHealth(5);
 		merc.setPoints(5);
 		merc.setTotalWeight(5);
-		merc.setGunPtLength(-30);
-		merc.setEngPtLength(24);
+		merc.setGunPtLength(26);
+		merc.setEngPtLength(-24);
 		merc.setCollider(new Circle(0,0,16,24));
 		merc.getImg().setRotation(0);
 		indexShip.put("mercury", merc);
@@ -277,7 +267,7 @@ public class GameDatabase {
 		twentyShot.setImg(indexImages.get("shot1").copy());
 		twentyShot.setDamage(5);
 		twentyShot.setSpeed(0.4f);
-		twentyShot.setInterval(500);
+		twentyShot.setInterval(1000);
 		twentyShot.setCollider(new Circle(0,0,4));
 		indexShot.put("twentyShot", twentyShot);
 	}

@@ -137,62 +137,19 @@ public class ClientGameplayState extends BasicGameState {
 			}
 		}
 		
-//		doCollisions();
-		//TODO: organize these entity checks
+		//Begin update loop
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		ArrayList<Integer> removeShips = new ArrayList<Integer>();
 		ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
 		
 		//update ships
-		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
-		}
+		updateEntities(delta, removeShots);
 		
-		//update shots
-		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
-			shot.getValue().update(delta);
-			if(shot.getValue().getTimer()==shot.getValue().getInterval()){
-				removeShots.add(shot.getKey());
-			}
-		}
-		
-		//Update Doodads
-		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().update(delta);
-		}
-		
-		//check Shot/Ship collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					double tempHP =ship.getValue().getHealth();
-					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check shot/doodad collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
-				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
+		//run collisions
+		checkCollisions(removeShots);
 		
 		//entity cleanup time
-		for(int i : removeShots){
-			shots.remove(i);
-		}
-		
-		for(int i : removeShips){
-			ships.remove(i);
-		}
-		
-		for(int i : removeDoodads){
-			doodads.remove(i);
-		}
+		cleanEntities(removeShots, removeShips, removeDoodads);
 		
 	}
 
@@ -217,14 +174,85 @@ public class ClientGameplayState extends BasicGameState {
 	}
 	
 	/**
-	 * 
-	 * @param s 
-	 * @return
+	 * toss a BasicShot onto the update list
+	 * @param s BasicShot
+	 * @return new shot total (int)
 	 */
 	public int addShot(BasicShot s){
 		shotCount++;
 		shots.put(shotCount, s);
 		return shotCount;
+	}
+	
+	/**
+	 * run updates on all entity lists
+	 * @param delta
+	 * @param removeShots
+	 */
+	public void updateEntities(int delta, ArrayList<Integer> removeShots){
+		//update shots
+		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
+			shot.getValue().update(delta);
+			if(shot.getValue().getTimer()==shot.getValue().getInterval()){
+				removeShots.add(shot.getKey());
+			}
+		}
+		
+		//update ships
+		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
+		}
+		
+		//Update Doodads
+		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
+			entry.getValue().update(delta);
+		}
+	}
+	
+	/**
+	 * check all collisions
+	 * @param removeShots
+	 */
+	public void checkCollisions(ArrayList<Integer> removeShots){
+		//check Shot/Ship collision
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					double tempHP =ship.getValue().getHealth();
+					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+		
+		//check shot/doodad collision
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
+				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+	}
+	
+	/**
+	 * remove all dead entities from the scope
+	 * @param removeShots
+	 * @param removeShips
+	 * @param removeDoodads
+	 */
+	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads){
+		for(int i : removeShots){
+			shots.remove(i);
+		}
+		
+		for(int i : removeShips){
+			ships.remove(i);
+		}
+		
+		for(int i : removeDoodads){
+			doodads.remove(i);
+		}
 	}
 	
 	@Override

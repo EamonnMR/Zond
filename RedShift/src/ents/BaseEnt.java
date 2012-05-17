@@ -11,21 +11,13 @@ import org.newdawn.slick.geom.Shape;
 public class BaseEnt {
 
 	//vars
-	private double x,y,vx,vy;
-	private String id;
+	private double x,y;
 	private Image img;
 	private float turnrate;
 	private Shape collider;
 
 	//constructors
-	public BaseEnt(){
-		
-	}
-	
-	public BaseEnt(Image i, Shape col){
-		collider = col;
-		img = i;
-	}
+	public BaseEnt(){}
 	
 	//methods
 	public void render(){
@@ -49,30 +41,6 @@ public class BaseEnt {
 
 	public void setY(double y) {
 		this.y = y;
-	}
-
-	public double getVx() {
-		return vx;
-	}
-
-	public void setVx(double vx) {
-		this.vx = vx;
-	}
-
-	public double getVy() {
-		return vy;
-	}
-
-	public void setVy(double vy) {
-		this.vy = vy;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Image getImg() {

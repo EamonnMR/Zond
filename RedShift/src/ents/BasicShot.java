@@ -1,8 +1,6 @@
 package ents;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
 
 /**
  * derive any kind of projectile from this class
@@ -13,27 +11,13 @@ public class BasicShot extends BaseEnt {
 
 	//vars
 	private double damage;
-	private Shape collider;
 	private float speed;
 	private int interval;
 	private int timer;
-
+	private double theta;
 	//constructor
 	public BasicShot(){
-		
-	}
-	public BasicShot(Image img, float spd, int life, double dmg, double sx, double sy, Shape col){
-		this.setImg(img);
-		this.speed = spd;
-		this.damage = dmg;
-		this.setX(sx);
-		this.setY(sy);
-		this.collider = col;
-		Transform angle = Transform.createRotateTransform(this.getImg().getRotation());
-		this.collider.transform(angle);
-		this.theta = Math.PI/2;
-		this.setInterval(life);
-		this.timer = 0;
+		theta = Math.PI/2;
 	}
 	
 	//methods
@@ -41,7 +25,7 @@ public class BasicShot extends BaseEnt {
 		timer +=delta;
 		if(timer <= interval){
 			float hip = speed * delta;
-			double angle = (Math.toRadians(getImg().getRotation()+theta)-0.00005);
+			double angle = (Math.toRadians(getImg().getRotation()+theta));
 			double dx = getX();
 			double dy = getY();
 			
@@ -51,8 +35,8 @@ public class BasicShot extends BaseEnt {
 			setX(dx);
 			setY(dy);
 	
-			collider.setCenterX((float)getX());
-			collider.setCenterY((float)getY());
+			getCollider().setCenterX((float)getX());
+			getCollider().setCenterY((float)getY());
 		}
 	}
 	
@@ -66,14 +50,6 @@ public class BasicShot extends BaseEnt {
 
 	public void setDamage(double damage) {
 		this.damage = damage;
-	}
-
-	public Shape getCollider() {
-		return collider;
-	}
-
-	public void setCollider(Shape collider) {
-		this.collider = collider;
 	}
 
 	public float getSpeed() {
@@ -96,6 +72,6 @@ public class BasicShot extends BaseEnt {
 	public void setTimer(int timer) {
 		this.timer = timer;
 	}
-	private double theta;
+
 	
 }

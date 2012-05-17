@@ -159,19 +159,23 @@ public class EntityFactory {
 		shot.setInterval(gdb.getShot(shotPointer).getInterval());
 		return shot;
 	}
+	
+	public BasicShot stock20Shot(String pointer){
+		return buildShot(pointer);
+	}
 	//=====MISC STUFF=====
 	//
 	/**
 	 * Make some sort of asteroid
 	 * doodle doo doo
 	 */
-	public BaseEnt smallAst(){
-		BaseEnt smallAsteroid;
-		Image img = gdb.getImage("asteroid").copy();
-		Circle col = new Circle(0,0, img.getWidth(), img.getHeight());
-		smallAsteroid = new BaseEnt(img, col);
-		return smallAsteroid;
-	}
+//	public BaseEnt smallAst(){
+//		BaseEnt smallAsteroid;
+//		Image img = gdb.getImage("asteroid").copy();
+//		Circle col = new Circle(0,0, img.getWidth(), img.getHeight());
+//		smallAsteroid = new BaseEnt(img, col);
+//		return smallAsteroid;
+//	}
 	
 	
 
