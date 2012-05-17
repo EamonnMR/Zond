@@ -20,3 +20,8 @@
 
 -storyboard the Session 0 panels
 	+cutscenes are in-comic form
+
+-art for guis
+	+black and green like old APPLE ][e
+	+only computer screens though!
+	

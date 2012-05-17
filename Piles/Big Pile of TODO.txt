@@ -104,6 +104,23 @@ PHASE TWO
 
 //============================================================
 PHASE THREE
+- actual sound effects
+	+two weapons
+	+two engines
+	+explode
+	+hit
+
+- some music
+	+ 1 or 2 tracks
+
+-particle effects
+	+engine thrust
+	+strafe thrust
+	+muzzle flash
+	+projectile
+	+impact
+	+exploision
+
 
 
 //====BETA! =======

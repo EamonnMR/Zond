@@ -129,11 +129,11 @@ public class BasicShip extends BaseEnt{
 	}
 	
 	/**
-	 * although not fully working, this will strafe the ship left
+	 * this will strafe the ship left
 	 * @param delta
 	 */
 	public void strafeLeft(int delta){
-      float hip = (getEngine().getTurnrate() * delta);
+      float hip = getEngine().getStrafeRate() * delta;
       double rotation = getImg().getRotation(); 
       double dx  = getX();
       double dy = getY();
@@ -144,11 +144,11 @@ public class BasicShip extends BaseEnt{
 	
 	}
 	/**
-	 * although not fully working, this will strafe the ship right
+	 * this will strafe the ship right
 	 * @param delta
 	 */
 	public void strafeRight(int delta){
-      float hip = getEngine().getTurnrate() * delta;
+      float hip = getEngine().getStrafeRate() * delta;
       double rotation = getImg().getRotation(); 
       double dx  = getX();
       double dy = getY();

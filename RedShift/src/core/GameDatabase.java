@@ -237,9 +237,10 @@ public class GameDatabase {
 		BasicEngine smallEng = new BasicEngine();
 		smallEng.setCost(0);
 		smallEng.setWeight(0);
-		smallEng.setTurnrate(0.4f);
-		smallEng.setThrustX(0.4f);
-		smallEng.setThrustY(0.2f);
+		smallEng.setTurnrate(0.25f);
+		smallEng.setThrustX(0.3f);
+		smallEng.setThrustY(0.1f);
+		smallEng.setStrafeRate(0.1f);
 		smallEng.setInGameImg(indexImages.get("eng1").copy());
 		indexEng.put("smallEngine", smallEng);
 		

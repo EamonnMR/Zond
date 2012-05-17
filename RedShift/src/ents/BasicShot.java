@@ -1,7 +1,5 @@
 package ents;
 
-import org.newdawn.slick.geom.Shape;
-
 /**
  * derive any kind of projectile from this class
  * @author Roohr

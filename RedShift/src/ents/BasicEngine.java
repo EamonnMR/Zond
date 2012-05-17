@@ -10,24 +10,16 @@ import org.newdawn.slick.Image;
 public class BasicEngine {
 
 	//vars
-	private int ID;			//game Id
-	private int weight;		//in-game weight of engine
-	private int cost;		//in-game cost of engine
-	private int PID;		//particle Id - not impl'ed yet
-	private Image inGameImg, icon, sparkleImg;	//images
-	private float thrustX, thrustY, turnrate;
+	private int weight;						//in-game weight of engine
+	private int cost;						//in-game cost of engine
+	private Image inGameImg, icon;			//images
+	private float thrustX, thrustY, turnrate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
 
 	//constructors
-	public BasicEngine(){
-	}
+	public BasicEngine(){}
+	
 	//methods
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
 	public int getWeight() {
 		return weight;
 	}
@@ -40,13 +32,6 @@ public class BasicEngine {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	public int getPID() {
-		return PID;
-	}
-	public void setPID(int pID) {
-		PID = pID;
-	}
-
 	public Image getInGameImg() {
 		return inGameImg;
 	}
@@ -58,12 +43,6 @@ public class BasicEngine {
 	}
 	public void setInGuiImg(Image inGuiImg) {
 		this.icon = inGuiImg;
-	}
-	public Image getSparkleImg() {
-		return sparkleImg;
-	}
-	public void setSparkleImg(Image sparkleImg) {
-		this.sparkleImg = sparkleImg;
 	}
 	public float getThrustX() {
 		return thrustX;
@@ -77,7 +56,6 @@ public class BasicEngine {
 	public void setThrustY(float thrustY) {
 		this.thrustY = thrustY;
 	}
-	
 	public float getTurnrate() {
 		return turnrate;
 	}
@@ -95,6 +73,12 @@ public class BasicEngine {
 	}
 	public void setThrustPtY(double thrustPtY) {
 		this.thrustPtY = thrustPtY;
+	}
+	public float getStrafeRate() {
+		return strafeRate;
+	}
+	public void setStrafeRate(float strafeRate) {
+		this.strafeRate = strafeRate;
 	}
 
 	
