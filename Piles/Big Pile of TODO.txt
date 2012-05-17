@@ -24,6 +24,8 @@ FINISHED-data structures for ship/item stats
 
 -variable projectile velocity
 	+look into splicer
+	+pertains to things like missile -> early acceleration
+	+ or plasma -> velocity trails off over time
 
 -physics for movement
 	+use EMR's email for help
@@ -45,6 +47,8 @@ FINISHED-data structures for ship/item stats
 -ship swapping ability for development------------------------------------------------------5/14/2012:simple implementation
 	+perhaps start low-level gui code, or just use mapped keys and stock everything
 	+5/14/2012::in effect, cleaning up and organizaing the Player Client class
+	+5/17/2012:: cleanup begun
+	+5/17/2012:: easier than initially thought, architecture is there, but needs refinement
 
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
@@ -98,6 +102,9 @@ PHASE TWO
 
 -armor types
 	+different armors for different damage types etc
+
+-update optionsEnt
+	+move to core, make read a properties file
 
 //====ALPHA TWO! >:) =====
 1 JULY 2012

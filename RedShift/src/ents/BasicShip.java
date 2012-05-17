@@ -5,20 +5,21 @@ package ents;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShip extends BaseEnt{
+public class BasicShip extends BaseEnt
+{
 
 	//vars
-	private int totalWeight;
+	private int totalWeight;			//maximum equipment
 	private double points;				//points to award to killer
 	private double health;				//base health of the ship
 	private BasicArmor armor;			//not implemented
-	private BasicGun weapon;			//the current weapon on the ship
-	private double wepOffX, wepOffY;;	//the offset for the weapon - does not handle more tha one weapon
+	private BasicGun gun;			//the current weapon on the ship
+	private double gunOffsetX, gunOffsetY;;	//the offset for the weapon - does not handle more tha one weapon
 	private BasicEngine engine;			//the engine mounted to the ship
-	private double engOffX, engOffY;	//the offset for the engine image
-	private double engPtLength;			//the offset for where to draw the engine
-	private double gunPtLength;			//the offset for where to draw the weapon
-	private double theta;
+	private double engineOffsetX, engineOffsetY;	//the offset for the engine image
+	private double engineOffsetDistance;			//the offset for where to draw the engine
+	private double gunOffsetDistance;			//the offset for where to draw the weapon
+	private double theta;				
 
 	//constructor
 	public BasicShip(){}
@@ -27,16 +28,16 @@ public class BasicShip extends BaseEnt{
 	public void ini(double x, double y, float rotation){
 		setX(x);
 		setY(y);
-		weapon.setX(x);
-		weapon.setY(y);
+		gun.setX(x);
+		gun.setY(y);
 		getImg().setRotation(rotation);
 		theta = Math.PI/2;
 	}
 	
 	public void render(){
 		//draw the engine
-		if(weapon!=null){
-			weapon.getImg().drawCentered((float)getWepOffX(),(float) getWepOffY());
+		if(gun!=null){
+			gun.getImg().drawCentered((float)getWepOffX(),(float) getWepOffY());
 		}
 		//draw the gun
 		if(engine!=null){
@@ -59,21 +60,21 @@ public class BasicShip extends BaseEnt{
 			double wx = getX();
 			double wy = getY();
 			
-			wx += (gunPtLength * Math.sin(angle)+theta);
-			wy -= (gunPtLength * Math.cos(angle)+theta);
+			wx += (gunOffsetDistance * Math.sin(angle)+theta);
+			wy -= (gunOffsetDistance * Math.cos(angle)+theta);
 		
 			setWepOffX(wx);		//where to draw gun on ship
 			setWepOffY(wy);
 			
-			weapon.setX(wx);	//pushes location down to basic shot
-			weapon.setY(wy);
-			weapon.setAngle(getImg().getRotation());
+			gun.setX(wx);	//pushes location down to basic shot
+			gun.setY(wy);
+			gun.setAngle(getImg().getRotation());
 		//update engine			
 			double ex = getX();
 			double ey = getY();
 			
-			ex += (engPtLength *Math.sin(angle));
-			ey -= (engPtLength *Math.cos(angle));
+			ex += (engineOffsetDistance *Math.sin(angle));
+			ey -= (engineOffsetDistance *Math.cos(angle));
 			
 			setEngOffX(ex);		//where to draw engine on ship
 			setEngOffY(ey);
@@ -201,11 +202,11 @@ public class BasicShip extends BaseEnt{
 	}
 
 	public BasicGun getWeapon() {
-		return weapon;
+		return gun;
 	}
 
 	public void setWeapon(BasicGun weapon) {
-		this.weapon = weapon;
+		this.gun = weapon;
 	}
 
 	public BasicEngine getEngine() {
@@ -217,50 +218,50 @@ public class BasicShip extends BaseEnt{
 	}
 	
 	public double getWepOffX() {
-		return wepOffX;
+		return gunOffsetX;
 	}
 
 	public void setWepOffX(double wepOffX) {
-		this.wepOffX = wepOffX;
+		this.gunOffsetX = wepOffX;
 	}
 
 	public double getWepOffY() {
-		return wepOffY;
+		return gunOffsetY;
 	}
 
 	public void setWepOffY(double wepOffY) {
-		this.wepOffY = wepOffY;
+		this.gunOffsetY = wepOffY;
 	}
 
 	public double getEngOffX() {
-		return engOffX;
+		return engineOffsetX;
 	}
 
 	public void setEngOffX(double engOffX) {
-		this.engOffX = engOffX;
+		this.engineOffsetX = engOffX;
 	}
 
 	public double getEngOffY() {
-		return engOffY;
+		return engineOffsetY;
 	}
 
 	public void setEngOffY(double engOffY) {
-		this.engOffY = engOffY;
+		this.engineOffsetY = engOffY;
 	}
 	public double getEngPtLength() {
-		return engPtLength;
+		return engineOffsetDistance;
 	}
 
 	public void setEngPtLength(double engPtLength) {
-		this.engPtLength = engPtLength;
+		this.engineOffsetDistance = engPtLength;
 	}
 
 	public double getGunPtLength() {
-		return gunPtLength;
+		return gunOffsetDistance;
 	}
 
 	public void setGunPtLength(double gunPtLength) {
-		this.gunPtLength = gunPtLength;
+		this.gunOffsetDistance = gunPtLength;
 	}
 
 

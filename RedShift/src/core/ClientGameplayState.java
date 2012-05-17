@@ -36,6 +36,7 @@ public class ClientGameplayState extends BasicGameState {
 	private HashMap<Integer, BaseEnt> doodads;
 	GameDatabase gdb;
 	EntityFactory entFac;
+	HashMap<String, BasicShip> incomingClientShips;
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -47,27 +48,35 @@ public class ClientGameplayState extends BasicGameState {
 		this.ships = new HashMap<Integer, BasicShip>();
 		this.shots = new HashMap<Integer, BasicShot>();
 		this.doodads = new HashMap<Integer, BaseEnt>();
+		this.incomingClientShips = new HashMap<String, BasicShip>();
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		
+		//==========ship swapping test
+		incomingClientShips.put("mercury", entFac.stockMercury());
+		incomingClientShips.put("gemini", entFac.stockGem());
+		incomingClientShips.put("lunar", entFac.stockLunar());
+		pc.setClientShips(incomingClientShips);
+		//=============================
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 		//create the client ship
-		pc.setShip(entFac.stockMercury());
-		pc.getShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
+		pc.setPlayShip(pc.retrieveShip("mercury"));
+		pc.getPlayShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
+		
+		
 		
 		pc2 = new PlayerClient(1);
-		pc2.setShip(entFac.stockGem());
-		pc2.getShip().ini((200), (200), 0.0f);
+		pc2.setPlayShip(entFac.stockGem());
+		pc2.getPlayShip().ini((200), (200), 0.0f);
 		
 		//add both ships to the Ship hashmap
-		addShip(pc.getShip());
-		addShip(pc2.getShip());
+		addShip(pc.getPlayShip());
+		addShip(pc2.getPlayShip());
 		
 		//make a doodad, in this case an asteroid
 		
@@ -94,14 +103,14 @@ public class ClientGameplayState extends BasicGameState {
 
 		
 		//all this below is for the DevGog system!
-		arg2.draw(pc.getShip().getCollider());
+		arg2.draw(pc.getPlayShip().getCollider());
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		arg2.drawString(x, 25, 700);
 		x = String.valueOf(arg0.getInput().getMouseY());
 		arg2.drawString(x, 25, 725);
 		
-		x = String.valueOf(pc.getShip().getHealth());
+		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 			
 	}
@@ -109,40 +118,73 @@ public class ClientGameplayState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
-		Input p = arg0.getInput();
-		
-		//TODO:there's something wrong with the input, multiple keys jamming
-		if(p.isKeyDown(Input.KEY_UP)){
-			pc.getShip().moveForward(delta);
-		}
-		if(p.isKeyDown(Input.KEY_DOWN)){
-			pc.getShip().moveBackward(delta);
-		}
-		if(p.isKeyDown(Input.KEY_LEFT)){
-			pc.getShip().rotateLeft(delta);
-		}
-		if(p.isKeyDown(Input.KEY_RIGHT)){
-			pc.getShip().rotateRight(delta);
-		}
-		if(p.isKeyDown(Input.KEY_Z)){
-			pc.getShip().strafeLeft(delta);
-		}
-		if(p.isKeyDown(Input.KEY_X)){
-			pc.getShip().strafeRight(delta);
-		}
-		if(p.isKeyDown(Input.KEY_SPACE)){
-			timer +=delta;
-			if(timer > pc.getShip().getWeapon().getRof()){
-				timer -= pc.getShip().getWeapon().getRof();
-				addShot(pc.getShip().getWeapon().makeShot());
-			}
-		}
-		
-		//Begin update loop
+		//placed at the top for ubiquitousness
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		ArrayList<Integer> removeShips = new ArrayList<Integer>();
 		ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
 		
+		
+		Input p = arg0.getInput();
+		
+		//TODO:there's something wrong with the input, multiple keys jamming
+		if(p.isKeyPressed(Input.KEY_1)){
+			if(pc.getPlayShip()!=pc.retrieveShip("mercury")){
+				double x = pc.getPlayShip().getX();
+				double y = pc.getPlayShip().getY();
+				float rot = pc.getPlayShip().getImg().getRotation();
+				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+					if(entry.getValue()==pc.getPlayShip()){
+						removeShips.add(entry.getKey());
+					}
+				}
+				pc.setPlayShip(pc.retrieveShip("mercury"));
+				pc.getPlayShip().ini(x, y, rot);
+				addShip(pc.getPlayShip());
+			}
+		}
+		if(p.isKeyPressed(Input.KEY_2)){
+			if(pc.getPlayShip()!=pc.retrieveShip("gemini")){
+				double x = pc.getPlayShip().getX();
+				double y = pc.getPlayShip().getY();
+				float rot = pc.getPlayShip().getImg().getRotation();
+				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+					if(entry.getValue()==pc.getPlayShip()){
+						removeShips.add(entry.getKey());
+					}
+				}
+				pc.setPlayShip(pc.retrieveShip("gemini"));
+				pc.getPlayShip().ini(x, y, rot);
+				addShip(pc.getPlayShip());
+			}
+		}
+		if(p.isKeyDown(Input.KEY_UP)){
+			pc.getPlayShip().moveForward(delta);
+		}
+		if(p.isKeyDown(Input.KEY_DOWN)){
+			pc.getPlayShip().moveBackward(delta);
+		}
+		if(p.isKeyDown(Input.KEY_LEFT)){
+			pc.getPlayShip().rotateLeft(delta);
+		}
+		if(p.isKeyDown(Input.KEY_RIGHT)){
+			pc.getPlayShip().rotateRight(delta);
+		}
+		if(p.isKeyDown(Input.KEY_Z)){
+			pc.getPlayShip().strafeLeft(delta);
+		}
+		if(p.isKeyDown(Input.KEY_X)){
+			pc.getPlayShip().strafeRight(delta);
+		}
+		if(p.isKeyDown(Input.KEY_SPACE)){
+			timer +=delta;
+			if(timer > pc.getPlayShip().getWeapon().getRof()){
+				timer -= pc.getPlayShip().getWeapon().getRof();
+				addShot(pc.getPlayShip().getWeapon().makeShot());
+			}
+		}
+		
+		
+		//======Begin updates!
 		//update ships
 		updateEntities(delta, removeShots);
 		

@@ -13,7 +13,7 @@ public class BasicEngine {
 	private int weight;						//in-game weight of engine
 	private int cost;						//in-game cost of engine
 	private Image inGameImg, icon;			//images
-	private float thrustX, thrustY, turnrate,strafeRate;
+	private float forwardThrust, reverseThrust, turnRate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
 
 	//constructors
@@ -45,22 +45,22 @@ public class BasicEngine {
 		this.icon = inGuiImg;
 	}
 	public float getThrustX() {
-		return thrustX;
+		return forwardThrust;
 	}
 	public void setThrustX(float thrustX) {
-		this.thrustX = thrustX;
+		this.forwardThrust = thrustX;
 	}
 	public float getThrustY() {
-		return thrustY;
+		return reverseThrust;
 	}
 	public void setThrustY(float thrustY) {
-		this.thrustY = thrustY;
+		this.reverseThrust = thrustY;
 	}
 	public float getTurnrate() {
-		return turnrate;
+		return turnRate;
 	}
 	public void setTurnrate(float turnrate) {
-		this.turnrate = turnrate;
+		this.turnRate = turnrate;
 	}
 	public double getThrustPtX() {
 		return thrustPtX;
