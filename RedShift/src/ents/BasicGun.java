@@ -36,7 +36,7 @@ public class BasicGun {
 			shot.setDamage(proj.getDamage());
 			shot.setCollider(proj.getCollider());
 			shot.setX(getX());
-			shot.setY(getY());
+			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			return shot;
 	}
 	

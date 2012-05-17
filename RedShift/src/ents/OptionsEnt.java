@@ -7,19 +7,18 @@ package ents;
 public class OptionsEnt {
 
 	//vars
-	private int fullscreen, smallWin, medWin, largeWin;
+	private int smallWin, medWin, largeWin;
 	private int musevol, fxvol, voicevol, totvol;
+	private boolean fullscreen;
 	
 	//const
-	public OptionsEnt(){
-		
-	}
+	public OptionsEnt(){}
 	//methods
-	public int getFullscreen() {
+	public boolean getFullscreen() {
 		return fullscreen;
 	}
 
-	public void setFullscreen(int fullscreen) {
+	public void setFullscreen(boolean fullscreen) {
 		this.fullscreen = fullscreen;
 	}
 

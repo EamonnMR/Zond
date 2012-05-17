@@ -30,6 +30,7 @@ public class BasicShip extends BaseEnt{
 		weapon.setX(x);
 		weapon.setY(y);
 		getImg().setRotation(rotation);
+		theta = Math.PI/2;
 	}
 	
 	public void render(){
@@ -52,36 +53,29 @@ public class BasicShip extends BaseEnt{
 			setY(y);
 			getCollider().setCenterX((float)x);
 			getCollider().setCenterY((float)y);
-		
-		//update gun
-//			gunPtLength * 
 			double angle = (Math.toRadians(getImg().getRotation()));
+		
+			//update gun
 			double wx = getX();
 			double wy = getY();
 			
 			wx += (gunPtLength * Math.sin(angle)+theta);
 			wy -= (gunPtLength * Math.cos(angle)+theta);
-			
-//			double gx = (gunPtLength*Math.sin(Math.toRadians(getImg().getRotation())+theta))+getX(); 
-//			double gy = (gunPtLength*Math.cos(Math.toRadians(getImg().getRotation())+theta))+getY(); 
 		
-			setWepOffX(wx);
+			setWepOffX(wx);		//where to draw gun on ship
 			setWepOffY(wy);
 			
-			weapon.setX(wx);
+			weapon.setX(wx);	//pushes location down to basic shot
 			weapon.setY(wy);
 			weapon.setAngle(getImg().getRotation());
-		//update engine
-//			gx = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+x; 
-//			gy = (engPtLength * Math.sin(Math.toRadians(getImg().getRotation())+theta))+y; 
-			
+		//update engine			
 			double ex = getX();
 			double ey = getY();
 			
 			ex += (engPtLength *Math.sin(angle));
 			ey -= (engPtLength *Math.cos(angle));
 			
-			setEngOffX(ex);
+			setEngOffX(ex);		//where to draw engine on ship
 			setEngOffY(ey);
 	}
 	
@@ -140,7 +134,7 @@ public class BasicShip extends BaseEnt{
 	 */
 	public void strafeLeft(int delta){
       float hip = getEngine().getTurnrate() * delta;
-      double rotation = getImg().getRotation()+(Math.PI/2); 
+      double rotation = getImg().getRotation()+90; 
       double dx  = getX();
       double dy = getY();
       dx -= hip * Math.sin(Math.toRadians(rotation));
