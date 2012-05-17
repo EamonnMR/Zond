@@ -123,10 +123,10 @@ public class ClientGameplayState extends BasicGameState {
 		if(p.isKeyDown(Input.KEY_RIGHT)){
 			pc.getShip().rotateRight(delta);
 		}
-		if(p.isKeyDown(Input.KEY_Q)){
+		if(p.isKeyDown(Input.KEY_Z)){
 			pc.getShip().strafeLeft(delta);
 		}
-		if(p.isKeyDown(Input.KEY_E)){
+		if(p.isKeyDown(Input.KEY_X)){
 			pc.getShip().strafeRight(delta);
 		}
 		if(p.isKeyDown(Input.KEY_SPACE)){
