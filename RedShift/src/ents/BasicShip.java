@@ -133,12 +133,12 @@ public class BasicShip extends BaseEnt{
 	 * @param delta
 	 */
 	public void strafeLeft(int delta){
-      float hip = getEngine().getTurnrate() * delta;
-      double rotation = getImg().getRotation()+90; 
+      float hip = (getEngine().getTurnrate() * delta);
+      double rotation = getImg().getRotation(); 
       double dx  = getX();
       double dy = getY();
-      dx -= hip * Math.sin(Math.toRadians(rotation));
-      dy -= hip * Math.cos(Math.toRadians(rotation));
+      dx -= hip * Math.sin(Math.toRadians(rotation+90));
+      dy += hip * Math.cos(Math.toRadians(rotation+90));
       setX(dx);
       setY(dy);
 	
@@ -149,11 +149,11 @@ public class BasicShip extends BaseEnt{
 	 */
 	public void strafeRight(int delta){
       float hip = getEngine().getTurnrate() * delta;
-      double rotation = getImg().getRotation()-(Math.PI/2); 
+      double rotation = getImg().getRotation(); 
       double dx  = getX();
       double dy = getY();
-      dx += hip * Math.sin(Math.toRadians(rotation));
-      dy += hip * Math.cos(Math.toRadians(rotation));
+      dx -= hip * Math.sin(Math.toRadians(rotation-90));
+      dy += hip * Math.cos(Math.toRadians(rotation-90));
       setX(dx);
       setY(dy);
 	}
