@@ -170,9 +170,9 @@ public class GameDatabase {
 		gem.setHealth(5);
 		gem.setPoints(5);
 		gem.setTotalWeight(5);
-		gem.setGunPtLength(-28);
-		gem.setEngPtLength(24);
-		gem.setCollider(new Circle(0,0,16,24));
+		gem.setGunPtLength(28);
+		gem.setEngPtLength(-24);
+		gem.setCollider(new Circle(0,0,16,28));
 		indexShip.put("gemini", gem);		
 		
 		//Apollo-------------------------
