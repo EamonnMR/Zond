@@ -74,6 +74,7 @@ PHASE TWO
 	+interior state-mechanic
 	+start/end vars
 	+next state targetted
+	+make base cutscene class to use which extends basicgamestate
 
 -build basic menu using framework defined in txt doc.
 	+absolutely no artwork
