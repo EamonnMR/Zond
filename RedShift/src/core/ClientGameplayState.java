@@ -70,7 +70,7 @@ public class ClientGameplayState extends BasicGameState {
 		addShip(pc2.getShip());
 		
 		//make a doodad, in this case an asteroid
-
+		
 	}
 
 	@Override
@@ -78,6 +78,11 @@ public class ClientGameplayState extends BasicGameState {
 			throws SlickException {
 		level.render(arg2, 0, 0);
 		
+		//draw all shots
+		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
+			entry.getValue().render();
+//			arg2.draw(entry.getValue().getCollider());
+		}
 		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().render();
@@ -86,11 +91,7 @@ public class ClientGameplayState extends BasicGameState {
 		for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().render();
 		}
-		//draw all shots
-		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
-			entry.getValue().render();
-//			arg2.draw(entry.getValue().getCollider());
-		}
+
 		
 		//all this below is for the DevGog system!
 		arg2.draw(pc.getShip().getCollider());
@@ -190,19 +191,18 @@ public class ClientGameplayState extends BasicGameState {
 	 * @param removeShots
 	 */
 	public void updateEntities(int delta, ArrayList<Integer> removeShots){
-		//update shots
-		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
-			shot.getValue().update(delta);
-			if(shot.getValue().getTimer()==shot.getValue().getInterval()){
-				removeShots.add(shot.getKey());
-			}
-		}
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
 		}
-		
+		//update shots
+		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
+			shot.getValue().update(delta);
+			if(shot.getValue().getTimer()>=shot.getValue().getInterval()){
+				removeShots.add(shot.getKey());
+			}
+		}
 		//Update Doodads
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
@@ -215,8 +215,8 @@ public class ClientGameplayState extends BasicGameState {
 	 */
 	public void checkCollisions(ArrayList<Integer> removeShots){
 		//check Shot/Ship collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
 					double tempHP =ship.getValue().getHealth();
 					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());

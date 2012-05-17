@@ -10,7 +10,6 @@ import org.newdawn.slick.Image;
 public class BasicGun {
 
 	//vars
-	private int ID;				//for when an item system is in play
 	private int weight;
 	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
@@ -30,7 +29,7 @@ public class BasicGun {
 	public BasicShot makeShot(){
 			BasicShot shot = new BasicShot();
 			shot.setImg(proj.getImg().copy());
-			shot.getImg().setRotation(img.getRotation());
+			shot.getImg().setRotation(img.getRotation()+0.001f);
 			shot.setSpeed(proj.getSpeed());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
@@ -55,51 +54,33 @@ public class BasicGun {
 	public void setProj(BasicShot proj) {
 		this.proj = proj;
 	}
-
-	public int getID() {
-		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
-	}
-
 	public int getWeight() {
 		return weight;
 	}
-
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}
-
 	public int getCost() {
 		return cost;
 	}
-
 	public void setCost(int cost) {
 		this.cost = cost;
-	}
-		
+	}	
 	public Image getImg() {
 		return img;
 	}
-
 	public void setImg(Image img) {
 		this.img = img;
 	}
-	
 	public double getX() {
 		return x;
 	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	public double getY() {
 		return y;
 	}
-	
 	public double getAngle() {
 		return angle;
 	}
