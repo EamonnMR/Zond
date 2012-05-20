@@ -28,15 +28,17 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState {
 
 	//vars
-	private int id, entCount, objCount, shotCount, timer;
-	private PlayerClient pc, pc2;
-	private BaseLevel level;
-	private HashMap<Integer, BasicShip> ships;
-	private HashMap<Integer, BasicShot> shots;
-	private HashMap<Integer, BaseEnt> doodads;
+	private int id, entCount, objCount, shotCount, clientCount, timer;
+	PlayerClient pc, pc2;
+	BaseLevel level;
+	HashMap<Integer, BasicShip> ships;
+	HashMap<Integer, BasicShot> shots;
+	HashMap<Integer, BaseEnt> doodads;
+	HashMap<Integer, PlayerClient> clients;
+	HashMap<String, BasicShip> incomingClientShips;
 	GameDatabase gdb;
 	EntityFactory entFac;
-	HashMap<String, BasicShip> incomingClientShips;
+
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -48,6 +50,7 @@ public class ClientGameplayState extends BasicGameState {
 		this.ships = new HashMap<Integer, BasicShip>();
 		this.shots = new HashMap<Integer, BasicShot>();
 		this.doodads = new HashMap<Integer, BaseEnt>();
+		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 	}
 	
@@ -61,6 +64,8 @@ public class ClientGameplayState extends BasicGameState {
 		incomingClientShips.put("lunar", entFac.stockLunar());
 		pc.setClientShips(incomingClientShips);
 		//=============================
+		
+		
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
@@ -175,18 +180,19 @@ public class ClientGameplayState extends BasicGameState {
 		if(p.isKeyDown(Input.KEY_X)){
 			pc.getPlayShip().strafeRight(delta);
 		}
-		if(p.isKeyDown(Input.KEY_SPACE)){
+		if(p.isKeyDown(Input.KEY_LCONTROL)){
 			timer +=delta;
 			if(timer > pc.getPlayShip().getWeapon().getRof()){
 				timer -= pc.getPlayShip().getWeapon().getRof();
 				addShot(pc.getPlayShip().getWeapon().makeShot());
+
 			}
 		}
 		
 		
 		//======Begin updates!
 		//update ships
-		updateEntities(delta, removeShots);
+		updateEntities(delta, removeShots, removeShips);
 		
 		//run collisions
 		checkCollisions(removeShots);
@@ -196,6 +202,12 @@ public class ClientGameplayState extends BasicGameState {
 		
 	}
 
+	public int addClient(PlayerClient client){
+		clientCount++;
+		clients.put(clientCount, client);
+		return clientCount;
+	}
+	
 	/**
 	 * adds entity to the hashmap
 	 */
@@ -232,11 +244,14 @@ public class ClientGameplayState extends BasicGameState {
 	 * @param delta
 	 * @param removeShots
 	 */
-	public void updateEntities(int delta, ArrayList<Integer> removeShots){
+	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips){
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
+			if(entry.getValue().getHealth()<=0){
+				removeShips.add(entry.getKey());
+			}
 		}
 		//update shots
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {

@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class BasicGun {
 			shot.setSpeed(proj.getSpeed());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
-			shot.setCollider(proj.getCollider());
+			shot.setCollider(new Circle(0,0,4));
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			return shot;

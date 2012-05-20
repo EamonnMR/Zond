@@ -18,9 +18,10 @@ FINISHED-data structures for ship/item stats
 	+5/16/2012::entFac properly configured to build any sort of ent needed, but not complete
 	+5/17/2012::fixed parts on ship
 
--fix/improve the key handling for input
+FINISHED-fix/improve the key handling for input
 	+have to handle more than 3 key presses...or something
 	+run binary check on keys, see which are counted as pressed
+	+5/20/2012:: changed fire to Left_Control
 
 -variable projectile velocity
 	+look into splicer
@@ -38,7 +39,7 @@ FINISHED-data structures for ship/item stats
 -properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
 	+custom Shape objects for ships; only ships
-	+5/16/2012::makre sure everyone has a collider though!
+	+5/16/2012::make sure everyone has a collider though!
 
 -different projectile sprites/collider experiments
 	+can't remember what this was for...

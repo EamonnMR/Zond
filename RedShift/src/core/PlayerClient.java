@@ -1,7 +1,7 @@
 package core;
 
 import java.util.HashMap;
-import java.util.Map;
+
 
 import org.newdawn.slick.geom.Rectangle;
 
@@ -30,11 +30,7 @@ public class PlayerClient {
 	
 	//constructor
 	public PlayerClient(int clientId){
-//		armorCol = new BasicArmor[0];		//noooooooooooooot yet
-//		engineCol = new BasicEngine[0];		//noooooooooooooot yet
-//		gunCol = new BasicGun[0];			//noooooooooooooot yet
-//		keys = new int[7];					//mappable keys...that are kinda fail
-//		iniKeys();
+		
 	}
 	//methods
 	
@@ -43,13 +39,6 @@ public class PlayerClient {
 	 * this will be configurable outside of hardcode.
 	 */
 //	public void iniKeys(){
-//		keys[0] = 200;
-//		keys[1] = 208;
-//		keys[2] = 203;
-//		keys[3] = 205;
-//		keys[4] = 30;
-//		keys[5] = 31;	
-//		keys[6] = 57;	//spacebar
 //	}
 	
 	/**
@@ -58,7 +47,6 @@ public class PlayerClient {
 	 * @param val key value
 	 */
 //	public void setKey(int i, int val){
-//		keys[i] = val;
 //	}
 	
 	/**
