@@ -34,6 +34,10 @@ public class BaseEnt {
 	public void setX(double x) {
 		this.x = x;
 	}
+	
+	public void addX(double dx){ //Makes movement algorithms neater-EMR
+		this.x += dx;
+	}
 
 	public double getY() {
 		return y;
@@ -42,6 +46,11 @@ public class BaseEnt {
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	public void addY(double dy){ //Makes movement algorithms neater-EMR
+		this.x += dy;
+	}
+
 
 	public Image getImg() {
 		return img;
