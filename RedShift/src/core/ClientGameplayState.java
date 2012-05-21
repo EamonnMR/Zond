@@ -29,6 +29,7 @@ public class ClientGameplayState extends BasicGameState {
 
 	//vars
 	private int id, entCount, objCount, shotCount, clientCount, timer;
+	float camX, camY;
 	PlayerClient pc, pc2;
 	BaseLevel level;
 	HashMap<Integer, BasicShip> ships;
@@ -72,9 +73,7 @@ public class ClientGameplayState extends BasicGameState {
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
 		pc.getPlayShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
-		
-		
-		
+			
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
 		pc2.getPlayShip().ini((200), (200), 0.0f);
@@ -84,6 +83,10 @@ public class ClientGameplayState extends BasicGameState {
 		addShip(pc2.getPlayShip());
 		
 		//make a doodad, in this case an asteroid
+		
+		//camera test
+		setCamX(0);
+		setCamY(0);
 		
 	}
 
@@ -185,7 +188,6 @@ public class ClientGameplayState extends BasicGameState {
 			if(timer > pc.getPlayShip().getWeapon().getRof()){
 				timer -= pc.getPlayShip().getWeapon().getRof();
 				addShot(pc.getPlayShip().getWeapon().makeShot());
-
 			}
 		}
 		
@@ -323,6 +325,22 @@ public class ClientGameplayState extends BasicGameState {
 	 */
 	public void setPlayerClient(PlayerClient PC){
 		pc = PC;
+	}
+	
+	public float getCamX() {
+		return camX;
+	}
+
+	public void setCamX(float camX) {
+		this.camX = camX;
+	}
+
+	public float getCamY() {
+		return camY;
+	}
+
+	public void setCamY(float camY) {
+		this.camY = camY;
 	}
 	
 
