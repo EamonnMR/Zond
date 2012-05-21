@@ -26,9 +26,10 @@ public class BasicShot extends BaseEnt {
 			double angle = (Math.toRadians(getImg().getRotation()+theta));
 			double dx = getX();
 			double dy = getY();
-			
-			dx += hip * Math.sin(angle);
-			dy -= hip * Math.cos(angle);
+
+			dx += hip * Math.cos(angle);  //This is the proper algorithm... -EMR
+			dy += hip * Math.sin(angle);  //I was tought to worship the Unit Circle in high school
+			//And I cannot harden my heart against it now, in our darkest hour.
 			
 			setX(dx);
 			setY(dy);
