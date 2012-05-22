@@ -50,11 +50,9 @@ FINISHED-fix/improve the key handling for input
 	+5/14/2012::in effect, cleaning up and organizaing the Player Client class
 	+5/17/2012:: cleanup begun
 	+5/17/2012:: easier than initially thought, architecture is there, but needs refinement
-	+error seems to be in passing current rotation down to components
 
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
-	+somewhat started
 
 -level class architecture-------------------------------------------------------------------5/14/2012: plan
 	+start mapping out what a level will look like
