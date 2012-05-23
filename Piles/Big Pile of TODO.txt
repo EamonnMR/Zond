@@ -57,6 +57,7 @@ FINISHED-fix/improve the key handling for input
 
 -level class architecture-------------------------------------------------------------------5/14/2012: plan
 	+start mapping out what a level will look like
+	+5/23/2012:: have started the level programming goal, created 3 classes in a new package
 
 -mission logic objects----------------------------------------------------------------------5/14/201: plan
 	+win conditions, lose conditions, spawners, regions, etc
