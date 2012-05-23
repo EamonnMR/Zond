@@ -1,0 +1,27 @@
+-All large-scale pictures-
+==========================
+
+\\not in-game art assets//
+
+-full-body shot of Robert Walton in space suit
+	+no specific use yet.
+
+-perspective shot of Walton's helmet on table
+	+title page image
+
+-Space Station interior image
+	+for main menu(?)
+
+-Space walk-style image
+	+no specific use yet.
+
+-Picture of decked-out Mercury 7
+	+for promotional.
+
+-storyboard the Session 0 panels
+	+cutscenes are in-comic form
+
+-art for guis
+	+black and green like old APPLE ][e
+	+only computer screens though!
+	
