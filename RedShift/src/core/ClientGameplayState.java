@@ -251,9 +251,9 @@ public class ClientGameplayState extends BasicGameState {
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
-			if(entry.getValue().getHealth()<=0){
-				removeShips.add(entry.getKey());
-			}
+//			if(entry.getValue().getHealth()<=0){
+//				removeShips.add(entry.getKey());
+//			}
 		}
 		//update shots
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
