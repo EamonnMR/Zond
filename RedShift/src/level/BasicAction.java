@@ -16,7 +16,7 @@ public class BasicAction {
 	}
 
 	//methods
-	public void update(int delta){
+	public void doAction(int delta){
 		
 	}
 	
