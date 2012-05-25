@@ -204,6 +204,24 @@ public class ClientGameplayState extends BasicGameState {
 		
 	}
 
+	public Integer shipSawpHck(String oldShipName, String newShipName){
+		if(pc.getPlayShip() != pc.retrieveShip(newShipName)){
+			double x = pc.getPlayShip().getX();
+			double y = pc.getPlayShip().getY();
+			float rot = pc.getPlayShip().getImg().getRotation();
+			for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+				if(entry.getValue()==pc.getPlayShip()){
+					return(entry.getKey());
+				}
+			}
+			pc.setPlayShip(pc.retrieveShip("mercury"));
+			pc.getPlayShip().ini(x, y, rot);
+			addShip(pc.getPlayShip());
+			
+		}
+		return 0;
+	}
+	
 	public int addClient(PlayerClient client){
 		clientCount++;
 		clients.put(clientCount, client);
@@ -250,7 +268,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
+			entry.getValue().update(delta);
 			if(entry.getValue().getHealth()<=0){
 				removeShips.add(entry.getKey());
 			}

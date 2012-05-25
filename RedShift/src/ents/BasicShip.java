@@ -19,7 +19,7 @@ public class BasicShip extends BaseEnt
 	private double engineOffsetX, engineOffsetY;	//the offset for the engine image
 	private double engineOffsetDistance;			//the offset for where to draw the engine
 	private double gunOffsetDistance;			//the offset for where to draw the weapon
-	private double theta;				
+	//private double theta;				
 
 	//constructor
 	public BasicShip(){}
@@ -31,7 +31,7 @@ public class BasicShip extends BaseEnt
 		gun.setX(x);
 		gun.setY(y);
 		getImg().setRotation(rotation);
-		theta = Math.PI/2;
+		//theta = Math.PI/2;
 	}
 	
 	public void render(){
@@ -48,20 +48,18 @@ public class BasicShip extends BaseEnt
 		getImg().drawCentered((float)getX(), (float)getY());	
 	}
 
-	public void update(double rot, double x, double y){
+	public void update(int delta){
 		//update ship
-			setX(x);
-			setY(y);
-			getCollider().setCenterX((float)x);
-			getCollider().setCenterY((float)y);
+			getCollider().setCenterX((float)getX());
+			getCollider().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 		
 			//update gun
 			double wx = getX();
 			double wy = getY();
 			
-			wx += (gunOffsetDistance * Math.sin(angle)+theta);
-			wy -= (gunOffsetDistance * Math.cos(angle)+theta);
+			wx += (gunOffsetDistance * Math.sin(angle)/*+theta*/);
+			wy -= (gunOffsetDistance * Math.cos(angle)/*+theta*/);
 		
 			setWepOffX(wx);		//where to draw gun on ship
 			setWepOffY(wy);
@@ -113,6 +111,7 @@ public class BasicShip extends BaseEnt
         dy -= hip * Math.cos(Math.toRadians(rotation));
         setX(dx);
         setY(dy);
+        
 	}
 	/**
 	 * move the ship backwards
