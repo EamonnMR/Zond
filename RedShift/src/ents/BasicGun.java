@@ -30,7 +30,7 @@ public class BasicGun {
 	public BasicShot makeShot(){
 			BasicShot shot = new BasicShot();
 			shot.setImg(proj.getImg().copy());
-			shot.getImg().setRotation(img.getRotation()+0.001f);
+			shot.getImg().setRotation(img.getRotation());  //+0.001f
 			shot.setSpeed(proj.getSpeed());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
