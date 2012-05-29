@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
@@ -36,18 +37,21 @@ public class ClientGameplayState extends BasicGameState {
 	private int id, entCount, objCount, shotCount, clientCount, timer;
 	float camX, camY;
 	PlayerClient pc, pc2;
-	BaseLevel level;
+	BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
 	HashMap<Integer, BasicShot> shots;
 	HashMap<Integer, BaseEnt> doodads;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
-	Queue<BasicTrigger> triggersToPass;
+
 	GameDatabase gdb;
 	EntityFactory entFac;
-	BasicLevel levelTest;
+	
+	private Queue<BasicTrigger> triggersToPass;
+	private BasicLevel levelTest;
 	private BasicTrigger tellMe;
 	private BasicAction say1;
+	private boolean triggerHit;
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -63,8 +67,10 @@ public class ClientGameplayState extends BasicGameState {
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
 		this.levelTest = new BasicLevel();
+		this.triggersToPass = new LinkedList<BasicTrigger>();
 		this.tellMe = new BasicTrigger();
 		this.say1 = new BasicAction();
+		this.triggerHit = false;
 	}
 	
 	//methods
@@ -140,6 +146,10 @@ public class ClientGameplayState extends BasicGameState {
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 		
+		if(triggerHit == true){
+			arg2.drawString("Trigger Hit"+triggerHit, 10, 50);
+		}
+		
 		arg2.draw(levelTest.getTrigger("tellMe").getCollider());
 	}
 
@@ -153,7 +163,6 @@ public class ClientGameplayState extends BasicGameState {
 		
 		
 		Input p = arg0.getInput();
-		
 		//TODO:there's something wrong with the input, multiple keys jamming
 		if(p.isKeyPressed(Input.KEY_1)){
 			if(pc.getPlayShip()!=pc.retrieveShip("mercury")){
@@ -349,8 +358,12 @@ public class ClientGameplayState extends BasicGameState {
 		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 			for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggers().entrySet() ){
 				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
-					triggersToPass.add(trig.getValue());
-					levelTest.setLevelUpdate(true);
+					if(trig.getValue().isActive()==false){
+						triggersToPass.add(trig.getValue());
+						trig.getValue().setActive(true);
+						levelTest.setLevelUpdate(true);
+						triggerHit = true;
+					}
 				}
 			}
 		}
