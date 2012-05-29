@@ -5,24 +5,40 @@ package ents;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShip extends BaseEnt
+public class BasicShip extends BaseEnt implements PhysMod.Target
 {
 
-	//vars
-	private int totalWeight;			//maximum equipment
-	private double points;				//points to award to killer
-	private double health;				//base health of the ship
-	private BasicArmor armor;			//not implemented
-	private BasicGun gun;			//the current weapon on the ship
-	private double gunOffsetX, gunOffsetY;;	//the offset for the weapon - does not handle more tha one weapon
-	private BasicEngine engine;			//the engine mounted to the ship
-	private double engineOffsetX, engineOffsetY;	//the offset for the engine image
-	private double engineOffsetDistance;			//the offset for where to draw the engine
-	private double gunOffsetDistance;			//the offset for where to draw the weapon
-	//private double theta;	
+	private int totalWeight;		             //maximum equipment
+	private double points;				         //points to award to killer
+	private double health;			             //base health of the ship
+	private BasicArmor armor;		             //not implemented
+	private BasicGun gun;			             //the current weapon on the ship
+	private double gunOffsetX, gunOffsetY;       //the offset for the weapon - does not handle more tha one weapon
+	private BasicEngine engine;			         //the engine mounted to the ship
+	private double engineOffsetX, engineOffsetY; //the offset for the engine image
+	private double engineOffsetDistance;		 //the offset for where to draw the engine
+	private double gunOffsetDistance;			 //the offset for where to draw the weapon
+	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 
+	
+	
 	//constructor
-	public BasicShip(){}
+	public BasicShip(){
+		physAnchor = new PhysMod(this, 0, 0, 0); //Other classes such as shot might wanna give it an initial velocity...
+	}	                                         //But not the ship!  At least not yet.
+
+	//Just in case we decide to remove addX and addY from basic Entity - EMR
+	@Override
+	public void addX(double dx) {
+		// TODO Auto-generated method stub
+		super.addX(dx);
+	}
+
+	@Override
+	public void addY(double dy) {
+		// TODO Auto-generated method stub
+		super.addY(dy);
+	}
 
 	//methods
 	public void ini(double x, double y, float rotation){
@@ -50,6 +66,8 @@ public class BasicShip extends BaseEnt
 
 	public void update(int delta){
 		//update ship
+			physAnchor.update(delta);
+			
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
@@ -58,8 +76,8 @@ public class BasicShip extends BaseEnt
 			double wx = getX();
 			double wy = getY();
 			
-			wx += (gunOffsetDistance * Math.sin(angle)/*+theta*/);
-			wy -= (gunOffsetDistance * Math.cos(angle)/*+theta*/);
+			wx += (gunOffsetDistance * Math.cos(angle)/*+theta*/);
+			wy += (gunOffsetDistance * Math.sin(angle)/*+theta*/);
 		
 			setWepOffX(wx);		//where to draw gun on ship
 			setWepOffY(wy);
@@ -68,14 +86,8 @@ public class BasicShip extends BaseEnt
 			gun.setY(wy);
 			gun.setAngle(getImg().getRotation());
 		//update engine			
-			double ex = getX();
-			double ey = getY();
-			
-			ex += (engineOffsetDistance *Math.sin(angle));
-			ey -= (engineOffsetDistance *Math.cos(angle));
-			
-			setEngOffX(ex);		//where to draw engine on ship
-			setEngOffY(ey);
+			setEngOffX(getX() + engineOffsetDistance *Math.cos(angle));		//where to draw engine on ship
+			setEngOffY(getY() + engineOffsetDistance *Math.sin(angle));
 	}
 	
 	/**
@@ -133,15 +145,10 @@ public class BasicShip extends BaseEnt
 	 * @param delta
 	 */
 	public void strafeLeft(int delta){
-      float hip = getEngine().getStrafeRate() * delta;
-      double rotation = getImg().getRotation(); 
-      double dx  = getX();
-      double dy = getY();
-      dx -= hip * Math.cos(Math.toRadians(rotation+90));
-      dy -= hip * Math.sin(Math.toRadians(rotation+90));
-      setX(dx);
-      setY(dy);
-	
+	   float hip = getEngine().getStrafeRate() * delta;
+	   double rotation = getImg().getRotation(); 
+	   setX( getX() + (hip * Math.cos(Math.toRadians(rotation - 90))));
+	   setY( getY() + (hip * Math.sin(Math.toRadians(rotation - 90))));
 	}
 	/**
 	 * this will strafe the ship right
@@ -150,12 +157,8 @@ public class BasicShip extends BaseEnt
 	public void strafeRight(int delta){
       float hip = getEngine().getStrafeRate() * delta;
       double rotation = getImg().getRotation(); 
-      double dx  = getX();
-      double dy = getY();
-      dx += hip * Math.cos(Math.toRadians(rotation-90));
-      dy += hip * Math.sin(Math.toRadians(rotation-90));
-      setX(dx);
-      setY(dy);
+      setX( getX() + (hip * Math.cos(Math.toRadians(rotation+90))));
+      setY( getY() + (hip * Math.sin(Math.toRadians(rotation+90))));
 	}
 	
 	/**
