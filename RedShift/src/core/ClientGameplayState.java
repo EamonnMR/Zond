@@ -3,6 +3,11 @@ package core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
+
+import level.BasicAction;
+import level.BasicLevel;
+import level.BasicTrigger;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -37,9 +42,12 @@ public class ClientGameplayState extends BasicGameState {
 	HashMap<Integer, BaseEnt> doodads;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
+	Queue<BasicTrigger> triggersToPass;
 	GameDatabase gdb;
 	EntityFactory entFac;
-
+	BasicLevel levelTest;
+	private BasicTrigger tellMe;
+	private BasicAction say1;
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -53,6 +61,10 @@ public class ClientGameplayState extends BasicGameState {
 		this.doodads = new HashMap<Integer, BaseEnt>();
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
+		
+		this.levelTest = new BasicLevel();
+		this.tellMe = new BasicTrigger();
+		this.say1 = new BasicAction();
 	}
 	
 	//methods
@@ -64,6 +76,20 @@ public class ClientGameplayState extends BasicGameState {
 		incomingClientShips.put("gemini", entFac.stockGem());
 		incomingClientShips.put("lunar", entFac.stockLunar());
 		pc.setClientShips(incomingClientShips);
+		//=============================
+		
+		//=============================
+		tellMe.setTriggerName("tellMe");
+		tellMe.setCollider(new Rectangle(0,0,100,100));
+		tellMe.setTriggerX(800);
+		tellMe.setTriggerY(800);
+		tellMe.setTriggerTarget("stringOut");
+		
+		say1.setActionName("stringOut");
+		
+		levelTest.addTrigger(tellMe);
+		levelTest.addAction(say1);
+		
 		//=============================
 		
 		
@@ -81,13 +107,6 @@ public class ClientGameplayState extends BasicGameState {
 		//add both ships to the Ship hashmap
 		addShip(pc.getPlayShip());
 		addShip(pc2.getPlayShip());
-		
-		//make a doodad, in this case an asteroid
-		
-		//camera test
-		setCamX(0);
-		setCamY(0);
-		
 	}
 
 	@Override
@@ -120,7 +139,8 @@ public class ClientGameplayState extends BasicGameState {
 		
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
-			
+		
+		arg2.draw(levelTest.getTrigger("tellMe").getCollider());
 	}
 
 	@Override
@@ -199,11 +219,43 @@ public class ClientGameplayState extends BasicGameState {
 		//run collisions
 		checkCollisions(removeShots);
 		
+		//level collision checks
+		checkTriggers();
+		
+		//level update
+		updateLevel(delta);
+		
 		//entity cleanup time
 		cleanEntities(removeShots, removeShips, removeDoodads);
 		
+		//just checking to see if the level is over
+		if(levelTest.isLevelOver()==true){
+			arg0.exit();
+		}
+		
 	}
 
+	/**
+	 * runs the level update function only when a trigger has been activated
+	 */
+	private void updateLevel(int delta) {
+		if(levelTest.isLevelUpdate()==true){
+			levelTest.update(delta, triggersToPass);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void checkTriggers() {
+		
+	}
+
+	/**
+	 * adds a client to the list of clients in-game
+	 * @param client
+	 * @return int
+	 */
 	public int addClient(PlayerClient client){
 		clientCount++;
 		clients.put(clientCount, client);
@@ -292,6 +344,18 @@ public class ClientGameplayState extends BasicGameState {
 				}
 			}
 		}
+		
+		//check triggers and ships
+		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+			for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggers().entrySet() ){
+				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
+					triggersToPass.add(trig.getValue());
+					levelTest.setLevelUpdate(true);
+				}
+			}
+		}
+		
+		//check triggers and ships
 	}
 	
 	/**
@@ -301,6 +365,7 @@ public class ClientGameplayState extends BasicGameState {
 	 * @param removeDoodads
 	 */
 	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads){
+		
 		for(int i : removeShots){
 			shots.remove(i);
 		}
