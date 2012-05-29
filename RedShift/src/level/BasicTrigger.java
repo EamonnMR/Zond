@@ -20,7 +20,7 @@ public class BasicTrigger {
 	private String triggerAction;
 
 	//constructor
-	BasicTrigger(){}
+	public BasicTrigger(){}
 	
 	//methods
 	public void update(int delta, boolean status, boolean triggered){
@@ -70,6 +70,7 @@ public class BasicTrigger {
 
 	public void setTriggerX(float triggerX) {
 		this.triggerX = triggerX;
+		collider.setX(triggerX);
 	}
 
 
@@ -80,6 +81,7 @@ public class BasicTrigger {
 
 	public void setTriggerY(float triggerY) {
 		this.triggerY = triggerY;
+		collider.setX(triggerY);
 	}
 	
 	public boolean isActive() {

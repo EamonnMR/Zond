@@ -1,7 +1,7 @@
 package level;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Queue;
 
 /**
  * core level class that does all level things...ever
@@ -17,24 +17,29 @@ public class BasicLevel {
 	private String outgoingMessage;							//tells clientgameplaystate something
 	private boolean levelOver;								//are we done yet?
 	private boolean levelUpdate;							//does the level need to update?
-	private List<String> levelToDo;							//the actions stack, execute these when updated
+	private Queue<BasicTrigger> levelTriggerQueue;				//the trigger stack, execute these when updated
 	
 	
+
 	//constructor
-	public BasicLevel(){}
+	public BasicLevel(){
+		levelTriggers = new HashMap<String, BasicTrigger>();
+		levelActions = new HashMap<String, BasicAction>();
+	}
 	
 	//methods
 	public void levelIni(){
 		
 	}
 	
-	public void update(int delta, boolean trigState){
+	public void update(int delta, Queue<BasicTrigger> trigs){
 		//do triggers
 			//add strings to queue
 			//deactivate triggers
 		
+		
 		//doActions
-			//execut actions in order of queue
+			//execute actions in order of queue
 	}
 	
 	public void validateTargets(){
@@ -160,6 +165,14 @@ public class BasicLevel {
 
 	public void setLevelUpdate(boolean levelUpdate) {
 		this.levelUpdate = levelUpdate;
+	}
+	
+	public Queue<BasicTrigger> getLevelTriggerQueue() {
+		return levelTriggerQueue;
+	}
+
+	public void setLevelTriggerQueue(Queue<BasicTrigger> levelTriggerQueue) {
+		this.levelTriggerQueue = levelTriggerQueue;
 	}
 
 

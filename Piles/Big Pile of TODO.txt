@@ -31,11 +31,6 @@ FINISHED-fix/improve the key handling for input
 -physics for movement
 	+use EMR's email for help
 
--begin fleshing out specific RedShift package for redshift stuff
-	+classes derived from the basicsBasicEnts, entFac
-	+5/14/2012:: not sure if necessary
-	+5/14/2012:: make level package
-
 -properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
 	+custom Shape objects for ships; only ships
@@ -44,13 +39,6 @@ FINISHED-fix/improve the key handling for input
 -different projectile sprites/collider experiments
 	+can't remember what this was for...
 	+wait...collider shapes influences player tactics? hrm, kinda meta right now.
-
--ship swapping ability for development------------------------------------------------------5/14/2012:simple implementation
-	+perhaps start low-level gui code, or just use mapped keys and stock everything
-	+5/14/2012::in effect, cleaning up and organizaing the Player Client class
-	+5/17/2012:: cleanup begun
-	+5/17/2012:: easier than initially thought, architecture is there, but needs refinement
-	+error seems to be in passing current rotation down to components
 
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
@@ -72,6 +60,8 @@ FINISHED-fix/improve the key handling for input
 
 //============================================================
 PHASE TWO
+-FIGURE OUT FUN GAMEPLAY
+
 -map out how cutscenes are going to work
 	+generic cutscene state
 	+interior state-mechanic
