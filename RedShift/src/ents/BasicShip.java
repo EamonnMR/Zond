@@ -40,6 +40,13 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		super.addY(dy);
 	}
 
+	/**
+	 * Gets the rotation of the ship in radians.
+	 */
+	public double getRot(){
+		return Math.toRadians(getImg().getRotation());
+	}
+	
 	//methods
 	public void ini(double x, double y, float rotation){
 		setX(x);
@@ -115,29 +122,14 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 * @param delta
 	 */
 	public void moveForward(int delta){
-		float hip = getEngine().getThrustX() * delta;
-        double rotation = getImg().getRotation(); 
-        double dx  = getX();
-        double dy = getY();
-        dx += hip * Math.cos(Math.toRadians(rotation));
-        dy += hip * Math.sin(Math.toRadians(rotation));
-        setX(dx);
-        setY(dy);
-        
+		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * 0.0005);
 	}
 	/**
 	 * move the ship backwards
 	 * @param delta
 	 */
 	public void moveBackward(int delta){
-		float hip = getEngine().getThrustY() * delta;
-        double rotation = getImg().getRotation(); 
-        double dx  = getX();
-        double dy = getY();
-        dx -= hip * Math.cos(Math.toRadians(rotation));
-        dy -= hip * Math.sin(Math.toRadians(rotation));
-        setX(dx);
-        setY(dy);
+		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * 0.0005);
 	}
 	
 	/**

@@ -48,7 +48,7 @@ public class BaseEnt {
 	}
 	
 	public void addY(double dy){ //Makes movement algorithms neater-EMR
-		this.x += dy;
+		this.y += dy;
 	}
 
 
