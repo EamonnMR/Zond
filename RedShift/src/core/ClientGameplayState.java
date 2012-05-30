@@ -66,8 +66,9 @@ public class ClientGameplayState extends BasicGameState {
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
-		this.levelTest = new BasicLevel();
+		this.levelTest = new BasicLevel("Test Level");
 		this.triggersToPass = new LinkedList<BasicTrigger>();
+		
 		this.tellMe = new BasicTrigger();
 		this.say1 = new BasicAction();
 		this.triggerHit = false;
@@ -84,18 +85,19 @@ public class ClientGameplayState extends BasicGameState {
 		pc.setClientShips(incomingClientShips);
 		//=============================
 		
-		//=============================
-		tellMe.setTriggerName("tellMe");
-		tellMe.setCollider(new Rectangle(0,0,100,100));
-		tellMe.setTriggerX(800);
-		tellMe.setTriggerY(800);
-		tellMe.setTriggerTarget("stringOut");
 		
-		say1.setActionName("stringOut");
+		//=============================
+		tellMe.setName("TellMe");
+		tellMe.setTargetName("MessageOut");
+		tellMe.setTrigged(false);
+		tellMe.setX(400);
+		tellMe.setY(400);
+		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),200,200));
+		
+		say1.setName("MessageOut");
 		
 		levelTest.addTrigger(tellMe);
 		levelTest.addAction(say1);
-		
 		//=============================
 		
 		
@@ -146,11 +148,12 @@ public class ClientGameplayState extends BasicGameState {
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 		
+		arg2.draw(tellMe.getCollider());
+		
 		if(triggerHit == true){
 			arg2.drawString("Trigger Hit"+triggerHit, 10, 50);
 		}
 		
-		arg2.draw(levelTest.getTrigger("tellMe").getCollider());
 	}
 
 	@Override
@@ -227,39 +230,105 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//run collisions
 		checkCollisions(removeShots);
-		
-		//level collision checks
-		checkTriggers();
-		
+
 		//level update
-		updateLevel(delta);
-		
+		if(levelTest.isNeedsUpdate()){
+			levelTest.update(delta);
+		}
 		//entity cleanup time
 		cleanEntities(removeShots, removeShips, removeDoodads);
 		
-		//just checking to see if the level is over
-		if(levelTest.isLevelOver()==true){
-			arg0.exit();
-		}
 		
 	}
-
+	
 	/**
-	 * runs the level update function only when a trigger has been activated
+	 * check all collisions
+	 * @param removeShots
 	 */
-	private void updateLevel(int delta) {
-		if(levelTest.isLevelUpdate()==true){
-			levelTest.update(delta, triggersToPass);
+	public void checkCollisions(ArrayList<Integer> removeShots){
+		//check Shot/Ship collision
+		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					double tempHP =ship.getValue().getHealth();
+					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+		
+		//check shot/doodad collision
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
+				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+		
+		//check triggers and ships
+		for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggerMap().entrySet()){
+			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
+					trig.getValue().trigger(true);
+					levelTest.setNeedsUpdate(true);
+				}else{
+					trig.getValue().setTrigged(false);
+				}
+			}
+		}
+		
+		//check triggers and ships
+	}
+	
+	/**
+	 * run updates on all entity lists
+	 * @param delta
+	 * @param removeShots
+	 */
+	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips){
+		
+		//update ships
+		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
+			if(entry.getValue().getHealth()<=0){
+				removeShips.add(entry.getKey());
+			}
+		}
+		//update shots
+		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
+			shot.getValue().update(delta);
+			if(shot.getValue().getTimer()>=shot.getValue().getInterval()){
+				removeShots.add(shot.getKey());
+			}
+		}
+		//Update Doodads
+		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
+			entry.getValue().update(delta);
 		}
 	}
-
+	
 	/**
-	 * 
+	 * remove all dead entities from the scope
+	 * @param removeShots
+	 * @param removeShips
+	 * @param removeDoodads
 	 */
-	private void checkTriggers() {
+	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads){
 		
+		for(int i : removeShots){
+			shots.remove(i);
+		}
+		
+		for(int i : removeShips){
+			ships.remove(i);
+		}
+		
+		for(int i : removeDoodads){
+			doodads.remove(i);
+		}
 	}
-
+	
 	/**
 	 * adds a client to the list of clients in-game
 	 * @param client
@@ -300,96 +369,6 @@ public class ClientGameplayState extends BasicGameState {
 		shotCount++;
 		shots.put(shotCount, s);
 		return shotCount;
-	}
-	
-	/**
-	 * run updates on all entity lists
-	 * @param delta
-	 * @param removeShots
-	 */
-	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips){
-		
-		//update ships
-		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().update(delta, entry.getValue().getX(), entry.getValue().getY());
-			if(entry.getValue().getHealth()<=0){
-				removeShips.add(entry.getKey());
-			}
-		}
-		//update shots
-		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
-			shot.getValue().update(delta);
-			if(shot.getValue().getTimer()>=shot.getValue().getInterval()){
-				removeShots.add(shot.getKey());
-			}
-		}
-		//Update Doodads
-		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().update(delta);
-		}
-	}
-	
-	/**
-	 * check all collisions
-	 * @param removeShots
-	 */
-	public void checkCollisions(ArrayList<Integer> removeShots){
-		//check Shot/Ship collision
-		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					double tempHP =ship.getValue().getHealth();
-					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check shot/doodad collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
-				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check triggers and ships
-		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-			for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggers().entrySet() ){
-				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
-					if(trig.getValue().isActive()==false){
-						triggersToPass.add(trig.getValue());
-						trig.getValue().setActive(true);
-						levelTest.setLevelUpdate(true);
-						triggerHit = true;
-					}
-				}
-			}
-		}
-		
-		//check triggers and ships
-	}
-	
-	/**
-	 * remove all dead entities from the scope
-	 * @param removeShots
-	 * @param removeShips
-	 * @param removeDoodads
-	 */
-	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads){
-		
-		for(int i : removeShots){
-			shots.remove(i);
-		}
-		
-		for(int i : removeShips){
-			ships.remove(i);
-		}
-		
-		for(int i : removeDoodads){
-			doodads.remove(i);
-		}
 	}
 	
 	@Override

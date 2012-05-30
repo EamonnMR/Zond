@@ -7,26 +7,31 @@ package level;
  */
 public class BasicAction {
 
-	//variables
-	private String actionName;
-
-	//constructor
+	private String name;
+	
 	public BasicAction(){
 		
 	}
 
-	//methods
-	public void doAction(int delta){
+	public void ini(){
 		
 	}
 	
+	public void update(int delta){
+		
+	}
 	
-	public String getActionName() {
-		return actionName;
+	public void render(){
+		
+	}
+	
+	public String getName() {
+		return name;
 	}
 
-	public void setActionName(String actionName) {
-		this.actionName = actionName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
+	
 }

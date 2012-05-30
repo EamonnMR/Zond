@@ -10,97 +10,67 @@ import org.newdawn.slick.geom.Shape;
  */
 public class BasicTrigger {
 
-	//variables
+	private String name;
+	private String targetName;
 	private Shape collider;
-	private String triggerName;
-	private String triggerTarget;
-	private float triggerX;
-	private float triggerY;
-	private boolean isActive;
-	private String triggerAction;
-
-	//constructor
-	public BasicTrigger(){}
+	private float x,y;
+	private boolean isTrigged;
 	
-	//methods
-	public void update(int delta, boolean status, boolean triggered){
-		isActive = status;	//only do stuff if still alive
-		if(isActive){
-			
-			if(triggered){	//only do if triggered
-				
-			}
-		}
+	public BasicTrigger(){
+		
 	}
 	
+	public void trigger(boolean b){
+		isTrigged = b;
+	}
+	
+	public boolean isTrigged() {
+		return isTrigged;
+	}
+	
+	public void setTrigged(boolean isTrigged) {
+		this.isTrigged = isTrigged;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTargetName() {
+		return targetName;
+	}
+
+	public void setTargetName(String targetName) {
+		this.targetName = targetName;
+	}
+
 	public Shape getCollider() {
 		return collider;
 	}
-
 
 	public void setCollider(Shape collider) {
 		this.collider = collider;
 	}
 
-
-	public String getTriggerName() {
-		return triggerName;
+	public float getX() {
+		return x;
 	}
 
-
-	public void setTriggerName(String triggerName) {
-		this.triggerName = triggerName;
+	public void setX(float x) {
+		this.x = x;
 	}
 
-
-	public String getTriggerTarget() {
-		return triggerTarget;
+	public float getY() {
+		return y;
 	}
 
-
-	public void setTriggerTarget(String triggerTarget) {
-		this.triggerTarget = triggerTarget;
-	}
-
-
-	public float getTriggerX() {
-		return triggerX;
-	}
-
-
-	public void setTriggerX(float triggerX) {
-		this.triggerX = triggerX;
-		collider.setX(triggerX);
-	}
-
-
-	public float getTriggerY() {
-		return triggerY;
-	}
-
-
-	public void setTriggerY(float triggerY) {
-		this.triggerY = triggerY;
-		collider.setX(triggerY);
+	public void setY(float y) {
+		this.y = y;
 	}
 	
-	public boolean isActive() {
-		return isActive;
-	}
-
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-
-	public String getTriggerAction() {
-		return triggerAction;
-	}
-
-
-	public void setTriggerAction(String triggerAction) {
-		this.triggerAction = triggerAction;
-	}
 	
 }
