@@ -2,13 +2,12 @@ package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 import level.BasicAction;
 import level.BasicLevel;
 import level.BasicTrigger;
+import level.actions.MessageAction;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -47,11 +46,12 @@ public class ClientGameplayState extends BasicGameState {
 	GameDatabase gdb;
 	EntityFactory entFac;
 	
-	private Queue<BasicTrigger> triggersToPass;
-	private BasicLevel levelTest;
-	private BasicTrigger tellMe;
-	private BasicAction say1;
-	private boolean triggerHit;
+	private BasicLevel levelTest;	//testing the level logic
+	private BasicTrigger tellMe;	//simple trigger
+	private BasicTrigger askMe;		//simple trigger
+	private MessageAction say1;		//simple action
+	private MessageAction ask1;		//simple action
+	private boolean triggerHit;		//...?
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -67,10 +67,11 @@ public class ClientGameplayState extends BasicGameState {
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
 		this.levelTest = new BasicLevel("Test Level");
-		this.triggersToPass = new LinkedList<BasicTrigger>();
 		
 		this.tellMe = new BasicTrigger();
-		this.say1 = new BasicAction();
+		this.askMe = new BasicTrigger();
+		this.say1 = new MessageAction(null, camX, camX, null, i);
+		this.ask1 = new MessageAction(null, camX, camX, null, i);
 		this.triggerHit = false;
 	}
 	
@@ -89,15 +90,25 @@ public class ClientGameplayState extends BasicGameState {
 		//=============================
 		tellMe.setName("TellMe");
 		tellMe.setTargetName("MessageOut");
-		tellMe.setTrigged(false);
-		tellMe.setX(400);
-		tellMe.setY(400);
+		tellMe.trigger(false);
+		tellMe.setX(600);
+		tellMe.setY(600);
 		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),200,200));
 		
+		askMe.setName("AskMe");
+		askMe.setTargetName("Queston");
+		askMe.trigger(false);
+		askMe.setX(100);
+		askMe.setY(100);
+		askMe.setCollider(new Rectangle(askMe.getX(),askMe.getY(), 200,200));
+		
 		say1.setName("MessageOut");
+		ask1.setName("Question");
 		
 		levelTest.addTrigger(tellMe);
+		levelTest.addTrigger(askMe);
 		levelTest.addAction(say1);
+		levelTest.addAction(ask1);
 		//=============================
 		
 		
@@ -136,6 +147,12 @@ public class ClientGameplayState extends BasicGameState {
 			entry.getValue().render();
 		}
 
+		//actions
+		for(Map.Entry<String, BasicAction> acts : levelTest.getLevelActionMap().entrySet()){
+			if(acts.getValue().isUpdate()){
+				acts.getValue().render(arg2);
+			}
+		}
 		
 		//all this below is for the DevGog system!
 		arg2.draw(pc.getPlayShip().getCollider());
@@ -167,36 +184,36 @@ public class ClientGameplayState extends BasicGameState {
 		
 		Input p = arg0.getInput();
 		//TODO:there's something wrong with the input, multiple keys jamming
-		if(p.isKeyPressed(Input.KEY_1)){
-			if(pc.getPlayShip()!=pc.retrieveShip("mercury")){
-				double x = pc.getPlayShip().getX();
-				double y = pc.getPlayShip().getY();
-				float rot = pc.getPlayShip().getImg().getRotation();
-				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-					if(entry.getValue()==pc.getPlayShip()){
-						removeShips.add(entry.getKey());
-					}
-				}
-				pc.setPlayShip(pc.retrieveShip("mercury"));
-				pc.getPlayShip().ini(x, y, rot);
-				addShip(pc.getPlayShip());
-			}
-		}
-		if(p.isKeyPressed(Input.KEY_2)){
-			if(pc.getPlayShip()!=pc.retrieveShip("gemini")){
-				double x = pc.getPlayShip().getX();
-				double y = pc.getPlayShip().getY();
-				float rot = pc.getPlayShip().getImg().getRotation();
-				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-					if(entry.getValue()==pc.getPlayShip()){
-						removeShips.add(entry.getKey());
-					}
-				}
-				pc.setPlayShip(pc.retrieveShip("gemini"));
-				pc.getPlayShip().ini(x, y, rot);
-				addShip(pc.getPlayShip());
-			}
-		}
+//		if(p.isKeyPressed(Input.KEY_1)){
+//			if(pc.getPlayShip()!=pc.retrieveShip("mercury")){
+//				double x = pc.getPlayShip().getX();
+//				double y = pc.getPlayShip().getY();
+//				float rot = pc.getPlayShip().getImg().getRotation();
+//				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+//					if(entry.getValue()==pc.getPlayShip()){
+//						removeShips.add(entry.getKey());
+//					}
+//				}
+//				pc.setPlayShip(pc.retrieveShip("mercury"));
+//				pc.getPlayShip().ini(x, y, rot);
+//				addShip(pc.getPlayShip());
+//			}
+//		}
+//		if(p.isKeyPressed(Input.KEY_2)){
+//			if(pc.getPlayShip()!=pc.retrieveShip("gemini")){
+//				double x = pc.getPlayShip().getX();
+//				double y = pc.getPlayShip().getY();
+//				float rot = pc.getPlayShip().getImg().getRotation();
+//				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+//					if(entry.getValue()==pc.getPlayShip()){
+//						removeShips.add(entry.getKey());
+//					}
+//				}
+//				pc.setPlayShip(pc.retrieveShip("gemini"));
+//				pc.getPlayShip().ini(x, y, rot);
+//				addShip(pc.getPlayShip());
+//			}
+//		}
 		if(p.isKeyDown(Input.KEY_UP)){
 			pc.getPlayShip().moveForward(delta);
 		}
@@ -232,13 +249,23 @@ public class ClientGameplayState extends BasicGameState {
 		checkCollisions(removeShots);
 
 		//level update
+		//this check is so any action still active will also be updated
+		for(Map.Entry<String, BasicAction> acts : levelTest.getLevelActionMap().entrySet()){
+			if(acts.getValue().isUpdate()){
+				levelTest.setNeedsUpdate(true);
+			}
+		}
+		
+		
+		//finally, if the level needs to be updated; do it
 		if(levelTest.isNeedsUpdate()){
 			levelTest.update(delta);
 		}
+		
+		
 		//entity cleanup time
 		cleanEntities(removeShots, removeShips, removeDoodads);
-		
-		
+
 	}
 	
 	/**
@@ -270,10 +297,10 @@ public class ClientGameplayState extends BasicGameState {
 		for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggerMap().entrySet()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
+					//if ship hits trigger, set trigger to true; tell the game the level needs
+					//to be updated
 					trig.getValue().trigger(true);
 					levelTest.setNeedsUpdate(true);
-				}else{
-					trig.getValue().setTrigged(false);
 				}
 			}
 		}
@@ -399,6 +426,4 @@ public class ClientGameplayState extends BasicGameState {
 	public void setCamY(float camY) {
 		this.camY = camY;
 	}
-	
-
 }

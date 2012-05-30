@@ -4,7 +4,8 @@ import org.newdawn.slick.geom.Shape;
 
 /**
  * Defines a basic Trigger entity that is used by the 
- * BasicLevel class. 
+ * BasicLevel class. At some point we may beed to differentiate between
+ * triggers for ships, doodads, and shots; through an enum or something.
  * @author proohr
  * @version 1.0
  */
@@ -26,10 +27,6 @@ public class BasicTrigger {
 	
 	public boolean isTrigged() {
 		return isTrigged;
-	}
-	
-	public void setTrigged(boolean isTrigged) {
-		this.isTrigged = isTrigged;
 	}
 
 	public String getName() {
