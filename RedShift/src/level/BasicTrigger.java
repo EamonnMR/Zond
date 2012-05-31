@@ -18,7 +18,7 @@ public class BasicTrigger {
 	private boolean isTrigged;
 	
 	public BasicTrigger(){
-		
+		this.isTrigged=false;
 	}
 	
 	public void trigger(boolean b){

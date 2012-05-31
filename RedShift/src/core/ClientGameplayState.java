@@ -70,8 +70,8 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.tellMe = new BasicTrigger();
 		this.askMe = new BasicTrigger();
-		this.say1 = new MessageAction(null, camX, camX, null, i);
-		this.ask1 = new MessageAction(null, camX, camX, null, i);
+		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 500);
+		this.ask1 = new MessageAction("Queston", 10, 85, "hello world?", 500);
 		this.triggerHit = false;
 	}
 	
@@ -88,22 +88,16 @@ public class ClientGameplayState extends BasicGameState {
 		
 		
 		//=============================
-		tellMe.setName("TellMe");
 		tellMe.setTargetName("MessageOut");
-		tellMe.trigger(false);
-		tellMe.setX(600);
-		tellMe.setY(600);
-		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),200,200));
+		tellMe.setX(400);
+		tellMe.setY(50);
+		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),100,100));
 		
 		askMe.setName("AskMe");
 		askMe.setTargetName("Queston");
-		askMe.trigger(false);
-		askMe.setX(100);
-		askMe.setY(100);
-		askMe.setCollider(new Rectangle(askMe.getX(),askMe.getY(), 200,200));
-		
-		say1.setName("MessageOut");
-		ask1.setName("Question");
+		askMe.setX(50);
+		askMe.setY(50);
+		askMe.setCollider(new Rectangle(askMe.getX(),askMe.getY(), 100,100));
 		
 		levelTest.addTrigger(tellMe);
 		levelTest.addTrigger(askMe);
@@ -117,11 +111,11 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
-		pc.getPlayShip().ini((arg0.getWidth()/2), (arg0.getHeight()/2), 0.0f);
+		pc.getPlayShip().ini(0, 0, 0.0f);
 			
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
-		pc2.getPlayShip().ini((200), (200), 0.0f);
+		pc2.getPlayShip().ini((300), (300), 0.0f);
 		
 		//add both ships to the Ship hashmap
 		addShip(pc.getPlayShip());
@@ -165,7 +159,10 @@ public class ClientGameplayState extends BasicGameState {
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 		
-		arg2.draw(tellMe.getCollider());
+		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+			arg2.draw(trig.getCollider());
+		}
+		
 		
 		if(triggerHit == true){
 			arg2.drawString("Trigger Hit"+triggerHit, 10, 50);
@@ -251,14 +248,15 @@ public class ClientGameplayState extends BasicGameState {
 		//level update
 		//this check is so any action still active will also be updated
 		for(Map.Entry<String, BasicAction> acts : levelTest.getLevelActionMap().entrySet()){
-			if(acts.getValue().isUpdate()){
+			if(acts.getValue().isUpdate()==true){
 				levelTest.setNeedsUpdate(true);
+				System.out.println("Level needs update");
 			}
 		}
 		
-		
 		//finally, if the level needs to be updated; do it
-		if(levelTest.isNeedsUpdate()){
+		if(levelTest.isNeedsUpdate()==true){
+			System.out.println("Level now updating");
 			levelTest.update(delta);
 		}
 		
@@ -294,13 +292,15 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 		//check triggers and ships
-		for(Map.Entry<String, BasicTrigger> trig : levelTest.getLevelTriggerMap().entrySet()){
+		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-				if(trig.getValue().getCollider().intersects(ship.getValue().getCollider())){
+				if(trig.getCollider().intersects(ship.getValue().getCollider())){
 					//if ship hits trigger, set trigger to true; tell the game the level needs
 					//to be updated
-					trig.getValue().trigger(true);
+					trig.trigger(true);
+					System.out.println("Trigger:"+trig.getName()+" has been fired");
 					levelTest.setNeedsUpdate(true);
+					System.out.println("Level now updating");
 				}
 			}
 		}
