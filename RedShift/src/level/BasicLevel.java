@@ -1,8 +1,8 @@
 package level;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -21,6 +21,7 @@ import java.util.Queue;
  * 
  * in the future, I plan on us being able to pass trigger and action queues as a form of simple
  * script injection, but it may not come to that; so for now, one cannot pass queues to Level.
+ * but the queues are polled in clientgameplaystate
  */
 public class BasicLevel {
 
@@ -37,7 +38,7 @@ public class BasicLevel {
 		this.levelActionMap = new HashMap<String, BasicAction>();
 		executeTriggers = new LinkedList<BasicTrigger>();
 		executeActions = new LinkedList<BasicAction>();
-		
+		this.setNeedsUpdate(false);
 	}
 	
 	/**
@@ -45,41 +46,67 @@ public class BasicLevel {
 	 * this method goes through the triggers to find which are triggered, and puts those in a queue
 	 * going in FIFO, it activates the corresponding actions and places them in a queue (to maintain FIFO)
 	 * then runs the proper methods for the actions, either action.ini() or action.update()
+	 * PS: this method is For-Loop city :P
 	 * @param delta
 	 */
 	public void update(int delta){
+		
+		
 		//find which triggers are active
-		for(Map.Entry<String, BasicTrigger> trigs : levelTriggerMap.entrySet()){
-			if(trigs.getValue().isTrigged()){
+		for(BasicTrigger trig : levelTriggerMap.values()){
+			if(trig.isTrigged()){
 				//put these triggers into a queue, the whole trigger rather than just the target
 				//why? so we can remove the triggers that have been fired
-				executeTriggers.add(trigs.getValue());
+				executeTriggers.add(trig);
+				System.out.println("trigger:"+trig.getName()+" added to queue");
 			}
 		}
 		
 		//go through the trigger queue, select the trigger's action, put it on the action queue
-		while(executeTriggers.iterator().hasNext()){
-			executeActions.add(levelActionMap.get(executeTriggers.iterator().next().getTargetName()));
-			executeTriggers.remove(executeTriggers.iterator().next());
+		for(BasicTrigger trig : executeTriggers){
+			executeActions.add(levelActionMap.get(trig.getTargetName()));
+//			executeTriggers.remove(trig);
+			System.out.println("Trigger: "+ trig.getName()+"has been executed");
 		}
 		
 		//fire the actions
-		while(executeActions.iterator().hasNext()){
+		for(BasicAction act : executeActions){
 			
 			//if the action has not started; start it, and flag as started
-			if(executeActions.iterator().next().isIni()){
-				executeActions.iterator().next().setIni(false);
-			
+			if(act.isIni()==true){
+				act.ini();
+				System.out.println("Trigger: "+"has been executed and removed");
 			//if the action has started, run its update for this frame	
-			}else if(executeActions.iterator().next().isUpdate()){
-				executeActions.iterator().next().update(delta);
-			
+			}else if(act.isUpdate()){
+				//note: to end the 'update' state, simply set isUpdate=false, isDone=true inside action.update()
+				act.update(delta);
+				System.out.println("Trigger: "+"has been executed and removed");
 			//if the action has finished, remove the action off the queue
-			}else if(executeActions.iterator().next().isDone()){
-				
-				executeActions.remove(executeActions.iterator().next());
+			}else if(act.isDone()){
+//				executeActions.remove(act);
 			}		
 		}
+		
+		cleanTriggers();
+		cleanActions();
+		
+		if(executeTriggers.isEmpty() && executeActions.isEmpty()){
+			setNeedsUpdate(false);
+		}
+	}
+	
+	
+	private void cleanTriggers(){
+
+		while(executeTriggers.iterator().hasNext()){
+			System.out.println("Trigger: has been removed");
+			executeTriggers.remove();	
+		}
+
+	}
+	
+	private void cleanActions(){
+
 	}
 	
 	public void addTrigger(BasicTrigger trig){
@@ -114,17 +141,17 @@ public class BasicLevel {
 		this.levelActionMap = levelTriggerAction;
 	}
 
-//	public Queue<BasicTrigger> getExecuteTriggers() {
-//		return executeTriggers;
-//	}
+	public Queue<BasicTrigger> getExecuteTriggers() {
+		return executeTriggers;
+	}
 //
 //	public void setExecuteTriggers(Queue<BasicTrigger> executeTriggers) {
 //		this.executeTriggers = executeTriggers;
 //	}
 //
-//	public Queue<BasicAction> getExecuteActions() {
-//		return executeActions;
-//	}
+	public Queue<BasicAction> getExecuteActions() {
+		return executeActions;
+	}
 //
 //	public void setExecuteActions(Queue<BasicAction> executeActions) {
 //		this.executeActions = executeActions;

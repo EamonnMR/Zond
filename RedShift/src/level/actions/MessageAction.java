@@ -26,6 +26,7 @@ public class MessageAction extends BasicAction {
 	
 	@Override
 	public void ini(){
+		this.setIni(false);
 		this.setUpdate(true);
 	}
 	

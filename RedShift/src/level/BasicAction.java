@@ -23,11 +23,15 @@ public class BasicAction {
 	/**
 	 * blank method, but all setup stuff for the action
 	 * in here. Ini MUST end with setting the ini and update
-	 * booleans to: false, and true repsectively otherwise the 
+	 * booleans to: false, and true respectively otherwise the 
 	 * action will never update.
 	 */
 	public void ini(){
 		
+		
+		
+		this.ini = false;
+		this.update = true;
 	}
 	
 	/**
