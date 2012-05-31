@@ -47,6 +47,15 @@ public class PhysMod{
 		speedY += speed * Math.sin(dir);
 	}
 	
+	public double getSpeedX() {
+		return speedX;
+	}
+
+	public double getSpeedY() {
+		return speedY;
+	}
+
+	//Owner should inherit from this.
 	public interface Target{
 		public void addX(double ddx);
 		public void addY(double ddy);
