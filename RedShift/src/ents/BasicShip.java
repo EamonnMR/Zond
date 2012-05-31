@@ -7,7 +7,11 @@ package ents;
  */
 public class BasicShip extends BaseEnt implements PhysMod.Target
 {
-
+	
+	private static double SCLSPD = 0.0005;       //Global speed scaling-until we can get sane values for mass & engine impulse
+	private static double HALFPI = 1.57079633;   //90 degrees in radians 
+	
+	
 	private int totalWeight;		             //maximum equipment
 	private double points;				         //points to award to killer
 	private double health;			             //base health of the ship
@@ -122,14 +126,14 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 * @param delta
 	 */
 	public void moveForward(int delta){
-		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * 0.0005);
+		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
 	}
 	/**
 	 * move the ship backwards
 	 * @param delta
 	 */
 	public void moveBackward(int delta){
-		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * 0.0005);
+		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
 	}
 	
 	/**
@@ -137,20 +141,14 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 * @param delta
 	 */
 	public void strafeLeft(int delta){
-	   float hip = getEngine().getStrafeRate() * delta;
-	   double rotation = getImg().getRotation(); 
-	   setX( getX() + (hip * Math.cos(Math.toRadians(rotation - 90))));
-	   setY( getY() + (hip * Math.sin(Math.toRadians(rotation - 90))));
+		physAnchor.pushDir(getRot() - HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
 	}
 	/**
 	 * this will strafe the ship right
 	 * @param delta
 	 */
 	public void strafeRight(int delta){
-      float hip = getEngine().getStrafeRate() * delta;
-      double rotation = getImg().getRotation(); 
-      setX( getX() + (hip * Math.cos(Math.toRadians(rotation+90))));
-      setY( getY() + (hip * Math.sin(Math.toRadians(rotation+90))));
+		physAnchor.pushDir(getRot() + HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
 	}
 	
 	/**
