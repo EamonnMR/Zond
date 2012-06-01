@@ -70,8 +70,8 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.tellMe = new BasicTrigger();
 		this.askMe = new BasicTrigger();
-		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 100);
-		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 100);
+		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 1000);
+		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.triggerHit = false;
 	}
 	
