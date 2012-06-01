@@ -70,8 +70,8 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.tellMe = new BasicTrigger();
 		this.askMe = new BasicTrigger();
-		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 500);
-		this.ask1 = new MessageAction("Queston", 10, 85, "hello world?", 500);
+		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 100);
+		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 100);
 		this.triggerHit = false;
 	}
 	
@@ -88,6 +88,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		
 		//=============================
+		tellMe.setName("TellMe");
 		tellMe.setTargetName("MessageOut");
 		tellMe.setX(400);
 		tellMe.setY(50);
@@ -111,7 +112,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
-		pc.getPlayShip().ini(0, 0, 0.0f);
+		pc.getPlayShip().ini(512, 396, 0.0f);
 			
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
@@ -142,9 +143,9 @@ public class ClientGameplayState extends BasicGameState {
 		}
 
 		//actions
-		for(Map.Entry<String, BasicAction> acts : levelTest.getLevelActionMap().entrySet()){
-			if(acts.getValue().isUpdate()){
-				acts.getValue().render(arg2);
+		for(BasicAction acts : levelTest.getExecuteActions()){
+			if(acts.isUpdate()){
+				acts.render(arg2);
 			}
 		}
 		
@@ -247,16 +248,16 @@ public class ClientGameplayState extends BasicGameState {
 
 		//level update
 		//this check is so any action still active will also be updated
-		for(Map.Entry<String, BasicAction> acts : levelTest.getLevelActionMap().entrySet()){
-			if(acts.getValue().isUpdate()==true){
+		for(BasicAction act : levelTest.getExecuteActions()){
+			if(act.isUpdate()==true){
 				levelTest.setNeedsUpdate(true);
-				System.out.println("Level needs update");
+				System.out.println("Action:"+act.getName()+"needs update");
 			}
 		}
 		
 		//finally, if the level needs to be updated; do it
 		if(levelTest.isNeedsUpdate()==true){
-			System.out.println("Level now updating");
+			System.out.println("Level updating");
 			levelTest.update(delta);
 		}
 		
