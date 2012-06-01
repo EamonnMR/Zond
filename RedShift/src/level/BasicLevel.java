@@ -73,7 +73,7 @@ public class BasicLevel {
 		for(BasicAction act : executeActions){
 			
 			//if the action has not started; start it, and flag as started
-			if(act.isIni()==true){
+			if(act.isIni()){
 				act.ini();
 				System.out.println("Trigger: "+act.getName()+"is initialized");
 			//if the action has started, run its update for this frame	
@@ -109,11 +109,13 @@ public class BasicLevel {
 	
 	private void cleanActions(){
 		ArrayList<String> cleanAct = new ArrayList<String>();
-		while(executeActions.iterator().hasNext()){
-				System.out.println("Action: has been removed");
-				cleanAct.add(executeActions.element().getName());
-				executeActions.remove();
+
+		for(BasicAction act : levelActionMap.values()){
+			if(act.isDone()){
+				cleanAct.add(act.getName());
+			}
 		}
+		
 		for(String str : cleanAct){
 			levelTriggerMap.remove(str);
 		}
