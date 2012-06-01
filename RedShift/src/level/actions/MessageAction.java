@@ -33,9 +33,7 @@ public class MessageAction extends BasicAction {
 	@Override 
 	public void update(int delta){
 		timer += delta;
-		if(timer <= lifetime){
-			
-		}else{
+		if(timer >= lifetime){
 			this.setUpdate(false);
 			this.setDone(true);
 		}

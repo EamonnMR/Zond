@@ -58,7 +58,7 @@ public class BasicLevel {
 				//put these triggers into a queue, the whole trigger rather than just the target
 				//why? so we can remove the triggers that have been fired
 				executeTriggers.add(trig);
-				System.out.println("trigger:"+trig.getName()+" added to queue");
+				System.out.println("Trigger: "+trig.getName()+" added to queue");
 			}
 		}
 		
@@ -75,16 +75,14 @@ public class BasicLevel {
 			//if the action has not started; start it, and flag as started
 			if(act.isIni()==true){
 				act.ini();
-				System.out.println("Trigger: "+"has been executed and removed");
+				System.out.println("Trigger: "+act.getName()+"is initialized");
 			//if the action has started, run its update for this frame	
 			}else if(act.isUpdate()){
 				//note: to end the 'update' state, simply set isUpdate=false, isDone=true inside action.update()
 				act.update(delta);
-				System.out.println("Trigger: "+"has been executed and removed");
+				System.out.println("Trigger: "+act.getName()+"is updating");
 			//if the action has finished, remove the action off the queue
-			}else if(act.isDone()){
-//				executeActions.remove(act);
-			}		
+			}
 		}
 		
 		cleanTriggers();
@@ -95,18 +93,30 @@ public class BasicLevel {
 		}
 	}
 	
-	
+	//garbage day! 
 	private void cleanTriggers(){
-
+		ArrayList<String> cleanTrigs = new ArrayList<String>();
 		while(executeTriggers.iterator().hasNext()){
 			System.out.println("Trigger: has been removed");
-			executeTriggers.remove();	
+			cleanTrigs.add(executeTriggers.element().getName());
+			executeTriggers.remove();
+		}
+		for(String str : cleanTrigs){
+			levelTriggerMap.remove(str);
 		}
 
 	}
 	
 	private void cleanActions(){
-
+		ArrayList<String> cleanAct = new ArrayList<String>();
+		while(executeActions.iterator().hasNext()){
+				System.out.println("Action: has been removed");
+				cleanAct.add(executeActions.element().getName());
+				executeActions.remove();
+		}
+		for(String str : cleanAct){
+			levelTriggerMap.remove(str);
+		}
 	}
 	
 	public void addTrigger(BasicTrigger trig){
