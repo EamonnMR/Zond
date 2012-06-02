@@ -23,13 +23,24 @@ FINISHED-fix/improve the key handling for input
 	+run binary check on keys, see which are counted as pressed
 	+5/20/2012:: changed fire to Left_Control
 
+FINISHED--level class architecture-------------------------------------------------------------------5/14/2012: plan
+	+start mapping out what a level will look like
+	+5/23/2012:: have started the level programming goal, created 3 classes in a new package
+	+5/31/2012:: finished, needs refinement
+	
+FINISHED--mission logic objects----------------------------------------------------------------------5/14/201: plan
+	+win conditions, lose conditions, spawners, regions, etc
+	+simple messaging system - EntName/TargetName
+	+5/31/2012:: finished needs refinement
+
+FINISHED---physics for movement
+	+use EMR's email for help
+
 -variable projectile velocity
 	+look into splicer
 	+pertains to things like missile -> early acceleration
 	+ or plasma -> velocity trails off over time
 
--physics for movement
-	+use EMR's email for help
 
 -properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
@@ -43,13 +54,6 @@ FINISHED-fix/improve the key handling for input
 -spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
 
--level class architecture-------------------------------------------------------------------5/14/2012: plan
-	+start mapping out what a level will look like
-	+5/23/2012:: have started the level programming goal, created 3 classes in a new package
-
--mission logic objects----------------------------------------------------------------------5/14/201: plan
-	+win conditions, lose conditions, spawners, regions, etc
-	+simple messaging system - EntName/TargetName
 
 -camera movement
 	+look at splicer code
@@ -60,7 +64,14 @@ FINISHED-fix/improve the key handling for input
 
 //============================================================
 PHASE TWO
+-clean project
+
 -FIGURE OUT FUN GAMEPLAY
+
+-script draft 1
+
+-stratify triggers and actions
+
 
 -map out how cutscenes are going to work
 	+generic cutscene state
@@ -69,7 +80,7 @@ PHASE TWO
 	+next state targetted
 	+make base cutscene class to use which extends basicgamestate
 
--build basic menu using framework defined in txt doc.
+PWR-build basic menu using framework defined in txt doc.
 	+absolutely no artwork
 	+try to animate
 	+start small
@@ -83,12 +94,12 @@ PHASE TWO
 	+save class?
 	+serialize clientgameplaystate as save file(?)
 
--an official prototype hud
+PWR-an official prototype hud
 	+track health, ammo, current weapon....minimap......(!?)
 
 -ammo count
 
--'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
+PWR-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
 	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
 
 -projectile damage types
@@ -97,7 +108,7 @@ PHASE TWO
 -armor types
 	+different armors for different damage types etc
 
--update optionsEnt
+PWR-update optionsEnt
 	+move to core, make read a properties file
 
 //====ALPHA TWO! >:) =====

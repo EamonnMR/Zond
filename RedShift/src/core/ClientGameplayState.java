@@ -70,7 +70,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.tellMe = new BasicTrigger();
 		this.askMe = new BasicTrigger();
-		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 1000);
+		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.triggerHit = false;
 	}
@@ -90,7 +90,7 @@ public class ClientGameplayState extends BasicGameState {
 		//=============================
 		tellMe.setName("TellMe");
 		tellMe.setTargetName("MessageOut");
-		tellMe.setX(400);
+		tellMe.setX(151);
 		tellMe.setY(50);
 		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),100,100));
 		
@@ -112,7 +112,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
-		pc.getPlayShip().ini(512, 396, 0.0f);
+		pc.getPlayShip().ini(190, 103, 0.0f);
 			
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
@@ -162,11 +162,9 @@ public class ClientGameplayState extends BasicGameState {
 		
 		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
 			arg2.draw(trig.getCollider());
-		}
-		
-		
-		if(triggerHit == true){
-			arg2.drawString("Trigger Hit"+triggerHit, 10, 50);
+			float tx = trig.getCollider().getCenterX();
+			float ty = trig.getCollider().getCenterY();
+			arg2.drawString(trig.getName(), tx, ty);
 		}
 		
 	}
@@ -212,32 +210,32 @@ public class ClientGameplayState extends BasicGameState {
 //				addShip(pc.getPlayShip());
 //			}
 //		}
-		if(p.isKeyDown(Input.KEY_UP)){
-			pc.getPlayShip().moveForward(delta);
-		}
-		if(p.isKeyDown(Input.KEY_DOWN)){
-			pc.getPlayShip().moveBackward(delta);
-		}
-		if(p.isKeyDown(Input.KEY_LEFT)){
-			pc.getPlayShip().rotateLeft(delta);
-		}
-		if(p.isKeyDown(Input.KEY_RIGHT)){
-			pc.getPlayShip().rotateRight(delta);
-		}
-		if(p.isKeyDown(Input.KEY_Z)){
-			pc.getPlayShip().strafeLeft(delta);
-		}
-		if(p.isKeyDown(Input.KEY_X)){
-			pc.getPlayShip().strafeRight(delta);
-		}
-		if(p.isKeyDown(Input.KEY_LCONTROL)){
-			timer +=delta;
-			if(timer > pc.getPlayShip().getWeapon().getRof()){
-				timer -= pc.getPlayShip().getWeapon().getRof();
-				addShot(pc.getPlayShip().getWeapon().makeShot());
+
+			if(p.isKeyDown(Input.KEY_UP)){
+				pc.getPlayShip().moveForward(delta);
 			}
-		}
-		
+			if(p.isKeyDown(Input.KEY_DOWN)){
+				pc.getPlayShip().moveBackward(delta);
+			}
+			if(p.isKeyDown(Input.KEY_LEFT)){
+				pc.getPlayShip().rotateLeft(delta);
+			}
+			if(p.isKeyDown(Input.KEY_RIGHT)){
+				pc.getPlayShip().rotateRight(delta);
+			}
+			if(p.isKeyDown(Input.KEY_Z)){
+				pc.getPlayShip().strafeLeft(delta);
+			}
+			if(p.isKeyDown(Input.KEY_X)){
+				pc.getPlayShip().strafeRight(delta);
+			}
+			if(p.isKeyDown(Input.KEY_LCONTROL)){
+				timer +=delta;
+				if(timer > pc.getPlayShip().getWeapon().getRof()){
+					timer -= pc.getPlayShip().getWeapon().getRof();
+					addShot(pc.getPlayShip().getWeapon().makeShot());
+				}
+			}
 		
 		//======Begin updates!
 		//update ships
@@ -251,7 +249,7 @@ public class ClientGameplayState extends BasicGameState {
 		for(BasicAction act : levelTest.getExecuteActions()){
 			if(act.isUpdate()==true){
 				levelTest.setNeedsUpdate(true);
-				System.out.println("Action:"+act.getName()+"needs update");
+//				System.out.println("Action: "+act.getName()+" needs update");
 			}
 		}
 		
@@ -299,9 +297,8 @@ public class ClientGameplayState extends BasicGameState {
 					//if ship hits trigger, set trigger to true; tell the game the level needs
 					//to be updated
 					trig.trigger(true);
-					System.out.println("Trigger:"+trig.getName()+" has been fired");
+					System.out.println("Trigger: "+trig.getName()+" has been fired");
 					levelTest.setNeedsUpdate(true);
-					System.out.println("Level now updating");
 				}
 			}
 		}
