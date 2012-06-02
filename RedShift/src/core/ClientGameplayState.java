@@ -9,6 +9,8 @@ import level.BasicLevel;
 import level.BasicTrigger;
 import level.actions.MessageAction;
 
+import org.lwjgl.input.Controller;
+import org.lwjgl.input.Controllers;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -52,6 +54,7 @@ public class ClientGameplayState extends BasicGameState {
 	private MessageAction say1;		//simple action
 	private MessageAction ask1;		//simple action
 	private boolean triggerHit;		//...?
+	private Controller joystick;
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -210,7 +213,6 @@ public class ClientGameplayState extends BasicGameState {
 //				addShip(pc.getPlayShip());
 //			}
 //		}
-
 			if(p.isKeyDown(Input.KEY_UP)){
 				pc.getPlayShip().moveForward(delta);
 			}
@@ -236,6 +238,7 @@ public class ClientGameplayState extends BasicGameState {
 					addShot(pc.getPlayShip().getWeapon().makeShot());
 				}
 			}
+			
 		
 		//======Begin updates!
 		//update ships
