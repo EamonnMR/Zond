@@ -27,9 +27,6 @@ public class BasicAction {
 	 * action will never update.
 	 */
 	public void ini(){
-		
-		
-		
 		this.ini = false;
 		this.update = true;
 	}

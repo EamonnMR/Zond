@@ -53,20 +53,21 @@ public class BasicLevel {
 		
 		
 		//find which triggers are active
-		for(BasicTrigger trig : levelTriggerMap.values()){
-			if(trig.isTrigged()){
-				//put these triggers into a queue, the whole trigger rather than just the target
-				//why? so we can remove the triggers that have been fired
-				executeTriggers.add(trig);
-				System.out.println("Trigger: "+trig.getName()+" added to queue");
+			for(BasicTrigger trig : levelTriggerMap.values()){
+				if(trig.isTrigged()){
+					//put these triggers into a queue, the whole trigger rather than just the target
+					//why? so we can remove the triggers that have been fired
+					executeTriggers.add(trig);
+					System.out.println("Trigger: "+trig.getName()+" added to queue");
+				}
 			}
-		}
-		
 		//go through the trigger queue, select the trigger's action, put it on the action queue
 		for(BasicTrigger trig : executeTriggers){
+			
 			executeActions.add(levelActionMap.get(trig.getTargetName()));
 //			executeTriggers.remove(trig);
 			System.out.println("Trigger: "+ trig.getName()+"has been executed");
+		
 		}
 		
 		//fire the actions
@@ -75,12 +76,12 @@ public class BasicLevel {
 			//if the action has not started; start it, and flag as started
 			if(act.isIni()){
 				act.ini();
-				System.out.println("Trigger: "+act.getName()+"is initialized");
+				System.out.println("Action: "+act.getName()+" is initialized");
 			//if the action has started, run its update for this frame	
 			}else if(act.isUpdate()){
 				//note: to end the 'update' state, simply set isUpdate=false, isDone=true inside action.update()
 				act.update(delta);
-				System.out.println("Trigger: "+act.getName()+"is updating");
+				System.out.println("Action: "+act.getName()+" is updating");
 			//if the action has finished, remove the action off the queue
 			}
 		}
@@ -88,20 +89,19 @@ public class BasicLevel {
 		cleanTriggers();
 		cleanActions();
 		
-		if(executeTriggers.isEmpty() && executeActions.isEmpty()){
-			setNeedsUpdate(false);
-		}
+		this.setNeedsUpdate(false);
 	}
 	
 	//garbage day! 
 	private void cleanTriggers(){
 		ArrayList<String> cleanTrigs = new ArrayList<String>();
 		while(executeTriggers.iterator().hasNext()){
-			System.out.println("Trigger: has been removed");
 			cleanTrigs.add(executeTriggers.element().getName());
 			executeTriggers.remove();
 		}
+		
 		for(String str : cleanTrigs){
+			System.out.println("Trigger: "+str+" has been removed");
 			levelTriggerMap.remove(str);
 		}
 
@@ -109,15 +109,15 @@ public class BasicLevel {
 	
 	private void cleanActions(){
 		ArrayList<String> cleanAct = new ArrayList<String>();
-
 		for(BasicAction act : levelActionMap.values()){
 			if(act.isDone()){
+				System.out.println("Action: "+ act.getName()+" has been removed");
 				cleanAct.add(act.getName());
 			}
 		}
 		
 		for(String str : cleanAct){
-			levelTriggerMap.remove(str);
+			levelActionMap.remove(str);
 		}
 	}
 	
