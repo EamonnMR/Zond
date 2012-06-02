@@ -15,6 +15,7 @@ public class BasicGun {
 	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
 	private double x,y;
+	private double speedX, speedY;
 	private double angle;
 	private int coolDown;
 	private BasicShot proj;
@@ -30,7 +31,7 @@ public class BasicGun {
 	public BasicShot makeShot(){
 			BasicShot shot = new BasicShot();
 			shot.setImg(proj.getImg().copy());
-			shot.getImg().setRotation(img.getRotation()+0.001f);
+			shot.getImg().setRotation(img.getRotation());  //+0.001f
 			shot.setSpeed(proj.getSpeed());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
@@ -38,6 +39,16 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			return shot;
+	}
+	
+	public void setPos(double x, double y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void setSpeed(double speedX, double speedY){
+		this.speedX = speedX;
+		this.speedY = speedY;
 	}
 	
 	public int getCoolDown() {

@@ -5,25 +5,52 @@ package ents;
  * @author Roohr
  * @version 1.0
  */
-public class BasicShip extends BaseEnt
+public class BasicShip extends BaseEnt implements PhysMod.Target
 {
+	
+	private static double SCLSPD = 0.0005;       //Global speed scaling-until we can get sane values for mass & engine impulse
+	private static double HALFPI = 1.57079633;   //90 degrees in radians 
+	
+	
+	private int totalWeight;		             //maximum equipment
+	private double points;				         //points to award to killer
+	private double health;			             //base health of the ship
+	private BasicArmor armor;		             //not implemented
+	private BasicGun gun;			             //the current weapon on the ship
+	private double gunOffsetX, gunOffsetY;       //the offset for the weapon - does not handle more tha one weapon
+	private BasicEngine engine;			         //the engine mounted to the ship
+	private double engineOffsetX, engineOffsetY; //the offset for the engine image
+	private double engineOffsetDistance;		 //the offset for where to draw the engine
+	private double gunOffsetDistance;			 //the offset for where to draw the weapon
+	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 
-	//vars
-	private int totalWeight;			//maximum equipment
-	private double points;				//points to award to killer
-	private double health;				//base health of the ship
-	private BasicArmor armor;			//not implemented
-	private BasicGun gun;			//the current weapon on the ship
-	private double gunOffsetX, gunOffsetY;;	//the offset for the weapon - does not handle more tha one weapon
-	private BasicEngine engine;			//the engine mounted to the ship
-	private double engineOffsetX, engineOffsetY;	//the offset for the engine image
-	private double engineOffsetDistance;			//the offset for where to draw the engine
-	private double gunOffsetDistance;			//the offset for where to draw the weapon
-	private double theta;				
-
+	
+	
 	//constructor
-	public BasicShip(){}
+	public BasicShip(){
+		physAnchor = new PhysMod(this, 0, 0, 0); //Other classes such as shot might wanna give it an initial velocity...
+	}	                                         //But not the ship!  At least not yet.
 
+	//Just in case we decide to remove addX and addY from basic Entity - EMR
+	@Override
+	public void addX(double dx) {
+		// TODO Auto-generated method stub
+		super.addX(dx);
+	}
+
+	@Override
+	public void addY(double dy) {
+		// TODO Auto-generated method stub
+		super.addY(dy);
+	}
+
+	/**
+	 * Gets the rotation of the ship in radians.
+	 */
+	public double getRot(){
+		return Math.toRadians(getImg().getRotation());
+	}
+	
 	//methods
 	public void ini(double x, double y, float rotation){
 		setX(x);
@@ -31,7 +58,7 @@ public class BasicShip extends BaseEnt
 		gun.setX(x);
 		gun.setY(y);
 		getImg().setRotation(rotation);
-		theta = Math.PI/2;
+		//theta = Math.PI/2;
 	}
 	
 	public void render(){
@@ -48,36 +75,18 @@ public class BasicShip extends BaseEnt
 		getImg().drawCentered((float)getX(), (float)getY());	
 	}
 
-	public void update(double rot, double x, double y){
+	public void update(int delta){
 		//update ship
-			setX(x);
-			setY(y);
-			getCollider().setCenterX((float)x);
-			getCollider().setCenterY((float)y);
+			physAnchor.update(delta);
+			
+			getCollider().setCenterX((float)getX());
+			getCollider().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 		
-			//update gun
-			double wx = getX();
-			double wy = getY();
-			
-			wx += (gunOffsetDistance * Math.sin(angle)+theta);
-			wy -= (gunOffsetDistance * Math.cos(angle)+theta);
-		
-			setWepOffX(wx);		//where to draw gun on ship
-			setWepOffY(wy);
-			
-			gun.setX(wx);	//pushes location down to basic shot
-			gun.setY(wy);
-			gun.setAngle(getImg().getRotation());
+			updateGun(angle);
 		//update engine			
-			double ex = getX();
-			double ey = getY();
-			
-			ex += (engineOffsetDistance *Math.sin(angle));
-			ey -= (engineOffsetDistance *Math.cos(angle));
-			
-			setEngOffX(ex);		//where to draw engine on ship
-			setEngOffY(ey);
+			setEngOffX(getX() + engineOffsetDistance *Math.cos(angle));		//where to draw engine on ship
+			setEngOffY(getY() + engineOffsetDistance *Math.sin(angle));
 	}
 	
 	/**
@@ -105,28 +114,14 @@ public class BasicShip extends BaseEnt
 	 * @param delta
 	 */
 	public void moveForward(int delta){
-		float hip = getEngine().getThrustX() * delta;
-        double rotation = getImg().getRotation(); 
-        double dx  = getX();
-        double dy = getY();
-        dx += hip * Math.sin(Math.toRadians(rotation));
-        dy -= hip * Math.cos(Math.toRadians(rotation));
-        setX(dx);
-        setY(dy);
+		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
 	}
 	/**
 	 * move the ship backwards
 	 * @param delta
 	 */
 	public void moveBackward(int delta){
-		float hip = getEngine().getThrustY() * delta;
-        double rotation = getImg().getRotation(); 
-        double dx  = getX();
-        double dy = getY();
-        dx -= hip * Math.sin(Math.toRadians(rotation));
-        dy += hip * Math.cos(Math.toRadians(rotation));
-        setX(dx);
-        setY(dy);
+		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
 	}
 	
 	/**
@@ -134,29 +129,14 @@ public class BasicShip extends BaseEnt
 	 * @param delta
 	 */
 	public void strafeLeft(int delta){
-      float hip = getEngine().getStrafeRate() * delta;
-      double rotation = getImg().getRotation(); 
-      double dx  = getX();
-      double dy = getY();
-      dx -= hip * Math.sin(Math.toRadians(rotation+90));
-      dy += hip * Math.cos(Math.toRadians(rotation+90));
-      setX(dx);
-      setY(dy);
-	
+		physAnchor.pushDir(getRot() - HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
 	}
 	/**
 	 * this will strafe the ship right
 	 * @param delta
 	 */
 	public void strafeRight(int delta){
-      float hip = getEngine().getStrafeRate() * delta;
-      double rotation = getImg().getRotation(); 
-      double dx  = getX();
-      double dy = getY();
-      dx -= hip * Math.sin(Math.toRadians(rotation-90));
-      dy += hip * Math.cos(Math.toRadians(rotation-90));
-      setX(dx);
-      setY(dy);
+		physAnchor.pushDir(getRot() + HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
 	}
 	
 	/**
@@ -169,6 +149,19 @@ public class BasicShip extends BaseEnt
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}
 
+	
+	private void updateGun(double angle){
+		double wx = getX() + (gunOffsetDistance * Math.cos(angle));
+		double wy = getY() + (gunOffsetDistance * Math.sin(angle));
+		
+		setWepOffX(wx);		//where to draw gun on ship
+		setWepOffY(wy);
+		
+		gun.setX(wx);	//pushes location down to basic shot
+		gun.setY(wy);
+		gun.setAngle(getImg().getRotation());
+	}
+	
 	public int getTotalWeight() {
 		return totalWeight;
 	}
@@ -263,6 +256,6 @@ public class BasicShip extends BaseEnt
 	public void setGunPtLength(double gunPtLength) {
 		this.gunOffsetDistance = gunPtLength;
 	}
-
+	
 
 }

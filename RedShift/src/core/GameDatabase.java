@@ -161,7 +161,7 @@ public class GameDatabase {
 		merc.setGunPtLength(26);
 		merc.setEngPtLength(-24);
 		merc.setCollider(new Circle(0,0,16,24));
-		merc.getImg().setRotation(0);
+		//merc.getImg().setRotation(0);
 		indexShip.put("mercury", merc);
 		
 		//Gemini-------------------------
