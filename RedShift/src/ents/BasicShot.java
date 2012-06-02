@@ -8,14 +8,14 @@ package ents;
 public class BasicShot extends BaseEnt {
 
 	//vars
+	double speedX, speedY;
+	
 	private double damage;
 	private float speed;
 	private int interval;
 	private int timer;
-	private double theta;
 	//constructor
 	public BasicShot(){
-		theta = Math.PI/2;
 	}
 	
 	//methods
@@ -23,16 +23,16 @@ public class BasicShot extends BaseEnt {
 		timer +=delta;
 		if(timer <= interval){
 			float hip = speed * delta;
-			double angle = (Math.toRadians(getImg().getRotation()+theta));
+			double angle = (Math.toRadians(getImg().getRotation()));
 			double dx = getX();
 			double dy = getY();
 
 			dx += hip * Math.cos(angle);  //This is the proper algorithm... -EMR
-			dy += hip * Math.sin(angle);  //I was tought to worship the Unit Circle in high school
+			dy += hip * Math.sin(angle);  //I was thought to worship the Unit Circle in high school
 			//And I cannot harden my heart against it now, in our darkest hour.
 			
-			setX(dx);
-			setY(dy);
+			addX(speedX);
+			addY(speedY);
 	
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
