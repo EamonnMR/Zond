@@ -22,6 +22,7 @@ public class BasicShot extends BaseEnt {
 	public void update(int delta){	
 		timer +=delta;
 		if(timer <= interval){
+			/*
 			float hip = speed * delta;
 			double angle = (Math.toRadians(getImg().getRotation()));
 			double dx = getX();
@@ -30,9 +31,9 @@ public class BasicShot extends BaseEnt {
 			dx += hip * Math.cos(angle);  //This is the proper algorithm... -EMR
 			dy += hip * Math.sin(angle);  //I was thought to worship the Unit Circle in high school
 			//And I cannot harden my heart against it now, in our darkest hour.
-			
-			addX(speedX);
-			addY(speedY);
+			*/
+			addX(speedX * delta);
+			addY(speedY * delta);
 	
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
@@ -58,6 +59,12 @@ public class BasicShot extends BaseEnt {
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
+	
+	public void setSpeeds(double speedX, double speedY) {
+		this.speedX = speedX;
+		this.speedY = speedY;
+	}
+	
 	public void setInterval(int interval) {
 		this.interval = interval;
 	}
