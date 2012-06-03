@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import level.actions.SpawnShipAction;
-
-import ents.BasicShip;
-
 /**
  * core level class that does all level things...ever
  * @author proohr
