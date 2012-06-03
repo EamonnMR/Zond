@@ -191,36 +191,6 @@ public class ClientGameplayState extends BasicGameState {
 		
 		Input p = arg0.getInput();
 		//TODO:there's something wrong with the input, multiple keys jamming
-//		if(p.isKeyPressed(Input.KEY_1)){
-//			if(pc.getPlayShip()!=pc.retrieveShip("mercury")){
-//				double x = pc.getPlayShip().getX();
-//				double y = pc.getPlayShip().getY();
-//				float rot = pc.getPlayShip().getImg().getRotation();
-//				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-//					if(entry.getValue()==pc.getPlayShip()){
-//						removeShips.add(entry.getKey());
-//					}
-//				}
-//				pc.setPlayShip(pc.retrieveShip("mercury"));
-//				pc.getPlayShip().ini(x, y, rot);
-//				addShip(pc.getPlayShip());
-//			}
-//		}
-//		if(p.isKeyPressed(Input.KEY_2)){
-//			if(pc.getPlayShip()!=pc.retrieveShip("gemini")){
-//				double x = pc.getPlayShip().getX();
-//				double y = pc.getPlayShip().getY();
-//				float rot = pc.getPlayShip().getImg().getRotation();
-//				for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-//					if(entry.getValue()==pc.getPlayShip()){
-//						removeShips.add(entry.getKey());
-//					}
-//				}
-//				pc.setPlayShip(pc.retrieveShip("gemini"));
-//				pc.getPlayShip().ini(x, y, rot);
-//				addShip(pc.getPlayShip());
-//			}
-//		}
 			if(p.isKeyDown(Input.KEY_UP)){
 				pc.getPlayShip().moveForward(delta);
 			}
@@ -269,6 +239,8 @@ public class ClientGameplayState extends BasicGameState {
 			System.out.println("Level updating");
 			levelTest.update(delta);
 		}
+		
+		cleanEntities(removeShots,removeShips,removeDoodads);
 	}
 	
 	/**
@@ -355,7 +327,7 @@ public class ClientGameplayState extends BasicGameState {
 		//update shots
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
 			shot.getValue().update(delta);
-			if(shot.getValue().getTimer()>=shot.getValue().getInterval()){
+			if(shot.getValue().getTimer()>shot.getValue().getInterval()){
 				removeShots.add(shot.getKey());
 			}
 		}
