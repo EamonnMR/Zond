@@ -269,43 +269,6 @@ public class ClientGameplayState extends BasicGameState {
 			System.out.println("Level updating");
 			levelTest.update(delta);
 		}
-		
-	public Integer shipSawpHck(String oldShipName, String newShipName){
-		if(pc.getPlayShip() != pc.retrieveShip(newShipName)){
-			double x = pc.getPlayShip().getX();
-			double y = pc.getPlayShip().getY();
-			float rot = pc.getPlayShip().getImg().getRotation();
-			for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-				if(entry.getValue()==pc.getPlayShip()){
-					return(entry.getKey());
-				}
-			}
-			pc.setPlayShip(pc.retrieveShip("mercury"));
-			pc.getPlayShip().ini(x, y, rot);
-			addShip(pc.getPlayShip());
-			
-		}
-		return 0;
-	}
-	
-	public Integer shipSawpHck(String oldShipName, String newShipName){
-		if(pc.getPlayShip() != pc.retrieveShip(newShipName)){
-			double x = pc.getPlayShip().getX();
-			double y = pc.getPlayShip().getY();
-			float rot = pc.getPlayShip().getImg().getRotation();
-			for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-				if(entry.getValue()==pc.getPlayShip()){
-					return(entry.getKey());
-				}
-			}
-			pc.setPlayShip(pc.retrieveShip("mercury"));
-			pc.getPlayShip().ini(x, y, rot);
-			addShip(pc.getPlayShip());
-			
-		}
-		return 0;
-	}
-	
 	}
 	
 	/**
@@ -345,7 +308,7 @@ public class ClientGameplayState extends BasicGameState {
 				}
 			}
 		}
-		
+	}
 		//check triggers and ships
 	public int addShip(BasicShip e){
 		entCount++;
@@ -403,32 +366,6 @@ public class ClientGameplayState extends BasicGameState {
 	}
 	
 	/**
-	 * check all collisions
-	 * @param removeShots
-	 */
-	public void checkCollisions(ArrayList<Integer> removeShots){
-		//check Shot/Ship collision
-		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					double tempHP =ship.getValue().getHealth();
-					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check shot/doodad collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
-				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-	}
-	
-	/**
 	 * remove all dead entities from the scope
 	 * @param removeShots
 	 * @param removeShips
@@ -460,37 +397,6 @@ public class ClientGameplayState extends BasicGameState {
 		return clientCount;
 	}
 	
-	/**
-	 * adds entity to the hashmap
-	 */
-	public int addShip(BasicShip e){
-		entCount++;
-		ships.put(entCount, e);
-		return entCount;
-	}
-	
-	/**
-	 * add a BaseEnt to the doodad hashmap
-	 * @param e
-	 * @return int objCount
-	 */
-	public int addObject(BaseEnt e){
-		objCount++;
-		doodads.put(objCount, e);
-		return objCount;
-	}
-	
-	/**
-	 * toss a BasicShot onto the update list
-	 * @param s BasicShot
-	 * @return new shot total (int)
-	 */
-	public int addShot(BasicShot s){
-		shotCount++;
-		shots.put(shotCount, s);
-		return shotCount;
-	}
-	
 	@Override
 	public int getID() {
 		return id;
@@ -502,38 +408,6 @@ public class ClientGameplayState extends BasicGameState {
 	 */
 	public void setPlayerClient(PlayerClient PC){
 		pc = PC;
-	}
-	
-	public float getCamX() {
-		return camX;
-	}
-
-	public void setCamX(float camX) {
-		this.camX = camX;
-	}
-
-	public float getCamY() {
-		return camY;
-	}
-
-	public void setCamY(float camY) {
-		this.camY = camY;
-	}
-	
-	public float getCamX() {
-		return camX;
-	}
-
-	public void setCamX(float camX) {
-		this.camX = camX;
-	}
-
-	public float getCamY() {
-		return camY;
-	}
-
-	public void setCamY(float camY) {
-		this.camY = camY;
 	}
 	
 	public float getCamX() {

@@ -159,6 +159,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		
 		gun.setX(wx);	//pushes location down to basic shot
 		gun.setY(wy);
+		gun.setSpeed(physAnchor.getSpeedX(),physAnchor.getSpeedY());
 		gun.setAngle(getImg().getRotation());
 	}
 	
