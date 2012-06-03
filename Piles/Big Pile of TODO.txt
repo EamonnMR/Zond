@@ -42,7 +42,7 @@ FINISHED---physics for movement
 	+ or plasma -> velocity trails off over time
 
 
--properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
+PWR-properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
 	+custom Shape objects for ships; only ships
 	+5/16/2012::make sure everyone has a collider though!
@@ -51,7 +51,7 @@ FINISHED---physics for movement
 	+can't remember what this was for...
 	+wait...collider shapes influences player tactics? hrm, kinda meta right now.
 
--spawn-kill-die-respawn mechanics
+PWR-spawn-kill-die-respawn mechanics
 	+start checking on BasicShips stats, death checks, etc
 
 
