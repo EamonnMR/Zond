@@ -2,6 +2,8 @@ package level;
 
 import org.newdawn.slick.Graphics;
 
+import core.ClientGameplayState;
+
 /**
  * class that defines behavior inside of levels
  * @author proohr
@@ -26,7 +28,7 @@ public class BasicAction {
 	 * booleans to: false, and true respectively otherwise the 
 	 * action will never update.
 	 */
-	public void ini(){
+	public void ini(ClientGameplayState cgs){
 		this.ini = false;
 		this.update = true;
 	}
@@ -38,7 +40,7 @@ public class BasicAction {
 	 * the game know when to end it.
 	 * @param delta
 	 */
-	public void update(int delta){
+	public void update(int delta, ClientGameplayState cgs){
 		
 	}
 	

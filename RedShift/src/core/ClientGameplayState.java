@@ -8,14 +8,14 @@ import level.BasicAction;
 import level.BasicLevel;
 import level.BasicTrigger;
 import level.actions.MessageAction;
+import level.actions.SpawnShipAction;
 
-import org.lwjgl.input.Controller;
-import org.lwjgl.input.Controllers;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -51,10 +51,10 @@ public class ClientGameplayState extends BasicGameState {
 	private BasicLevel levelTest;	//testing the level logic
 	private BasicTrigger tellMe;	//simple trigger
 	private BasicTrigger askMe;		//simple trigger
-	private MessageAction say1;		//simple action
-	private MessageAction ask1;		//simple action
-	private boolean triggerHit;		//...?
-	private Controller joystick;
+	private BasicTrigger spwn;
+	private MessageAction say1;		//message actions
+	private MessageAction ask1;		//
+	private SpawnShipAction spawn;	//spawn a ship!
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -73,9 +73,11 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.tellMe = new BasicTrigger();
 		this.askMe = new BasicTrigger();
+		this.spwn = new BasicTrigger();
 		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
-		this.triggerHit = false;
+		this.spawn = new SpawnShipAction("spawnShip",900,700,"lunar", "20mm","smallEngine");
+		
 	}
 	
 	//methods
@@ -103,10 +105,18 @@ public class ClientGameplayState extends BasicGameState {
 		askMe.setY(50);
 		askMe.setCollider(new Rectangle(askMe.getX(),askMe.getY(), 100,100));
 		
+		spwn.setName("spawn ship!");
+		spwn.setTargetName("spawnShip");
+		spwn.setX(800);
+		spwn.setY(400);
+		spwn.setCollider(new Circle(spwn.getX(), spwn.getY(), 64));
+		
 		levelTest.addTrigger(tellMe);
 		levelTest.addTrigger(askMe);
+		levelTest.addTrigger(spwn);
 		levelTest.addAction(say1);
 		levelTest.addAction(ask1);
+		levelTest.addAction(spawn);
 		//=============================
 		
 		
@@ -190,7 +200,6 @@ public class ClientGameplayState extends BasicGameState {
 		
 		
 		Input p = arg0.getInput();
-		//TODO:there's something wrong with the input, multiple keys jamming
 			if(p.isKeyDown(Input.KEY_UP)){
 				pc.getPlayShip().moveForward(delta);
 			}
@@ -237,7 +246,7 @@ public class ClientGameplayState extends BasicGameState {
 		//finally, if the level needs to be updated; do it
 		if(levelTest.isNeedsUpdate()==true){
 			System.out.println("Level updating");
-			levelTest.update(delta);
+			levelTest.update(delta, this);
 		}
 		
 		cleanEntities(removeShots,removeShips,removeDoodads);
@@ -396,5 +405,9 @@ public class ClientGameplayState extends BasicGameState {
 
 	public void setCamY(float camY) {
 		this.camY = camY;
+	}
+	
+	public EntityFactory getEntFac(){
+		return this.entFac;
 	}
 }
