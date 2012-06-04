@@ -4,6 +4,8 @@ import level.BasicAction;
 
 import org.newdawn.slick.Graphics;
 
+import core.ClientGameplayState;
+
 /**
  * outputs a simple string to the user at a given location
  * @author proohr
@@ -25,13 +27,13 @@ public class MessageAction extends BasicAction {
 	}
 	
 	@Override
-	public void ini(){
+	public void ini(ClientGameplayState cgs){
 		this.setIni(false);
 		this.setUpdate(true);
 	}
 	
 	@Override 
-	public void update(int delta){
+	public void update(int delta, ClientGameplayState cgs){
 		timer += delta;
 		if(timer >= lifetime){
 			this.setUpdate(false);

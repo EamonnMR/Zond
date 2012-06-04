@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import core.ClientGameplayState;
+
 /**
  * core level class that does all level things...ever
  * @author proohr
@@ -49,7 +51,7 @@ public class BasicLevel {
 	 * PS: this method is For-Loop city :P
 	 * @param delta
 	 */
-	public void update(int delta){
+	public void update(int delta, ClientGameplayState cgs){
 		
 		
 		//find which triggers are active
@@ -75,12 +77,12 @@ public class BasicLevel {
 			
 			//if the action has not started; start it, and flag as started
 			if(act.isIni()){
-				act.ini();
+				act.ini(cgs);
 				System.out.println("Action: "+act.getName()+" is initialized");
 			//if the action has started, run its update for this frame	
 			}else if(act.isUpdate()){
 				//note: to end the 'update' state, simply set isUpdate=false, isDone=true inside action.update()
-				act.update(delta);
+				act.update(delta, cgs);
 				System.out.println("Action: "+act.getName()+" is updating");
 			//if the action has finished, remove the action off the queue
 			}
