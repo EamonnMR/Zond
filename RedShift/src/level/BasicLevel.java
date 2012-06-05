@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.newdawn.slick.geom.Rectangle;
+
 import core.ClientGameplayState;
 
 /**
@@ -178,6 +180,4 @@ public class BasicLevel {
 	public void setNeedsUpdate(boolean needsUpdate) {
 		this.needsUpdate = needsUpdate;
 	}
-
-
 }
