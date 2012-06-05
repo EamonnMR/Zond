@@ -39,7 +39,7 @@ public class ClientGameplayState extends BasicGameState {
 	private int id, entCount, objCount, shotCount, clientCount, timer;
 	float camX, camY;
 	PlayerClient pc, pc2;
-	BaseLevel level; //soon to be deprecated
+	private BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
 	HashMap<Integer, BasicShot> shots;
 	HashMap<Integer, BaseEnt> doodads;
@@ -118,9 +118,10 @@ public class ClientGameplayState extends BasicGameState {
 		levelTest.addAction(say1);
 		levelTest.addAction(ask1);
 		levelTest.addAction(spawn);
+		
 		//=============================
 		
-		
+		//TODO: clean this up
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
@@ -287,6 +288,9 @@ public class ClientGameplayState extends BasicGameState {
 					double tempHP =ship.getValue().getHealth();
 					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
 					removeShots.add(shot.getKey());
+					if(ship.getValue().equals(pc.getPlayShip())){
+						pc.setAlive(false);
+					}
 				}
 			}
 		}
@@ -389,6 +393,13 @@ public class ClientGameplayState extends BasicGameState {
 		clientCount++;
 		clients.put(clientCount, client);
 		return clientCount;
+	}
+	
+	/**
+	 * respawns the player ship
+	 */
+	public void respawnShip(BasicShip ship){
+//		SpawnShipAction rSpwn = new SpawnShipAction();
 	}
 	
 	@Override
