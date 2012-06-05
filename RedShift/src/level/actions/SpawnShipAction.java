@@ -40,7 +40,6 @@ public class SpawnShipAction extends BasicAction{
 	
 	@Override
 	public void update(int delta, ClientGameplayState cgs){
-		
 		ship.ini(x, y, 0.0f);
 		cgs.addShip(ship);
 		setUpdate(false);

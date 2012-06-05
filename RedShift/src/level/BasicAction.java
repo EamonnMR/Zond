@@ -15,6 +15,7 @@ public class BasicAction {
 	private boolean ini;		//has the action been initialized? if false, run ini()
 	private boolean update;		//does the action need to be updated? if true, run update()
 	private boolean end;		//determines if the action is complete or not
+
 	
 	public BasicAction(){
 		this.ini = true;
@@ -83,4 +84,5 @@ public class BasicAction {
 		this.end = done;
 	}
 	
+
 }

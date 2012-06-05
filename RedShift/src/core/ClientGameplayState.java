@@ -7,6 +7,7 @@ import java.util.Map;
 import level.BasicAction;
 import level.BasicLevel;
 import level.BasicTrigger;
+import level.TriggerTypes;
 import level.actions.MessageAction;
 import level.actions.SpawnShipAction;
 
@@ -44,7 +45,8 @@ public class ClientGameplayState extends BasicGameState {
 	HashMap<Integer, BaseEnt> doodads;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
-
+	TriggerTypes trigTypes;
+	
 	GameDatabase gdb;
 	EntityFactory entFac;
 	
@@ -55,6 +57,7 @@ public class ClientGameplayState extends BasicGameState {
 	private MessageAction say1;		//message actions
 	private MessageAction ask1;		//
 	private SpawnShipAction spawn;	//spawn a ship!
+	private SpawnShipAction respawn;//respawns a player
 	
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
@@ -71,9 +74,9 @@ public class ClientGameplayState extends BasicGameState {
 		
 		this.levelTest = new BasicLevel("Test Level");
 		
-		this.tellMe = new BasicTrigger();
-		this.askMe = new BasicTrigger();
-		this.spwn = new BasicTrigger();
+		this.tellMe = new BasicTrigger(trigTypes.SHIP);
+		this.askMe = new BasicTrigger(trigTypes.SHOT);
+		this.spwn = new BasicTrigger(trigTypes.SHOT);
 		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.spawn = new SpawnShipAction("spawnShip",900,700,"lunar", "20mm","smallEngine");
@@ -86,8 +89,6 @@ public class ClientGameplayState extends BasicGameState {
 			throws SlickException {	
 		//==========ship swapping test
 		incomingClientShips.put("mercury", entFac.stockMercury());
-		incomingClientShips.put("gemini", entFac.stockGem());
-		incomingClientShips.put("lunar", entFac.stockLunar());
 		pc.setClientShips(incomingClientShips);
 		//=============================
 		
@@ -125,7 +126,7 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
-		pc.getPlayShip().ini(190, 103, 0.0f);
+		pc.getPlayShip().ini(512, 250, 0.0f);
 			
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
@@ -137,11 +138,6 @@ public class ClientGameplayState extends BasicGameState {
 		//camera test
 		setCamX(0);
 		setCamY(0);
-		
-		//camera test
-		setCamX(0);
-		setCamY(0);
-		
 	}
 
 	@Override
@@ -233,13 +229,12 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//run collisions
 		checkCollisions(removeShots);
-
+		
 		//level update
 		//this check is so any action still active will also be updated
 		for(BasicAction act : levelTest.getExecuteActions()){
 			if(act.isUpdate()==true){
 				levelTest.setNeedsUpdate(true);
-//				System.out.println("Action: "+act.getName()+" needs update");
 			}
 		}
 		
@@ -252,72 +247,6 @@ public class ClientGameplayState extends BasicGameState {
 		cleanEntities(removeShots,removeShips,removeDoodads);
 	}
 	
-	/**
-	 * check all collisions
-	 * @param removeShots
-	 */
-	public void checkCollisions(ArrayList<Integer> removeShots){
-		//check Shot/Ship collision
-		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					double tempHP =ship.getValue().getHealth();
-					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check shot/doodad collision
-		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
-				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
-					removeShots.add(shot.getKey());
-				}
-			}
-		}
-		
-		//check triggers and ships
-		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
-			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-				if(trig.getCollider().intersects(ship.getValue().getCollider())){
-					//if ship hits trigger, set trigger to true; tell the game the level needs
-					//to be updated
-					trig.trigger(true);
-					System.out.println("Trigger: "+trig.getName()+" has been fired");
-					levelTest.setNeedsUpdate(true);
-				}
-			}
-		}
-	}
-		//check triggers and ships
-	public int addShip(BasicShip e){
-		entCount++;
-		ships.put(entCount, e);
-		return entCount;
-	}
-	
-	/**
-	 * add a BaseEnt to the doodad hashmap
-	 * @param e
-	 * @return int objCount
-	 */
-	public int addObject(BaseEnt e){
-		objCount++;
-		doodads.put(objCount, e);
-		return objCount;
-	}
-	
-	/**
-	 * toss a BasicShot onto the update list
-	 * @param s BasicShot
-	 * @return new shot total (int)
-	 */
-	public int addShot(BasicShot s){
-		shotCount++;
-		shots.put(shotCount, s);
-		return shotCount;
-	}
 	
 	/**
 	 * run updates on all entity lists
@@ -347,6 +276,62 @@ public class ClientGameplayState extends BasicGameState {
 	}
 	
 	/**
+	 * check all collisions
+	 * @param removeShots
+	 */
+	public void checkCollisions(ArrayList<Integer> removeShots){
+		//check Shot/Ship collision
+		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+				if(ship.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					double tempHP =ship.getValue().getHealth();
+					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+		
+		//check Shot/Trigger
+		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+				if(trig.getCollider().intersects(shot.getValue().getCollider())){
+					if(trig.getTriggerType()==trigTypes.SHOT){
+						//if shot hits trigger, set trigger to true; tell the game the level needs
+						//to be updated
+						trig.trigger(true);
+						System.out.println("Trigger: "+trig.getName()+" has been fired");
+						levelTest.setNeedsUpdate(true);
+					}
+				}
+			}
+		}
+			
+		//check shot/doodad collision
+		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
+			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
+				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
+					removeShots.add(shot.getKey());
+				}
+			}
+		}
+		
+		//check triggers and ships
+		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+				if(trig.getCollider().intersects(ship.getValue().getCollider())){
+					if(trig.getTriggerType()==trigTypes.SHIP){
+					//if ship hits trigger, set trigger to true; tell the game the level needs
+					//to be updated
+					trig.trigger(true);
+					System.out.println("Trigger: "+trig.getName()+" has been fired");
+					levelTest.setNeedsUpdate(true);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	 * remove all dead entities from the scope
 	 * @param removeShots
 	 * @param removeShips
@@ -365,6 +350,34 @@ public class ClientGameplayState extends BasicGameState {
 		for(int i : removeDoodads){
 			doodads.remove(i);
 		}
+	}
+	
+	public int addShip(BasicShip e){
+		entCount++;
+		ships.put(entCount, e);
+		return entCount;
+	}
+	
+	/**
+	 * add a BaseEnt to the doodad hashmap
+	 * @param e
+	 * @return int objCount
+	 */
+	public int addObject(BaseEnt e){
+		objCount++;
+		doodads.put(objCount, e);
+		return objCount;
+	}
+	
+	/**
+	 * toss a BasicShot onto the update list
+	 * @param s BasicShot
+	 * @return new shot total (int)
+	 */
+	public int addShot(BasicShot s){
+		shotCount++;
+		shots.put(shotCount, s);
+		return shotCount;
 	}
 	
 	/**
