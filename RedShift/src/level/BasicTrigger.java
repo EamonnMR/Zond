@@ -16,8 +16,10 @@ public class BasicTrigger {
 	private Shape collider;
 	private float x,y;
 	private boolean isTrigged;
+	private TriggerTypes type;
 	
-	public BasicTrigger(){
+	public BasicTrigger(TriggerTypes trig){
+		this.type = trig;
 		this.isTrigged=false;
 	}
 	
@@ -69,5 +71,11 @@ public class BasicTrigger {
 		this.y = y;
 	}
 	
+	public void setTriggerType(TriggerTypes typ){
+		this.type = typ;
+	}
 	
+	public TriggerTypes getTriggerType(){
+		return this.type;
+	}
 }

@@ -34,13 +34,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	//Just in case we decide to remove addX and addY from basic Entity - EMR
 	@Override
 	public void addX(double dx) {
-		// TODO Auto-generated method stub
 		super.addX(dx);
 	}
 
 	@Override
 	public void addY(double dy) {
-		// TODO Auto-generated method stub
 		super.addY(dy);
 	}
 

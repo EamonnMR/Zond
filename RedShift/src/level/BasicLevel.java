@@ -68,7 +68,7 @@ public class BasicLevel {
 			
 			executeActions.add(levelActionMap.get(trig.getTargetName()));
 //			executeTriggers.remove(trig);
-			System.out.println("Trigger: "+ trig.getName()+"has been executed");
+			System.out.println("Trigger: "+ trig.getName()+" has been executed");
 		
 		}
 		
