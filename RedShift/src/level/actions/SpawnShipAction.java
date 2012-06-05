@@ -25,6 +25,8 @@ public class SpawnShipAction extends BasicAction{
 		this.setIni(true);
 		this.setUpdate(false);
 		this.setDone(false);
+		this.wep = wep;
+		this.eng = eng;
 		this.sname = ship;
 	}
 	
@@ -33,7 +35,7 @@ public class SpawnShipAction extends BasicAction{
 		setIni(false);
 		setUpdate(true);
 		this.entFac = cgs.getEntFac();
-		ship = entFac.buildShip(sname, eng,wep);
+		ship = entFac.buildShip(sname, wep,eng);
 	}
 	
 	@Override
