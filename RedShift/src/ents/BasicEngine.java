@@ -15,7 +15,8 @@ public class BasicEngine {
 	private Image inGameImg, icon;			//images
 	private float forwardThrust, reverseThrust, turnRate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
-
+	private String name;
+	
 	//constructors
 	public BasicEngine(){}
 	
@@ -79,6 +80,14 @@ public class BasicEngine {
 	}
 	public void setStrafeRate(float strafeRate) {
 		this.strafeRate = strafeRate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	
