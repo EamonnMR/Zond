@@ -173,4 +173,9 @@ public class PlayerClient {
 		return clientIsAlive;
 	}
 
+	public boolean tryShot() {
+		return currentShip.tryShot();
+		
+	}
+
 }

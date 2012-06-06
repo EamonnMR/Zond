@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Circle;
 public class BasicGun {
 
 	//vars
+	private double timer;
 	private int weight;
 	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
@@ -23,6 +24,15 @@ public class BasicGun {
 
 	//constructor
 	public BasicGun(){}
+	
+	public void tickTimer(int delta){ //Count down the gun timer
+		if (timer != 0){
+			timer -= delta;
+			if (timer < 0) {
+				timer = 0;
+			}
+		}
+	}
 	
 	//methods
 	/**
@@ -126,6 +136,14 @@ public class BasicGun {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean canIshoot() {
+		if(timer == 0){
+			timer = getRof();
+			return true;
+		}
+		return false;
 	}
 
 }

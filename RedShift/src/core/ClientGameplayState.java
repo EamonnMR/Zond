@@ -36,7 +36,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState {
 
 	//vars
-	private int id, entCount, objCount, shotCount, clientCount, timer;
+	private int id, entCount, objCount, shotCount, clientCount;
 	int camX, camY;
 	PlayerClient pc, pc2;
 	private BaseLevel level; //soon to be deprecated
@@ -65,7 +65,6 @@ public class ClientGameplayState extends BasicGameState {
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-		this.timer = 0;
 		this.ships = new HashMap<Integer, BasicShip>();
 		this.shots = new HashMap<Integer, BasicShot>();
 		this.doodads = new HashMap<Integer, BaseEnt>();
@@ -216,11 +215,10 @@ public class ClientGameplayState extends BasicGameState {
 				pc.getPlayShip().strafeRight(delta);
 			}
 			if(p.isKeyDown(Input.KEY_LCONTROL)){
-				timer +=delta;
-				if(timer > pc.getPlayShip().getWeapon().getRof()){
-					timer -= pc.getPlayShip().getWeapon().getRof();
+				if(pc.tryShot()){
 					addShot(pc.getPlayShip().getWeapon().makeShot());
 				}
+				pc.tryShot();
 			}
 			
 		
