@@ -81,7 +81,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getCollider().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 		
-			updateGun(angle);
+			updateGun(angle, delta);
 		//update engine			
 			setEngOffX(getX() + engineOffsetDistance *Math.cos(angle));		//where to draw engine on ship
 			setEngOffY(getY() + engineOffsetDistance *Math.sin(angle));
@@ -148,7 +148,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	}
 
 	
-	private void updateGun(double angle){
+	private void updateGun(double angle, int delta){
 		double wx = getX() + (gunOffsetDistance * Math.cos(angle));
 		double wy = getY() + (gunOffsetDistance * Math.sin(angle));
 		
@@ -159,6 +159,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		gun.setY(wy);
 		gun.setSpeed(physAnchor.getSpeedX(),physAnchor.getSpeedY());
 		gun.setAngle(getImg().getRotation());
+		gun.tickTimer(delta);
 	}
 	
 	public int getTotalWeight() {
@@ -262,6 +263,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean tryShot() {
+		return gun.canIshoot();
 	}
 	
 	
