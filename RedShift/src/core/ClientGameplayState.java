@@ -37,7 +37,7 @@ public class ClientGameplayState extends BasicGameState {
 
 	//vars
 	private int id, entCount, objCount, shotCount, clientCount, timer;
-	float camX, camY;
+	int camX, camY;
 	PlayerClient pc, pc2;
 	private BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
