@@ -408,19 +408,19 @@ public class ClientGameplayState extends BasicGameState {
 		pc = PC;
 	}
 	
-	public float getCamX() {
+	public int getCamX() {
 		return camX;
 	}
 
-	public void setCamX(float camX) {
+	public void setCamX(int camX) {
 		this.camX = camX;
 	}
 
-	public float getCamY() {
+	public int getCamY() {
 		return camY;
 	}
 
-	public void setCamY(float camY) {
+	public void setCamY(int camY) {
 		this.camY = camY;
 	}
 	
