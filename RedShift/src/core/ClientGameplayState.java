@@ -395,13 +395,6 @@ public class ClientGameplayState extends BasicGameState {
 		return clientCount;
 	}
 	
-	/**
-	 * respawns the player ship
-	 */
-	public void respawnShip(BasicShip ship){
-//		SpawnShipAction rSpwn = new SpawnShipAction();
-	}
-	
 	@Override
 	public int getID() {
 		return id;

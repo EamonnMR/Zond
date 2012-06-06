@@ -11,7 +11,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private static double SCLSPD = 0.0005;       //Global speed scaling-until we can get sane values for mass & engine impulse
 	private static double HALFPI = 1.57079633;   //90 degrees in radians 
 	
-	
+	private String name;						 //no idea why this wasn't done sooner
 	private int totalWeight;		             //maximum equipment
 	private double points;				         //points to award to killer
 	private double health;			             //base health of the ship
@@ -255,6 +255,15 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void setGunPtLength(double gunPtLength) {
 		this.gunOffsetDistance = gunPtLength;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	
 
 }

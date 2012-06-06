@@ -161,8 +161,8 @@ public class GameDatabase {
 		merc.setGunPtLength(26);
 		merc.setEngPtLength(-24);
 		merc.setCollider(new Circle(0,0,16,24));
-		//merc.getImg().setRotation(0);
-		indexShip.put("mercury", merc);
+		merc.setName("mercury");
+		indexShip.put(merc.getName(), merc);
 		
 		//Gemini-------------------------
 		BasicShip gem = new BasicShip();
@@ -173,7 +173,8 @@ public class GameDatabase {
 		gem.setGunPtLength(28);
 		gem.setEngPtLength(-24);
 		gem.setCollider(new Circle(0,0,16,28));
-		indexShip.put("gemini", gem);		
+		gem.setName("gemini");
+		indexShip.put(gem.getName(), gem);		
 		
 		//Apollo-------------------------
 		BasicShip apollo = new BasicShip();
@@ -184,7 +185,8 @@ public class GameDatabase {
 		apollo.setGunPtLength(-28);
 		apollo.setEngPtLength(24);
 		apollo.setCollider(new Circle(0,0,16,24));
-		indexShip.put("lunar", apollo);	
+		apollo.setName("lunar");
+		indexShip.put(apollo.getName(), apollo);	
 		
 		//Voskhod-------------------------
 		BasicShip voskhod = new BasicShip();
@@ -195,7 +197,8 @@ public class GameDatabase {
 		voskhod.setGunPtLength(-28);
 		voskhod.setEngPtLength(24);
 		voskhod.setCollider(new Circle(0,0,16,24));
-		indexShip.put("voskhod", voskhod);	
+		voskhod.setName("voskhod");
+		indexShip.put(voskhod.getName(), voskhod);	
 		
 		//Vostok-------------------------
 		BasicShip vost = new BasicShip();
@@ -206,7 +209,8 @@ public class GameDatabase {
 		vost.setGunPtLength(-28);
 		vost.setEngPtLength(24);
 		vost.setCollider(new Circle(0,0,16,24));
-		indexShip.put("vostok", vost);	
+		vost.setName("vostok");
+		indexShip.put(vost.getName(), vost);	
 		
 		//Zond4-------------------------
 		BasicShip zond4 = new BasicShip();
@@ -217,7 +221,8 @@ public class GameDatabase {
 		zond4.setGunPtLength(-28);
 		zond4.setEngPtLength(24);
 		zond4.setCollider(new Circle(0,0,16,24));
-		indexShip.put("zond4", zond4);	
+		zond4.setName("zond4");
+		indexShip.put(zond4.getName(), zond4);	
 	}
 	
 	/**
@@ -242,7 +247,8 @@ public class GameDatabase {
 		smallEng.setThrustY(0.1f);
 		smallEng.setStrafeRate(0.1f);
 		smallEng.setInGameImg(indexImages.get("eng1").copy());
-		indexEng.put("smallEngine", smallEng);
+		smallEng.setName("smallEngine");
+		indexEng.put(smallEng.getName(), smallEng);
 		
 		//Medium Engine
 		
@@ -267,10 +273,11 @@ public class GameDatabase {
 		BasicShot twentyShot = new BasicShot();
 		twentyShot.setImg(indexImages.get("shot1").copy());
 		twentyShot.setDamage(5);
-		twentyShot.setSpeed(0.4f);
-		twentyShot.setInterval(1000);
+		twentyShot.setSpeed(0.05f);
+		twentyShot.setInterval(5000);
 		twentyShot.setCollider(new Circle(0,0,4));
 		indexShot.put("twentyShot", twentyShot);
+		
 	}
 	
 	/**
@@ -293,7 +300,8 @@ public class GameDatabase {
 		twenty.setImg(indexImages.get("gun1").copy());
 		twenty.setWeight(0);
 		twenty.setProj(indexShot.get("twentyShot"));
-		indexGuns.put("20mm", twenty);
+		twenty.setName("20mm");
+		indexGuns.put(twenty.getName(), twenty);
 		
 		//60mm cannon-------------------------
 		BasicGun sixty = new BasicGun();
@@ -301,8 +309,9 @@ public class GameDatabase {
 		sixty.setCost(0);
 		sixty.setImg(indexImages.get("gun1").copy());
 		sixty.setWeight(0);
+		sixty.setName("60mm");
 //		sixty.setProj(proj)
-		indexGuns.put("60mm", sixty);
+		indexGuns.put(sixty.getName(), sixty);
 		
 		//105mm-------------------------
 		BasicGun oneOhfive = new BasicGun();
@@ -310,8 +319,9 @@ public class GameDatabase {
 		oneOhfive.setCost(0);
 		oneOhfive.setImg(indexImages.get("gun1").copy());
 		oneOhfive.setWeight(0);
+		oneOhfive.setName("105mm");
 //		oneOhfive(proj)
-		indexGuns.put("105mm", oneOhfive);
+		indexGuns.put(oneOhfive.getName(), oneOhfive);
 		
 		//Small Plasma
 		BasicGun smallPlas = new BasicGun();
@@ -319,8 +329,9 @@ public class GameDatabase {
 		smallPlas.setCost(0);
 		smallPlas.setImg(indexImages.get("gun1").copy());
 		smallPlas.setWeight(0);
+		smallPlas.setName("smallPlas");
 //		smallPlas(proj)
-		indexGuns.put("smallPlas", smallPlas);
+		indexGuns.put(smallPlas.getName(), smallPlas);
 		
 		//Small Laser
 		BasicGun smallLaser = new BasicGun();
@@ -328,8 +339,9 @@ public class GameDatabase {
 		smallLaser.setCost(0);
 		smallLaser.setImg(indexImages.get("gun1").copy());
 		smallLaser.setWeight(0);
+		smallLaser.setName("smallLaser");
 //		smallPlas(proj)
-		indexGuns.put("smallLaser", smallLaser);
+		indexGuns.put(smallLaser.getName(), smallLaser);
 	}
 	
 	/**

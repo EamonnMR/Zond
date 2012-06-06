@@ -18,6 +18,7 @@ public class BasicGun {
 	private double speedX, speedY;
 	private double angle;
 	private int coolDown;
+	private String name;
 	private BasicShot proj;
 
 	//constructor
@@ -117,6 +118,14 @@ public class BasicGun {
 
 	public void setRof(int rof) {
 		this.coolDown = rof;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
