@@ -48,6 +48,7 @@ public class GameDatabase {
 		try {
 			loadImages();
 		} catch (SlickException e) {
+			System.out.println("Problem? ;)");
 			e.printStackTrace();
 		}
 		indexShot = new HashMap<String, BasicShot>();
@@ -77,8 +78,8 @@ public class GameDatabase {
 	 */
 	public void loadImages() throws SlickException{
 		//Ships
-		ldImg("merc","assets/images/ships/nasa/mercury.png");
-		ldImg("gem", "assets/images/ships/nasa/gemini.png");
+		ldImg("mercury","assets/images/ships/nasa/mercury.png");
+		ldImg("gemini", "assets/images/ships/nasa/gemini.png");
 		ldImg("lunar","assets/images/ships/nasa/lunar.png");
 		
 		ldImg("vostok","assets/images/ships/russia/vostok1.png");
@@ -86,7 +87,7 @@ public class GameDatabase {
 		ldImg("zond4","assets/images/ships/russia/zond4.png");
 		
 		//Engines
-		ldImg("engine1","assets/images/engines/engine1.png");
+		ldImg("eng1","assets/images/engines/engine1.png");
 		
 		//Guns
 		ldImg("gun1","assets/images/weapons/20mm.png");
@@ -111,7 +112,12 @@ public class GameDatabase {
 	 * @param location   Where to load the file from 
 	 */
 	public void ldImg(String name, String location) throws SlickException{
-		indexImages.put(name, new Image(location) );
+		try{
+			indexImages.put(name, new Image(location) );
+			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
+		} catch (SlickException e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
