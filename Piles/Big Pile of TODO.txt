@@ -36,13 +36,13 @@ FINISHED--mission logic objects-------------------------------------------------
 FINISHED---physics for movement
 	+use EMR's email for help
 
--variable projectile velocity
+FINISHED-variable projectile velocity
 	+look into splicer
 	+pertains to things like missile -> early acceleration
 	+ or plasma -> velocity trails off over time
 
 
--properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
+FINISHED-properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
 	+polygons oh my!
 	+custom Shape objects for ships; only ships
 	+5/16/2012::make sure everyone has a collider though!
@@ -58,6 +58,7 @@ FINISHED---physics for movement
 -camera movement
 	+look at splicer code
 	+hinging on level class architecture at the moment.
+	+moved to phase 2
 
 //====ALPHA ONE! :D =======
 // 1 JUNE 2012
@@ -110,6 +111,16 @@ PWR-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
 
 PWR-update optionsEnt
 	+move to core, make read a properties file
+
+-at least one bad guy player can fight
+	+AI
+-finish art for already defined guns
+
+-camera, take 2
+
+-nail game over
+
+
 
 //====ALPHA TWO! >:) =====
 1 JULY 2012
