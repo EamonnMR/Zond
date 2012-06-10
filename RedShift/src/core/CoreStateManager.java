@@ -1,5 +1,7 @@
 package core;
 
+import level.GenerateALevel;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -23,6 +25,7 @@ public class CoreStateManager extends StateBasedGame {
 	public GameDatabase gDB;			//GameDataBase instance for whole game
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
+	public GenerateALevel gal;
 	
 	//constructor
 	public CoreStateManager() {
@@ -30,8 +33,9 @@ public class CoreStateManager extends StateBasedGame {
 		player = new PlayerClient(1);
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
+		gal = new GenerateALevel();
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac));
+		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, gal.build()));
 		this.enterState(CLIENTLOADERSTATE);
 	}
 

@@ -50,17 +50,9 @@ public class ClientGameplayState extends BasicGameState {
 	GameDatabase gdb;
 	EntityFactory entFac;
 	
-	private BasicLevel levelTest;	//testing the level logic
-	private BasicTrigger tellMe;	//simple trigger
-	private BasicTrigger askMe;		//simple trigger
-	private BasicTrigger spwn;
-	private MessageAction say1;		//message actions
-	private MessageAction ask1;		//
-	private SpawnShipAction spawn;	//spawn a ship!
-	private SpawnShipAction respawn;//respawns a player
-	
+	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
-	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef){
+	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, BasicLevel lvl){
 		this.id = i;
 		this.gdb = gDB;
 		this.entFac = ef;
@@ -70,16 +62,7 @@ public class ClientGameplayState extends BasicGameState {
 		this.doodads = new HashMap<Integer, BaseEnt>();
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
-		
-		this.levelTest = new BasicLevel("Test Level");
-		
-		this.tellMe = new BasicTrigger(trigTypes.SHIP);
-		this.askMe = new BasicTrigger(trigTypes.SHOT);
-		this.spwn = new BasicTrigger(trigTypes.SHOT);
-		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
-		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
-		this.spawn = new SpawnShipAction("spawnShip",900,700,"lunar", "20mm","smallEngine");
-		
+		this.levelToUse = lvl;	
 	}
 	
 	//methods
@@ -89,35 +72,6 @@ public class ClientGameplayState extends BasicGameState {
 		//==========ship swapping test
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
-		//=============================
-		
-		
-		//=============================
-		tellMe.setName("TellMe");
-		tellMe.setTargetName("MessageOut");
-		tellMe.setX(151);
-		tellMe.setY(50);
-		tellMe.setCollider(new Rectangle(tellMe.getX(),tellMe.getY(),100,100));
-		
-		askMe.setName("AskMe");
-		askMe.setTargetName("Queston");
-		askMe.setX(50);
-		askMe.setY(50);
-		askMe.setCollider(new Rectangle(askMe.getX(),askMe.getY(), 100,100));
-		
-		spwn.setName("spawn ship!");
-		spwn.setTargetName("spawnShip");
-		spwn.setX(800);
-		spwn.setY(400);
-		spwn.setCollider(new Circle(spwn.getX(), spwn.getY(), 64));
-		
-		levelTest.addTrigger(tellMe);
-		levelTest.addTrigger(askMe);
-		levelTest.addTrigger(spwn);
-		levelTest.addAction(say1);
-		levelTest.addAction(ask1);
-		levelTest.addAction(spawn);
-		
 		//=============================
 		
 		//TODO: clean this up
@@ -160,7 +114,7 @@ public class ClientGameplayState extends BasicGameState {
 		}
 
 		//actions
-		for(BasicAction acts : levelTest.getExecuteActions()){
+		for(BasicAction acts : levelToUse.getExecuteActions()){
 			if(acts.isUpdate()){
 				acts.render(arg2);
 			}
@@ -177,7 +131,7 @@ public class ClientGameplayState extends BasicGameState {
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 		
-		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
 			arg2.draw(trig.getCollider());
 			float tx = trig.getCollider().getCenterX();
 			float ty = trig.getCollider().getCenterY();
@@ -231,16 +185,16 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//level update
 		//this check is so any action still active will also be updated
-		for(BasicAction act : levelTest.getExecuteActions()){
+		for(BasicAction act : levelToUse.getExecuteActions()){
 			if(act.isUpdate()==true){
-				levelTest.setNeedsUpdate(true);
+				levelToUse.setNeedsUpdate(true);
 			}
 		}
 		
 		//finally, if the level needs to be updated; do it
-		if(levelTest.isNeedsUpdate()==true){
+		if(levelToUse.isNeedsUpdate()==true){
 			System.out.println("Level updating");
-			levelTest.update(delta, this);
+			levelToUse.update(delta, this);
 		}
 		
 		cleanEntities(removeShots,removeShips,removeDoodads);
@@ -294,7 +248,7 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 		//check Shot/Trigger
-		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 				if(trig.getCollider().intersects(shot.getValue().getCollider())){
 					if(trig.getTriggerType()==trigTypes.SHOT){
@@ -302,7 +256,7 @@ public class ClientGameplayState extends BasicGameState {
 						//to be updated
 						trig.trigger(true);
 						System.out.println("Trigger: "+trig.getName()+" has been fired");
-						levelTest.setNeedsUpdate(true);
+						levelToUse.setNeedsUpdate(true);
 					}
 				}
 			}
@@ -318,7 +272,7 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 		//check triggers and ships
-		for(BasicTrigger trig : levelTest.getLevelTriggerMap().values()){
+		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 				if(trig.getCollider().intersects(ship.getValue().getCollider())){
 					if(trig.getTriggerType()==trigTypes.SHIP){
@@ -326,7 +280,7 @@ public class ClientGameplayState extends BasicGameState {
 					//to be updated
 					trig.trigger(true);
 					System.out.println("Trigger: "+trig.getName()+" has been fired");
-					levelTest.setNeedsUpdate(true);
+					levelToUse.setNeedsUpdate(true);
 					}
 				}
 			}
