@@ -91,6 +91,8 @@ public class GameDatabase {
 		
 		//Guns
 		ldImg("gun1","assets/images/weapons/20mm.png");
+		ldImg("gun2","assets/images/weapons/60mm.png");
+		ldImg("gun3","assets/images/weapons/105mm.png");
 		
 		//thrust fx
 //		thrust1 = new Image("assets/images/fx/engine1thrust.png");
@@ -101,7 +103,9 @@ public class GameDatabase {
 		//Shots
 		ldImg("shot1","assets/images/fx/shot1.png");
 		ldImg("shot2","assets/images/fx/shot2.png");
-		ldImg("shot3","assets/images/fx/laz1.png");
+		ldImg("shot3","assets/images/fx/shot3.png");
+		ldImg("laz","assets/images/fx/laz1.png");
+		ldImg("plas","assets/images/fx/ppc.png");
 		
 		//Asteroids
 		ldImg("asteroid","assets/images/doodads/ast1.png");
@@ -118,14 +122,6 @@ public class GameDatabase {
 		} catch (SlickException e){
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * simple Image get method.
-	 * @return Image
-	 */
-	public Image getImage(String key){
-		return indexImages.get(key);
 	}
 	
 	/**
@@ -254,10 +250,28 @@ public class GameDatabase {
 		BasicShot twentyShot = new BasicShot();
 		twentyShot.setImg(indexImages.get("shot1").copy());
 		twentyShot.setDamage(5);
-		twentyShot.setSpeed(0.05f);
-		twentyShot.setInterval(5000);
+		twentyShot.setSpeed(0.15f);
+		twentyShot.setInterval(10000);
 		twentyShot.setCollider(new Circle(0,0,4));
 		indexShot.put("twentyShot", twentyShot);
+		
+		//60mm shot
+		BasicShot sixtyShot = new BasicShot();
+		sixtyShot.setImg(indexImages.get("shot2").copy());
+		sixtyShot.setDamage(5);
+		sixtyShot.setSpeed(0.12f);
+		sixtyShot.setInterval(7500);
+		sixtyShot.setCollider(new Circle(0,0,4));
+		indexShot.put("sixtyShot", sixtyShot);
+		
+		//105mm shot
+		BasicShot oneFiveShot = new BasicShot();
+		oneFiveShot.setImg(indexImages.get("shot3").copy());
+		oneFiveShot.setDamage(5);
+		oneFiveShot.setSpeed(0.1f);
+		oneFiveShot.setInterval(5000);
+		oneFiveShot.setCollider(new Circle(0,0,4));
+		indexShot.put("oneFiveShot", oneFiveShot);
 		
 	}
 	
@@ -276,7 +290,7 @@ public class GameDatabase {
 	public void populateGun(){
 		//20mm cannon-------------------------
 		BasicGun twenty = new BasicGun();
-		twenty.setCoolDown(150);
+		twenty.setCoolDown(200);
 		twenty.setCost(0);
 		twenty.setImg(indexImages.get("gun1").copy());
 		twenty.setWeight(0);
@@ -286,22 +300,22 @@ public class GameDatabase {
 		
 		//60mm cannon-------------------------
 		BasicGun sixty = new BasicGun();
-		sixty.setCoolDown(150);
+		sixty.setCoolDown(300);
 		sixty.setCost(0);
-		sixty.setImg(indexImages.get("gun1").copy());
+		sixty.setImg(indexImages.get("gun2").copy());
 		sixty.setWeight(0);
 		sixty.setName("60mm");
-//		sixty.setProj(proj)
+		sixty.setProj(indexShot.get("sixtyShot"));
 		indexGuns.put(sixty.getName(), sixty);
 		
 		//105mm-------------------------
 		BasicGun oneOhfive = new BasicGun();
-		oneOhfive.setCoolDown(150);
+		oneOhfive.setCoolDown(400);
 		oneOhfive.setCost(0);
-		oneOhfive.setImg(indexImages.get("gun1").copy());
+		oneOhfive.setImg(indexImages.get("gun3").copy());
 		oneOhfive.setWeight(0);
 		oneOhfive.setName("105mm");
-//		oneOhfive(proj)
+		oneOhfive.setProj(indexShot.get("oneFiveShot"));
 		indexGuns.put(oneOhfive.getName(), oneOhfive);
 		
 		//Small Plasma

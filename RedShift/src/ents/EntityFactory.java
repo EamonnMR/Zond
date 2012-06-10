@@ -113,7 +113,7 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		return buildShip("gemini","20mm","smallEngine");
+		return buildShip("gemini","60mm","smallEngine");
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		return buildShip("lunar","20mm","smallEngine");
+		return buildShip("lunar","105mm","smallEngine");
 	}
 	
 	/**
