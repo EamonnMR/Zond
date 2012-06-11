@@ -59,18 +59,18 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		//theta = Math.PI/2;
 	}
 	
-	public void render(){
+	public void render(int xOffset, int yOffset){
 		//draw the engine
 		if(gun!=null){
-			gun.getImg().drawCentered((float)getWepOffX(),(float) getWepOffY());
+			gun.getImg().drawCentered(xOffset + (float)getWepOffX(),yOffset + (float) getWepOffY());
 		}
 		//draw the gun
 		if(engine!=null){
-			engine.getInGameImg().drawCentered((float)getEngOffX(),(float)getEngOffY());
+			engine.getInGameImg().drawCentered(xOffset + (float)getEngOffX(), yOffset + (float)getEngOffY());
 		}
 		//draw the ship
 		getImg().setCenterOfRotation((getImg().getWidth()/2),(getImg().getHeight()/2));
-		getImg().drawCentered((float)getX(), (float)getY());	
+		getImg().drawCentered(xOffset + (float)getX(), yOffset + (float)getY());	
 	}
 
 	public void update(int delta){
@@ -268,7 +268,4 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public boolean tryShot() {
 		return gun.canIshoot();
 	}
-	
-	
-
 }

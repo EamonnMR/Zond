@@ -178,4 +178,8 @@ public class PlayerClient {
 		
 	}
 
+	public void updateCamera(ClientGameplayState c) {
+		c.setCamX((int)currentShip.getX());
+		c.setCamY((int)currentShip.getY());
+	}
 }

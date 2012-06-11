@@ -20,7 +20,7 @@ public class BaseEnt {
 	public BaseEnt(){}
 	
 	//methods
-	public void render(){
+	public void render(int xOffset, int yOffset){
 		getImg().drawCentered((float)getX(),(float) getY());
 	}
 	

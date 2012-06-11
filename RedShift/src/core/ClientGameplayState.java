@@ -8,16 +8,15 @@ import level.BasicAction;
 import level.BasicLevel;
 import level.BasicTrigger;
 import level.TriggerTypes;
-import level.actions.MessageAction;
-import level.actions.SpawnShipAction;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -33,7 +32,7 @@ import ents.EntityFactory;
  * @version 1.0
  * the core of the active game, handles an instance of play
  */
-public class ClientGameplayState extends BasicGameState {
+public class ClientGameplayState extends BasicGameState{
 
 	//vars
 	private int id, entCount, objCount, shotCount, clientCount;
@@ -101,16 +100,16 @@ public class ClientGameplayState extends BasicGameState {
 		
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
-			entry.getValue().render();
+			entry.getValue().render(camX, camY);
 //			arg2.draw(entry.getValue().getCollider());
 		}
 		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().render();
+			entry.getValue().render(camX, camY);
 		}
 		//draw all doodads
 		for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().render();
+			entry.getValue().render(camX, camY);
 		}
 
 		//actions
@@ -121,7 +120,7 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 		//all this below is for the DevGog system!
-		arg2.draw(pc.getPlayShip().getCollider());
+		/*arg2.draw( pc.getPlayShip().getCollider().transform(new Transform()).setLocation());
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		arg2.drawString(x, 25, 700);
@@ -137,7 +136,7 @@ public class ClientGameplayState extends BasicGameState {
 			float ty = trig.getCollider().getCenterY();
 			arg2.drawString(trig.getName(), tx, ty);
 		}
-		
+		*/
 	}
 
 	@Override
@@ -198,6 +197,8 @@ public class ClientGameplayState extends BasicGameState {
 		}
 		
 		cleanEntities(removeShots,removeShips,removeDoodads);
+		
+		pc.updateCamera(this);
 	}
 	
 	
@@ -363,17 +364,25 @@ public class ClientGameplayState extends BasicGameState {
 	public int getCamX() {
 		return camX;
 	}
-
+	
+	/**
+	 * Center camera's X position
+	 * @param camX
+	 */
 	public void setCamX(int camX) {
-		this.camX = camX;
+		this.camX = 512 - camX;
 	}
 
 	public int getCamY() {
 		return camY;
 	}
 
+	/**
+	 * Center camera's Y position.
+	 * @param camY
+	 */
 	public void setCamY(int camY) {
-		this.camY = camY;
+		this.camY = 474 - camY;
 	}
 	
 	public EntityFactory getEntFac(){

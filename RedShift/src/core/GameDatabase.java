@@ -98,6 +98,14 @@ public class GameDatabase {
 		}
 	}
 	
+	/**
+	 * Loads gun stats from assets/text/guns.rst
+	 * 
+	 * See the comments at the beginning of guns.rst
+	 * Make sure indexGuns() has been created!
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void xpopulateGun() throws FileNotFoundException, IOException{
 		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/guns.rst"));
 		for (String child : s.childSet()){
