@@ -46,13 +46,12 @@ public class GameDatabase {
 	 * indexShot() - always BEFORE guns
 	 * indexShip() - always LAST
 	 * @throws IOException 
-	 * @throws FileNotFoundException 
 	 */
-	public void iniGDB() throws FileNotFoundException{
+	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
 		try {
 			try {
-				XloadImages();
+				xloadImages();
 				//loadImages();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image)");
@@ -73,12 +72,15 @@ public class GameDatabase {
 	
 	/**
 	 * populates all indices with their respective resources
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 * 
 	 */
-	public void populateAll(){
+	public void populateAll() throws FileNotFoundException, IOException{
 		populateArmor();
 		populateShot();
-		populateGun();
+		populateGun();    //Original method left to prevent freakouts
+		//xpopulateGun(); //Now you're cooking with external data!
 		populateEngine();
 		populateShips();
 	}
@@ -88,11 +90,25 @@ public class GameDatabase {
 	 * Automate this before the beta
 	 * @throws SlickException
 	 */
-	public void XloadImages() throws SlickException, FileNotFoundException, IOException{
+	public void xloadImages() throws SlickException, FileNotFoundException, IOException{
 		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/images.rst"));
 		for (String child : s.childSet()){
 			ldImg(child, s.getValue(child));
 			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+		}
+	}
+	
+	public void xpopulateGun() throws FileNotFoundException, IOException{
+		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/guns.rst"));
+		for (String child : s.childSet()){
+			BasicGun current = new BasicGun();
+			current.setCoolDown(Integer.parseInt(s.getValue(child, "cooldown")));
+			current.setCost(Integer.parseInt(s.getValue(child, "cost")));
+			current.setImg(indexImages.get(s.getValue(child, "img")).copy());
+			current.setWeight(Integer.parseInt(s.getValue(child, "weight")));
+			current.setProj(indexShot.get(s.getValue(child, "proj")));
+			current.setName(child);
+			indexGuns.put(child, current);
 		}
 	}
 	
@@ -273,6 +289,8 @@ public class GameDatabase {
 	/**
 	 * build all gun instances
 	 * populate map with instances
+	 * 
+	 * Currently obsolete-externalized version is prefixed with an x.
 	 */
 	public void populateGun(){
 		//20mm cannon-------------------------
