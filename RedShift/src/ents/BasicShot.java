@@ -40,8 +40,8 @@ public class BasicShot extends BaseEnt {
 		}
 	}
 	
-	public void render(){
-		getImg().drawCentered((float)getX(), (float)getY());
+	public void render(int xOffset, int yOffset){
+		getImg().drawCentered(xOffset + (float)getX(), yOffset + (float)getY());
 	}
 	
 	public double getDamage() {
