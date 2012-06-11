@@ -1,5 +1,7 @@
 package core;
 
+import java.io.FileNotFoundException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -33,10 +35,14 @@ public class ClientLoaderState extends BasicGameState {
 	}
 
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
+	public void init(GameContainer arg0, StateBasedGame arg1) {
 		// TODO Auto-generated method stub
-		gdb.iniGDB();
+		try {
+			gdb.iniGDB();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		entFac.ini(gdb);
 	}
 

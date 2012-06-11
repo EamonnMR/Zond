@@ -1,5 +1,8 @@
 package core;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,19 +41,28 @@ public class GameDatabase {
 	/**
 	 * initialize the gamedatabase for this instance of the game
 	 * !ORDER OF THESE METHODS MATTER!
-	 * loadImages() - always first!
-	 * indexImages() - always second!
+	 * loadImages() - always first!   (?)
+	 * indexImages() - always second! (?)
 	 * indexShot() - always BEFORE guns
 	 * indexShip() - always LAST
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public void iniGDB(){
+	public void iniGDB() throws FileNotFoundException{
 		indexImages  = new HashMap<String, Image>();
 		try {
-			loadImages();
-		} catch (SlickException e) {
-			System.out.println("Problem? ;)");
+			try {
+				XloadImages();
+				//loadImages();
+			} catch (SlickException e) {
+				System.out.println("Problem loading image)");
+				e.printStackTrace();
+			}
+		} catch (IOException e){
+			System.out.println("Problem opening images file)");
 			e.printStackTrace();
 		}
+		
 		indexShot = new HashMap<String, BasicShot>();
 		indexGuns = new HashMap<String, BasicGun>();
 		indexEng = new HashMap<String, BasicEngine>();
@@ -76,40 +88,14 @@ public class GameDatabase {
 	 * Automate this before the beta
 	 * @throws SlickException
 	 */
-	public void loadImages() throws SlickException{
-		//Ships
-		ldImg("mercury","assets/images/ships/nasa/mercury.png");
-		ldImg("gemini", "assets/images/ships/nasa/gemini.png");
-		ldImg("lunar","assets/images/ships/nasa/lunar.png");
-		
-		ldImg("vostok","assets/images/ships/russia/vostok1.png");
-		ldImg("voskhod","assets/images/ships/russia/voskhod.png");
-		ldImg("zond4","assets/images/ships/russia/zond4.png");
-		
-		//Engines
-		ldImg("eng1","assets/images/engines/engine1.png");
-		
-		//Guns
-		ldImg("gun1","assets/images/weapons/20mm.png");
-		ldImg("gun2","assets/images/weapons/60mm.png");
-		ldImg("gun3","assets/images/weapons/105mm.png");
-		
-		//thrust fx
-//		thrust1 = new Image("assets/images/fx/engine1thrust.png");
-		
-		//Levels
-		ldImg("level1field","assets/images/ScratchLevel.png");
-		
-		//Shots
-		ldImg("shot1","assets/images/fx/shot1.png");
-		ldImg("shot2","assets/images/fx/shot2.png");
-		ldImg("shot3","assets/images/fx/shot3.png");
-		ldImg("laz","assets/images/fx/laz1.png");
-		ldImg("plas","assets/images/fx/ppc.png");
-		
-		//Asteroids
-		ldImg("asteroid","assets/images/doodads/ast1.png");
+	public void XloadImages() throws SlickException, FileNotFoundException, IOException{
+		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/images.rst"));
+		for (String child : s.childSet()){
+			ldImg(child, s.getValue(child));
+			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+		}
 	}
+	
 	/**
 	 * Load an image into the database
 	 * @param name       It's name in the DB
@@ -120,6 +106,7 @@ public class GameDatabase {
 			indexImages.put(name, new Image(location) );
 			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
 		} catch (SlickException e){
+			System.out.println("Failed ''" + name + "'' at location: ''" + location + "''.");
 			e.printStackTrace();
 		}
 	}
