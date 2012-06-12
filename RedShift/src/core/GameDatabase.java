@@ -9,6 +9,7 @@ import java.util.Map;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import ents.BasicArmor;
 import ents.BasicEngine;
@@ -52,7 +53,6 @@ public class GameDatabase {
 		try {
 			try {
 				xloadImages();
-				//loadImages();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image)");
 				e.printStackTrace();
@@ -79,9 +79,9 @@ public class GameDatabase {
 	public void populateAll() throws FileNotFoundException, IOException{
 		populateArmor();
 		populateShot();
-		populateGun();    //Original method left to prevent freakouts
-		//xpopulateGun(); //Now you're cooking with external data!
-		populateEngine();
+		//populateGun();    //Original method left to prevent freakouts
+		xpopulateGun(); //Now you're cooking with external data!
+		xpopulateEngine();
 		populateShips();
 	}
 	
@@ -225,24 +225,27 @@ public class GameDatabase {
 	 * build all engine instances
 	 * populate map with instances
 	 */
-	public void populateEngine(){
-		//Small Engine
-		BasicEngine smallEng = new BasicEngine();
-		smallEng.setCost(0);
-		smallEng.setWeight(0);
-		smallEng.setTurnrate(0.25f);
-		smallEng.setThrustX(0.3f);
-		smallEng.setThrustY(0.1f);
-		smallEng.setStrafeRate(0.1f);
-		smallEng.setInGameImg(indexImages.get("eng1").copy());
-		smallEng.setName("smallEngine");
-		indexEng.put(smallEng.getName(), smallEng);
+	public void xpopulateEngine() throws FileNotFoundException, IOException{
+		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/motors.rst"));
+		for (String child : s.childSet()){
+			BasicEngine e = new BasicEngine();
+			e.setName(child);
+			e.setCost(Integer.parseInt(s.getValue(child, "cost")));
+			e.setWeight(Integer.parseInt(s.getValue(child, "weight")));
+			e.setTurnrate(Float.parseFloat(s.getValue(child, "turnrate")));
+			e.setThrustX(Float.parseFloat(s.getValue(child, "thrustx")));
+			e.setThrustY(Float.parseFloat(s.getValue(child, "thrusty")));
+			e.setStrafeRate(Float.parseFloat(s.getValue(child, "strafeRate")));
+			e.setInGameImg(indexImages.get(s.getValue(child, "img")).copy());
+			indexEng.put(child, e);
+		}
 		
 		//Medium Engine
 		
 		//Large Engine
 		
 	}
+	
 	
 	/**
 	 * simple get engine method
@@ -293,65 +296,7 @@ public class GameDatabase {
 	public BasicShot getShot(String index){
 		return indexShot.get(index);
 	}
-	
-	/**
-	 * build all gun instances
-	 * populate map with instances
-	 * 
-	 * Currently obsolete-externalized version is prefixed with an x.
-	 */
-	public void populateGun(){
-		//20mm cannon-------------------------
-		BasicGun twenty = new BasicGun();
-		twenty.setCoolDown(200);
-		twenty.setCost(0);
-		twenty.setImg(indexImages.get("gun1").copy());
-		twenty.setWeight(0);
-		twenty.setProj(indexShot.get("twentyShot"));
-		twenty.setName("20mm");
-		indexGuns.put(twenty.getName(), twenty);
-		
-		//60mm cannon-------------------------
-		BasicGun sixty = new BasicGun();
-		sixty.setCoolDown(300);
-		sixty.setCost(0);
-		sixty.setImg(indexImages.get("gun2").copy());
-		sixty.setWeight(0);
-		sixty.setName("60mm");
-		sixty.setProj(indexShot.get("sixtyShot"));
-		indexGuns.put(sixty.getName(), sixty);
-		
-		//105mm-------------------------
-		BasicGun oneOhfive = new BasicGun();
-		oneOhfive.setCoolDown(400);
-		oneOhfive.setCost(0);
-		oneOhfive.setImg(indexImages.get("gun3").copy());
-		oneOhfive.setWeight(0);
-		oneOhfive.setName("105mm");
-		oneOhfive.setProj(indexShot.get("oneFiveShot"));
-		indexGuns.put(oneOhfive.getName(), oneOhfive);
-		
-		//Small Plasma
-		BasicGun smallPlas = new BasicGun();
-		smallPlas.setCoolDown(150);
-		smallPlas.setCost(0);
-		smallPlas.setImg(indexImages.get("gun1").copy());
-		smallPlas.setWeight(0);
-		smallPlas.setName("smallPlas");
-//		smallPlas(proj)
-		indexGuns.put(smallPlas.getName(), smallPlas);
-		
-		//Small Laser
-		BasicGun smallLaser = new BasicGun();
-		smallLaser.setCoolDown(150);
-		smallLaser.setCost(0);
-		smallLaser.setImg(indexImages.get("gun1").copy());
-		smallLaser.setWeight(0);
-		smallLaser.setName("smallLaser");
-//		smallPlas(proj)
-		indexGuns.put(smallLaser.getName(), smallLaser);
-	}
-	
+
 	/**
 	 * simple get gun method
 	 * @return BasicGun
@@ -376,4 +321,44 @@ public class GameDatabase {
 		return indexArmor.get(index);
 	}
 	
+	/**
+	 * Extract a shape tree from an rst.
+	 * Note that this can be from anywhere inside a tree, just specify the path it's path argument.
+	 * @param t    StringTree to read from
+	 * @param name Node path to the node you want a shape from
+	 */
+	/*public static org.newdawn.slick.geom.Shape parseShape(StringTree t, String... name){
+		//No switch on string?  Pete, update your JVM ffs
+		String type = t.getValue(cat(name, "type"));
+		if( type.equals("rect")){
+			
+		} else if(type.equals("line")){
+			return new Rectangle(
+					//I wish I could just say "proc getFlt(nm) { return Float.parseFloat(t.getValue(cat(name, nm)))}
+					//But that is not a thing java can comprehend
+					Float.parseFloat(t.getValue(cat(name, "x"))),
+					Float.parseFloat(t.getValue(cat(name, "y"))),
+					Float.parseFloat(t.getValue(cat(name, "w"))),
+					Float.parseFloat(t.getValue(cat(name, "h"))));
+		} else if(type.equals("circle")){
+			
+		} else if(type.equals("poly")){
+			
+		} else {
+			System.out.print(" * DATA ERROR: SHAPE AT " + name.toString() + " has invalid type ''" + type + "''");
+			return new Rectangle(0,0,0,0);
+		}
+	}*/
+	/**
+	 * Add a single String to the end of an array of strings-
+	 * complex enough to stuff into it's own method.
+	 * 
+	 * Named cat after the catenate command (and since it's so short)
+	 */
+	public static String[] cat(String[] train, String caboose){
+		String[] toSender = new String[train.length + 1];
+		System.arraycopy(train, 0, toSender, 0, train.length);
+		toSender[train.length] = caboose; //This makes sense
+		return toSender;
+	}
 }
