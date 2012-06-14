@@ -9,7 +9,9 @@ import java.util.Map;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import ents.BasicArmor;
 import ents.BasicEngine;
@@ -77,8 +79,8 @@ public class GameDatabase {
 	 * 
 	 */
 	public void populateAll() throws FileNotFoundException, IOException{
-		populateArmor();
-		populateShot();
+		//populateArmor(); We have no armor types at this point
+		xpopulateShot();
 		//populateGun();    //Original method left to prevent freakouts
 		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateEngine();
@@ -256,39 +258,21 @@ public class GameDatabase {
 	}
 	
 	/**
-	 * build all shot instances
+	 * Load all shot types
 	 * populate map with instances
 	 */
-	public void populateShot(){
-		//20mm shot
-		BasicShot twentyShot = new BasicShot();
-		twentyShot.setImg(indexImages.get("shot1").copy());
-		twentyShot.setDamage(5);
-		twentyShot.setSpeed(0.15f);
-		twentyShot.setInterval(10000);
-		twentyShot.setCollider(new Circle(0,0,4));
-		indexShot.put("twentyShot", twentyShot);
-		
-		//60mm shot
-		BasicShot sixtyShot = new BasicShot();
-		sixtyShot.setImg(indexImages.get("shot2").copy());
-		sixtyShot.setDamage(5);
-		sixtyShot.setSpeed(0.12f);
-		sixtyShot.setInterval(7500);
-		sixtyShot.setCollider(new Circle(0,0,4));
-		indexShot.put("sixtyShot", sixtyShot);
-		
-		//105mm shot
-		BasicShot oneFiveShot = new BasicShot();
-		oneFiveShot.setImg(indexImages.get("shot3").copy());
-		oneFiveShot.setDamage(5);
-		oneFiveShot.setSpeed(0.1f);
-		oneFiveShot.setInterval(5000);
-		oneFiveShot.setCollider(new Circle(0,0,4));
-		indexShot.put("oneFiveShot", oneFiveShot);
-		
+	public void xpopulateShot() throws FileNotFoundException, IOException{
+		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/shots.rst"));
+		for (String child : s.childSet()){
+			BasicShot h = new BasicShot();
+			h.setImg(indexImages.get(s.getValue(child, "img")).copy());
+			h.setDamage(Integer.parseInt(s.getValue(child, "dmg")));
+			h.setSpeed(Float.parseFloat(s.getValue(child, "speed")));
+			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
+			h.setCollider(parseShape(s, child, "collider"));
+			indexShot.put(child, h);
+		}
 	}
-	
 	/**
 	 * simple get shot method
 	 * @return BasicShot
@@ -322,33 +306,50 @@ public class GameDatabase {
 	}
 	
 	/**
-	 * Extract a shape tree from an rst.
-	 * Note that this can be from anywhere inside a tree, just specify the path it's path argument.
+	 * Extract a shape from an rst.
+	 * Note that this can be from anywhere inside a tree, just specify the path it's 'name' argument.
+	 * 
+	 * See shapes.txt
+	 * 
 	 * @param t    StringTree to read from
 	 * @param name Node path to the node you want a shape from
 	 */
-	/*public static org.newdawn.slick.geom.Shape parseShape(StringTree t, String... name){
-		//No switch on string?  Pete, update your JVM ffs
+	public static Shape parseShape(StringTree t, String... name){
+		//No switch on string?  Pete, update your Java ffs
 		String type = t.getValue(cat(name, "type"));
 		if( type.equals("rect")){
 			
 		} else if(type.equals("line")){
 			return new Rectangle(
-					//I wish I could just say "proc getFlt(nm) { return Float.parseFloat(t.getValue(cat(name, nm)))}
-					//But that is not a thing java can comprehend
-					Float.parseFloat(t.getValue(cat(name, "x"))),
-					Float.parseFloat(t.getValue(cat(name, "y"))),
-					Float.parseFloat(t.getValue(cat(name, "w"))),
-					Float.parseFloat(t.getValue(cat(name, "h"))));
+					fft(t,"x",name),
+					fft(t,"y",name),
+					fft(t,"w",name),
+					fft(t,"h",name));
 		} else if(type.equals("circle")){
-			
+			if(t.childSet(name).contains("segments")){
+				return new Circle(
+						fft(t, "x", name),
+						fft(t, "y", name),
+						fft(t, "radius", name),
+						Integer.parseInt(t.getValue(cat(name, "segments"))));
+			} else {
+				return new Circle(
+						fft(t, "x", name),
+						fft(t, "y", name),
+						fft(t, "radius", name));
+			}
 		} else if(type.equals("poly")){
-			
-		} else {
-			System.out.print(" * DATA ERROR: SHAPE AT " + name.toString() + " has invalid type ''" + type + "''");
-			return new Rectangle(0,0,0,0);
+			Polygon toSender = new Polygon();
+			String[] pointsList = cat(name, "points");
+			for(String i : t.childSet(pointsList)){
+				String[] current = cat(pointsList,i);
+				toSender.addPoint(fft(t, "0",current),fft(t, "1", current));
+			}
+			return toSender;
 		}
-	}*/
+		System.out.print(" * DATA ERROR: SHAPE AT " + name.toString() + " has invalid type ''" + type + "''");
+		return new Rectangle(0,0,0,0);
+	}
 	/**
 	 * Add a single String to the end of an array of strings-
 	 * complex enough to stuff into it's own method.
@@ -360,5 +361,14 @@ public class GameDatabase {
 		System.arraycopy(train, 0, toSender, 0, train.length);
 		toSender[train.length] = caboose; //This makes sense
 		return toSender;
+	}
+	
+	/**
+	 * Float From Tree-
+	 * Gets a float from a value from a path that it cats together.
+	 * For brevity.
+	 */
+	private static float fft(StringTree t, String value, String... path){
+		return Float.parseFloat(t.getValue(cat(path, value)));
 	}
 }
