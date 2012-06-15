@@ -67,7 +67,13 @@ FINISHED-properly shaped colliders for everything-------------------------------
 PHASE TWO
 -clean project
 
+
+FINSIHED-camera, take 2
+	+6/12/2012
+
+
 -FIGURE OUT FUN GAMEPLAY
+	+getting close 6/14/2012
 
 -script draft 1
 
@@ -86,14 +92,12 @@ PWR-build basic menu using framework defined in txt doc.
 	+try to animate
 	+start small
 
--sound effects
+EMR-sound effects
 	+create stand ins
 	+load up
 	+hook into code
 
--player data persistence
-	+save class?
-	+serialize clientgameplaystate as save file(?)
+
 
 PWR-an official prototype hud
 	+track health, ammo, current weapon....minimap......(!?)
@@ -114,12 +118,16 @@ PWR-update optionsEnt
 
 -at least one bad guy player can fight
 	+AI
--finish art for already defined guns
 
--camera, take 2
+-finish art for already defined guns
+	+6/10/2012 - finished autocannon sprites
 
 -nail game over
 
+
+-player data persistence
+	+save class?
+	+serialize clientgameplaystate as save file(?)
 
 
 //====ALPHA TWO! >:) =====
