@@ -36,7 +36,10 @@ public class ClientGameplayState extends BasicGameState{
 
 	//vars
 	private int id, entCount, objCount, shotCount, clientCount;
-	int camX, camY;
+	private boolean gameOver, warn;
+
+
+	int camX, camY, boundsCheck;
 	PlayerClient pc, pc2;
 	private BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
@@ -56,23 +59,27 @@ public class ClientGameplayState extends BasicGameState{
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-		this.ships = new HashMap<Integer, BasicShip>();
-		this.shots = new HashMap<Integer, BasicShot>();
-		this.doodads = new HashMap<Integer, BaseEnt>();
-		this.clients = new HashMap<Integer, PlayerClient>();
-		this.incomingClientShips = new HashMap<String, BasicShip>();
-		this.levelToUse = lvl;	
+		this.levelToUse = lvl;
+		this.boundsCheck = 1;
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		//==========ship swapping test
+
+		this.ships = new HashMap<Integer, BasicShip>();
+		this.shots = new HashMap<Integer, BasicShot>();
+		this.doodads = new HashMap<Integer, BaseEnt>();
+		this.clients = new HashMap<Integer, PlayerClient>();
+		this.incomingClientShips = new HashMap<String, BasicShip>();
+		
+		this.gameOver = false;
+		this.warn = false;
+		
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
-		//=============================
-		
+
 		//TODO: clean this up
 		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
@@ -80,7 +87,8 @@ public class ClientGameplayState extends BasicGameState{
 		//create the client ship
 		pc.setPlayShip(pc.retrieveShip("mercury"));
 		pc.getPlayShip().ini(512, 250, 0.0f);
-			
+		pc.getPlayShip().setHealth(10);
+		
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
 		pc2.getPlayShip().ini((300), (300), 0.0f);
@@ -120,7 +128,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		//all this below is for the DevGog system!
-		/*arg2.draw( pc.getPlayShip().getCollider().transform(new Transform()).setLocation());
+//		arg2.draw( pc.getPlayShip().getCollider().transform(new Transform()).setLocation());
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		arg2.drawString(x, 25, 700);
@@ -130,13 +138,23 @@ public class ClientGameplayState extends BasicGameState{
 		x = String.valueOf(pc.getPlayShip().getHealth());
 		arg2.drawString("Players Health: "+x, 10, 35);
 		
+		levelToUse.render(arg2, camX, camY);
+		if(warn==true){
+			x = "<==WARNING==>";
+			arg2.drawString(x, 496,650);
+		}
+		
 		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
-			arg2.draw(trig.getCollider());
-			float tx = trig.getCollider().getCenterX();
-			float ty = trig.getCollider().getCenterY();
+			
+			arg2.draw(offsetShape(trig.getCollider(), camX, camY));
+			float tx = trig.getCollider().getCenterX()+camX;
+			float ty = trig.getCollider().getCenterY()+camY;
+
 			arg2.drawString(trig.getName(), tx, ty);
 		}
-		*/
+		
+		arg2.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
+		
 	}
 
 	@Override
@@ -198,7 +216,26 @@ public class ClientGameplayState extends BasicGameState{
 		
 		cleanEntities(removeShots,removeShips,removeDoodads);
 		
+		int boundsCheck = levelToUse.checkBounds(pc.getPlayShip().getCollider());
+		
+		warn = false;
+		if(boundsCheck==1){
+			warn = false;
+		}
+		if(boundsCheck==0){
+			warn = true;
+		}
+		if(boundsCheck==-1){
+			gameOver = true;
+		}
+		
+		
 		pc.updateCamera(this);
+		
+		if(gameOver){
+			cleanEntities(removeShots,removeShips,removeDoodads);
+			arg1.enterState(-1);
+		}
 	}
 	
 	
@@ -214,6 +251,9 @@ public class ClientGameplayState extends BasicGameState{
 			entry.getValue().update(delta);
 			if(entry.getValue().getHealth()<=0){
 				removeShips.add(entry.getKey());
+				if(entry.getValue().equals(pc.getPlayShip())){
+					gameOver = true;
+				}
 			}
 		}
 		//update shots
@@ -387,5 +427,23 @@ public class ClientGameplayState extends BasicGameState{
 	
 	public EntityFactory getEntFac(){
 		return this.entFac;
+	}
+	
+	public static Shape offsetShape(Shape s, int dx, int dy){
+	    float  x = s.getCenterX();
+	    float y = s.getCenterY();
+	    Shape toSender;
+	    toSender = s.transform(new Transform() );
+	    toSender.setCenterX( x + dx);
+	    toSender.setCenterY( y + dy);
+	    return toSender;
+	}
+	
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
 	}
 }
