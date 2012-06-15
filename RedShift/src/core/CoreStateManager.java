@@ -19,6 +19,7 @@ public class CoreStateManager extends StateBasedGame {
 	//vars
 	public static int CLIENTLOADERSTATE = 0;
 	public static int CLIENTPLAYSTATE = 1;
+	public static int CLIENTGAMEOVERSTATE = -1;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -36,6 +37,7 @@ public class CoreStateManager extends StateBasedGame {
 		gal = new GenerateALevel();
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, gal.build()));
+		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.enterState(CLIENTLOADERSTATE);
 	}
 
