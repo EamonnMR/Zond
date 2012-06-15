@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import core.ClientGameplayState;
+import ents.BasicShip;
 
 /**
  * core level class that does all level things...ever
@@ -32,10 +35,11 @@ public class BasicLevel {
 	private String levelName;								//name of level
 	private HashMap<String, BasicTrigger> levelTriggerMap;	//collection of triggers in the level
 	private HashMap<String, BasicAction> levelActionMap;	//collection of actions in the level
+	private Shape activeArea, warnArea;		//
 	private Queue<BasicTrigger> executeTriggers;			//queue of triggers to execute
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
-
+	
 	public BasicLevel(String name){
 		this.levelName = name;
 		this.levelTriggerMap = new HashMap<String, BasicTrigger>();
@@ -94,6 +98,13 @@ public class BasicLevel {
 		cleanActions();
 		
 		this.setNeedsUpdate(false);
+	}
+	
+	//render
+	public void render(Graphics gfx, float cx, float cy){
+		gfx.draw(offsetShape(activeArea, (int) cx, (int) cy));
+		gfx.draw(offsetShape(warnArea, (int) cx, (int) cy));
+		
 	}
 	
 	//garbage day! 
@@ -180,4 +191,31 @@ public class BasicLevel {
 	public void setNeedsUpdate(boolean needsUpdate) {
 		this.needsUpdate = needsUpdate;
 	}
+	
+	public void setBounds(Shape a, Shape b){
+		this.activeArea = a;
+		this.warnArea = b;
+	}
+	
+	public int checkBounds(Shape s){
+		if(warnArea.intersects(s)){
+			if(activeArea.intersects(s)){
+				return 1;
+			}
+			return 0;
+		}else{
+			return -1;
+		}
+	}
+	
+	public static Shape offsetShape(Shape s, int dx, int dy){
+	    float  x = s.getCenterX();
+	    float y = s.getCenterY();
+	    Shape toSender;
+	    toSender = s.transform(new Transform() );
+	    toSender.setCenterX( x + dx);
+	    toSender.setCenterY( y + dy);
+	    return toSender;
+	}
+	
 }

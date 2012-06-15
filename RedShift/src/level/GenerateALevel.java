@@ -31,9 +31,12 @@ public class GenerateALevel {
 		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.spawn = new SpawnShipAction("spawnShip",900,700,"lunar", "20mm","smallEngine");
+		
 	}
 	
 	public BasicLevel build(){
+		theLevel.setBounds(new Rectangle(-1400,-1400,2800,2800), new Rectangle(-3200,-3200,6400,6400));
+		
 		tellMe.setName("TellMe");
 		tellMe.setTargetName("MessageOut");
 		tellMe.setX(151);
@@ -59,5 +62,8 @@ public class GenerateALevel {
 		theLevel.addAction(ask1);
 		theLevel.addAction(spawn);
 		return this.theLevel;
+		
+		
+		
 	}
 }
