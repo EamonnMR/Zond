@@ -84,7 +84,7 @@ public class GameDatabase {
 		//populateGun();    //Original method left to prevent freakouts
 		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateEngine();
-		populateShips();
+		xpopulateShips();
 	}
 	
 	/**
@@ -141,78 +141,20 @@ public class GameDatabase {
 	 *build all ship instances
 	 * populate map with instances
 	 */
-	public void populateShips(){
-		//Mercury-------------------------
-		BasicShip merc = new BasicShip();
-		merc.setImg(indexImages.get("mercury").copy());
-		merc.setHealth(5);
-		merc.setPoints(5);
-		merc.setTotalWeight(5);
-		merc.setGunPtLength(26);
-		merc.setEngPtLength(-24);
-		merc.setCollider(new Circle(0,0,16,24));
-		merc.setName("mercury");
-		indexShip.put(merc.getName(), merc);
-		
-		//Gemini-------------------------
-		BasicShip gem = new BasicShip();
-		gem.setImg(indexImages.get("gemini").copy());
-		gem.setHealth(5);
-		gem.setPoints(5);
-		gem.setTotalWeight(5);
-		gem.setGunPtLength(28);
-		gem.setEngPtLength(-24);
-		gem.setCollider(new Circle(0,0,16,28));
-		gem.setName("gemini");
-		indexShip.put(gem.getName(), gem);		
-		
-		//Apollo-------------------------
-		BasicShip apollo = new BasicShip();
-		apollo.setImg(indexImages.get("lunar").copy());
-		apollo.setHealth(5);
-		apollo.setPoints(5);
-		apollo.setTotalWeight(5);
-		apollo.setGunPtLength(-28);
-		apollo.setEngPtLength(24);
-		apollo.setCollider(new Circle(0,0,16,24));
-		apollo.setName("lunar");
-		indexShip.put(apollo.getName(), apollo);	
-		
-		//Voskhod-------------------------
-		BasicShip voskhod = new BasicShip();
-		voskhod.setImg(indexImages.get("voskhod").copy());
-		voskhod.setHealth(5);
-		voskhod.setPoints(5);
-		voskhod.setTotalWeight(5);
-		voskhod.setGunPtLength(-28);
-		voskhod.setEngPtLength(24);
-		voskhod.setCollider(new Circle(0,0,16,24));
-		voskhod.setName("voskhod");
-		indexShip.put(voskhod.getName(), voskhod);	
-		
-		//Vostok-------------------------
-		BasicShip vost = new BasicShip();
-		vost.setImg(indexImages.get("vostok").copy());
-		vost.setHealth(5);
-		vost.setPoints(5);
-		vost.setTotalWeight(5);
-		vost.setGunPtLength(-28);
-		vost.setEngPtLength(24);
-		vost.setCollider(new Circle(0,0,16,24));
-		vost.setName("vostok");
-		indexShip.put(vost.getName(), vost);	
-		
-		//Zond4-------------------------
-		BasicShip zond4 = new BasicShip();
-		zond4.setImg(indexImages.get("zond4").copy());
-		zond4.setHealth(5);
-		zond4.setPoints(5);
-		zond4.setTotalWeight(5);
-		zond4.setGunPtLength(-28);
-		zond4.setEngPtLength(24);
-		zond4.setCollider(new Circle(0,0,16,24));
-		zond4.setName("zond4");
-		indexShip.put(zond4.getName(), zond4);	
+	public void xpopulateShips() throws FileNotFoundException, IOException{
+		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/ships.rst"));
+		for (String child : s.childSet()){
+			BasicShip m = new BasicShip();
+			m.setImg(indexImages.get(s.getValue(child, "img")).copy());
+			m.setHealth(Integer.parseInt(s.getValue(child, "health")));
+			m.setPoints(Integer.parseInt(s.getValue(child, "points")));
+			m.setTotalWeight(Integer.parseInt(s.getValue(child, "weight")));
+			m.setGunPtLength(Integer.parseInt(s.getValue(child, "gunPtLen")));
+			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
+			m.setCollider(parseShape(s, child, "collider"));
+			m.setName(child);
+			indexShip.put(child, m);
+		}
 	}
 	
 	/**
