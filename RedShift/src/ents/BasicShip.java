@@ -28,7 +28,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	//constructor
 	public BasicShip(){
-		physAnchor = new PhysMod(this, 0, 0, 0); //Other classes such as shot might wanna give it an initial velocity...
+		physAnchor = new PhysMod(this, 0, 0, 0, 1000); //Other classes such as shot might wanna give it an initial velocity...
 	}	                                         //But not the ship!  At least not yet.
 
 	//Just in case we decide to remove addX and addY from basic Entity - EMR
