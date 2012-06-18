@@ -28,7 +28,7 @@
 	}
 }
 
-[apollo]{
+[lunar]{
 	[img](lunar)
 	[health](5)
 	[points](5)
