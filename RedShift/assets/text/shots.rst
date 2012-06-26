@@ -10,7 +10,7 @@
 [twentyShot]{
 	[img]  (shot1)
 	[dmg]  (5)
-	[speed](0.15)
+	[speed](0.2)
 	[life] (10000)
 	[collider]{
 		[type](circle)
@@ -21,7 +21,7 @@
 
 
 [sixtyShot]{
-	[img]  (shot1)
+	[img]  (shot2)
 	[dmg]  (5)
 	[speed](0.12)
 	[life] (7500)
@@ -34,7 +34,7 @@
 
 
 [oneFiveShot]{
-	[img]  (shot1)
+	[img]  (shot3)
 	[dmg]  (5)
 	[speed](0.1)
 	[life] (5000)

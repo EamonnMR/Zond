@@ -23,7 +23,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private double engineOffsetDistance;		 //the offset for where to draw the engine
 	private double gunOffsetDistance;			 //the offset for where to draw the weapon
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
-
+	private double radarRadius;					 //new functionality! radar! 
 	
 	
 	//constructor
@@ -268,4 +268,14 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public boolean tryShot() {
 		return gun.canIshoot();
 	}
+
+	public double getRadarRadius() {
+		return radarRadius;
+	}
+
+	public void setRadarRadius(double radarRadius) {
+		this.radarRadius = radarRadius;
+	}
+	
+	
 }

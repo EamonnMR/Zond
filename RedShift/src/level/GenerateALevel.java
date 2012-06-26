@@ -1,10 +1,10 @@
 package level;
 
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import level.actions.MessageAction;
 import level.actions.SpawnShipAction;
+
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  * simply generates a populated level that ClientGameplayState can use
@@ -20,7 +20,6 @@ public class GenerateALevel {
 	private MessageAction say1;		//message actions
 	private MessageAction ask1;		//
 	private SpawnShipAction spawn;	//spawn a ship!
-	private SpawnShipAction respawn;//respawns a player
 	TriggerTypes trigTypes;
 	
 	public GenerateALevel(){

@@ -1,6 +1,6 @@
 [mercury]{
 	[img](mercury)
-	[health](5)
+	[health](20)
 	[points](5)
 	[weight](5)
 	[gunPtLen](26)
@@ -84,6 +84,21 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](16)
+		/[segments](24)/
+	}
+}
+
+[skylab]{
+	[img](skylab)
+	[health](100)
+	[points](50)
+	[weight](0)
+	[gunPtLen](0)
+	[engPtLen](0)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](132)
 		/[segments](24)/
 	}
 }

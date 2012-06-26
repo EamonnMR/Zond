@@ -1,5 +1,6 @@
 package core;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.hud.Hud;
 import ents.BaseEnt;
 import ents.BaseLevel;
 import ents.BasicShip;
@@ -40,7 +42,7 @@ public class ClientGameplayState extends BasicGameState{
 
 
 	int camX, camY, boundsCheck;
-	PlayerClient pc, pc2;
+	PlayerClient pc, pc2, pc3;
 	private BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
 	HashMap<Integer, BasicShot> shots;
@@ -51,6 +53,7 @@ public class ClientGameplayState extends BasicGameState{
 	
 	GameDatabase gdb;
 	EntityFactory entFac;
+	Hud playerHud;
 	
 	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
@@ -75,7 +78,6 @@ public class ClientGameplayState extends BasicGameState{
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
 		this.gameOver = false;
-		this.warn = false;
 		
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
@@ -88,14 +90,22 @@ public class ClientGameplayState extends BasicGameState{
 		pc.setPlayShip(pc.retrieveShip("mercury"));
 		pc.getPlayShip().ini(512, 250, 0.0f);
 		pc.getPlayShip().setHealth(10);
+
 		
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
 		pc2.getPlayShip().ini((300), (300), 0.0f);
 		
+		pc3 = new PlayerClient(2);
+		pc3.setPlayShip(entFac.stockSky());
+		pc3.getPlayShip().ini(0, 0, 90.0f);
+		
+		playerHud = new Hud(pc);
+		
 		//add both ships to the Ship hashmap
 		addShip(pc.getPlayShip());
 		addShip(pc2.getPlayShip());
+		addShip(pc3.getPlayShip());
 		//camera test
 		setCamX(0);
 		setCamY(0);
@@ -109,7 +119,6 @@ public class ClientGameplayState extends BasicGameState{
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render(camX, camY);
-//			arg2.draw(entry.getValue().getCollider());
 		}
 		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
@@ -127,34 +136,8 @@ public class ClientGameplayState extends BasicGameState{
 			}
 		}
 		
-		//all this below is for the DevGog system!
-//		arg2.draw( pc.getPlayShip().getCollider().transform(new Transform()).setLocation());
-		
-		String x = String.valueOf(arg0.getInput().getMouseX());
-		arg2.drawString(x, 25, 700);
-		x = String.valueOf(arg0.getInput().getMouseY());
-		arg2.drawString(x, 25, 725);
-		
-		x = String.valueOf(pc.getPlayShip().getHealth());
-		arg2.drawString("Players Health: "+x, 10, 35);
-		
+		playerHud.render(arg2, arg0, levelToUse, camX, camY);
 		levelToUse.render(arg2, camX, camY);
-		if(warn==true){
-			x = "<==WARNING==>";
-			arg2.drawString(x, 496,650);
-		}
-		
-		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
-			
-			arg2.draw(offsetShape(trig.getCollider(), camX, camY));
-			float tx = trig.getCollider().getCenterX()+camX;
-			float ty = trig.getCollider().getCenterY()+camY;
-
-			arg2.drawString(trig.getName(), tx, ty);
-		}
-		
-		arg2.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
-		
 	}
 
 	@Override
@@ -191,6 +174,13 @@ public class ClientGameplayState extends BasicGameState{
 				}
 				pc.tryShot();
 			}
+			if(p.isKeyPressed(Input.KEY_Q)){
+				if(playerHud.getDevGogState()==false){
+					playerHud.setDevGog(true);
+				}else if(playerHud.getDevGogState()==true){
+					playerHud.setDevGog(false);
+				}	
+			}
 			
 		
 		//======Begin updates!
@@ -214,16 +204,15 @@ public class ClientGameplayState extends BasicGameState{
 			levelToUse.update(delta, this);
 		}
 		
+		playerHud.update(pc, this);
 		cleanEntities(removeShots,removeShips,removeDoodads);
 		
 		int boundsCheck = levelToUse.checkBounds(pc.getPlayShip().getCollider());
-		
-		warn = false;
 		if(boundsCheck==1){
-			warn = false;
+			playerHud.setWarn(false);
 		}
 		if(boundsCheck==0){
-			warn = true;
+			playerHud.setWarn(true);
 		}
 		if(boundsCheck==-1){
 			gameOver = true;
@@ -446,4 +435,22 @@ public class ClientGameplayState extends BasicGameState{
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
+
+	public HashMap<Integer, BasicShip> getShips() {
+		return ships;
+	}
+
+	public HashMap<Integer, BasicShot> getShots() {
+		return shots;
+	}
+
+	public HashMap<Integer, BaseEnt> getDoodads() {
+		return doodads;
+	}
+	
+	public HashMap<Integer, PlayerClient> getClients() {
+		return clients;
+	}
+	
+	
 }
