@@ -35,6 +35,7 @@ public class EntityFactory {
 	 */
 	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer){
 		BasicShip build = new BasicShip();
+		build.setName(shipPointer);
 		build.setImg(gdb.getShip(shipPointer).getImg().copy());
 		build.setHealth(gdb.getShip(shipPointer).getHealth());
 		build.setPoints(gdb.getShip(shipPointer).getPoints());
@@ -60,6 +61,7 @@ public class EntityFactory {
 	 */
 	public BasicGun buildGun(String gunPointer){
 		BasicGun gun = new BasicGun();
+		gun.setName(gunPointer);
 		gun.setImg(gdb.getGun(gunPointer).getImg().copy());
 		gun.setCoolDown(gdb.getGun(gunPointer).getCoolDown());
 		gun.setCost(gdb.getGun(gunPointer).getCost());
@@ -75,6 +77,7 @@ public class EntityFactory {
 	 */
 	public BasicEngine buildEngine(String engPointer){
 		BasicEngine engine = new BasicEngine();
+		engine.setName(engPointer);
 		engine.setCost(gdb.getEngine(engPointer).getCost());
 		engine.setWeight(gdb.getEngine(engPointer).getWeight());
 		engine.setTurnrate(gdb.getEngine(engPointer).getTurnrate());
@@ -124,6 +127,10 @@ public class EntityFactory {
 		return buildShip("lunar","105mm","smallEngine");
 	}
 	
+	
+	public BasicShip stockSky(){
+		return buildShip("skylab", "105mm", "smallEngine");
+	}
 	/**
 	 * Builds a basic Vostok class BasicShip
 	 * @return BasicShip
