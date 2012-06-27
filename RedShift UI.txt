@@ -1,0 +1,23 @@
+UI breakdown for Project RedShift
+
++=====Main Menu
+|
++-single player
+|
++-multiplayer
+|
++-challenge mode
+|
++-options
+|
++-quit
+
++=====Store
+|
++-weapons
+|
++-engines
+|
++-ships
+|
++-items
