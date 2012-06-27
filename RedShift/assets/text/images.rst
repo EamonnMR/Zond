@@ -17,4 +17,4 @@
 [laz]         (assets/images/fx/laz1.png)
 [plas]        (assets/images/fx/ppc.png)
 [asteroid]    (assets/images/doodads/ast1.png)
-[skylab]      (assets/images/ships/nasa/Skylab.png)
+[skylab]      (assets/images/ships/nasa/skypost.png)
