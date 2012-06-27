@@ -95,13 +95,6 @@ public class PlayerClient {
 	public void setCameraBounds(Rectangle cameraBounds) {
 		clientCameraBounds = cameraBounds;
 	}
-	public BasicShip getCurrentShip() {
-		return currentShip;
-	}
-
-	public void setCurrentShip(BasicShip currentShip) {
-		this.currentShip = currentShip;
-	}
 
 	//Handle Client's ship they own
 	public HashMap<String, BasicShip> getClientShips() {

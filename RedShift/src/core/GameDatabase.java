@@ -300,7 +300,7 @@ public class GameDatabase {
 	 */
 	public static String[] cat(String[] train, String caboose){
 		String[] toSender = new String[train.length + 1];
-		System.arraycopy(train, 0, toSender, 0, train.length);
+		System.arraycopy(train, 0, toSender,  0, train.length);
 		toSender[train.length] = caboose; //This makes sense
 		return toSender;
 	}

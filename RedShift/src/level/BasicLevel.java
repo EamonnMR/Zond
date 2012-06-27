@@ -10,7 +10,6 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
 import core.ClientGameplayState;
-import ents.BasicShip;
 
 /**
  * core level class that does all level things...ever

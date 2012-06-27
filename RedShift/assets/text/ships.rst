@@ -87,3 +87,18 @@
 		/[segments](24)/
 	}
 }
+
+[skylab]{
+	[img](skylab)
+	[health](100)
+	[points](50)
+	[weight](0)
+	[gunPtLen](0)
+	[engPtLen](0)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](132)
+		/[segments](24)/
+	}
+}
