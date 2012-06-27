@@ -78,7 +78,6 @@ public class ClientGameplayState extends BasicGameState{
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
 		this.gameOver = false;
-		this.warn = false;
 		
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
@@ -120,7 +119,6 @@ public class ClientGameplayState extends BasicGameState{
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render(camX, camY);
-//			arg2.draw(entry.getValue().getCollider());
 		}
 		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
@@ -138,38 +136,8 @@ public class ClientGameplayState extends BasicGameState{
 			}
 		}
 		
-		playerHud.render(arg2);
-		if(warn==true){
-			String x = "<==WARNING==>";
-			
-			arg2.drawString(x, 496,650);
-		}
-		
-		//all this below is for the DevGog system!
-//		arg2.draw( pc.getPlayShip().getCollider().transform(new Transform()).setLocation());
-		
-		String x = String.valueOf(arg0.getInput().getMouseX());
-		arg2.drawString(x, 100, 10);
-		x = String.valueOf(arg0.getInput().getMouseY());
-		arg2.drawString(x, 150, 10);
-		
-		x = String.valueOf(pc.getPlayShip().getHealth());
-		arg2.drawString("Players Health: "+x, 10, 35);
-		
+		playerHud.render(arg2, arg0, levelToUse, camX, camY);
 		levelToUse.render(arg2, camX, camY);
-
-		
-		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
-			
-			arg2.draw(offsetShape(trig.getCollider(), camX, camY));
-			float tx = trig.getCollider().getCenterX()+camX;
-			float ty = trig.getCollider().getCenterY()+camY;
-
-			arg2.drawString(trig.getName(), tx, ty);
-		}
-		
-		arg2.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
-		
 	}
 
 	@Override
@@ -240,13 +208,11 @@ public class ClientGameplayState extends BasicGameState{
 		cleanEntities(removeShots,removeShips,removeDoodads);
 		
 		int boundsCheck = levelToUse.checkBounds(pc.getPlayShip().getCollider());
-		
-		warn = false;
 		if(boundsCheck==1){
-			warn = false;
+			playerHud.setWarn(false);
 		}
 		if(boundsCheck==0){
-			warn = true;
+			playerHud.setWarn(true);
 		}
 		if(boundsCheck==-1){
 			gameOver = true;
