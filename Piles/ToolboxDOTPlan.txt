@@ -1,0 +1,14 @@
+-Possible list of Tools and extendability pipe dreams-
+======================================================
+
+-Level maker
+
+-Ship Compiler
+
+-Campaign maker
+
+-Item maker
+
+-Media Loader/Swapper
+
+-Pakfile modder?

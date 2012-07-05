@@ -1,0 +1,30 @@
+====Nasa Ships====
+=Small=
+-Mercury 7
+-X15
+
+=Medium=
+-Gemini
+-Apollo Lunar Orbiter
+
+=Large=
+-Space Shuttle
+-X30
+
+=Massive=
+-Spae Lab
+
+====Soviet Ships====
+=Small=
+-Vostok
+-Voskhod
+
+=Medium=
+-Soyuz
+-NL1
+
+=Large=
+-Salyut
+
+=Massive=
+-Mir

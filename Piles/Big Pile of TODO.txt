@@ -1,0 +1,161 @@
+The Big Pile of TODO
+============================================5/7/2012
+FINISHED-projectile remove on collide-PR+EMR
+	+make sure .remove is being called during gameplaystate update
+
+
+FINISHED-stippled fire rate-PR
+	+check button pressing code/checking/look into splicer
+
+FINISHED-turn rate for engines-PR+EMR
+	+activate turnrate var for engine class, hook into BasicShip movement code
+
+FINISHED-data structures for ship/item stats
+	+entFac constructors need to be simplified, use lookups instead of passing vars
+	+5/14/2012::negative, just use methods that return built classes
+	+yeah, game Database will have get methods, and hashmaps, the entFac itself is where values will be set
+	+5/16/2012::still debugging, making entFac work properly now
+	+5/16/2012::entFac properly configured to build any sort of ent needed, but not complete
+	+5/17/2012::fixed parts on ship
+
+FINISHED-fix/improve the key handling for input
+	+have to handle more than 3 key presses...or something
+	+run binary check on keys, see which are counted as pressed
+	+5/20/2012:: changed fire to Left_Control
+
+FINISHED--level class architecture-------------------------------------------------------------------5/14/2012: plan
+	+start mapping out what a level will look like
+	+5/23/2012:: have started the level programming goal, created 3 classes in a new package
+	+5/31/2012:: finished, needs refinement
+	
+FINISHED--mission logic objects----------------------------------------------------------------------5/14/201: plan
+	+win conditions, lose conditions, spawners, regions, etc
+	+simple messaging system - EntName/TargetName
+	+5/31/2012:: finished needs refinement
+
+FINISHED---physics for movement
+	+use EMR's email for help
+
+FINISHED-variable projectile velocity
+	+look into splicer
+	+pertains to things like missile -> early acceleration
+	+ or plasma -> velocity trails off over time
+
+
+FINISHED-properly shaped colliders for everything---------------------------------------------------5/14/2012:implement
+	+polygons oh my!
+	+custom Shape objects for ships; only ships
+	+5/16/2012::make sure everyone has a collider though!
+
+-different projectile sprites/collider experiments
+	+can't remember what this was for...
+	+wait...collider shapes influences player tactics? hrm, kinda meta right now.
+
+-spawn-kill-die-respawn mechanics
+	+start checking on BasicShips stats, death checks, etc
+
+
+-camera movement
+	+look at splicer code
+	+hinging on level class architecture at the moment.
+	+moved to phase 2
+
+//====ALPHA ONE! :D =======
+// 1 JUNE 2012
+
+//============================================================
+PHASE TWO
+-clean project
+
+
+FINSIHED-camera, take 2
+	+6/12/2012
+
+
+FINISHED-PWR-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
+	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
+	+done - 6/27/2012
+
+
+-FIGURE OUT FUN GAMEPLAY
+	+getting close 6/14/2012
+
+-script draft 1
+
+-stratify triggers and actions
+
+
+-map out how cutscenes are going to work
+	+generic cutscene state
+	+interior state-mechanic
+	+start/end vars
+	+next state targetted
+	+make base cutscene class to use which extends basicgamestate
+
+PWR-build basic menu using framework defined in txt doc.
+	+absolutely no artwork
+	+try to animate
+	+start small
+
+EMR-sound effects
+	+create stand ins
+	+load up
+	+hook into code
+
+
+
+PWR-an official prototype hud
+	+track health, ammo, current weapon....minimap......(!?)
+	+just need radar 6/29/2012
+
+-ammo count
+
+
+-projectile damage types
+	+differentiate damage from weapons: slug/plasma/ etc
+
+-armor types
+	+different armors for different damage types etc
+
+PWR-update optionsEnt
+	+move to core, make read a properties file
+
+-at least one bad guy player can fight
+	+AI
+
+-finish art for already defined guns
+	+6/10/2012 - finished autocannon sprites
+
+-nail game over
+
+
+-player data persistence
+	+save class?
+	+serialize clientgameplaystate as save file(?)
+
+
+//====ALPHA TWO! >:) =====
+1 JULY 2012
+
+//============================================================
+PHASE THREE
+- actual sound effects
+	+two weapons
+	+two engines
+	+explode
+	+hit
+
+- some music
+	+ 1 or 2 tracks
+
+-particle effects
+	+engine thrust
+	+strafe thrust
+	+muzzle flash
+	+projectile
+	+impact
+	+exploision
+
+
+
+//====BETA! =======
