@@ -152,6 +152,7 @@ public class GameDatabase {
 			m.setGunPtLength(Integer.parseInt(s.getValue(child, "gunPtLen")));
 			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
 			m.setCollider(parseShape(s, child, "collider"));
+			m.setRadarRadius(parseShape(s, child, "radar"));
 			m.setName(child);
 			indexShip.put(child, m);
 		}
@@ -260,7 +261,11 @@ public class GameDatabase {
 		//No switch on string?  Pete, update your Java ffs
 		String type = t.getValue(cat(name, "type"));
 		if( type.equals("rect")){
-			
+			return new Rectangle(
+					fft(t,"x",name),
+					fft(t,"y",name),
+					fft(t,"w",name),
+					fft(t,"h",name));
 		} else if(type.equals("line")){
 			return new Rectangle(
 					fft(t,"x",name),

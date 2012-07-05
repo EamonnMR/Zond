@@ -1,5 +1,7 @@
 package ents;
 
+import org.newdawn.slick.geom.Shape;
+
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
  * @author Roohr
@@ -23,7 +25,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private double engineOffsetDistance;		 //the offset for where to draw the engine
 	private double gunOffsetDistance;			 //the offset for where to draw the weapon
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
-	private double radarRadius;					 //new functionality! radar! 
+	private Shape radar;					 //new functionality! radar! 
 	
 	
 	//constructor
@@ -79,6 +81,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
+			getRadarRadius().setCenterX((float)getX());
+			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 		
 			updateGun(angle, delta);
@@ -269,12 +273,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		return gun.canIshoot();
 	}
 
-	public double getRadarRadius() {
-		return radarRadius;
+	public Shape getRadarRadius() {
+		return radar;
 	}
 
-	public void setRadarRadius(double radarRadius) {
-		this.radarRadius = radarRadius;
+	public void setRadarRadius(Shape radarRadius) {
+		this.radar = radarRadius;
 	}
 	
 	

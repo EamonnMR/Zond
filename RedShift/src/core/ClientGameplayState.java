@@ -94,20 +94,20 @@ public class ClientGameplayState extends BasicGameState{
 		
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
-		pc2.getPlayShip().ini((300), (300), 0.0f);
+		pc2.getPlayShip().ini((512), (384), 0.0f);
 		
 		pc3 = new PlayerClient(2);
 		pc3.setPlayShip(entFac.stockSky());
-		pc3.getPlayShip().ini(0, 0, 90.0f);
+		pc3.getPlayShip().ini(0, 0, 45.0f);
 		
 		pc4 = new PlayerClient(3);;
 		pc4.setPlayShip(entFac.stockLunar());
-		pc4.getPlayShip().ini(0, 0, 90.0f);
+		pc4.getPlayShip().ini(28,100, -45.0f);
 		
 		
 		pc5 = new PlayerClient(4);
 		pc5.setPlayShip(entFac.stockGem());
-		pc5.getPlayShip().ini(0, 0, 90.0f);
+		pc5.getPlayShip().ini(28, 455, 135.0f);
 		
 		playerHud = new Hud(pc);
 		
@@ -115,6 +115,8 @@ public class ClientGameplayState extends BasicGameState{
 		addShip(pc.getPlayShip());
 		addShip(pc2.getPlayShip());
 		addShip(pc3.getPlayShip());
+		addShip(pc4.getPlayShip());
+//		addShip(pc5.getPlayShip());
 		//camera test
 		setCamX(0);
 		setCamY(0);
@@ -420,7 +422,7 @@ public class ClientGameplayState extends BasicGameState{
 	 * @param camY
 	 */
 	public void setCamY(int camY) {
-		this.camY = 474 - camY;
+		this.camY = 384 - camY;
 	}
 	
 	public EntityFactory getEntFac(){

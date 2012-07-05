@@ -8,7 +8,13 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](4)
+		/[segments](24)/
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](200)
 		/[segments](24)/
 	}
 }
@@ -26,6 +32,12 @@
 		[radius](16)
 		/[segments](28)/
 	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](100)
+		/[segments](24)/
+	}
 }
 
 [lunar]{
@@ -36,9 +48,19 @@
 	[gunPtLen](-28)
 	[engPtLen](24)
 	[collider]{
+		[type] (poly)
+		[points]<
+			<(-64)(42)> /x1, y1/
+			<(64)(42)> /x2, y2/
+			<(64)(-42)> /x3, y3/
+			<(-64)(-42)> /x4, y4/
+		>
+
+	}
+	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](100)
 		/[segments](24)/
 	}
 }
@@ -56,6 +78,12 @@
 		[radius](16)
 		/[segments](24)/
 	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](100)
+		/[segments](24)/
+	}
 }
 
 [vostok]{
@@ -69,6 +97,12 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](16)
+		/[segments](24)/
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](100)
 		/[segments](24)/
 	}
 }
@@ -86,19 +120,10 @@
 		[radius](16)
 		/[segments](24)/
 	}
-}
-
-[skylab]{
-	[img](skylab)
-	[health](100)
-	[points](50)
-	[weight](0)
-	[gunPtLen](0)
-	[engPtLen](0)
-	[collider]{
+	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](132)
+		[radius](100)
 		/[segments](24)/
 	}
 }
@@ -111,9 +136,17 @@
 	[gunPtLen](0)
 	[engPtLen](0)
 	[collider]{
+		[type] (poly)
+		[points]<
+			<(-64)(42)> /x1, y1/
+			<(64)(42)> /x2, y2/
+			<(64)(-42)> /x3, y3/
+		>
+	}
+	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](132)
+		[radius](100)
 		/[segments](24)/
 	}
 }

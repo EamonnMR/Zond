@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Transform;
 
 import core.ClientGameplayState;
 import core.PlayerClient;
+import ents.BasicShip;
 
 /**
  * Hud class: responsible for rendering all heads up info for the player including
@@ -30,6 +31,7 @@ public class Hud {
 	boolean shipHPCaution = false;			//if health is below half - make hp yellow, show caution
 	boolean shipHPWarning = false;			//if health is below 1/4  - make hp red, show warning
 	boolean radarOn = false;				//is radar active?
+	ClientGameplayState cgs;
 	Font hudFont;
 	PlayerClient pc;
 	public Hud(PlayerClient cl){
@@ -46,6 +48,7 @@ public class Hud {
 		x = (float)pc.getPlayShip().getX();
 		y = (float)pc.getPlayShip().getY();
 		hp = pc.getPlayShip().getHealth();
+		this.cgs = cgs;
 	}
 	
 	public void render(Graphics gfx, GameContainer gc, BasicLevel bl, int camX, int camY){
@@ -65,7 +68,7 @@ public class Hud {
 		gfx.draw(new Rectangle(357,729,(4*10)+2,25));
 		
 		if(shipHPCaution){
-			
+//			gfx.drawString("");
 		}else if(shipHPWarning){
 			
 		}
@@ -95,15 +98,24 @@ public class Hud {
 		gfx.drawString(x, 100, 10);
 		x = String.valueOf(gc.getInput().getMouseY());
 		gfx.drawString(x, 150, 10);
+		gfx.setColor(Color.blue);
+		gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
+
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
 		for(BasicTrigger trig : bl.getLevelTriggerMap().values()){
-			
+			gfx.setColor(Color.gray);
 			gfx.draw(offsetShape(trig.getCollider(), camX, camY));
 			float tx = trig.getCollider().getCenterX()+camX;
 			float ty = trig.getCollider().getCenterY()+camY;
-
+			gfx.setColor(Color.red);
 			gfx.drawString(trig.getName(), tx, ty);
 		}
+		gfx.setColor(Color.yellow);
+		for(BasicShip s : cgs.getShips().values()){
+			gfx.draw(offsetShape(s.getCollider(), camX, camY));
+		}
+		
+		gfx.setColor(Color.white);
 	}
 	
 	public void setDevGog(boolean b){

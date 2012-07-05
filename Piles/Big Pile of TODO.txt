@@ -72,6 +72,11 @@ FINSIHED-camera, take 2
 	+6/12/2012
 
 
+FINISHED-PWR-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
+	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
+	+done - 6/27/2012
+
+
 -FIGURE OUT FUN GAMEPLAY
 	+getting close 6/14/2012
 
@@ -101,11 +106,10 @@ EMR-sound effects
 
 PWR-an official prototype hud
 	+track health, ammo, current weapon....minimap......(!?)
+	+just need radar 6/29/2012
 
 -ammo count
 
-PWR-'Developer Mode' for render() (nickname: DevGog - Developer Goggles)
-	+show colliders, ent names, mouse roll-over support aka proto-mapmaker
 
 -projectile damage types
 	+differentiate damage from weapons: slug/plasma/ etc

@@ -42,7 +42,9 @@ public class EntityFactory {
 		build.setTotalWeight(gdb.getShip(shipPointer).getTotalWeight());
 		build.setGunPtLength(gdb.getShip(shipPointer).getGunPtLength());
 		build.setEngPtLength(gdb.getShip(shipPointer).getEngPtLength());
-		build.setCollider(new Circle(0,0,16,24));
+		build.setCollider(new Circle(gdb.getShip(shipPointer).getCollider().getX(),gdb.getShip(shipPointer).getCollider().getY(),gdb.getShip(shipPointer).getCollider().getHeight(),24));
+		
+		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
 		build.getImg().setRotation(0);
 
 		BasicGun g = buildGun(gunPointer);
