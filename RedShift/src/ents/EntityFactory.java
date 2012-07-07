@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Polygon;
 
 import core.GameDatabase;
 /**
@@ -52,6 +53,16 @@ public class EntityFactory {
 		
 		build.setWeapon(g);
 		build.setEngine(e);
+		
+		//XXX:hacky hack hack
+		if(shipPointer=="lunar"){
+			Polygon p = new Polygon();
+			p.addPoint(-64, 42);
+			p.addPoint(64, 42);
+			p.addPoint(64, -42);
+			p.addPoint(-64, -42);
+			build.setCollider(p);
+		}
 		
 		return build;
 	}
