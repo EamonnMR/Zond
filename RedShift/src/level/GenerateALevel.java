@@ -63,7 +63,6 @@ public class GenerateALevel {
 		theLevel.addAction(say1);
 		theLevel.addAction(ask1);
 		theLevel.addAction(spawn);
-		
 		theLevel.addNavPoint(alpha);
 		theLevel.addNavPoint(beta);
 		
