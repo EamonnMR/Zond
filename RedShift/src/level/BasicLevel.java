@@ -38,13 +38,15 @@ public class BasicLevel {
 	private Queue<BasicTrigger> executeTriggers;			//queue of triggers to execute
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
+	private HashMap<String, NavPoint> navPoints;			//collection of points
 	
 	public BasicLevel(String name){
 		this.levelName = name;
 		this.levelTriggerMap = new HashMap<String, BasicTrigger>();
 		this.levelActionMap = new HashMap<String, BasicAction>();
-		executeTriggers = new LinkedList<BasicTrigger>();
-		executeActions = new LinkedList<BasicAction>();
+		this.executeTriggers = new LinkedList<BasicTrigger>();
+		this.executeActions = new LinkedList<BasicAction>();
+		this.navPoints = new HashMap<String, NavPoint>();
 		this.setNeedsUpdate(false);
 	}
 	
@@ -196,6 +198,18 @@ public class BasicLevel {
 		this.warnArea = b;
 	}
 	
+	public HashMap<String, NavPoint> getNavPoints() {
+		return navPoints;
+	}
+
+	public void setNavPoints(HashMap<String, NavPoint> navPoints) {
+		this.navPoints = navPoints;
+	}
+	
+	public void addNavPoint(NavPoint p){
+		this.navPoints.put(p.getName(), p);
+	}
+
 	public int checkBounds(Shape s){
 		if(warnArea.intersects(s)){
 			if(activeArea.intersects(s)){

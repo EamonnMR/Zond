@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 import level.BasicLevel;
 import level.BasicTrigger;
+import level.NavPoint;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -59,13 +61,21 @@ public class Hud {
 		this.cgs = cgs;
 	}
 
+	/**
+	 * big ugly method
+	 * @param gfx Graphics
+	 * @param gc GameContainer
+	 * @param bl BasicLevel
+	 * @param camX
+	 * @param camY
+	 */
 	public void render(Graphics gfx, GameContainer gc, BasicLevel bl, int camX,
 			int camY) {
-		gfx.setColor(Color.green);
-		shipRadarCheck(cgs, gfx, camX, camY);
 
-		gfx.drawString(shipName, 480, 686);
-		gfx.draw(new Rectangle(477, 683, (shipName.length() * 10) + 2, 25));
+		shipRadarCheck(cgs, gfx, camX, camY);
+		gfx.setColor(Color.green);
+		gfx.drawString(shipName, 480, 680);
+		gfx.draw(new Rectangle(477, 677, (shipName.length() * 10) + 2, 25));
 
 		gfx.drawString("[" + gunName + "]", 590, 709);
 		gfx.draw(new Rectangle(587, 703, (gunName.length() * 10) + 22, 25));
@@ -74,15 +84,19 @@ public class Hud {
 		gfx.draw(new Rectangle(587, 729, (engName.length() * 10) + 22, 25));
 
 		checkHP(hp, gfx);
-		gfx.drawString("[HP] " + hp, 360, 732);
-		gfx.draw(new Rectangle(357, 729, (4 * 10) + 2, 25));
+		gfx.drawString("[HP] " + hp, 360, 709);
+		gfx.draw(new Rectangle(357, 703, (4 * 10) + 2, 25));
 
+		gfx.drawString("[RADAR]", 360, 732);
+		gfx.draw(new Rectangle(357, 729, (7*10)+2, 25));
+		
 		if (shipHPCaution) {
 			// gfx.drawString("");
 		} else if (shipHPWarning) {
 
 		}
 
+		renderPoints(bl, gfx, camX,camY);
 		if (googles) {
 			gfx.setColor(Color.yellow);
 			devGoggles(gfx, gc, bl, camX, camY);
@@ -90,9 +104,9 @@ public class Hud {
 		if (boundsWarning) {
 			gfx.setColor(Color.red);
 			String x = "<==!WARNING!==>";
-			gfx.drawString(x, 458, 640);
+			gfx.drawString(x, 458, 627);
 			x = "<==Leaving Mission Area==>";
-			gfx.drawString(x, 400, 663);
+			gfx.drawString(x, 400, 652);
 		}
 
 		// sanity check to make sure color is reset
@@ -110,43 +124,17 @@ public class Hud {
 		for(BasicShip s : cgs.getShips().values()){
 			if(!s.equals(pc.getPlayShip())){
 				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())||pc.getPlayShip().getRadarRadius().contains(s.getCollider())){
-					float w = s.getImg().getWidth();
-					float h = s.getImg().getHeight();
-					float x = (float)s.getX();
-					float y = (float)s.getY();
-					float lenX = w/3;
-					float lenY = h/3;	
-					
-					gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, ((x-(w/2)-5)+lenX)+camX, (y-(h/2)-5)+camY);
-					gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, (x-(w/2)-5)+camX, ((y-(h/2)-5)+lenY)+camY);
-					
-					gfx.drawLine((x+(w/2)+5)+camX, (y-(h/2)-5)+camY, ((x+(w/2)+5)-lenX)+camX, (y-(h/2)-5)+camY);
-					gfx.drawLine((x+(w/2)+5)+camX, (y-(h/2)-5)+camY, (x+(w/2)+5)+camX, ((y-(h/2)-5)+lenY)+camY);
-					
-					gfx.drawLine((x-(w/2)-5)+camX, (y+(h/2)+5)+camY, ((x-(w/2)-5)+lenX)+camX, (y+(h/2)+5)+camY);
-					gfx.drawLine((x-(w/2)-5)+camX, (y+(h/2)+5)+camY, (x-(w/2)-5)+camX, ((y+(h/2)+5)-lenY)+camY);
-					
-					gfx.drawLine((x+(w/2)+5)+camX, (y+(h/2)+5)+camY, ((x+(w/2)+5)-lenX)+camX, (y+(h/2)+5)+camY);
-					gfx.drawLine((x+(w/2)+5)+camX, (y+(h/2)+5)+camY, (x+(w/2)+5)+camX, ((y+(h/2)+5)-lenY)+camY);
-					
-					int half = (s.getName().length()*8)/2;
-					gfx.drawString(s.getName(), (x-half)+camX, (y+(h/2)+2)+camY);
-					int shipX = (int)s.getX();
-					gfx.drawString(String.valueOf(shipX), (x-(w/2)-5)+camX,(y+(h/2)+15)+camY);
-					shipX = (int)s.getY();
-					gfx.drawString(String.valueOf(shipX), (x+(w/2)-5)+camX,(y+(h/2)+15)+camY);
-				
+					drawTargetBox(s, 0, gfx, camX, camY);
 				}
 			}
 		}
-		
 	}
 
 	/**
 	 * the mighty dev gog
-	 * @param gfx
-	 * @param gc
-	 * @param bl
+	 * @param gfx Graphics
+	 * @param gc GameContainer
+	 * @param bl BasicLevel
 	 * @param camX
 	 * @param camY
 	 */
@@ -209,5 +197,60 @@ public class Hud {
 		toSender.setCenterX(x + dx);
 		toSender.setCenterY(y + dy);
 		return toSender;
+	}
+	
+	/**
+	 * draw a target box based ship size, and type
+	 * dont look now, this method is written crap :/
+	 * @param s
+	 * @param type
+	 */
+	public void drawTargetBox(BasicShip s, int type, Graphics gfx, int camX, int camY){
+		float w = s.getImg().getWidth();
+		float h = s.getImg().getHeight();
+		float x = (float)s.getX();
+		float y = (float)s.getY();
+		float lenX = w/3;
+		float lenY = h/3;	
+		
+		if(s.getName().equals("lunar")||s.getName().equals("gemini")||s.getName().equals("mercury")||s.getName().equals("skylab")){
+			gfx.setColor(Color.green);
+		}else if(s.getName().equals("vostok")||s.getName().equals("voskhod")||s.getName().equals("zond4")){
+			gfx.setColor(Color.red);
+		}
+			gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, ((x-(w/2)-5)+lenX)+camX, (y-(h/2)-5)+camY);
+			gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, (x-(w/2)-5)+camX, ((y-(h/2)-5)+lenY)+camY);
+		
+			gfx.drawLine((x+(w/2)+5)+camX, (y-(h/2)-5)+camY, ((x+(w/2)+5)-lenX)+camX, (y-(h/2)-5)+camY);
+			gfx.drawLine((x+(w/2)+5)+camX, (y-(h/2)-5)+camY, (x+(w/2)+5)+camX, ((y-(h/2)-5)+lenY)+camY);
+		
+			gfx.drawLine((x-(w/2)-5)+camX, (y+(h/2)+5)+camY, ((x-(w/2)-5)+lenX)+camX, (y+(h/2)+5)+camY);
+			gfx.drawLine((x-(w/2)-5)+camX, (y+(h/2)+5)+camY, (x-(w/2)-5)+camX, ((y+(h/2)+5)-lenY)+camY);
+		
+			gfx.drawLine((x+(w/2)+5)+camX, (y+(h/2)+5)+camY, ((x+(w/2)+5)-lenX)+camX, (y+(h/2)+5)+camY);
+			gfx.drawLine((x+(w/2)+5)+camX, (y+(h/2)+5)+camY, (x+(w/2)+5)+camX, ((y+(h/2)+5)-lenY)+camY);
+		
+			
+		int half = (s.getName().length()*8)/2;
+		gfx.drawString(s.getName(), (x-half)+camX, (y+(h/2)+4)+camY);
+		int shipX = (int)s.getX();
+		gfx.drawString(String.valueOf(shipX), (x-(w/2)-5)+camX,(y+(h/2)+20)+camY);
+		shipX = (int)s.getY();
+		gfx.drawString(String.valueOf(shipX), (x+(w/2)-5)+camX,(y+(h/2)+20)+camY);
+		
+		gfx.setColor(Color.white);
+	}
+	
+	public void renderPoints(BasicLevel bl, Graphics gfx, int camX, int camY){
+		gfx.setColor(Color.green);
+		for(NavPoint p : bl.getNavPoints().values()){
+			if(p.isActive()){
+				int len = p.getName().length();
+				int tenlen = len*10;
+				gfx.drawString(p.getName(),(p.getX()-(tenlen/2))+camX, p.getY()+camY-5);
+				gfx.draw(new Circle(p.getX()+camX, p.getY()+camY, tenlen));
+			}
+		}
+		gfx.setColor(Color.white);
 	}
 }

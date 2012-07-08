@@ -21,6 +21,8 @@ public class GenerateALevel {
 	private MessageAction ask1;		//
 	private SpawnShipAction spawn;	//spawn a ship!
 	TriggerTypes trigTypes;
+	private NavPoint alpha;
+	private NavPoint beta;
 	
 	public GenerateALevel(){
 		this.theLevel = new BasicLevel("Alpha v2 Level");
@@ -29,8 +31,9 @@ public class GenerateALevel {
 		this.spwn = new BasicTrigger(trigTypes.SHOT);
 		this.say1 = new MessageAction("MessageOut", 10, 75, "greetings", 2000);
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
-		this.spawn = new SpawnShipAction("spawnShip",900,700,"lunar", "20mm","smallEngine");
-		
+		this.spawn = new SpawnShipAction("spawnShip",900,700,"zond4", "20mm","smallEngine");
+		this.alpha = new NavPoint(0,0,"Alpha",true);
+		this.beta = new NavPoint(800,-800,"Beta", false);
 	}
 	
 	public BasicLevel build(){
@@ -60,9 +63,10 @@ public class GenerateALevel {
 		theLevel.addAction(say1);
 		theLevel.addAction(ask1);
 		theLevel.addAction(spawn);
+		
+		theLevel.addNavPoint(alpha);
+		theLevel.addNavPoint(beta);
+		
 		return this.theLevel;
-		
-		
-		
 	}
 }
