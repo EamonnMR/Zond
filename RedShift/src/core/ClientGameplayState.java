@@ -42,7 +42,7 @@ public class ClientGameplayState extends BasicGameState{
 
 
 	int camX, camY, boundsCheck;
-	PlayerClient pc, pc2, pc3, pc4,pc5;
+	PlayerClient pc, pc2, pc3, pc4;
 	private BaseLevel level; //soon to be deprecated
 	HashMap<Integer, BasicShip> ships;
 	HashMap<Integer, BasicShot> shots;
@@ -90,7 +90,6 @@ public class ClientGameplayState extends BasicGameState{
 		pc.setPlayShip(pc.retrieveShip("mercury"));
 		pc.getPlayShip().ini(512, 250, 0.0f);
 		pc.getPlayShip().setHealth(10);
-
 		
 		pc2 = new PlayerClient(1);
 		pc2.setPlayShip(entFac.stockGem());
@@ -104,11 +103,6 @@ public class ClientGameplayState extends BasicGameState{
 		pc4.setPlayShip(entFac.stockLunar());
 		pc4.getPlayShip().ini(28,100, -45.0f);
 		
-		
-		pc5 = new PlayerClient(4);
-		pc5.setPlayShip(entFac.stockGem());
-		pc5.getPlayShip().ini(28, 455, 135.0f);
-		
 		playerHud = new Hud(pc);
 		
 		//add both ships to the Ship hashmap
@@ -116,7 +110,6 @@ public class ClientGameplayState extends BasicGameState{
 		addShip(pc2.getPlayShip());
 		addShip(pc3.getPlayShip());
 		addShip(pc4.getPlayShip());
-//		addShip(pc5.getPlayShip());
 		//camera test
 		setCamX(0);
 		setCamY(0);
