@@ -77,7 +77,7 @@ public class ClientGameplayState extends BasicGameState{
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
-		this.gameOver = false;
+		this.gameOver = false;	//TODO: make this part of intra CGS state system
 		
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
@@ -184,6 +184,14 @@ public class ClientGameplayState extends BasicGameState{
 				}else if(playerHud.getDevGogState()==true){
 					playerHud.setDevGog(false);
 				}	
+			}
+			if(p.isKeyPressed(Input.KEY_C)){
+				if(pc.getRadarState()==true){
+					pc.setRadarState(false);
+				}else{
+					pc.setRadarState(true);
+				}
+				playerHud.setRadarOn(pc.getRadarState());
 			}
 			
 		

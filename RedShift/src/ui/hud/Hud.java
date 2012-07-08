@@ -11,9 +11,11 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.geom.Vector2f;
 
 import core.ClientGameplayState;
 import core.PlayerClient;
@@ -71,30 +73,30 @@ public class Hud {
 	 */
 	public void render(Graphics gfx, GameContainer gc, BasicLevel bl, int camX,
 			int camY) {
-
-		shipRadarCheck(cgs, gfx, camX, camY);
+		if(radarOn){
+			shipRadarCheck(cgs, gfx, camX, camY);
+		}
 		gfx.setColor(Color.green);
 		gfx.drawString(shipName, 480, 680);
 		gfx.draw(new Rectangle(477, 677, (shipName.length() * 10) + 2, 25));
 
-		gfx.drawString("[" + gunName + "]", 590, 709);
-		gfx.draw(new Rectangle(587, 703, (gunName.length() * 10) + 22, 25));
+		gfx.drawString("[WEAPON]"+gunName, 557, 707);
+		gfx.draw(new Rectangle(555, 703, (5 * 10) + 22, 25));
 
-		gfx.drawString("[" + engName + "]", 590, 732);
-		gfx.draw(new Rectangle(587, 729, (engName.length() * 10) + 22, 25));
+		gfx.drawString("[ENGINE]"+engName, 590, 732);
+		gfx.draw(new Rectangle(588, 729, (5 * 10) + 22, 25));
 
 		checkHP(hp, gfx);
-		gfx.drawString("[HP] " + hp, 360, 709);
-		gfx.draw(new Rectangle(357, 703, (4 * 10) + 2, 25));
+		gfx.drawString("[HP]" + hp, 396, 707);
+		gfx.draw(new Rectangle(393, 703, (4 * 10) + 40, 25));
 
-		gfx.drawString("[RADAR]", 360, 732);
-		gfx.draw(new Rectangle(357, 729, (7*10)+2, 25));
 		
-		if (shipHPCaution) {
-			// gfx.drawString("");
-		} else if (shipHPWarning) {
-
+		if(radarOn){
+			gfx.drawString("[RADAR]ON", 360, 732);
+		}else{
+			gfx.drawString("[RADAR]OFF", 360, 732);
 		}
+		gfx.draw(new Rectangle(357, 729, (8*10)+2, 25));
 
 		renderPoints(bl, gfx, camX,camY);
 		if (googles) {
@@ -115,6 +117,7 @@ public class Hud {
 
 	/**
 	 * byzantine radar rendering!
+	 * wait, the byzantine-ness moved to drawTargetBox; do not look EMR, you'll cry
 	 * @param cgs
 	 * @param gfx
 	 * @param camX
@@ -144,9 +147,10 @@ public class Hud {
 		gfx.drawString(x, 100, 10);
 		x = String.valueOf(gc.getInput().getMouseY());
 		gfx.drawString(x, 150, 10);
-		gfx.setColor(Color.blue);
-		gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
-
+		if(radarOn){
+			gfx.setColor(Color.blue);
+			gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
+		}
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
 		for (BasicTrigger trig : bl.getLevelTriggerMap().values()) {
 			gfx.setColor(Color.gray);
@@ -177,6 +181,14 @@ public class Hud {
 		boundsWarning = b;
 	}
 
+	public boolean getRadarOn() {
+		return radarOn;
+	}
+
+	public void setRadarOn(boolean radarOn) {
+		this.radarOn = radarOn;
+	}
+
 	public void checkHP(double hp, Graphics gfx) {
 		if (hp <= totalHP / 2) {
 			gfx.setColor(Color.yellow);
@@ -187,6 +199,7 @@ public class Hud {
 			shipHPCaution = false;
 			shipHPWarning = true;
 		}
+		gfx.setColor(Color.green);
 	}
 
 	public static Shape offsetShape(Shape s, int dx, int dy) {
@@ -241,6 +254,13 @@ public class Hud {
 		gfx.setColor(Color.white);
 	}
 	
+	/**
+	 * renders all ACTIVE NavPoints on the map
+	 * @param bl BasicLevel
+	 * @param gfx Graphics
+	 * @param camX
+	 * @param camY
+	 */
 	public void renderPoints(BasicLevel bl, Graphics gfx, int camX, int camY){
 		gfx.setColor(Color.green);
 		for(NavPoint p : bl.getNavPoints().values()){
@@ -252,5 +272,28 @@ public class Hud {
 			}
 		}
 		gfx.setColor(Color.white);
+	}
+	
+	/**
+	 * renders a 'tag' for an item on a given edge of the players screen
+	 * the 'tag' tells the player what the item is, and its distance to the player
+	 * @param bl
+	 * @param gfx
+	 * @param camX
+	 * @param camY
+	 */
+	public void renderRadarTags(BasicLevel bl, Graphics gfx,int camX, int camY){
+		/**
+		 * algo: get the items location
+		 * get the players location
+		 * create a line between the two
+		 * draw a tag on the corresponding edge
+		 */
+		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
+		for(NavPoint p : bl.getNavPoints().values()){
+
+			Vector2f item = new Vector2f(p.getX(), p.getY());
+			Line dist = new Line(ship, item);
+		}
 	}
 }

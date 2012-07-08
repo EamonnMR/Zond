@@ -27,7 +27,7 @@ public class PlayerClient {
 	private boolean clientIsAlive;
 	private HashMap<String, Integer> clientKeys;
 	private Rectangle clientCameraBounds;
-	
+	private boolean radar;
 	//constructor
 	public PlayerClient(int clientId){
 		
@@ -168,7 +168,14 @@ public class PlayerClient {
 
 	public boolean tryShot() {
 		return currentShip.tryShot();
-		
+	}
+
+	public boolean getRadarState() {
+		return radar;
+	}
+
+	public void setRadarState(boolean radar) {
+		this.radar = radar;
 	}
 
 	public void updateCamera(ClientGameplayState c) {
