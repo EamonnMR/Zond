@@ -80,23 +80,24 @@ public class Hud {
 		gfx.drawString(shipName, 480, 680);
 		gfx.draw(new Rectangle(477, 677, (shipName.length() * 10) + 2, 25));
 
-		gfx.drawString("[WEAPON]"+gunName, 557, 707);
-		gfx.draw(new Rectangle(555, 703, (5 * 10) + 22, 25));
+		gfx.drawString("[WEAPON] "+gunName, 557, 706);
+		gfx.draw(new Rectangle(555, 703, 80, 25));
 
-		gfx.drawString("[ENGINE]"+engName, 590, 732);
-		gfx.draw(new Rectangle(588, 729, (5 * 10) + 22, 25));
+		gfx.drawString("[ENGINE] "+engName, 590, 732);
+		gfx.draw(new Rectangle(588, 729, 80, 25));
 
 		checkHP(hp, gfx);
-		gfx.drawString("[HP]" + hp, 396, 707);
-		gfx.draw(new Rectangle(393, 703, (4 * 10) + 40, 25));
+		gfx.drawString("[HP] " + hp, 396, 707);
+		gfx.draw(new Rectangle(393, 703, 45, 25));
 
+		renderRadarTags(bl, gfx, camX, camY);
 		
 		if(radarOn){
-			gfx.drawString("[RADAR]ON", 360, 732);
+			gfx.drawString("[RADAR] ON", 360, 732);
 		}else{
-			gfx.drawString("[RADAR]OFF", 360, 732);
+			gfx.drawString("[RADAR] OFF", 360, 732);
 		}
-		gfx.draw(new Rectangle(357, 729, (8*10)+2, 25));
+		gfx.draw(new Rectangle(357, 729, 74, 25));
 
 		renderPoints(bl, gfx, camX,camY);
 		if (googles) {
@@ -289,11 +290,32 @@ public class Hud {
 		 * create a line between the two
 		 * draw a tag on the corresponding edge
 		 */
-		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
+		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX()+camX, (float)pc.getPlayShip().getY()+camY);
 		for(NavPoint p : bl.getNavPoints().values()){
 
-			Vector2f item = new Vector2f(p.getX(), p.getY());
+			Vector2f item = new Vector2f(p.getX()+camX, p.getY()+camY);
 			Line dist = new Line(ship, item);
+			gfx.draw(dist);
+			if(dist.length()>256){
+				double dx = ship.getX()-item.getX();
+				double dy = ship.getY()-item.getY();
+				
+				double len = Math.sqrt(dx*dx + dy*dy);
+				
+				dx /= len;
+				dy /= len;
+				
+				dx *= 256;
+				dy *= 256;
+				
+				
+				gfx.drawString(p.getName(), (float)(ship.getX()+dx),(float)(ship.getY()+dy));
+				gfx.drawString(String.valueOf(dist.length()), 520, 512);	
+			}
+			
+			
+			
+			
 		}
 	}
 }
