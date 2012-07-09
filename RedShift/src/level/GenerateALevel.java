@@ -64,7 +64,7 @@ public class GenerateALevel {
 		theLevel.addAction(ask1);
 		theLevel.addAction(spawn);
 		theLevel.addNavPoint(alpha);
-		theLevel.addNavPoint(beta);
+//		theLevel.addNavPoint(beta);
 		
 		return this.theLevel;
 	}
