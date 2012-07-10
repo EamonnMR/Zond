@@ -464,5 +464,11 @@ public class ClientGameplayState extends BasicGameState{
 		return clients;
 	}
 	
+	public void setupAngleBounds(double screenX, double screenY){
+		double se = Math.acos(screenX / Math.sqrt( (screenX * screenX) + (screenY * screenY)));
+		double sw = Math.PI - se;
+		double nw = Math.PI + se;
+		double ne = sw+ Math.PI;
+	}
 	
 }
