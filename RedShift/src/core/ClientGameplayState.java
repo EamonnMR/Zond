@@ -7,6 +7,7 @@ import java.util.Map;
 import level.BasicAction;
 import level.BasicLevel;
 import level.BasicTrigger;
+import level.Objective;
 import level.TriggerTypes;
 
 import org.newdawn.slick.GameContainer;
@@ -37,7 +38,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState{
 
 	//vars
-	private int id, entCount, objCount, shotCount, clientCount;
+	private int id, entCount, objCount, shotCount, clientCount, objectiveCount;
 	//Constants
 	//Constants
 	float radius = 350; //Distance to draw tags from player
@@ -239,8 +240,16 @@ public class ClientGameplayState extends BasicGameState{
 			gameOver = true;
 		}
 		
-		
 		pc.updateCamera(this);
+	
+		
+//		//check for all objectives complete
+//		for(Objective obj : levelToUse.getObjectiveList().values()){
+//			if(obj.getComplete()){
+//				
+//			}
+//		}
+		
 		
 		if(gameOver){
 			cleanEntities(removeShots,removeShips,removeDoodads);

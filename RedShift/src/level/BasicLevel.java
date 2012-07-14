@@ -39,6 +39,7 @@ public class BasicLevel {
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
 	private HashMap<String, NavPoint> navPoints;			//collection of points
+	private HashMap<String, Objective> listObjectives;		//current list of objectives
 	
 	public BasicLevel(String name){
 		this.levelName = name;
@@ -219,6 +220,18 @@ public class BasicLevel {
 		}else{
 			return -1;
 		}
+	}
+	
+	public void setObjectivesList(HashMap<String, Objective> objects){
+		this.listObjectives = objects;
+	}
+	
+	public HashMap<String, Objective>  getObjectiveList(){
+		return this.listObjectives;
+	}
+
+	public Objective getObjective(String objName){
+		return listObjectives.get(objName);
 	}
 	
 	public static Shape offsetShape(Shape s, int dx, int dy){
