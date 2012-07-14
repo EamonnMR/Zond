@@ -31,6 +31,7 @@ import ents.BasicShip;
 public class Hud {
 
 	String shipName, gunName, engName;
+	Rectangle camBounds;
 	float x, y;
 	double hp, totalHP;
 	boolean googles = false; // bool for developer view mode
@@ -46,13 +47,14 @@ public class Hud {
 	Font hudFont;
 	PlayerClient pc;
 
-	public Hud(PlayerClient cl) {
+	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH) {
 		pc = cl;
 		totalHP = pc.getPlayShip().getHealth();
 		shipName = pc.getPlayShip().getName();
 		gunName = pc.getPlayShip().getWeapon().getName();
 		engName = pc.getPlayShip().getEngine().getName();
 		detected = new HashMap<Boolean, BasicShip>();
+		camBounds = new Rectangle(1,1,camBoundsW,camBoundsH);
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -61,6 +63,8 @@ public class Hud {
 		y = (float) pc.getPlayShip().getY();
 		hp = pc.getPlayShip().getHealth();
 		this.cgs = cgs;
+		
+		//update 
 	}
 
 	/**
@@ -166,6 +170,7 @@ public class Hud {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 		}
 
+		gfx.draw(camBounds);
 		gfx.setColor(Color.white);
 
 	}
@@ -284,38 +289,17 @@ public class Hud {
 	 * @param camY
 	 */
 	public void renderRadarTags(BasicLevel bl, Graphics gfx,int camX, int camY){
-		/**
-		 * algo: get the items location
-		 * get the players location
-		 * create a line between the two
-		 * draw a tag on the corresponding edge
-		 */
-		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX()+camX, (float)pc.getPlayShip().getY()+camY);
+		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
 		for(NavPoint p : bl.getNavPoints().values()){
-
-			Vector2f item = new Vector2f(p.getX()+camX, p.getY()+camY);
-			Line dist = new Line(ship, item);
-			gfx.draw(dist);
-			if(dist.length()>256){
-				double dx = ship.getX()-item.getX();
-				double dy = ship.getY()-item.getY();
-				
-				double len = Math.sqrt(dx*dx + dy*dy);
-				
-				dx /= len;
-				dy /= len;
-				
-				dx *= 256;
-				dy *= 256;
-				
-				
-				gfx.drawString(p.getName(), (float)(ship.getX()+dx),(float)(ship.getY()+dy));
-				gfx.drawString(String.valueOf(dist.length()), 520, 512);	
+			Vector2f pLoc = new Vector2f((p.getX()),(p.getY()));
+			Line toTarg = new Line(ship, pLoc);
+			int len = (int)toTarg.length();
+			if(len> 600){
+				double angle = Math.atan2((ship.getY()-pLoc.getY()) ,(ship.getX()-pLoc.getX()));
+				Vector2f point  = cgs.circularFunction((float)angle);
+				gfx.drawString(p.getName(), point.getX(), point.getY());
+				gfx.drawString(String.valueOf(len), point.getX(), point.getY()+25);
 			}
-			
-			
-			
-			
 		}
 	}
 }

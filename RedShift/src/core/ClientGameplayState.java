@@ -1,6 +1,5 @@
 package core;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +17,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -38,7 +38,14 @@ public class ClientGameplayState extends BasicGameState{
 
 	//vars
 	private int id, entCount, objCount, shotCount, clientCount;
-	private boolean gameOver, warn;
+	//Constants
+	//Constants
+	float radius = 350; //Distance to draw tags from player
+
+	//play with these till the tags are centered
+	float xoffset;
+	float yoffset;
+	private boolean gameOver, warn, gameStart, gameLoad;
 
 
 	int camX, camY, boundsCheck;
@@ -70,14 +77,15 @@ public class ClientGameplayState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-
 		this.ships = new HashMap<Integer, BasicShip>();
 		this.shots = new HashMap<Integer, BasicShot>();
 		this.doodads = new HashMap<Integer, BaseEnt>();
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		
-		this.gameOver = false;	//TODO: make this part of intra CGS state system
+		this.gameOver = false;		//TODO: make this part of intra CGS state system
+		this.gameLoad = false;		//
+		this.gameStart = false;		//
 		
 		incomingClientShips.put("mercury", entFac.stockMercury());
 		pc.setClientShips(incomingClientShips);
@@ -103,13 +111,14 @@ public class ClientGameplayState extends BasicGameState{
 		pc4.setPlayShip(entFac.stockLunar());
 		pc4.getPlayShip().ini(28,100, -45.0f);
 		
-		playerHud = new Hud(pc);
+		playerHud = new Hud(pc, 1023, 767);
 		
 		//add both ships to the Ship hashmap
 		addShip(pc.getPlayShip());
 		addShip(pc2.getPlayShip());
 		addShip(pc3.getPlayShip());
 		addShip(pc4.getPlayShip());
+		
 		//camera test
 		setCamX(0);
 		setCamY(0);
@@ -348,6 +357,7 @@ public class ClientGameplayState extends BasicGameState{
 		for(int i : removeDoodads){
 			doodads.remove(i);
 		}
+		
 	}
 	
 	public int addShip(BasicShip e){
@@ -464,11 +474,7 @@ public class ClientGameplayState extends BasicGameState{
 		return clients;
 	}
 	
-	public void setupAngleBounds(double screenX, double screenY){
-		double se = Math.acos(screenX / Math.sqrt( (screenX * screenX) + (screenY * screenY)));
-		double sw = Math.PI - se;
-		double nw = Math.PI + se;
-		double ne = sw+ Math.PI;
+	public Vector2f circularFunction(float angle){
+	       return new Vector2f((float) (Math.cos(angle+Math.PI) * radius + 512), (float)(Math.sin(angle+Math.PI) * radius + 384));
 	}
-	
 }
