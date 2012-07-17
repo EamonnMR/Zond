@@ -70,7 +70,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		}
 		//draw the ship
 		getImg().setCenterOfRotation((getImg().getWidth()/2),(getImg().getHeight()/2));
-		getImg().drawCentered(xOffset + (float)getX(), yOffset + (float)getY());	
+		getImg().drawCentered(xOffset + (float)getX(), yOffset + (float)getY());
 	}
 
 	public void update(int delta){

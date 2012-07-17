@@ -17,6 +17,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Circle;
+
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -125,13 +127,17 @@ public class ClientGameplayState extends BasicGameState{
 			throws SlickException {
 		level.render(arg2, 0, 0);
 		
+		Circle circ = new Circle(1, 1, 1);
+		
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render(camX, camY);
 		}
 		//draw all ships and their components
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().render(camX, camY);
+			BasicShip shp = entry.getValue();
+			shp.render(camX, camY);
+			arg2.draw(offsetShape(circ, (int)((shp.getX() + camX) / 10), 700 + (int)((shp.getY() + camY) / 10)));
 		}
 		//draw all doodads
 		for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
@@ -148,7 +154,7 @@ public class ClientGameplayState extends BasicGameState{
 		playerHud.render(arg2, arg0, levelToUse, camX, camY);
 		levelToUse.render(arg2, camX, camY);
 	}
-
+	
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
