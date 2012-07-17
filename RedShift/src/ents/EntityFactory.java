@@ -95,10 +95,12 @@ public class EntityFactory {
 	 */
 	public BasicShot buildShot(String shotPointer){
 		BasicShot shot = new BasicShot();
-		shot.setImg(gdb.getShot(shotPointer).getImg().copy());
-		shot.setDamage(gdb.getShot(shotPointer).getDamage());
-		shot.setSpeed(gdb.getShot(shotPointer).getSpeed());
-		shot.setInterval(gdb.getShot(shotPointer).getInterval());
+		BasicShot original = gdb.getShot(shotPointer);
+		shot.setImg(original.getImg().copy());
+		shot.setDamage(original.getDamage());
+		shot.setSpeed(original.getSpeed());
+		shot.setInterval(original.getInterval());
+		shot.setSnd(original.getSnd());
 		return shot;
 	}
 	
