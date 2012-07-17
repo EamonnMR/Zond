@@ -38,8 +38,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState{
 
 	//vars
-	private int id, entCount, objCount, shotCount, clientCount, objectiveCount;
-	//Constants
+	private int id, entCount, objCount, shotCount, clientCount, taskCount;
 	//Constants
 	float radius = 350; //Distance to draw tags from player
 
@@ -72,6 +71,7 @@ public class ClientGameplayState extends BasicGameState{
 		this.pc = PC;
 		this.levelToUse = lvl;
 		this.boundsCheck = 1;
+		this.taskCount = 0;
 	}
 	
 	//methods
@@ -123,6 +123,8 @@ public class ClientGameplayState extends BasicGameState{
 		//camera test
 		setCamX(0);
 		setCamY(0);
+		
+		taskCount = levelToUse.getTotalObjectives();
 	}
 
 	@Override
@@ -161,6 +163,7 @@ public class ClientGameplayState extends BasicGameState{
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		ArrayList<Integer> removeShips = new ArrayList<Integer>();
 		ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
+		ArrayList<Integer> removeObjective = new ArrayList<Integer>();
 		
 		
 		Input p = arg0.getInput();
@@ -207,7 +210,7 @@ public class ClientGameplayState extends BasicGameState{
 		
 		//======Begin updates!
 		//update ships
-		updateEntities(delta, removeShots, removeShips);
+		updateEntities(delta, removeShots, removeShips, removeObjective);
 		
 		//run collisions
 		checkCollisions(removeShots);
@@ -227,7 +230,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		playerHud.update(pc, this);
-		cleanEntities(removeShots,removeShips,removeDoodads);
+		cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
 		
 		int boundsCheck = levelToUse.checkBounds(pc.getPlayShip().getCollider());
 		if(boundsCheck==1){
@@ -243,16 +246,15 @@ public class ClientGameplayState extends BasicGameState{
 		pc.updateCamera(this);
 	
 		
-//		//check for all objectives complete
-//		for(Objective obj : levelToUse.getObjectiveList().values()){
-//			if(obj.getComplete()){
-//				
-//			}
-//		}
+		//check for all objectives complete
+		if(taskCount == levelToUse.getTotalObjectives()){
+			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
+			arg1.enterState(-1);
+		}
 		
-		
+		//game over!? you idiot
 		if(gameOver){
-			cleanEntities(removeShots,removeShips,removeDoodads);
+			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
 			arg1.enterState(-1);
 		}
 	}
@@ -263,7 +265,7 @@ public class ClientGameplayState extends BasicGameState{
 	 * @param delta
 	 * @param removeShots
 	 */
-	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips){
+	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeObjs){
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
@@ -285,6 +287,13 @@ public class ClientGameplayState extends BasicGameState{
 		//Update Doodads
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
+		}
+		
+		for(Map.Entry<Integer, Objective> tasks : levelToUse.getObjectiveList().entrySet()){
+			if(tasks.getValue().getComplete()){
+				removeObjs.add(tasks.getKey());
+				taskCount += 1;
+			}
 		}
 	}
 	
@@ -353,7 +362,7 @@ public class ClientGameplayState extends BasicGameState{
 	 * @param removeShips
 	 * @param removeDoodads
 	 */
-	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads){
+	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads, ArrayList<Integer>  removeTask ){
 		
 		for(int i : removeShots){
 			shots.remove(i);
@@ -367,6 +376,9 @@ public class ClientGameplayState extends BasicGameState{
 			doodads.remove(i);
 		}
 		
+		for(int i : removeTask){
+			levelToUse.getObjectiveList().remove(i);
+		}
 	}
 	
 	public int addShip(BasicShip e){

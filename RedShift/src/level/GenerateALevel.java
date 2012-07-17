@@ -23,6 +23,7 @@ public class GenerateALevel {
 	TriggerTypes trigTypes;
 	private NavPoint alpha;
 	private NavPoint beta;
+	private Objective theTask;
 	
 	public GenerateALevel(){
 		this.theLevel = new BasicLevel("Alpha v2 Level");
@@ -34,6 +35,7 @@ public class GenerateALevel {
 		this.spawn = new SpawnShipAction("spawnShip",900,700,"zond4", "20mm","smallEngine");
 		this.alpha = new NavPoint(0,0,"Alpha",true);
 		this.beta = new NavPoint(800,-800,"Beta", false);
+		this.theTask = new Objective("Mission1");
 	}
 	
 	public BasicLevel build(){
@@ -57,6 +59,8 @@ public class GenerateALevel {
 		spwn.setY(400);
 		spwn.setCollider(new Circle(spwn.getX(), spwn.getY(), 64));
 		
+		
+		
 		theLevel.addTrigger(tellMe);
 		theLevel.addTrigger(askMe);
 		theLevel.addTrigger(spwn);
@@ -65,7 +69,9 @@ public class GenerateALevel {
 		theLevel.addAction(spawn);
 		theLevel.addNavPoint(alpha);
 //		theLevel.addNavPoint(beta);
-		
+		theLevel.addObjective(theTask);
+
+		theLevel.setTotalObjectives(theLevel.getObjectiveList().size());
 		return this.theLevel;
 	}
 }

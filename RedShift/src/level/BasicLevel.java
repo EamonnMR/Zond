@@ -39,8 +39,9 @@ public class BasicLevel {
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
 	private HashMap<String, NavPoint> navPoints;			//collection of points
-	private HashMap<String, Objective> listObjectives;		//current list of objectives
-	
+	private HashMap<Integer, Objective> listObjectives;		//current list of objectives
+	private int totalObjectives;
+
 	public BasicLevel(String name){
 		this.levelName = name;
 		this.levelTriggerMap = new HashMap<String, BasicTrigger>();
@@ -48,6 +49,7 @@ public class BasicLevel {
 		this.executeTriggers = new LinkedList<BasicTrigger>();
 		this.executeActions = new LinkedList<BasicAction>();
 		this.navPoints = new HashMap<String, NavPoint>();
+		this.totalObjectives = 0;
 		this.setNeedsUpdate(false);
 	}
 	
@@ -222,16 +224,28 @@ public class BasicLevel {
 		}
 	}
 	
-	public void setObjectivesList(HashMap<String, Objective> objects){
+	public void setObjectivesList(HashMap<Integer, Objective> objects){
 		this.listObjectives = objects;
 	}
 	
-	public HashMap<String, Objective>  getObjectiveList(){
+	public void addObjective(Objective o){
+		totalObjectives ++;
+		this.listObjectives.put(totalObjectives, o);
+	}
+	public HashMap<Integer, Objective>  getObjectiveList(){
 		return this.listObjectives;
 	}
 
 	public Objective getObjective(String objName){
 		return listObjectives.get(objName);
+	}
+	
+	public int getTotalObjectives() {
+		return totalObjectives;
+	}
+
+	public void setTotalObjectives(int totalObjectives) {
+		this.totalObjectives = totalObjectives;
 	}
 	
 	public static Shape offsetShape(Shape s, int dx, int dy){
