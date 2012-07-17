@@ -9,12 +9,13 @@ package level;
 public class Objective {
 
 	//vars
-	private String name, blurb, full;
-	private boolean complete;
+	private String name, blurb, full;	//blurb is for in-hud use || full is for during briefings
+	private boolean complete;			//derp
 	
 	
-	public Objective(){
-		
+	public Objective(String name){
+		complete = false;
+		this.name = name;
 	}
 
 
