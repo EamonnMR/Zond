@@ -45,7 +45,7 @@ public class ClientGameplayState extends BasicGameState{
 	//play with these till the tags are centered
 	float xoffset;
 	float yoffset;
-	private boolean gameOver, warn, gameStart, gameLoad;
+	private boolean gameOver, gameStart, gameIni;
 
 
 	int camX, camY, boundsCheck;
@@ -72,59 +72,60 @@ public class ClientGameplayState extends BasicGameState{
 		this.levelToUse = lvl;
 		this.boundsCheck = 1;
 		this.taskCount = 0;
+		this.gameOver = false;		//TODO: make this part of intra CGS state system
+		this.gameIni = false;		//
+		this.gameStart = false;		//
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		this.ships = new HashMap<Integer, BasicShip>();
-		this.shots = new HashMap<Integer, BasicShot>();
-		this.doodads = new HashMap<Integer, BaseEnt>();
-		this.clients = new HashMap<Integer, PlayerClient>();
-		this.incomingClientShips = new HashMap<String, BasicShip>();
+		if(gameIni){
+			this.ships = new HashMap<Integer, BasicShip>();
+			this.shots = new HashMap<Integer, BasicShot>();
+			this.doodads = new HashMap<Integer, BaseEnt>();
+			this.clients = new HashMap<Integer, PlayerClient>();
+			this.incomingClientShips = new HashMap<String, BasicShip>();
 		
-		this.gameOver = false;		//TODO: make this part of intra CGS state system
-		this.gameLoad = false;		//
-		this.gameStart = false;		//
-		
-		incomingClientShips.put("mercury", entFac.stockMercury());
-		pc.setClientShips(incomingClientShips);
+			incomingClientShips.put("mercury", entFac.stockMercury());
+			pc.setClientShips(incomingClientShips);
 
-		//TODO: clean this up
-		level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
-		level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
+			//TODO: clean this up
+			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
+			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
-		//create the client ship
-		pc.setPlayShip(pc.retrieveShip("mercury"));
-		pc.getPlayShip().ini(512, 250, 0.0f);
-		pc.getPlayShip().setHealth(10);
+			//create the client ship
+			pc.setPlayShip(pc.retrieveShip("mercury"));
+			pc.getPlayShip().ini(512, 250, 0.0f);
+			pc.getPlayShip().setHealth(10);
 		
-		pc2 = new PlayerClient(1);
-		pc2.setPlayShip(entFac.stockGem());
-		pc2.getPlayShip().ini((512), (384), 0.0f);
+			pc2 = new PlayerClient(1);
+			pc2.setPlayShip(entFac.stockGem());
+			pc2.getPlayShip().ini((512), (384), 0.0f);
 		
-		pc3 = new PlayerClient(2);
-		pc3.setPlayShip(entFac.stockSky());
-		pc3.getPlayShip().ini(0, 0, 45.0f);
+			pc3 = new PlayerClient(2);
+			pc3.setPlayShip(entFac.stockSky());
+			pc3.getPlayShip().ini(0, 0, 45.0f);
 		
-		pc4 = new PlayerClient(3);;
-		pc4.setPlayShip(entFac.stockLunar());
-		pc4.getPlayShip().ini(28,100, -45.0f);
+			pc4 = new PlayerClient(3);;
+			pc4.setPlayShip(entFac.stockLunar());
+			pc4.getPlayShip().ini(28,100, -45.0f);
 		
-		playerHud = new Hud(pc, 1023, 767);
+			playerHud = new Hud(pc, 1023, 767);
 		
-		//add both ships to the Ship hashmap
-		addShip(pc.getPlayShip());
-		addShip(pc2.getPlayShip());
-		addShip(pc3.getPlayShip());
-		addShip(pc4.getPlayShip());
+			//add both ships to the Ship hashmap
+			addShip(pc.getPlayShip());
+			addShip(pc2.getPlayShip());
+			addShip(pc3.getPlayShip());
+			addShip(pc4.getPlayShip());
 		
-		//camera test
-		setCamX(0);
-		setCamY(0);
+			//camera test
+			setCamX(0);
+			setCamY(0);
 		
-		taskCount = levelToUse.getTotalObjectives();
+			taskCount = levelToUse.getTotalObjectives();
+		}
 	}
 
 	@Override
@@ -248,8 +249,7 @@ public class ClientGameplayState extends BasicGameState{
 		
 		//check for all objectives complete
 		if(taskCount == levelToUse.getTotalObjectives()){
-			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
-			arg1.enterState(-1);
+			gameOver = true;
 		}
 		
 		//game over!? you idiot
