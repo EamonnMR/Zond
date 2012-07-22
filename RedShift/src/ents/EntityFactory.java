@@ -1,7 +1,6 @@
 package ents;
 
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Polygon;
 
 import core.GameDatabase;
 /**
@@ -43,9 +42,7 @@ public class EntityFactory {
 		build.setTotalWeight(gdb.getShip(shipPointer).getTotalWeight());
 		build.setGunPtLength(gdb.getShip(shipPointer).getGunPtLength());
 		build.setEngPtLength(gdb.getShip(shipPointer).getEngPtLength());
-		build.setCollider(new Circle(gdb.getShip(shipPointer).getCollider().getX(),gdb.getShip(shipPointer).getCollider().getY(),gdb.getShip(shipPointer).getCollider().getHeight(),24));
-		
-		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
+		build.setCollider(new Circle(0,0,16,24));
 		build.getImg().setRotation(0);
 
 		BasicGun g = buildGun(gunPointer);
@@ -53,16 +50,6 @@ public class EntityFactory {
 		
 		build.setWeapon(g);
 		build.setEngine(e);
-		
-		//XXX:hacky hack hack
-		if(shipPointer=="lunar"){
-			Polygon p = new Polygon();
-			p.addPoint(-64, 42);
-			p.addPoint(64, 42);
-			p.addPoint(64, -42);
-			p.addPoint(-64, -42);
-			build.setCollider(p);
-		}
 		
 		return build;
 	}
@@ -108,10 +95,12 @@ public class EntityFactory {
 	 */
 	public BasicShot buildShot(String shotPointer){
 		BasicShot shot = new BasicShot();
-		shot.setImg(gdb.getShot(shotPointer).getImg().copy());
-		shot.setDamage(gdb.getShot(shotPointer).getDamage());
-		shot.setSpeed(gdb.getShot(shotPointer).getSpeed());
-		shot.setInterval(gdb.getShot(shotPointer).getInterval());
+		BasicShot original = gdb.getShot(shotPointer);
+		shot.setImg(original.getImg().copy());
+		shot.setDamage(original.getDamage());
+		shot.setSpeed(original.getSpeed());
+		shot.setInterval(original.getInterval());
+		shot.setSnd(original.getSnd());
 		return shot;
 	}
 	
