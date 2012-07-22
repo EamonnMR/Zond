@@ -12,7 +12,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.Sound;
 
 import ents.BasicArmor;
 import ents.BasicEngine;
@@ -33,7 +32,6 @@ public class GameDatabase {
 	//vars
 //	private static GameDatabase instance;
 	private Map<String, Image> indexImages;
-	private Map<String, Sound> indexSounds;
 	private Map<String, BasicShip> indexShip;
 	private Map<String, BasicGun> indexGuns;
 	private Map<String, BasicEngine> indexEng;
@@ -54,17 +52,15 @@ public class GameDatabase {
 	 */
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
-		indexSounds = new HashMap<String, Sound>();
 		try {
 			try {
 				xloadImages();
-				loadSounds();
 			} catch (SlickException e) {
-				System.out.println("Problem loading image/sound)");
+				System.out.println("Problem loading image)");
 				e.printStackTrace();
 			}
 		} catch (IOException e){
-			System.out.println("Problem opening images/sounds file)");
+			System.out.println("Problem opening images file)");
 			e.printStackTrace();
 		}
 		
@@ -76,21 +72,6 @@ public class GameDatabase {
 		populateAll();
 	}
 	
-	
-	/**
-	 * Loads all sound files
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws SlickException
-	 */
-	private void loadSounds() throws FileNotFoundException, IOException, SlickException {
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/sounds.rst"));
-		for (String child : s.childSet()){
-			ldSnd(child, s.getValue(child));
-			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
-		}
-	}
-
 	/**
 	 * populates all indices with their respective resources
 	 * @throws IOException 
@@ -119,16 +100,6 @@ public class GameDatabase {
 		}
 	}
 	
-	private void ldSnd(String name, String location) {
-		try{
-			indexSounds.put(name, new Sound(location) );
-			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
-		} catch (SlickException e){
-			System.out.println("Failed ''" + name + "'' at location: ''" + location + "''.");
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Loads gun stats from assets/text/guns.rst
 	 * 
@@ -181,6 +152,7 @@ public class GameDatabase {
 			m.setGunPtLength(Integer.parseInt(s.getValue(child, "gunPtLen")));
 			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
 			m.setCollider(parseShape(s, child, "collider"));
+			m.setRadarRadius(parseShape(s, child, "radar"));
 			m.setName(child);
 			indexShip.put(child, m);
 		}
@@ -240,7 +212,6 @@ public class GameDatabase {
 			h.setDamage(Integer.parseInt(s.getValue(child, "dmg")));
 			h.setSpeed(Float.parseFloat(s.getValue(child, "speed")));
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
-			h.setSnd(indexSounds.get(s.getValue(child, "snd")));
 			h.setCollider(parseShape(s, child, "collider"));
 			indexShot.put(child, h);
 		}
@@ -273,11 +244,6 @@ public class GameDatabase {
 	 * simple get armor method
 	 * @return BasicArmor
 	 */
-	
-	public Sound getSound(String index){
-		return indexSounds.get(index);
-	}
-	
 	public BasicArmor getArmor(String index){
 		return indexArmor.get(index);
 	}
@@ -295,7 +261,11 @@ public class GameDatabase {
 		//No switch on string?  Pete, update your Java ffs
 		String type = t.getValue(cat(name, "type"));
 		if( type.equals("rect")){
-			
+			return new Rectangle(
+					fft(t,"x",name),
+					fft(t,"y",name),
+					fft(t,"w",name),
+					fft(t,"h",name));
 		} else if(type.equals("line")){
 			return new Rectangle(
 					fft(t,"x",name),
