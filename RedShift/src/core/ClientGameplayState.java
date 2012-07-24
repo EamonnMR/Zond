@@ -309,6 +309,7 @@ public class ClientGameplayState extends BasicGameState{
 					double tempHP =ship.getValue().getHealth();
 					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
 					removeShots.add(shot.getKey());
+					shot.getValue().onHit();
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
 					}

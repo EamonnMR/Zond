@@ -4,6 +4,7 @@
 	[dmg]   (INT)     Damage
 	[speed] (FLOAT)Speed
 	[life]  (INT) Lifetime (miliseconds?)
+	[snd]   (STRING) name of the sound to use when the shot hits
 	[collider] SHAPE (see shapes.txt)
 }/
 
@@ -12,6 +13,7 @@
 	[dmg]  (5)
 	[speed](0.2)
 	[life] (10000)
+	[snd]  (twentyh)	
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
@@ -25,6 +27,7 @@
 	[dmg]  (5)
 	[speed](0.12)
 	[life] (7500)
+	[snd]  (twentyh)
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
@@ -38,6 +41,7 @@
 	[dmg]  (5)
 	[speed](0.1)
 	[life] (5000)
+	[snd]  (twentyh)
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
