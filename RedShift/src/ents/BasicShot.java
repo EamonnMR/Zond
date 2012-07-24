@@ -1,5 +1,6 @@
 package ents;
 
+import org.newdawn.slick.Sound;
 /**
  * derive any kind of projectile from this class
  * @author Roohr
@@ -14,6 +15,7 @@ public class BasicShot extends BaseEnt {
 	private float speed;
 	private int interval;
 	private int timer;
+	private Sound snd;
 	//constructor
 	public BasicShot(){
 	}
@@ -38,6 +40,10 @@ public class BasicShot extends BaseEnt {
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
 		}
+	}
+	
+	public void onHit() {
+		snd.play();
 	}
 	
 	public void render(int xOffset, int yOffset){
@@ -78,6 +84,13 @@ public class BasicShot extends BaseEnt {
 	public void setTimer(int timer) {
 		this.timer = timer;
 	}
+	
+	public Sound getSnd() {
+		return snd;
+	}
 
+	public void setSnd(Sound snd) {
+		this.snd = snd;
+	}
 	
 }
