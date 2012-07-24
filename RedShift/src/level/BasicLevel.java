@@ -49,6 +49,7 @@ public class BasicLevel {
 		this.executeTriggers = new LinkedList<BasicTrigger>();
 		this.executeActions = new LinkedList<BasicAction>();
 		this.navPoints = new HashMap<String, NavPoint>();
+		this.listObjectives = new HashMap<Integer, Objective>();
 		this.totalObjectives = 0;
 		this.setNeedsUpdate(false);
 	}
