@@ -113,7 +113,7 @@ public class EntityFactory {
 		shot.setDamage(original.getDamage());
 		shot.setSpeed(original.getSpeed());
 		shot.setInterval(original.getInterval());
-		shot.setSnd(original.getSnd());
+		//shot.setSnd(original.getSnd()); FIXME: Fix sound!
 		return shot;
 	}
 	
