@@ -73,7 +73,7 @@ public class ClientGameplayState extends BasicGameState{
 		this.boundsCheck = 1;
 		this.taskCount = 0;
 		this.gameOver = false;		//TODO: make this part of intra CGS state system
-		this.gameIni = false;		//
+		this.gameIni = true;		//Set to true here because it's not true anywhere else
 		this.gameStart = false;		//
 	}
 	
@@ -81,7 +81,7 @@ public class ClientGameplayState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		if(gameIni){
+		if(gameIni){  //Should this if exist?
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
 			this.doodads = new HashMap<Integer, BaseEnt>();
@@ -125,6 +125,8 @@ public class ClientGameplayState extends BasicGameState{
 			setCamY(0);
 		
 			taskCount = levelToUse.getTotalObjectives();
+			gameIni = false; //This should make sure that it's never init'd twice, not sure if we should even use the
+			//bool here though.  Seems like overkill.
 		}
 	}
 
@@ -247,10 +249,10 @@ public class ClientGameplayState extends BasicGameState{
 		pc.updateCamera(this);
 	
 		
-		//check for all objectives complete
-		if(taskCount == levelToUse.getTotalObjectives()){
-			gameOver = true;
-		}
+		//check for all objectives complete //FIXME: Uncomment this for objectives
+		//if(taskCount == levelToUse.getTotalObjectives()){
+		//	gameOver = true;
+		//}
 		
 		//game over!? you idiot
 		if(gameOver){

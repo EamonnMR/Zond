@@ -15,7 +15,7 @@ public class BasicShot extends BaseEnt {
 	private float speed;
 	private int interval;
 	private int timer;
-	private Sound snd;
+	//private Sound snd; FIXME: Fix sound!
 	//constructor
 	public BasicShot(){
 	}
@@ -43,7 +43,7 @@ public class BasicShot extends BaseEnt {
 	}
 	
 	public void onHit() {
-		snd.play();
+		//snd.play(); FIXME: Fix sound!
 	}
 	
 	public void render(int xOffset, int yOffset){
@@ -85,12 +85,14 @@ public class BasicShot extends BaseEnt {
 		this.timer = timer;
 	}
 	
-	public Sound getSnd() {
+	//FIXME: Fix sound!
+	
+	/*public Sound getSnd() {
 		return snd;
-	}
+	} */
 
-	public void setSnd(Sound snd) {
+	/*public void setSnd(Sound snd) {
 		this.snd = snd;
-	}
+	}*/
 	
 }
