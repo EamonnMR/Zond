@@ -3,8 +3,8 @@ package ui.hud;
 import java.util.HashMap;
 
 import level.BasicLevel;
-import level.BasicTrigger;
 import level.NavPoint;
+import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
