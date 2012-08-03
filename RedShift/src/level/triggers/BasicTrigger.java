@@ -1,4 +1,6 @@
-package level;
+package level.triggers;
+
+import level.TriggerTypes;
 
 import org.newdawn.slick.geom.Shape;
 

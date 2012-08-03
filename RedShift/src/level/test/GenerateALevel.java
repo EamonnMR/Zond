@@ -1,7 +1,12 @@
-package level;
+package level.test;
 
+import level.BasicLevel;
+import level.NavPoint;
+import level.Objective;
+import level.TriggerTypes;
 import level.actions.MessageAction;
 import level.actions.SpawnShipAction;
+import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;

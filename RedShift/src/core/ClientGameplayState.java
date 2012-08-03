@@ -6,9 +6,9 @@ import java.util.Map;
 
 import level.BasicAction;
 import level.BasicLevel;
-import level.BasicTrigger;
 import level.Objective;
 import level.TriggerTypes;
+import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
