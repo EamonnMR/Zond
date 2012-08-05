@@ -1,13 +1,13 @@
 package core;
 
 
+import level.test.AlphaLevel;
 import level.test.GenerateALevel;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
 
 import ents.EntityFactory;
 
@@ -29,7 +29,6 @@ public class CoreStateManager extends StateBasedGame {
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
 	public GenerateALevel gal;
-	
 	//constructor
 	public CoreStateManager() {
 		super("RedShift v1.0");
@@ -37,8 +36,9 @@ public class CoreStateManager extends StateBasedGame {
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
 		gal = new GenerateALevel();
+		
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, gal.build()));
+		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, null));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.enterState(CLIENTLOADERSTATE);
 	}

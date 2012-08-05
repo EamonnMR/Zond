@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Graphics;
@@ -199,6 +200,11 @@ public class BasicLevel {
 		this.needsUpdate = needsUpdate;
 	}
 	
+	/**
+	 * set the active and warning areas of the level
+	 * @param activeArea
+	 * @param warningArea
+	 */
 	public void setBounds(Shape a, Shape b){
 		this.activeArea = a;
 		this.warnArea = b;

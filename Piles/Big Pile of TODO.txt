@@ -92,9 +92,15 @@ FINISHED-FIGURE OUT FUN GAMEPLAY
 PHASE THREE
 --in order of priority--
 
--stratify triggers and actions
+WORKING-stratify triggers and actions
+	+8/4/2012 - added multispawnships
 
--nail game over
+FINISHED-nail game over
+	+8/4/2012
+
+-hud: update - add objectives list
+	- add radar tags for enemies
+	- add radar tags for allies
 
 -at least one bad guy player can fight
 	+AI

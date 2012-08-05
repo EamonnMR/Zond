@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import level.BasicAction;
 import level.BasicLevel;
 import level.Objective;
 import level.TriggerTypes;
+import level.actions.BasicAction;
+import level.test.AlphaLevel;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.GameContainer;
@@ -45,8 +46,7 @@ public class ClientGameplayState extends BasicGameState{
 	//play with these till the tags are centered
 	float xoffset;
 	float yoffset;
-	private boolean gameOver, gameStart, gameIni;
-
+	private boolean gameOver, gamePlay, gameIni;
 
 	int camX, camY, boundsCheck;
 	PlayerClient pc, pc2, pc3, pc4;
@@ -56,11 +56,11 @@ public class ClientGameplayState extends BasicGameState{
 	HashMap<Integer, BaseEnt> doodads;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
-	TriggerTypes trigTypes;
 	
 	GameDatabase gdb;
 	EntityFactory entFac;
 	Hud playerHud;
+	AlphaLevel test;
 	
 	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
@@ -69,19 +69,21 @@ public class ClientGameplayState extends BasicGameState{
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-		this.levelToUse = lvl;
+//		this.levelToUse = lvl;	//keep this here for now.
 		this.boundsCheck = 1;
 		this.taskCount = 0;
 		this.gameOver = false;		//TODO: make this part of intra CGS state system
 		this.gameIni = true;		//Set to true here because it's not true anywhere else
-		this.gameStart = false;		//
+		this.gamePlay = false;		//
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		if(gameIni){  //Should this if exist?
+		if(gameIni){ 
+			test = new AlphaLevel(entFac);
+			this.levelToUse = test.getLevel();
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
 			this.doodads = new HashMap<Integer, BaseEnt>();
@@ -100,6 +102,7 @@ public class ClientGameplayState extends BasicGameState{
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			pc.getPlayShip().setHealth(10);
 		
+			//this stuff will be superseded by a map
 			pc2 = new PlayerClient(1);
 			pc2.setPlayShip(entFac.stockGem());
 			pc2.getPlayShip().ini((512), (384), 0.0f);
@@ -125,16 +128,17 @@ public class ClientGameplayState extends BasicGameState{
 			setCamY(0);
 		
 			taskCount = levelToUse.getTotalObjectives();
-			gameIni = false; //This should make sure that it's never init'd twice, not sure if we should even use the
-			//bool here though.  Seems like overkill.
+			gameIni = false;
+			gamePlay = true;
 		}
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		level.render(arg2, 0, 0);
 		
+		if(gamePlay){
+			level.render(arg2, 0, 0);
 		//draw all shots
 		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
 			entry.getValue().render(camX, camY);
@@ -157,11 +161,13 @@ public class ClientGameplayState extends BasicGameState{
 		
 		playerHud.render(arg2, arg0, levelToUse, camX, camY);
 		levelToUse.render(arg2, camX, camY);
+		}
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
+		if(gamePlay){
 		//placed at the top for ubiquitousness
 		ArrayList<Integer> removeShots = new ArrayList<Integer>();
 		ArrayList<Integer> removeShips = new ArrayList<Integer>();
@@ -257,7 +263,11 @@ public class ClientGameplayState extends BasicGameState{
 		//game over!? you idiot
 		if(gameOver){
 			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
+			gameOver = false;
+			gamePlay = false;
+			gameIni = true;
 			arg1.enterState(-1);
+			}
 		}
 	}
 	
@@ -323,7 +333,7 @@ public class ClientGameplayState extends BasicGameState{
 		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 				if(trig.getCollider().intersects(shot.getValue().getCollider())){
-					if(trig.getTriggerType()==trigTypes.SHOT){
+					if(trig.getTriggerType()==TriggerTypes.SHOT){
 						//if shot hits trigger, set trigger to true; tell the game the level needs
 						//to be updated
 						trig.trigger(true);
@@ -347,7 +357,7 @@ public class ClientGameplayState extends BasicGameState{
 		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 				if(trig.getCollider().intersects(ship.getValue().getCollider())){
-					if(trig.getTriggerType()==trigTypes.SHIP){
+					if(trig.getTriggerType()==TriggerTypes.SHIP){
 					//if ship hits trigger, set trigger to true; tell the game the level needs
 					//to be updated
 					trig.trigger(true);
@@ -500,5 +510,17 @@ public class ClientGameplayState extends BasicGameState{
 	
 	public Vector2f circularFunction(float angle){
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * radius + 512), (float)(Math.sin(angle+Math.PI) * radius + 384));
+	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame arg1){
+		try {
+			this.gameIni=true;
+			this.init(container, arg1);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

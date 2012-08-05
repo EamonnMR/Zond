@@ -1,4 +1,4 @@
-package level;
+package level.actions;
 
 import org.newdawn.slick.Graphics;
 

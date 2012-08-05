@@ -1,6 +1,5 @@
 package level.actions;
 
-import level.BasicAction;
 import core.ClientGameplayState;
 import ents.BasicShip;
 import ents.EntityFactory;
@@ -45,4 +44,5 @@ public class SpawnShipAction extends BasicAction{
 		setUpdate(false);
 		setDone(true);
 	}
+
 }
