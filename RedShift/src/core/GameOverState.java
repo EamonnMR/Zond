@@ -23,8 +23,6 @@ public class GameOverState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-
-		
 	}
 
 	@Override
@@ -38,8 +36,7 @@ public class GameOverState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 		Input ip = arg0.getInput();
-		if(ip.isKeyPressed(Input.KEY_SPACE)){
-			arg1.initStatesList(arg0);
+		if(ip.isKeyDown(Input.KEY_SPACE)){
 			arg1.enterState(1);
 		}
 	}

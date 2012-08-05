@@ -1,6 +1,5 @@
 package level.actions;
 
-import level.BasicAction;
 
 import org.newdawn.slick.Graphics;
 
