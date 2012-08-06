@@ -272,7 +272,7 @@ public class Hud {
 		for(NavPoint p : bl.getNavPoints().values()){
 			if(p.isActive()){
 				int len = p.getName().length();
-				int tenlen = len*10;
+				int tenlen = len*8;
 				gfx.drawString(p.getName(),(p.getX()-(tenlen/2))+camX, p.getY()+camY-5);
 				gfx.draw(new Circle(p.getX()+camX, p.getY()+camY, tenlen));
 			}

@@ -16,6 +16,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -62,6 +63,7 @@ public class ClientGameplayState extends BasicGameState{
 	Hud playerHud;
 	AlphaLevel test;
 	
+	public Sound SFXTESTDERP;
 	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, BasicLevel lvl){
@@ -82,6 +84,16 @@ public class ClientGameplayState extends BasicGameState{
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
 		if(gameIni){ 
+			
+			try {
+				SFXTESTDERP = new Sound("assets/sound/test1.ogg");
+				SFXTESTDERP.play(0, 50);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			test = new AlphaLevel(entFac);
 			this.levelToUse = test.getLevel();
 			this.ships = new HashMap<Integer, BasicShip>();

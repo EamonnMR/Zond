@@ -1,12 +1,12 @@
 package core;
 
 
-import level.test.AlphaLevel;
 import level.test.GenerateALevel;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ents.EntityFactory;
@@ -22,6 +22,7 @@ public class CoreStateManager extends StateBasedGame {
 	public static int CLIENTLOADERSTATE = 0;
 	public static int CLIENTPLAYSTATE = 1;
 	public static int CLIENTGAMEOVERSTATE = -1;
+	public Sound test;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -37,6 +38,7 @@ public class CoreStateManager extends StateBasedGame {
 		entFac = new EntityFactory();
 		gal = new GenerateALevel();
 		
+
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, null));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
