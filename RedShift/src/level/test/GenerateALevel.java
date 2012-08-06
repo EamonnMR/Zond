@@ -26,7 +26,7 @@ public class GenerateALevel {
 	private MessageAction ask1;		//
 	private SpawnShipAction spawn;	//spawn a ship!
 	private NavPoint alpha;
-	private NavPoint beta;
+//	private NavPoint beta;
 	private Objective theTask;
 	
 	public GenerateALevel(){
@@ -38,7 +38,7 @@ public class GenerateALevel {
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.spawn = new SpawnShipAction("spawnShip",900,700,"zond4", "20mm","smallEngine");
 		this.alpha = new NavPoint(0,0,"Alpha",true);
-		this.beta = new NavPoint(800,-800,"Beta", false);
+//		this.beta = new NavPoint(800,-800,"Beta", false);
 		this.theTask = new Objective("Mission1");
 	}
 	

@@ -8,6 +8,7 @@ import java.util.Queue;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -110,9 +111,11 @@ public class BasicLevel {
 	
 	//render
 	public void render(Graphics gfx, float cx, float cy){
+		gfx.setColor(Color.yellow);
 		gfx.draw(offsetShape(activeArea, (int) cx, (int) cy));
+		gfx.setColor(Color.red);
 		gfx.draw(offsetShape(warnArea, (int) cx, (int) cy));
-		
+		gfx.setColor(Color.green);
 	}
 	
 	//garbage day! 

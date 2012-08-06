@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-//import org.newdawn.slick.Sound; //FIXME: FIX SOUND
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
@@ -38,7 +38,7 @@ public class GameDatabase {
 	private Map<String, BasicEngine> indexEng;
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
-	//private Map<String, Sound> indexSounds; //FIXME: FIX SOUND
+	private Map<String, Sound> indexSounds; //FIXME: FIX SOUND
 	
 	//constructor
 	public GameDatabase(){}
@@ -54,11 +54,11 @@ public class GameDatabase {
 	 */
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
-		//indexSounds = new HashMap<String, Sound>(); //FIXME: FIX SOUND
+		indexSounds = new HashMap<String, Sound>(); //FIXME: FIX SOUND
 		try {
 			try {
 				xloadImages();
-				//loadSounds(); //FIXME: FIX SOUND
+				loadSounds(); //FIXME: FIX SOUND
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -84,13 +84,13 @@ public class GameDatabase {
 	* @throws IOException
 	* @throws SlickException
 	*/
-	/*private void loadSounds() throws FileNotFoundException, IOException, SlickException {
+	private void loadSounds() throws FileNotFoundException, IOException, SlickException {
 		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/sounds.rst"));
 		for (String child : s.childSet()){
 			ldSnd(child, s.getValue(child));
-			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
 		}
-	}*/
+	}
 	
 	/**
 	 * populates all indices with their respective resources
@@ -106,16 +106,16 @@ public class GameDatabase {
 		xpopulateEngine();
 		xpopulateShips();
 	}
-	
-	/*private void ldSnd(String name, String location) { //FIXME: FIX SOUND
+
+	private void ldSnd(String name, String location) { //FIXME: FIX SOUND
 		try{
-		//indexSounds.put(name, new Sound(location) ); //FIXME: FIX SOUND
-		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
+		indexSounds.put(name, new Sound(location) ); //FIXME: FIX SOUND
+			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
 		} catch (SlickException e){
 			System.out.println("Failed ''" + name + "'' at location: ''" + location + "''.");
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 	/**
 	 * loadImages() - loads all images
@@ -242,7 +242,7 @@ public class GameDatabase {
 			h.setDamage(Integer.parseInt(s.getValue(child, "dmg")));
 			h.setSpeed(Float.parseFloat(s.getValue(child, "speed")));
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
-			//h.setSnd(indexSounds.get(s.getValue(child, "snd"))); //FIXME: FIX SOUND
+			h.setSnd(indexSounds.get(s.getValue(child, "snd"))); //FIXME: FIX SOUND
 			h.setCollider(parseShape(s, child, "collider"));
 			indexShot.put(child, h);
 		}
