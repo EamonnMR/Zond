@@ -6,7 +6,7 @@ import java.util.Map;
 
 import level.BasicLevel;
 import level.LevelDataModel;
-import level.Objective;
+//import level.Objective;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.test.AlphaLevel;
@@ -158,9 +158,7 @@ public class ClientGameplayState extends BasicGameState{
 //			}
 //		}
 		
-//		playerHud.render(arg2, arg0, levelToUse, camX, camY);
 			playerHud.render(arg2, arg0, levelData, camX, camY);
-//		levelToUse.render(arg2, camX, camY);
 			lh.render(arg2, camX, camY);
 		}
 	}
