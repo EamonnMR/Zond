@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import level.BasicLevel;
 import level.NavPoint;
+import level.Objective;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Color;
@@ -41,6 +42,8 @@ public class Hud {
 	boolean shipHPWarning = false; // if health is below 1/4 - make hp red, show
 									// warning
 	boolean radarOn = false; // is radar active?
+	
+	boolean showMission = false;	//show list of active objectives
 	HashMap<Boolean, BasicShip> detected;
 
 	ClientGameplayState cgs;
@@ -94,6 +97,10 @@ public class Hud {
 		gfx.drawString("[HP] " + hp, 396, 707);
 		gfx.draw(new Rectangle(393, 703, 45, 25));
 
+		if(showMission){
+			renderObjectivesList(gfx);
+		}
+		
 		renderRadarTags(bl, gfx, camX, camY);
 		
 		if(radarOn){
@@ -112,7 +119,7 @@ public class Hud {
 			gfx.setColor(Color.red);
 			String x = "<==!WARNING!==>";
 			gfx.drawString(x, 458, 627);
-			x = "<==Leaving Mission Area==>";
+			x = "<==!Leaving Mission Area!==>";
 			gfx.drawString(x, 400, 652);
 		}
 
@@ -300,6 +307,24 @@ public class Hud {
 				gfx.drawString(p.getName(), point.getX(), point.getY());
 				gfx.drawString(String.valueOf(len), point.getX(), point.getY()+25);
 			}
+		}
+	}
+	
+	/**
+	 * draw objectives list on-screen
+	 * @param gfx
+	 */
+	private void renderObjectivesList(Graphics gfx) {
+		HashMap<Integer, Objective> objs = cgs.getLevel().getObjectiveList();
+		int x = 0, y = 0;
+		for(Objective obj : objs.values()){
+			String msg = obj.getBlurb();
+			if(!obj.getComplete()){
+				gfx.setColor(Color.green);
+			}else if(obj.getComplete()){
+				gfx.setColor(Color.gray);
+			}
+			
 		}
 	}
 }

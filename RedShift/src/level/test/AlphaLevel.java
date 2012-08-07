@@ -1,12 +1,15 @@
 package level.test;
 
+import java.awt.Point;
 import java.util.HashMap;
 
 import level.BasicLevel;
 import level.NavPoint;
 import level.Objective;
 import level.TriggerTypes;
+import level.actions.MultiObjSpawner;
 import level.actions.MultiShipSpawner;
+import level.actions.SpawnShipAction;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.geom.Circle;
@@ -19,6 +22,7 @@ public class AlphaLevel {
 	
 	//core level
 	private BasicLevel theLevel;
+	private EntityFactory entFac;
 	
 	//nav points
 	private NavPoint alpha;
@@ -33,15 +37,17 @@ public class AlphaLevel {
 	private Objective attackCappa;
 	private Objective scanDelta;
 	private Objective returnEpsilon;
-	private EntityFactory entFac;
+	
 	
 	//triggers
 	private BasicTrigger alphaHit;
+	private BasicTrigger betaClear;
+	
 	
 	//actions
 	private MultiShipSpawner spawnShipsAtAlpha;
-	
-	//
+	private MultiObjSpawner spawnAsteroids;
+	private SpawnShipAction makeSatellite;
 	
 	public AlphaLevel(EntityFactory ef){
 		entFac = ef;
@@ -67,11 +73,15 @@ public class AlphaLevel {
 		return ships;
 	}
 	
-	private HashMap<Double, Double> getLocus(){
-		HashMap<Double, Double> locus = new HashMap<Double, Double>();
-		locus.put(2063.0, 2656.0);
-		locus.put(2184.0, 2400.0);
-		locus.put(2448.0, 2624.0);
+	private Point[] getLocus(){
+		//2272,2560
+		Point[] locus = new Point[3];
+		locus[0] = new Point();
+		locus[0].setLocation(2163, 2560);
+		locus[1] = new Point();
+		locus[1].setLocation(2184, 2400);
+		locus[2] = new Point();
+		locus[2].setLocation(2480, 2624.0);
 		return locus;
 	}
 	

@@ -1,5 +1,7 @@
 package level.actions;
 
+import level.triggers.BasicTrigger;
+
 import org.newdawn.slick.Graphics;
 
 import core.ClientGameplayState;
@@ -15,7 +17,7 @@ public class BasicAction {
 	private boolean ini;		//has the action been initialized? if false, run ini()
 	private boolean update;		//does the action need to be updated? if true, run update()
 	private boolean end;		//determines if the action is complete or not
-
+	private BasicTrigger fireOff;
 	
 	public BasicAction(){
 		this.ini = true;
@@ -84,5 +86,11 @@ public class BasicAction {
 		this.end = done;
 	}
 	
-
+	public void setTrigger(BasicTrigger trig){
+		this.fireOff = trig;
+	}
+	
+	public BasicTrigger getTrigger(){
+		return fireOff;
+	}
 }

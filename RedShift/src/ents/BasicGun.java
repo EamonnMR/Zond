@@ -55,7 +55,7 @@ public class BasicGun {
 			shot.setCollider(new Circle(0,0,4));
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
-			shot.getSnd().play();
+//			shot.getSnd().play();
 			return shot;
 	}
 	

@@ -94,16 +94,19 @@ PHASE THREE
 
 WORKING-stratify triggers and actions
 	+8/4/2012 - added multispawnships
+	+8/6/2012 - multispawnships works, in a way
 
 FINISHED-nail game over
 	+8/4/2012
 
--hud: update - add objectives list
+WORKING-hud: update - add objectives list
 	- add radar tags for enemies
 	- add radar tags for allies
 
--at least one bad guy player can fight
+WORKING-at least one bad guy player can fight
 	+AI
+
+WORKING-get objectives working right
 
 -projectile damage types
 	+differentiate damage from weapons: slug/plasma/ etc
@@ -115,7 +118,7 @@ FINISHED-nail game over
 	+ recommended weapons / weapon efficacy
 	+ different bad guy colors = different armor types (maybe)
 
-- actual sound effects
+EMR- actual sound effects
 	+two weapons
 	+two engines
 	+explode
@@ -152,7 +155,7 @@ FINISHED-nail game over
 -update optionsEnt
 	+move to core, make read a properties file
 
--player data persistence
+EMR-player data persistence
 	+save class?
 	+serialize clientgameplaystate as save file(?)
 

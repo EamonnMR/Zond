@@ -16,7 +16,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
@@ -63,7 +62,6 @@ public class ClientGameplayState extends BasicGameState{
 	Hud playerHud;
 	AlphaLevel test;
 	
-	public Sound SFXTESTDERP;
 	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, BasicLevel lvl){
@@ -74,25 +72,16 @@ public class ClientGameplayState extends BasicGameState{
 //		this.levelToUse = lvl;	//keep this here for now.
 		this.boundsCheck = 1;
 		this.taskCount = 0;
-		this.gameOver = false;		//TODO: make this part of intra CGS state system
-		this.gameIni = true;		//Set to true here because it's not true anywhere else
-		this.gamePlay = false;		//
+		this.gameOver = false;		
+		this.gameIni = true;		
+		this.gamePlay = false;
 	}
 	
 	//methods
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		if(gameIni){ 
-			
-			try {
-				SFXTESTDERP = new Sound("assets/sound/test1.ogg");
-				SFXTESTDERP.play(0, 50);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		if(gameIni){
 			
 			test = new AlphaLevel(entFac);
 			this.levelToUse = test.getLevel();
@@ -530,9 +519,12 @@ public class ClientGameplayState extends BasicGameState{
 			this.gameIni=true;
 			this.init(container, arg1);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public BasicLevel getLevel(){
+		return levelToUse;
 	}
 }
