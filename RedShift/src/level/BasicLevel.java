@@ -67,7 +67,7 @@ public class BasicLevel {
 	 * @param delta
 	 */
 	public void update(int delta, ClientGameplayState cgs){
-		
+		//minor alteration
 		
 		//find which triggers are active
 			for(BasicTrigger trig : levelTriggerMap.values()){
