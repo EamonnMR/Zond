@@ -3,6 +3,7 @@ package ui.hud;
 import java.util.HashMap;
 
 import level.BasicLevel;
+import level.LevelDataModel;
 import level.NavPoint;
 import level.Objective;
 import level.triggers.BasicTrigger;
@@ -78,7 +79,7 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void render(Graphics gfx, GameContainer gc, BasicLevel bl, int camX,
+	public void render(Graphics gfx, GameContainer gc, LevelDataModel ldm, int camX,
 			int camY) {
 		if(radarOn){
 			shipRadarCheck(cgs, gfx, camX, camY);
@@ -101,7 +102,7 @@ public class Hud {
 			renderObjectivesList(gfx);
 		}
 		
-		renderRadarTags(bl, gfx, camX, camY);
+		renderRadarTags(ldm, gfx, camX, camY);
 		
 		if(radarOn){
 			gfx.drawString("[RADAR] ON", 360, 732);
@@ -110,10 +111,10 @@ public class Hud {
 		}
 		gfx.draw(new Rectangle(357, 729, 74, 25));
 
-		renderPoints(bl, gfx, camX,camY);
+		renderPoints(ldm, gfx, camX,camY);
 		if (googles) {
 			gfx.setColor(Color.yellow);
-			devGoggles(gfx, gc, bl, camX, camY);
+			devGoggles(gfx, gc, ldm, camX, camY);
 		}
 		if (boundsWarning) {
 			gfx.setColor(Color.red);
@@ -153,7 +154,7 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void devGoggles(Graphics gfx, GameContainer gc, BasicLevel bl,
+	public void devGoggles(Graphics gfx, GameContainer gc, LevelDataModel ldm,
 			int camX, int camY) {
 		String x = String.valueOf(gc.getInput().getMouseX());
 		gfx.drawString(x, 100, 10);
@@ -164,7 +165,7 @@ public class Hud {
 			gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
 		}
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
-		for (BasicTrigger trig : bl.getLevelTriggerMap().values()) {
+		for (BasicTrigger trig : ldm.getTriggerMap().values()) {
 			gfx.setColor(Color.gray);
 			gfx.draw(offsetShape(trig.getCollider(), camX, camY));
 			float tx = trig.getCollider().getCenterX() + camX;
@@ -274,9 +275,9 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void renderPoints(BasicLevel bl, Graphics gfx, int camX, int camY){
+	public void renderPoints(LevelDataModel ldm, Graphics gfx, int camX, int camY){
 		gfx.setColor(Color.green);
-		for(NavPoint p : bl.getNavPoints().values()){
+		for(NavPoint p : ldm.getNavMap().values()){
 			if(p.isActive()){
 				int len = p.getName().length();
 				int tenlen = len*8;
@@ -295,9 +296,9 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void renderRadarTags(BasicLevel bl, Graphics gfx,int camX, int camY){
+	public void renderRadarTags(LevelDataModel ldm, Graphics gfx,int camX, int camY){
 		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
-		for(NavPoint p : bl.getNavPoints().values()){
+		for(NavPoint p : ldm.getNavMap().values()){
 			Vector2f pLoc = new Vector2f((p.getX()),(p.getY()));
 			Line toTarg = new Line(ship, pLoc);
 			int len = (int)toTarg.length();

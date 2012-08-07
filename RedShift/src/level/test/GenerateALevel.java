@@ -1,6 +1,7 @@
 package level.test;
 
 import level.BasicLevel;
+import level.LevelDataModel;
 import level.NavPoint;
 import level.Objective;
 import level.TriggerTypes;
@@ -18,7 +19,7 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class GenerateALevel {
 
-	private BasicLevel theLevel;
+	private LevelDataModel theLevel;
 	private BasicTrigger tellMe;
 	private BasicTrigger askMe;		//simple trigger
 	private BasicTrigger spwn;
@@ -26,11 +27,9 @@ public class GenerateALevel {
 	private MessageAction ask1;		//
 	private SpawnShipAction spawn;	//spawn a ship!
 	private NavPoint alpha;
-//	private NavPoint beta;
-	private Objective theTask;
 	
 	public GenerateALevel(){
-		this.theLevel = new BasicLevel("Alpha v2 Level");
+		this.theLevel = new LevelDataModel("Alpha v2 Level");
 		this.tellMe = new BasicTrigger(TriggerTypes.SHIP);
 		this.askMe = new BasicTrigger(TriggerTypes.SHOT);
 		this.spwn = new BasicTrigger(TriggerTypes.SHOT);
@@ -38,11 +37,9 @@ public class GenerateALevel {
 		this.ask1 = new MessageAction("Queston", 10, 90, "hello world?", 1000);
 		this.spawn = new SpawnShipAction("spawnShip",900,700,"zond4", "20mm","smallEngine");
 		this.alpha = new NavPoint(0,0,"Alpha",true);
-//		this.beta = new NavPoint(800,-800,"Beta", false);
-		this.theTask = new Objective("Mission1");
 	}
 	
-	public BasicLevel build(){
+	public LevelDataModel build(){
 		theLevel.setBounds(new Rectangle(-1400,-1400,2800,2800), new Rectangle(-3200,-3200,6400,6400));
 		
 		tellMe.setName("TellMe");
@@ -73,9 +70,6 @@ public class GenerateALevel {
 		theLevel.addAction(spawn);
 		theLevel.addNavPoint(alpha);
 //		theLevel.addNavPoint(beta);
-		theLevel.addObjective(theTask);
-
-		theLevel.setTotalObjectives(theLevel.getObjectiveList().size());
 		return this.theLevel;
 	}
 }
