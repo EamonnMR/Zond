@@ -1,5 +1,6 @@
 package level;
 
+import java.awt.Point;
 import java.util.HashMap;
 
 import level.actions.BasicAction;
@@ -22,6 +23,7 @@ public class LevelDataModel {
 	private HashMap<String, NavPoint> navMap;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
+	private Point spawn;
 	
 	public LevelDataModel(String name){
 		this.name = name;
@@ -99,6 +101,14 @@ public class LevelDataModel {
 		this.needUpdate = needUpdate;
 	}
 	
+	public Point getSpawn() {
+		return spawn;
+	}
+
+	public void setSpawn(Point spawn) {
+		this.spawn = spawn;
+	}
+
 	public static Shape offsetShape(Shape s, int dx, int dy){
 	    float  x = s.getCenterX();
 	    float y = s.getCenterY();

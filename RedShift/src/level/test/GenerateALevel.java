@@ -1,9 +1,8 @@
 package level.test;
 
-import level.BasicLevel;
 import level.LevelDataModel;
 import level.NavPoint;
-import level.Objective;
+//import level.Objective;
 import level.TriggerTypes;
 import level.actions.MessageAction;
 import level.actions.SpawnShipAction;

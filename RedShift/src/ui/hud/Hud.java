@@ -2,7 +2,6 @@ package ui.hud;
 
 import java.util.HashMap;
 
-import level.BasicLevel;
 import level.LevelDataModel;
 import level.NavPoint;
 import level.Objective;

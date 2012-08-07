@@ -100,6 +100,12 @@ public class LevelHandler {
 		gfx.setColor(Color.red);
 		gfx.draw(offsetShape(level.getWarnArea(), (int) cx, (int) cy));
 		gfx.setColor(Color.green);
+		
+		for(BasicAction acts : getExecuteActions()){
+			if(acts.isUpdate()){
+				acts.render(gfx);
+			}
+		}
 	}
 	
 	//garbage day! 
