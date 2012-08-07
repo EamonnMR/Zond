@@ -143,11 +143,11 @@ public class AlphaLevel {
 		this.delta = new NavPoint(2224,-2672,"Delta", true);
 		this.epsilon = new NavPoint(0,0,"Epsilon", true);
 		
-		theLevel.addNavPoint(alpha);
-		theLevel.addNavPoint(beta);
-		theLevel.addNavPoint(cappa);
-		theLevel.addNavPoint(delta);
-		theLevel.addNavPoint(epsilon);
+//		theLevel.addNavPoint(alpha);
+//		theLevel.addNavPoint(beta);
+//		theLevel.addNavPoint(cappa);
+//		theLevel.addNavPoint(delta);
+//		theLevel.addNavPoint(epsilon);
 	}
 	
 	private void buildLevelClass(){

@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import level.BasicLevel;
+import level.LevelDataModel;
 import level.Objective;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.test.AlphaLevel;
+import level.test.GenerateALevel;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.GameContainer;
@@ -38,53 +40,63 @@ import ents.EntityFactory;
  */
 public class ClientGameplayState extends BasicGameState{
 
-	//vars
+	//INTERNAL VARIABLES AND DATA============================
 	private int id, entCount, objCount, shotCount, clientCount, taskCount;
+	private boolean gameOver, gamePlay, gameIni;	//instance internal state
+	int camX, camY, boundsCheck;
+	LevelDataModel levelData;
 	//Constants
 	float radius = 350; //Distance to draw tags from player
 
 	//play with these till the tags are centered
 	float xoffset;
 	float yoffset;
-	private boolean gameOver, gamePlay, gameIni;
-
-	int camX, camY, boundsCheck;
-	PlayerClient pc, pc2, pc3, pc4;
-	private BaseLevel level; //soon to be deprecated
-	HashMap<Integer, BasicShip> ships;
+	
+	HashMap<Integer, BasicShip> ships;		//instance data
 	HashMap<Integer, BasicShot> shots;
 	HashMap<Integer, BaseEnt> doodads;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
+	LevelHandler lh;
+	//====================================================================
 	
+	//EXTERNAL VARIABLES AND DATA=========================================
+	PlayerClient pc, pc2, pc3, pc4;
+	private BaseLevel level; //soon to be deprecated
 	GameDatabase gdb;
 	EntityFactory entFac;
 	Hud playerHud;
 	AlphaLevel test;
+	//====================================================================
 	
 	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
-	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, BasicLevel lvl){
+	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, GenerateALevel lvl){
 		this.id = i;
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-//		this.levelToUse = lvl;	//keep this here for now.
+		this.levelData = lvl.build();	//keep this here for now.
 		this.boundsCheck = 1;
 		this.taskCount = 0;
 		this.gameOver = false;		
 		this.gameIni = true;		
 		this.gamePlay = false;
+//		this.lh = new LevelHandler();
 	}
 	
 	//methods
+	/**
+	 * init method, instantiates everything needed for a gameplay instance.
+	 */
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
+		
 		if(gameIni){
-			
-			test = new AlphaLevel(entFac);
-			this.levelToUse = test.getLevel();
+//			test = new AlphaLevel(entFac);
+//			this.levelToUse = test.getLevel();
+			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
 			this.doodads = new HashMap<Integer, BaseEnt>();
@@ -94,7 +106,6 @@ public class ClientGameplayState extends BasicGameState{
 			incomingClientShips.put("mercury", entFac.stockMercury());
 			pc.setClientShips(incomingClientShips);
 
-			//TODO: clean this up
 			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
@@ -102,38 +113,25 @@ public class ClientGameplayState extends BasicGameState{
 			pc.setPlayShip(pc.retrieveShip("mercury"));
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			pc.getPlayShip().setHealth(10);
-		
-			//this stuff will be superseded by a map
-			pc2 = new PlayerClient(1);
-			pc2.setPlayShip(entFac.stockGem());
-			pc2.getPlayShip().ini((512), (384), 0.0f);
-		
-			pc3 = new PlayerClient(2);
-			pc3.setPlayShip(entFac.stockSky());
-			pc3.getPlayShip().ini(0, 0, 45.0f);
-		
-			pc4 = new PlayerClient(3);;
-			pc4.setPlayShip(entFac.stockLunar());
-			pc4.getPlayShip().ini(28,100, -45.0f);
-		
+			
 			playerHud = new Hud(pc, 1023, 767);
 		
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());
-			addShip(pc2.getPlayShip());
-			addShip(pc3.getPlayShip());
-			addShip(pc4.getPlayShip());
 		
 			//camera test
 			setCamX(0);
 			setCamY(0);
 		
-			taskCount = levelToUse.getTotalObjectives();
+//			taskCount = levelToUse.getTotalObjectives();
 			gameIni = false;
 			gamePlay = true;
 		}
 	}
 
+	/**
+	 * render method, everything in the instance is drawn through this method
+	 */
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
@@ -153,18 +151,23 @@ public class ClientGameplayState extends BasicGameState{
 			entry.getValue().render(camX, camY);
 		}
 
-		//actions
-		for(BasicAction acts : levelToUse.getExecuteActions()){
-			if(acts.isUpdate()){
-				acts.render(arg2);
-			}
-		}
+		//actions -- move this thing to level handler
+//		for(BasicAction acts : levelToUse.getExecuteActions()){
+//			if(acts.isUpdate()){
+//				acts.render(arg2);
+//			}
+//		}
 		
-		playerHud.render(arg2, arg0, levelToUse, camX, camY);
-		levelToUse.render(arg2, camX, camY);
+//		playerHud.render(arg2, arg0, levelToUse, camX, camY);
+			playerHud.render(arg2, arg0, levelData, camX, camY);
+//		levelToUse.render(arg2, camX, camY);
+			lh.render(arg2, camX, camY);
 		}
 	}
 
+	/**
+	 * the core of the state, all instance relative items are updated through this method
+	 */
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
@@ -227,22 +230,22 @@ public class ClientGameplayState extends BasicGameState{
 		
 		//level update
 		//this check is so any action still active will also be updated
-		for(BasicAction act : levelToUse.getExecuteActions()){
+		for(BasicAction act : lh.getExecuteActions()){
 			if(act.isUpdate()==true){
-				levelToUse.setNeedsUpdate(true);
+				levelData.setNeedUpdate(true);
 			}
 		}
 		
 		//finally, if the level needs to be updated; do it
-		if(levelToUse.isNeedsUpdate()==true){
+		if(levelData.isNeedUpdate()==true){
 			System.out.println("Level updating");
-			levelToUse.update(delta, this);
+			lh.update(delta, this);
 		}
 		
 		playerHud.update(pc, this);
 		cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
 		
-		int boundsCheck = levelToUse.checkBounds(pc.getPlayShip().getCollider());
+		int boundsCheck = lh.checkBounds(pc.getPlayShip().getCollider());
 		if(boundsCheck==1){
 			playerHud.setWarn(false);
 		}
@@ -253,14 +256,9 @@ public class ClientGameplayState extends BasicGameState{
 			gameOver = true;
 		}
 		
+		
 		pc.updateCamera(this);
 	
-		
-		//check for all objectives complete //FIXME: Uncomment this for objectives
-		//if(taskCount == levelToUse.getTotalObjectives()){
-		//	gameOver = true;
-		//}
-		
 		//game over!? you idiot
 		if(gameOver){
 			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
@@ -302,12 +300,12 @@ public class ClientGameplayState extends BasicGameState{
 			entry.getValue().update(delta);
 		}
 		
-		for(Map.Entry<Integer, Objective> tasks : levelToUse.getObjectiveList().entrySet()){
-			if(tasks.getValue().getComplete()){
-				removeObjs.add(tasks.getKey());
-				taskCount += 1;
-			}
-		}
+//		for(Map.Entry<Integer, Objective> tasks : levelToUse.getObjectiveList().entrySet()){
+//			if(tasks.getValue().getComplete()){
+//				removeObjs.add(tasks.getKey());
+//				taskCount += 1;
+//			}
+//		}
 	}
 	
 	/**
@@ -331,7 +329,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		//check Shot/Trigger
-		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
+		for(BasicTrigger trig : levelData.getTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 				if(trig.getCollider().intersects(shot.getValue().getCollider())){
 					if(trig.getTriggerType()==TriggerTypes.SHOT){
@@ -339,7 +337,7 @@ public class ClientGameplayState extends BasicGameState{
 						//to be updated
 						trig.trigger(true);
 						System.out.println("Trigger: "+trig.getName()+" has been fired");
-						levelToUse.setNeedsUpdate(true);
+						levelData.setNeedUpdate(true);
 					}
 				}
 			}
@@ -355,7 +353,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		//check triggers and ships
-		for(BasicTrigger trig : levelToUse.getLevelTriggerMap().values()){
+		for(BasicTrigger trig : levelData.getTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 				if(trig.getCollider().intersects(ship.getValue().getCollider())){
 					if(trig.getTriggerType()==TriggerTypes.SHIP){
@@ -363,7 +361,7 @@ public class ClientGameplayState extends BasicGameState{
 					//to be updated
 					trig.trigger(true);
 					System.out.println("Trigger: "+trig.getName()+" has been fired");
-					levelToUse.setNeedsUpdate(true);
+					levelData.setNeedUpdate(true);
 					}
 				}
 			}
@@ -391,7 +389,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		for(int i : removeTask){
-			levelToUse.getObjectiveList().remove(i);
+//			levelData.getObjectiveList().remove(i);
 		}
 	}
 	

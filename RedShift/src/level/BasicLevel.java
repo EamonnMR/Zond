@@ -221,9 +221,7 @@ public class BasicLevel {
 		this.navPoints = navPoints;
 	}
 	
-	public void addNavPoint(NavPoint p){
-		this.navPoints.put(p.getName(), p);
-	}
+
 
 	public int checkBounds(Shape s){
 		if(warnArea.intersects(s)){

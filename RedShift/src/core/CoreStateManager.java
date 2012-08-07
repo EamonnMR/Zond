@@ -30,6 +30,7 @@ public class CoreStateManager extends StateBasedGame {
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
 	public GenerateALevel gal;
+	
 	//constructor
 	public CoreStateManager() {
 		super("RedShift v1.0");
@@ -40,7 +41,7 @@ public class CoreStateManager extends StateBasedGame {
 		
 
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, null));
+		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, gal));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.enterState(CLIENTLOADERSTATE);
 	}
