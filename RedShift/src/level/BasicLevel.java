@@ -244,7 +244,7 @@ public class BasicLevel {
 		totalObjectives ++;
 		this.listObjectives.put(totalObjectives, o);
 	}
-	public HashMap<Integer, Objective>  getObjectiveList(){
+	public HashMap<Integer, Objective> getObjectiveList(){
 		return this.listObjectives;
 	}
 
