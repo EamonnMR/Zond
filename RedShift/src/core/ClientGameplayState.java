@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import level.BasicLevel;
+import level.BasicObjective;
 import level.LevelDataModel;
-//import level.Objective;
 import level.TriggerTypes;
 import level.actions.BasicAction;
-import level.test.AlphaLevel;
-import level.test.GenerateALevel;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.GameContainer;
@@ -41,7 +38,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState{
 
 	//INTERNAL VARIABLES AND DATA============================
-	private int id, entCount, objCount, shotCount, clientCount, taskCount;
+	private int id, entCount, objCount, shotCount, clientCount, taskCount, taskTotal;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
 	int camX, camY, boundsCheck;
 	LevelDataModel levelData;
@@ -63,22 +60,24 @@ public class ClientGameplayState extends BasicGameState{
 	//EXTERNAL VARIABLES AND DATA=========================================
 	PlayerClient pc, pc2, pc3, pc4;
 	private BaseLevel level; //soon to be deprecated
-	GameDatabase gdb;
-	EntityFactory entFac;
-	Hud playerHud;
-	AlphaLevel test;
+	private GameDatabase gdb;
+	private EntityFactory entFac;
+	private Hud playerHud;
+	private LevelBuilder lb;
 	//====================================================================
 	
-	private BasicLevel levelToUse;	//testing the level logic
 	//constructor
-	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, GenerateALevel lvl){
+	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl){
 		this.id = i;
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-		this.levelData = lvl.build();	//keep this here for now.
+		this.lb = lvl;
+//		lvl.setEntFac(entFac);
+//		this.levelData = lvl.buildLevel();	//keep this here for now.
 		this.boundsCheck = 1;
 		this.taskCount = 0;
+		this.taskTotal = 0;
 		this.gameOver = false;		
 		this.gameIni = true;		
 		this.gamePlay = false;
@@ -94,8 +93,10 @@ public class ClientGameplayState extends BasicGameState{
 			throws SlickException {	
 		
 		if(gameIni){
-//			test = new AlphaLevel(entFac);
-//			this.levelToUse = test.getLevel();
+			this.lb = new LevelBuilder();
+			lb.setEntFac(entFac);
+			this.levelData = lb.buildLevel();
+			this.taskTotal = levelData.getObjectives().size();
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
@@ -135,29 +136,21 @@ public class ClientGameplayState extends BasicGameState{
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		
 		if(gamePlay){
 			level.render(arg2, 0, 0);
-		//draw all shots
-		for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()){
-			entry.getValue().render(camX, camY);
-		}
-		//draw all ships and their components
-		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().render(camX, camY);
-		}
-		//draw all doodads
-		for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
-			entry.getValue().render(camX, camY);
-		}
+			// draw all shots
+			for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()) {
+				entry.getValue().render(camX, camY);
+			}
+			// draw all ships and their components
+			for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
+				entry.getValue().render(camX, camY);
+			}
+			// draw all doodads
+			for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()) {
+				entry.getValue().render(camX, camY);
+			}
 
-		//actions -- move this thing to level handler
-//		for(BasicAction acts : levelToUse.getExecuteActions()){
-//			if(acts.isUpdate()){
-//				acts.render(arg2);
-//			}
-//		}
-		
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
 		}
@@ -169,101 +162,107 @@ public class ClientGameplayState extends BasicGameState{
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
-		if(gamePlay){
-		//placed at the top for ubiquitousness
-		ArrayList<Integer> removeShots = new ArrayList<Integer>();
-		ArrayList<Integer> removeShips = new ArrayList<Integer>();
-		ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
-		ArrayList<Integer> removeObjective = new ArrayList<Integer>();
-		
-		
-		Input p = arg0.getInput();
-			if(p.isKeyDown(Input.KEY_UP)){
+		if (gamePlay) {
+			// placed at the top for ubiquitousness
+			ArrayList<Integer> removeShots = new ArrayList<Integer>();
+			ArrayList<Integer> removeShips = new ArrayList<Integer>();
+			ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
+			ArrayList<Integer> removeObjective = new ArrayList<Integer>();
+
+			Input p = arg0.getInput();
+			if (p.isKeyDown(Input.KEY_UP)) {
 				pc.getPlayShip().moveForward(delta);
 			}
-			if(p.isKeyDown(Input.KEY_DOWN)){
+			if (p.isKeyDown(Input.KEY_DOWN)) {
 				pc.getPlayShip().moveBackward(delta);
 			}
-			if(p.isKeyDown(Input.KEY_LEFT)){
+			if (p.isKeyDown(Input.KEY_LEFT)) {
 				pc.getPlayShip().rotateLeft(delta);
 			}
-			if(p.isKeyDown(Input.KEY_RIGHT)){
+			if (p.isKeyDown(Input.KEY_RIGHT)) {
 				pc.getPlayShip().rotateRight(delta);
 			}
-			if(p.isKeyDown(Input.KEY_Z)){
+			if (p.isKeyDown(Input.KEY_Z)) {
 				pc.getPlayShip().strafeLeft(delta);
 			}
-			if(p.isKeyDown(Input.KEY_X)){
+			if (p.isKeyDown(Input.KEY_X)) {
 				pc.getPlayShip().strafeRight(delta);
 			}
-			if(p.isKeyDown(Input.KEY_LCONTROL)){
-				if(pc.tryShot()){
+			if (p.isKeyDown(Input.KEY_LCONTROL)) {
+				if (pc.tryShot()) {
 					addShot(pc.getPlayShip().getWeapon().makeShot());
 				}
 				pc.tryShot();
 			}
-			if(p.isKeyPressed(Input.KEY_Q)){
-				if(playerHud.getDevGogState()==false){
+			if (p.isKeyPressed(Input.KEY_Q)) {
+				if (playerHud.getDevGogState() == false) {
 					playerHud.setDevGog(true);
-				}else if(playerHud.getDevGogState()==true){
+				} else if (playerHud.getDevGogState() == true) {
 					playerHud.setDevGog(false);
-				}	
+				}
 			}
-			if(p.isKeyPressed(Input.KEY_C)){
-				if(pc.getRadarState()==true){
+			if (p.isKeyPressed(Input.KEY_C)) {
+				if (pc.getRadarState() == true) {
 					pc.setRadarState(false);
-				}else{
+				} else {
 					pc.setRadarState(true);
 				}
 				playerHud.setRadarOn(pc.getRadarState());
 			}
-			
-		
-		//======Begin updates!
-		//update ships
-		updateEntities(delta, removeShots, removeShips, removeObjective);
-		
-		//run collisions
-		checkCollisions(removeShots);
-		
-		//level update
-		//this check is so any action still active will also be updated
-		for(BasicAction act : lh.getExecuteActions()){
-			if(act.isUpdate()==true){
-				levelData.setNeedUpdate(true);
+
+			// ======Begin updates!
+			// update ships
+			updateEntities(delta, removeShots, removeShips, removeObjective);
+
+			// run collisions
+			checkCollisions(removeShots);
+
+			// level update
+			// this check is so any action still active will also be updated
+			for (BasicAction act : lh.getExecuteActions()) {
+				if (act.isUpdate() == true) {
+					levelData.setNeedUpdate(true);
+				}
 			}
-		}
-		
-		//finally, if the level needs to be updated; do it
-		if(levelData.isNeedUpdate()==true){
-			System.out.println("Level updating");
-			lh.update(delta, this);
-		}
-		
-		playerHud.update(pc, this);
-		cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
-		
-		int boundsCheck = lh.checkBounds(pc.getPlayShip().getCollider());
-		if(boundsCheck==1){
-			playerHud.setWarn(false);
-		}
-		if(boundsCheck==0){
-			playerHud.setWarn(true);
-		}
-		if(boundsCheck==-1){
-			gameOver = true;
-		}
-		
-		
-		pc.updateCamera(this);
-	
-		//game over!? you idiot
-		if(gameOver){
-			cleanEntities(removeShots,removeShips,removeDoodads, removeObjective);
-			gameOver = false;
-			gamePlay = false;
-			gameIni = true;
-			arg1.enterState(-1);
+
+			// finally, if the level needs to be updated; do it
+			if (levelData.isNeedUpdate() == true) {
+				System.out.println("Level updating");
+				lh.update(delta, this);
+			}
+
+			playerHud.update(pc, this);
+			cleanEntities(removeShots, removeShips, removeDoodads,
+					removeObjective);
+
+			int boundsCheck = lh.checkBounds(pc.getPlayShip().getCollider());
+			if (boundsCheck == 1) {
+				playerHud.setWarn(false);
+			}
+			if (boundsCheck == 0) {
+				playerHud.setWarn(true);
+			}
+			if (boundsCheck == -1) {
+				gameOver = true;
+			}
+
+			pc.updateCamera(this);
+
+			// check the objectives list
+//			if(taskCount >= taskTotal){
+//				gameOver = true;
+//				gamePlay = false;
+//				gameIni = true;
+//			}
+
+			// game over!? you idiot
+			if (gameOver) {
+				cleanEntities(removeShots, removeShips, removeDoodads,
+						removeObjective);
+				gameOver = false;
+				gamePlay = false;
+				gameIni = true;
+				arg1.enterState(-1);
 			}
 		}
 	}
@@ -298,12 +297,12 @@ public class ClientGameplayState extends BasicGameState{
 			entry.getValue().update(delta);
 		}
 		
-//		for(Map.Entry<Integer, Objective> tasks : levelToUse.getObjectiveList().entrySet()){
-//			if(tasks.getValue().getComplete()){
-//				removeObjs.add(tasks.getKey());
-//				taskCount += 1;
-//			}
-//		}
+		//update objectives
+		for(BasicObjective obj : levelData.getObjectives().values()){
+			if(obj.getComplete()){
+				taskCount ++;
+			}
+		}
 	}
 	
 	/**
@@ -333,6 +332,7 @@ public class ClientGameplayState extends BasicGameState{
 					if(trig.getTriggerType()==TriggerTypes.SHOT){
 						//if shot hits trigger, set trigger to true; tell the game the level needs
 						//to be updated
+						removeShots.add(shot.getKey());
 						trig.trigger(true);
 						System.out.println("Trigger: "+trig.getName()+" has been fired");
 						levelData.setNeedUpdate(true);
@@ -430,6 +430,10 @@ public class ClientGameplayState extends BasicGameState{
 		return clientCount;
 	}
 	
+	public void incTaskCount(){
+		taskCount ++;
+	}
+	
 	@Override
 	public int getID() {
 		return id;
@@ -520,7 +524,7 @@ public class ClientGameplayState extends BasicGameState{
 		
 	}
 	
-	public BasicLevel getLevel(){
-		return levelToUse;
+	public LevelDataModel getLevel(){
+		return levelData;
 	}
 }

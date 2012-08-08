@@ -33,6 +33,7 @@ import core.ClientGameplayState;
  * script injection, but it may not come to that; so for now, one cannot pass queues to Level.
  * but the queues are polled in clientgameplaystate
  */
+@Deprecated
 public class BasicLevel {
 
 	private String levelName;								//name of level
@@ -43,7 +44,7 @@ public class BasicLevel {
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
 	private HashMap<String, NavPoint> navPoints;			//collection of points
-	private HashMap<Integer, Objective> listObjectives;		//current list of objectives
+	private HashMap<Integer, BasicObjective> listObjectives;		//current list of objectives
 	private int totalObjectives;
 
 	public BasicLevel(String name){
@@ -53,7 +54,7 @@ public class BasicLevel {
 		this.executeTriggers = new LinkedList<BasicTrigger>();
 		this.executeActions = new LinkedList<BasicAction>();
 		this.navPoints = new HashMap<String, NavPoint>();
-		this.listObjectives = new HashMap<Integer, Objective>();
+		this.listObjectives = new HashMap<Integer, BasicObjective>();
 		this.totalObjectives = 0;
 		this.setNeedsUpdate(false);
 	}
@@ -234,19 +235,19 @@ public class BasicLevel {
 		}
 	}
 	
-	public void setObjectivesList(HashMap<Integer, Objective> objects){
+	public void setObjectivesList(HashMap<Integer, BasicObjective> objects){
 		this.listObjectives = objects;
 	}
 	
-	public void addObjective(Objective o){
+	public void addObjective(BasicObjective o){
 		totalObjectives ++;
 		this.listObjectives.put(totalObjectives, o);
 	}
-	public HashMap<Integer, Objective> getObjectiveList(){
+	public HashMap<Integer, BasicObjective> getObjectiveList(){
 		return this.listObjectives;
 	}
 
-	public Objective getObjective(String objName){
+	public BasicObjective getObjective(String objName){
 		return listObjectives.get(objName);
 	}
 	

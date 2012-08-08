@@ -21,6 +21,7 @@ public class LevelDataModel {
 	private HashMap<String, BasicTrigger> triggerMap;
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
+	private HashMap<String, BasicObjective> objectives;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
@@ -30,6 +31,7 @@ public class LevelDataModel {
 		this.triggerMap = new HashMap<String, BasicTrigger>();
 		this.actionMap = new HashMap<String, BasicAction>();
 		this.navMap = new HashMap<String, NavPoint>();
+		this.objectives = new HashMap<String, BasicObjective>();
 		this.needUpdate = false;
 	}
 
@@ -127,6 +129,17 @@ public class LevelDataModel {
 	public void setBounds(Shape a, Shape b){
 		this.activeArea = a;
 		this.warnArea = b;
+	}
+
+	public void addObjective(BasicObjective obj){
+		objectives.put(obj.getName(), obj);
+	}
+	public HashMap<String, BasicObjective> getObjectives() {
+		return objectives;
+	}
+
+	public void setObjectives(HashMap<String, BasicObjective> objectives) {
+		this.objectives = objectives;
 	}
 	
 }

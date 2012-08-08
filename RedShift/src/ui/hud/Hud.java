@@ -2,9 +2,9 @@ package ui.hud;
 
 import java.util.HashMap;
 
+import level.BasicObjective;
 import level.LevelDataModel;
 import level.NavPoint;
-import level.Objective;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Color;
@@ -159,18 +159,21 @@ public class Hud {
 		gfx.drawString(x, 100, 10);
 		x = String.valueOf(gc.getInput().getMouseY());
 		gfx.drawString(x, 150, 10);
+		
 		if(radarOn){
 			gfx.setColor(Color.blue);
 			gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
 		}
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
 		for (BasicTrigger trig : ldm.getTriggerMap().values()) {
-			gfx.setColor(Color.gray);
-			gfx.draw(offsetShape(trig.getCollider(), camX, camY));
-			float tx = trig.getCollider().getCenterX() + camX;
-			float ty = trig.getCollider().getCenterY() + camY;
-			gfx.setColor(Color.red);
-			gfx.drawString(trig.getName(), tx, ty);
+			if(trig.getCollider()!=null){
+				gfx.setColor(Color.gray);
+				gfx.draw(offsetShape(trig.getCollider(), camX, camY));
+				float tx = trig.getCollider().getCenterX() + camX;
+				float ty = trig.getCollider().getCenterY() + camY;
+				gfx.setColor(Color.red);
+				gfx.drawString(trig.getName(), tx, ty);
+			}
 		}
 		gfx.setColor(Color.yellow);
 		for (BasicShip s : cgs.getShips().values()) {
@@ -315,12 +318,13 @@ public class Hud {
 	 * @param gfx
 	 */
 	private void renderObjectivesList(Graphics gfx) {
-		HashMap<Integer, Objective> objs = cgs.getLevel().getObjectiveList();
-		int x = 0, y = 0;
-		for(Objective obj : objs.values()){
-			String msg = obj.getBlurb();
+		HashMap<String, BasicObjective> objs = cgs.getLevel().getObjectives();
+//		int x = 0, y = 0;
+		for(BasicObjective obj : objs.values()){
+//			String msg = obj.getBlurb();
 			if(!obj.getComplete()){
 				gfx.setColor(Color.green);
+//				gfx.drawString(msg, x, y)
 			}else if(obj.getComplete()){
 				gfx.setColor(Color.gray);
 			}

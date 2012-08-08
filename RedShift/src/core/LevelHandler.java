@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import level.BasicObjective;
 import level.LevelDataModel;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
+import level.triggers.CountTrigger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -17,7 +19,8 @@ import org.newdawn.slick.geom.Transform;
  * This is a port of the Basiclevel render and update mehods. they've been removed and place here
  * as a means to compartmentalize the logic processing compared to BasicLevel which should only store data.
  * Importantly this is only really called by the CGS
- * @author Roohr
+ * 
+ *--- -----------------------Old descript ------------------------------------------------
  * the level class is primarily a data class that holds a collection of triggers
  * and actions. It handles the calling of triggers to actions, and handling updates
  * on specific actions. Updates on the level are run per-frame inside the main 
@@ -31,6 +34,10 @@ import org.newdawn.slick.geom.Transform;
  * in the future, I plan on us being able to pass trigger and action queues as a form of simple
  * script injection, but it may not come to that; so for now, one cannot pass queues to Level.
  * but the queues are polled in clientgameplaystate
+ * 
+ * @author Roohr
+ * 
+
  */
 public class LevelHandler {
 
@@ -52,24 +59,39 @@ public class LevelHandler {
 	 * @param delta
 	 */
 	public void update(int delta, ClientGameplayState cgs){
-		//minor alteration
-		
 		//find which triggers are active
-			for(BasicTrigger trig : level.getTriggerMap().values()){
-				if(trig.isTrigged()){
-					//put these triggers into a queue, the whole trigger rather than just the target
-					//why? so we can remove the triggers that have been fired
+		for (BasicTrigger trig : level.getTriggerMap().values()) {
+			//this trigger-specific checks are necessary :( however tedious
+			if (trig.isTrigged()) {
+				if(trig.getClass().equals(CountTrigger.class)){
+					CountTrigger counter = (CountTrigger)trig;
+					counter.add();
+					if(counter.getCount()>=counter.getTotal()){
+						executeTriggers.add(trig);
+					}
+				}else{
+					// put these triggers into a queue, the whole trigger rather
+					// than just the target
+					// why? so we can remove the triggers that have been fired
 					executeTriggers.add(trig);
-					System.out.println("Trigger: "+trig.getName()+" added to queue");
+					System.out.println("Trigger: " + trig.getName() +" added to queue");
 				}
 			}
+		}
+		
+		//check for objective completion!
+		for(BasicObjective obj : level.getObjectives().values()){
+			if(obj.getTrigger().isTrigged()){
+				obj.setComplete(true);
+			}
+		}
+		
 		//go through the trigger queue, select the trigger's action, put it on the action queue
 		for(BasicTrigger trig : executeTriggers){
-			
-			executeActions.add(level.getActionMap().get(trig.getTargetName()));
-//			executeTriggers.remove(trig);
-			System.out.println("Trigger: "+ trig.getName()+" has been executed");
-		
+			if(trig.getTargetName()!=null){
+				executeActions.add(level.getActionMap().get(trig.getTargetName()));
+				System.out.println("Trigger: "+ trig.getName()+" has been executed");		
+			}
 		}
 		
 		//fire the actions
@@ -85,6 +107,10 @@ public class LevelHandler {
 				act.update(delta, cgs);
 				System.out.println("Action: "+act.getName()+" is updating");
 			//if the action has finished, remove the action off the queue
+			}else if(act.isDone()==true){
+				if(act.getTrigger()!=null){
+					cgs.getLevel().addTrigger(act.getTrigger());
+				}
 			}
 		}
 		
