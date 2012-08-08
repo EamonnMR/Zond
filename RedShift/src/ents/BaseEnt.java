@@ -1,5 +1,7 @@
 package ents;
 
+import level.triggers.BasicTrigger;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
@@ -15,6 +17,7 @@ public class BaseEnt {
 	private Image img;
 	private float turnrate;
 	private Shape collider;
+	private BasicTrigger trigger;
 	
 	//constructors
 	public BaseEnt(){}
@@ -75,4 +78,13 @@ public class BaseEnt {
 	public void setCollider(Shape collider) {
 		this.collider = collider;
 	}
+
+	public BasicTrigger getTrigger() {
+		return trigger;
+	}
+
+	public void setTrigger(BasicTrigger trigger) {
+		this.trigger = trigger;
+	}
+	
 }
