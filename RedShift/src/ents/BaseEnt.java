@@ -15,7 +15,7 @@ public class BaseEnt {
 	private Image img;
 	private float turnrate;
 	private Shape collider;
-
+	
 	//constructors
 	public BaseEnt(){}
 	

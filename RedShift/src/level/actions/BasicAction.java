@@ -49,7 +49,7 @@ public class BasicAction {
 	
 	/**
 	 * the stock render method for the action, is called in ClientGameplay's
-	 * render method. 
+	 * render method.
 	 */
 	public void render(Graphics gfx){
 		
