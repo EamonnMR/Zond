@@ -81,8 +81,10 @@ public class LevelHandler {
 		
 		//check for objective completion!
 		for(BasicObjective obj : level.getObjectives().values()){
-			if(obj.getTrigger().isTrigged()){
-				obj.setComplete(true);
+			if(obj.getTrigger()!=null){
+				if(obj.getTrigger().isTrigged()){
+					obj.setComplete(true);
+				}
 			}
 		}
 		
@@ -106,10 +108,16 @@ public class LevelHandler {
 				//note: to end the 'update' state, simply set isUpdate=false, isDone=true inside action.update()
 				act.update(delta, cgs);
 				System.out.println("Action: "+act.getName()+" is updating");
+	
 			//if the action has finished, remove the action off the queue
-			}else if(act.isDone()==true){
-				if(act.getTrigger()!=null){
-					cgs.getLevel().addTrigger(act.getTrigger());
+			}
+			if (act.isDone()){
+				if(act.getTriggerTargetName()!=null){
+					for(BasicTrigger trg : level.getTriggerMap().values()){
+						if(act.getTriggerTargetName().equals(trg.getName())){
+							trg.trigger(true);
+						}
+					}
 				}
 			}
 		}

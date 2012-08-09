@@ -8,6 +8,7 @@ import level.LevelDataModel;
 import level.NavPoint;
 import level.TriggerTypes;
 import level.actions.BasicAction;
+import level.actions.EnableNavPoint;
 import level.actions.MultiObjSpawner;
 import level.actions.MultiShipSpawner;
 import level.actions.SpawnShipAction;
@@ -46,11 +47,13 @@ public class LevelBuilder {
 	
 	//triggers
 	private BasicTrigger alphaHit;
+	private BasicTrigger enableBeta;
 	private BasicTrigger betaClear;
 	private CountTrigger counter;
 	
 	//actions
 	private MultiShipSpawner spawnShipsAtAlpha;
+	private EnableNavPoint enBeta;
 	private MultiObjSpawner spawnAsteroids;
 	private SpawnShipAction makeSatellite;
 	
@@ -60,11 +63,11 @@ public class LevelBuilder {
 	public HashMap<String, NavPoint> buildNavPoints(){
 		HashMap<String, NavPoint> points = new HashMap<String, NavPoint>();
 		
-		this.alpha = new NavPoint(2272,2560,"Alpha", true);
-		this.beta = new NavPoint(-2216,2288,"Beta", true);
-		this.cappa = new NavPoint(-2344,-1976,"Cappa", true);
-		this.delta = new NavPoint(2224,-2672,"Delta", true);
-		this.epsilon = new NavPoint(0,0,"Epsilon", true);
+		this.alpha = new NavPoint(250,250,"Alpha", true);
+		this.beta = new NavPoint(700,700,"Beta", false);
+		this.cappa = new NavPoint(-2344,-1976,"Cappa", false);
+		this.delta = new NavPoint(2224,-2672,"Delta", false);
+		this.epsilon = new NavPoint(0,0,"Epsilon", false);
 		
 		points.put(alpha.getName(), alpha);
 		points.put(beta.getName(), beta);
@@ -75,15 +78,35 @@ public class LevelBuilder {
 		return points;
 	}
 	
+	public HashMap<String, BasicAction> buildActions(){
+		HashMap<String, BasicAction> acts = new HashMap<String, BasicAction>();
+		
+		spawnShipsAtAlpha = new MultiShipSpawner("ShipsToAlpha", 0,0, getLocus(), getShips());
+		enBeta = new EnableNavPoint("ActivateBeta",beta);
+		
+		
+		acts.put(spawnShipsAtAlpha.getName(), spawnShipsAtAlpha);
+		acts.put(enBeta.getName(), enBeta);
+		return acts;
+	}
+	
 	public HashMap<String, BasicTrigger> buildTriggers(){
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 		
 		this.alphaHit  = new BasicTrigger(TriggerTypes.SHIP);
 		this.alphaHit.setName("alphaHit");
 		this.alphaHit.setTargetName(spawnShipsAtAlpha.getName());
-		this.alphaHit.setX(2272);
-		this.alphaHit.setY(2560);
+		this.alphaHit.setX(250);
+		this.alphaHit.setY(250);
 		this.alphaHit.setCollider(new Circle(alphaHit.getX(),alphaHit.getY(), 24));
+		
+		this.enableBeta = new BasicTrigger(null);
+		this.enableBeta.setName("enableBetaNav");
+		this.enableBeta.setTargetName(enBeta.getName());
+		this.enableBeta.setX(0);
+		this.enableBeta.setY(0);
+		this.enableBeta.setCollider(null);
+		this.spawnShipsAtAlpha.setTriggerTargetName(enableBeta.getName());
 		
 		this.counter = new CountTrigger(TriggerTypes.SHOT, 10);
 		this.counter.setName("ShotCounter");
@@ -93,18 +116,9 @@ public class LevelBuilder {
 		
 		
 		trigs.put(alphaHit.getName(), alphaHit);
+		trigs.put(enableBeta.getName(), enableBeta);
 		trigs.put(counter.getName(), counter);
 		return trigs;
-	}
-	
-	public HashMap<String, BasicAction> buildActions(){
-		HashMap<String, BasicAction> acts = new HashMap<String, BasicAction>();
-		
-		spawnShipsAtAlpha = new MultiShipSpawner("ShipsToAlpha", 0,0, getLocus(), getShips());
-		
-		
-		acts.put(spawnShipsAtAlpha.getName(), spawnShipsAtAlpha);
-		return acts;
 	}
 	
 	public HashMap<String, BasicObjective> buildObjectives(){
@@ -114,11 +128,12 @@ public class LevelBuilder {
 		this.checkAlpha.setComplete(false);
 		this.checkAlpha.setBlurb("Recon point Alpha.");
 		this.checkAlpha.setFullDesc("Enemy activity has increased, we need you to recon point Alpha, make sure the area is clear.");
+		this.checkAlpha.setTrigger(alphaHit);
 		
 		this.clearBeta = new BasicObjective("Clear Beta of Meteors", null,null);
 		this.clearBeta.setComplete(false);
 		this.clearBeta.setBlurb("Remove meteors from Point Beta.");
-		this.checkAlpha.setFullDesc("We want to install a new spy sat at point Beta, remove those meteors so we can move a sat to that area.");
+		this.clearBeta.setFullDesc("We want to install a new spy sat at point Beta, remove those meteors so we can move a sat to that area.");
 		
 		this.attackCappa = new BasicObjective("Disable Enemy Installation",null,null);
 		this.attackCappa.setComplete(false);
@@ -135,7 +150,11 @@ public class LevelBuilder {
 		this.returnEpsilon.setBlurb("Return home");
 		this.returnEpsilon.setFullDesc("Once all objectivs are met, return to base.");
 		
-		
+		objs.put(checkAlpha.getName(), checkAlpha);
+		objs.put(clearBeta.getName(), clearBeta);
+		objs.put(attackCappa.getName(), attackCappa);
+		objs.put(scanDelta.getName(), scanDelta);
+		objs.put(returnEpsilon.getName(), returnEpsilon);
 		
 		return objs;
 	}
