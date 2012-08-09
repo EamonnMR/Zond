@@ -48,14 +48,14 @@ public class LevelBuilder {
 	//triggers
 	private BasicTrigger alphaHit;
 	private BasicTrigger enableBeta;
-	private BasicTrigger betaClear;
+//	private BasicTrigger betaClear;
 	private CountTrigger counter;
 	
 	//actions
 	private MultiShipSpawner spawnShipsAtAlpha;
 	private EnableNavPoint enBeta;
-	private MultiObjSpawner spawnAsteroids;
-	private SpawnShipAction makeSatellite;
+//	private MultiObjSpawner spawnAsteroids;
+//	private SpawnShipAction makeSatellite;
 	
 	public LevelBuilder(){
 	}
