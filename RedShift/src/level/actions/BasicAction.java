@@ -1,7 +1,5 @@
 package level.actions;
 
-import level.triggers.BasicTrigger;
-
 import org.newdawn.slick.Graphics;
 
 import core.ClientGameplayState;

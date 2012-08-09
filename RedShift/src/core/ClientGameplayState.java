@@ -10,6 +10,7 @@ import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -21,6 +22,7 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.hud.Hud;
 import ents.BaseEnt;
@@ -60,7 +62,7 @@ public class ClientGameplayState extends BasicGameState{
 	//EXTERNAL VARIABLES AND DATA=========================================
 	PlayerClient pc, pc2, pc3, pc4;
 	private BaseLevel level; //soon to be deprecated
-	private GameDatabase gdb;
+//	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb;
@@ -69,7 +71,7 @@ public class ClientGameplayState extends BasicGameState{
 	//constructor
 	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl){
 		this.id = i;
-		this.gdb = gDB;
+//		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
 		this.lb = lvl;
@@ -242,20 +244,32 @@ public class ClientGameplayState extends BasicGameState{
 			}
 			if (boundsCheck == -1) {
 				gameOver = true;
+				winLose = -1;
 			}
 
 			pc.updateCamera(this);
 
 
-			// game over!? you idiot
-			if (gameOver) {
+			// Check for win conditions
+			if (winLose==-1) {
+				cleanEntities(removeShots, removeShips, removeDoodads,
+						removeObjective);
+				gameOver = false;
+				gamePlay = false;
+				gameIni = true;
+				winLose = 0;
+				levelData = null;
+				arg1.enterState(-1, new FadeOutTransition(Color.red) , null);
+			}
+			if(winLose==1){
 				cleanEntities(removeShots, removeShips, removeDoodads,
 						removeObjective);
 				gameOver = false;
 				gamePlay = false;
 				gameIni = true;
 				levelData = null;
-				arg1.enterState(-1);
+				winLose = 0;
+				arg1.enterState(2, new FadeOutTransition(Color.white) , null);
 			}
 		}
 	}
@@ -275,6 +289,7 @@ public class ClientGameplayState extends BasicGameState{
 				removeShips.add(entry.getKey());
 				if(entry.getValue().equals(pc.getPlayShip())){
 					gameOver = true;
+					winLose = -1;
 				}
 			}
 		}

@@ -20,6 +20,7 @@ public class CoreStateManager extends StateBasedGame {
 	public static int CLIENTLOADERSTATE = 0;
 	public static int CLIENTPLAYSTATE = 1;
 	public static int CLIENTGAMEOVERSTATE = -1;
+	public static int CLIENTSUCCSTATE = 2;
 	public Sound test;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
@@ -41,6 +42,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
+		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
 		this.enterState(CLIENTLOADERSTATE);
 	}
 
