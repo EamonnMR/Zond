@@ -13,7 +13,7 @@ public class BasicObjective {
 
 	//vars
 	private String name, blurb, full;	//blurb is for in-hud use || full is for during briefings
-	private boolean complete;			//derp
+	private boolean complete, active;			//derp
 	private BasicTrigger trigger;
 	private BasicAction action;
 	
@@ -70,5 +70,13 @@ public class BasicObjective {
 
 	public void setComplete(boolean complete) {
 		this.complete = complete;
+	}
+	
+	public void setActive(boolean act){
+		this.active = act;
+	}
+	
+	public boolean getActive(){
+		return active;
 	}
 }

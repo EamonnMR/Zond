@@ -38,7 +38,7 @@ import ents.EntityFactory;
 public class ClientGameplayState extends BasicGameState{
 
 	//INTERNAL VARIABLES AND DATA============================
-	private int id, entCount, objCount, shotCount, clientCount, taskCount, taskTotal;
+	private int id, entCount, objCount, shotCount, clientCount, winLose;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
 	int camX, camY, boundsCheck;
 	LevelDataModel levelData;
@@ -76,12 +76,11 @@ public class ClientGameplayState extends BasicGameState{
 //		lvl.setEntFac(entFac);
 //		this.levelData = lvl.buildLevel();	//keep this here for now.
 		this.boundsCheck = 1;
-		this.taskCount = 0;
-		this.taskTotal = 0;
 		this.gameOver = false;		
 		this.gameIni = true;		
 		this.gamePlay = false;
 //		this.lh = new LevelHandler();
+		this.winLose = 0;
 	}
 	
 	//methods
@@ -96,7 +95,6 @@ public class ClientGameplayState extends BasicGameState{
 			this.lb = new LevelBuilder();
 			lb.setEntFac(entFac);
 			this.levelData = lb.buildLevel();
-			this.taskTotal = levelData.getObjectives().size();
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
@@ -248,12 +246,6 @@ public class ClientGameplayState extends BasicGameState{
 
 			pc.updateCamera(this);
 
-			// check the objectives list
-//			if(taskCount >= taskTotal){
-//				gameOver = true;
-//				gamePlay = false;
-//				gameIni = true;
-//			}
 
 			// game over!? you idiot
 			if (gameOver) {
@@ -262,6 +254,7 @@ public class ClientGameplayState extends BasicGameState{
 				gameOver = false;
 				gamePlay = false;
 				gameIni = true;
+				levelData = null;
 				arg1.enterState(-1);
 			}
 		}
@@ -299,9 +292,7 @@ public class ClientGameplayState extends BasicGameState{
 		
 		//update objectives
 		for(BasicObjective obj : levelData.getObjectives().values()){
-			if(obj.getComplete()){
-				taskCount ++;
-			}
+			
 		}
 	}
 	
@@ -328,14 +319,18 @@ public class ClientGameplayState extends BasicGameState{
 		//check Shot/Trigger
 		for(BasicTrigger trig : levelData.getTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
-				if(trig.getCollider().intersects(shot.getValue().getCollider())){
-					if(trig.getTriggerType()==TriggerTypes.SHOT){
-						//if shot hits trigger, set trigger to true; tell the game the level needs
-						//to be updated
-						removeShots.add(shot.getKey());
-						trig.trigger(true);
-						System.out.println("Trigger: "+trig.getName()+" has been fired");
-						levelData.setNeedUpdate(true);
+				if(trig.getCollider()!=null){
+					if (trig.getCollider().intersects(shot.getValue().getCollider())) {
+						if (trig.getTriggerType() == TriggerTypes.SHOT) {
+							// if shot hits trigger, set trigger to true; tell
+							// the game the level needs
+							// to be updated
+							removeShots.add(shot.getKey());
+							trig.trigger(true);
+							System.out.println("Trigger: " + trig.getName()
+									+ " has been fired");
+							levelData.setNeedUpdate(true);
+						}
 					}
 				}
 			}
@@ -353,13 +348,15 @@ public class ClientGameplayState extends BasicGameState{
 		//check triggers and ships
 		for(BasicTrigger trig : levelData.getTriggerMap().values()){
 			for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
-				if(trig.getCollider().intersects(ship.getValue().getCollider())){
-					if(trig.getTriggerType()==TriggerTypes.SHIP){
-					//if ship hits trigger, set trigger to true; tell the game the level needs
-					//to be updated
-					trig.trigger(true);
-					System.out.println("Trigger: "+trig.getName()+" has been fired");
-					levelData.setNeedUpdate(true);
+				if(trig.getCollider()!=null){
+					if(trig.getCollider().intersects(ship.getValue().getCollider())){
+						if(trig.getTriggerType()==TriggerTypes.SHIP){
+						//if ship hits trigger, set trigger to true; tell the game the level needs
+						//to be updated
+						trig.trigger(true);
+						System.out.println("Trigger: "+trig.getName()+" has been fired");
+						levelData.setNeedUpdate(true);
+						}
 					}
 				}
 			}
@@ -387,7 +384,7 @@ public class ClientGameplayState extends BasicGameState{
 		}
 		
 		for(int i : removeTask){
-//			levelData.getObjectiveList().remove(i);
+			levelData.getObjectives().remove(i);
 		}
 	}
 	
@@ -428,10 +425,6 @@ public class ClientGameplayState extends BasicGameState{
 		clientCount++;
 		clients.put(clientCount, client);
 		return clientCount;
-	}
-	
-	public void incTaskCount(){
-		taskCount ++;
 	}
 	
 	@Override
@@ -527,4 +520,14 @@ public class ClientGameplayState extends BasicGameState{
 	public LevelDataModel getLevel(){
 		return levelData;
 	}
+	
+	public void setWinLose(int i){
+		this.winLose = i;
+	}
+	
+	public int getWinLose(){
+		return this.winLose;
+	}
+	
+	
 }

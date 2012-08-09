@@ -301,14 +301,15 @@ public class Hud {
 	public void renderRadarTags(LevelDataModel ldm, Graphics gfx,int camX, int camY){
 		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
 		for(NavPoint p : ldm.getNavMap().values()){
-			Vector2f pLoc = new Vector2f((p.getX()),(p.getY()));
-			Line toTarg = new Line(ship, pLoc);
-			int len = (int)toTarg.length();
-			if(len> 600){
-				double angle = Math.atan2((ship.getY()-pLoc.getY()) ,(ship.getX()-pLoc.getX()));
-				Vector2f point  = cgs.circularFunction((float)angle);
-				gfx.drawString(p.getName(), point.getX(), point.getY());
-				gfx.drawString(String.valueOf(len), point.getX(), point.getY()+25);
+			if(p.isActive()){
+				Vector2f pLoc = new Vector2f((p.getX()), (p.getY()));
+				Line toTarg = new Line(ship, pLoc);
+				int len = (int) toTarg.length();
+				if (len > 600) {double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
+					Vector2f point = cgs.circularFunction((float) angle);
+					gfx.drawString(p.getName(), point.getX(), point.getY());
+					gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+				}
 			}
 		}
 	}

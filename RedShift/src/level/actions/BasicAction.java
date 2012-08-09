@@ -17,7 +17,7 @@ public class BasicAction {
 	private boolean ini;		//has the action been initialized? if false, run ini()
 	private boolean update;		//does the action need to be updated? if true, run update()
 	private boolean end;		//determines if the action is complete or not
-	private BasicTrigger fireOff;// would you like to chain something? fire away!
+	private String fireOff;// would you like to chain something? fire away!
 	
 	public BasicAction(){
 		this.ini = true;
@@ -86,11 +86,11 @@ public class BasicAction {
 		this.end = done;
 	}
 	
-	public void setTrigger(BasicTrigger trig){
+	public void setTriggerTargetName(String trig){
 		this.fireOff = trig;
 	}
 	
-	public BasicTrigger getTrigger(){
+	public String getTriggerTargetName(){
 		return fireOff;
 	}
 }
