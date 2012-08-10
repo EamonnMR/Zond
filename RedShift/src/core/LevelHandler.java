@@ -59,9 +59,11 @@ public class LevelHandler {
 	 * @param delta
 	 */
 	public void update(int delta, ClientGameplayState cgs){
+		//checks for any remaining trigs or actions
+		int itemCnt = 0;
 		//find which triggers are active
 		for (BasicTrigger trig : level.getTriggerMap().values()) {
-			//this trigger-specific checks are necessary :( however tedious
+			//these trigger-specific checks are necessary :( however tedious
 			if (trig.isTrigged()) {
 				if(trig.getClass().equals(CountTrigger.class)){
 					CountTrigger counter = (CountTrigger)trig;
@@ -80,20 +82,34 @@ public class LevelHandler {
 		}
 		
 		//check for objective completion!
-		for(BasicObjective obj : level.getObjectives().values()){
-			if(obj.getTrigger()!=null){
-				if(obj.getTrigger().isTrigged()){
-					obj.setComplete(true);
-				}
-			}
-		}
+//		for(BasicObjective obj : level.getObjectives().values()){
+//			if(obj.getTrigger()!=null){
+//				if(obj.getTrigger().isTrigged()){
+//					obj.setComplete(true);
+//				}
+//			}
+//		}
 		
-		//go through the trigger queue, select the trigger's action, put it on the action queue
+		//8/10/2012 new functionality
+			//scan all triggers, see if they have a target trigger or target action to fire
 		for(BasicTrigger trig : executeTriggers){
+			trig.go(cgs);
 			if(trig.getTargetName()!=null){
-				executeActions.add(level.getActionMap().get(trig.getTargetName()));
-				System.out.println("Trigger: "+ trig.getName()+" has been executed");		
+				for(String trigName : level.getTriggerMap().keySet()){
+					if(trigName.equals(trig.getTargetName())){
+						level.getTrigger(trigName).trigger(true);
+						level.setNeedUpdate(true);
+					}
+				}
+				
+				for(String actName : level.getActionMap().keySet()){
+					if(actName.equals(trig.getTargetName())){
+						executeActions.add(level.getAction(actName));
+					}
+				}
+				itemCnt++;
 			}
+			System.out.println("Trigger: "+ trig.getName()+" has been executed");	
 		}
 		
 		//fire the actions
@@ -116,6 +132,7 @@ public class LevelHandler {
 					for(BasicTrigger trg : level.getTriggerMap().values()){
 						if(act.getTriggerTargetName().equals(trg.getName())){
 							trg.trigger(true);
+							level.setNeedUpdate(true);
 						}
 					}
 				}
@@ -124,8 +141,9 @@ public class LevelHandler {
 		
 		cleanTriggers();
 		cleanActions();
-		
-		level.setNeedUpdate(false);
+		if(itemCnt ==0){
+			level.setNeedUpdate(false);
+		}	
 	}
 	
 	public void render(Graphics gfx, int cx, int cy){

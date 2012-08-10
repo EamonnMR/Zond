@@ -12,11 +12,11 @@ public class NavPoint {
 	private String name;		//
 	private boolean active;		//the ability to turn point on and off
 
-	public NavPoint(float x, float y, String n, boolean act ){
+	public NavPoint(float x, float y, String name, boolean state ){
 		this.x=x;
 		this.y=y;
-		this.name=n;	//make sure the names are unique! kinda obvious but just to be sure >.>
-		this.active=act;
+		this.name=name;	//make sure the names are unique! kinda obvious but just to be sure >.>
+		this.active=state;
 	}
 
 	public float getX() {

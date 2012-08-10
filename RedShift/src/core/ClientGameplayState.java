@@ -96,7 +96,7 @@ public class ClientGameplayState extends BasicGameState{
 		if(gameIni){
 			this.lb = new LevelBuilder();
 			lb.setEntFac(entFac);
-			this.levelData = lb.buildLevel();
+			this.levelData = lb.buildLevel(entFac);
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();

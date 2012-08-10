@@ -4,6 +4,8 @@ import level.TriggerTypes;
 
 import org.newdawn.slick.geom.Shape;
 
+import core.ClientGameplayState;
+
 /**
  * Defines a basic Trigger entity that is used by the 
  * BasicLevel class. At some point we may beed to differentiate between
@@ -79,5 +81,9 @@ public class BasicTrigger {
 	
 	public TriggerTypes getTriggerType(){
 		return this.type;
+	}
+
+
+	public void go(ClientGameplayState cgs) {
 	}
 }

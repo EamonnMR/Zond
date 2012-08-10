@@ -43,12 +43,24 @@ public class LevelDataModel {
 		triggerMap.put(trig.getName(), trig);
 	}
 
+	public BasicTrigger getTrigger(String trig){
+		return triggerMap.get(trig);
+	}
+	
 	public void addAction(BasicAction act){
 		actionMap.put(act.getName(), act);
 	}
 	
+	public BasicAction getAction(String act){
+		return actionMap.get(act);
+	}
+	
 	public void addNavPoint(NavPoint p){
 		this.navMap.put(p.getName(), p);
+	}
+	
+	public NavPoint getNav(String nav){
+		return navMap.get(nav);
 	}
 	
 	public void setName(String name) {
