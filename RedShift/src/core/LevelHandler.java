@@ -68,6 +68,8 @@ public class LevelHandler {
 				if(trig.getClass().equals(CountTrigger.class)){
 					CountTrigger counter = (CountTrigger)trig;
 					counter.add();
+					System.out.println(counter.getName() + " at "+counter.getCount());
+					counter.trigger(false);
 					if(counter.getCount()>=counter.getTotal()){
 						executeTriggers.add(trig);
 					}
@@ -81,14 +83,7 @@ public class LevelHandler {
 			}
 		}
 		
-		//check for objective completion!
-//		for(BasicObjective obj : level.getObjectives().values()){
-//			if(obj.getTrigger()!=null){
-//				if(obj.getTrigger().isTrigged()){
-//					obj.setComplete(true);
-//				}
-//			}
-//		}
+
 		
 		//8/10/2012 new functionality
 			//scan all triggers, see if they have a target trigger or target action to fire
@@ -113,6 +108,20 @@ public class LevelHandler {
 		}
 		
 		//fire the actions
+		activateActions(cgs, delta);
+		
+		cleanTriggers();
+		cleanActions();
+		
+		checkObjectives();
+		
+		if(itemCnt ==0){
+			level.setNeedUpdate(false);
+		}	
+	}
+	
+
+	private void activateActions(ClientGameplayState cgs, int delta) {
 		for(BasicAction act : executeActions){
 			
 			//if the action has not started; start it, and flag as started
@@ -139,13 +148,7 @@ public class LevelHandler {
 			}
 		}
 		
-		cleanTriggers();
-		cleanActions();
-		if(itemCnt ==0){
-			level.setNeedUpdate(false);
-		}	
 	}
-	
 	public void render(Graphics gfx, int cx, int cy){
 		gfx.setColor(Color.yellow);
 		gfx.draw(offsetShape(level.getActiveArea(), (int) cx, (int) cy));
@@ -158,6 +161,10 @@ public class LevelHandler {
 				acts.render(gfx);
 			}
 		}
+	}
+	
+	private void checkObjectives() {
+
 	}
 	
 	//garbage day! 

@@ -181,8 +181,9 @@ public class GameDatabase {
 			m.setTotalWeight(Integer.parseInt(s.getValue(child, "weight")));
 			m.setGunPtLength(Integer.parseInt(s.getValue(child, "gunPtLen")));
 			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
+			m.setFaction(Integer.parseInt(s.getValue(child, "faction")));
 			m.setCollider(parseShape(s, child, "collider"));
-			m.setRadarRadius(parseShape(s, child, "radar"));
+			m.setRadarRadius((Circle)parseShape(s, child, "radar"));
 			m.setName(child);
 			indexShip.put(child, m);
 		}

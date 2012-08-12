@@ -17,7 +17,7 @@ public class BaseEnt {
 	private Image img;
 	private float turnrate;
 	private Shape collider;
-	private BasicTrigger trigger;
+	private String trigger;
 	
 	//constructors
 	public BaseEnt(){}
@@ -79,12 +79,12 @@ public class BaseEnt {
 		this.collider = collider;
 	}
 
-	public BasicTrigger getTrigger() {
-		return trigger;
+	public void setTriggerTargetName(String trigger) {
+		this.trigger = trigger;
 	}
 
-	public void setTrigger(BasicTrigger trigger) {
-		this.trigger = trigger;
+	public String getTriggerTargetName() {
+		return trigger;
 	}
 	
 }

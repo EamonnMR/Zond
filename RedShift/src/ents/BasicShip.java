@@ -1,5 +1,6 @@
 package ents;
 
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -25,7 +26,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private double engineOffsetDistance;		 //the offset for where to draw the engine
 	private double gunOffsetDistance;			 //the offset for where to draw the weapon
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
-	private Shape radar;					 //new functionality! radar! 
+	private Circle radar;					 //new functionality! radar! 
+	private int faction;						// which allegiance is this ship? 0 RUS 1 NAS
 	
 	
 	//constructor
@@ -273,13 +275,20 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		return gun.canIshoot();
 	}
 
-	public Shape getRadarRadius() {
+	public Circle getRadarRadius() {
 		return radar;
 	}
 
-	public void setRadarRadius(Shape radarRadius) {
+	public void setRadarRadius(Circle radarRadius) {
 		this.radar = radarRadius;
 	}
 	
+	public void setFaction(int i){
+		this.faction = i;
+	}
+	
+	public int getFaction(){
+		return this.faction;
+	}
 	
 }

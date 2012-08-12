@@ -43,6 +43,10 @@ public class Hud {
 									// warning
 	boolean radarOn = false; // is radar active?
 	
+	boolean showFriends = false;	//display freindly tags
+	boolean showBads = false;		//display enemy tags...possibly unnecessary
+	boolean showPoints = false;		//display navpoints
+	
 	boolean showMission = false;	//show list of active objectives
 	HashMap<Boolean, BasicShip> detected;
 
@@ -80,9 +84,7 @@ public class Hud {
 	 */
 	public void render(Graphics gfx, GameContainer gc, LevelDataModel ldm, int camX,
 			int camY) {
-		if(radarOn){
-			shipRadarCheck(cgs, gfx, camX, camY);
-		}
+
 		gfx.setColor(Color.green);
 		gfx.drawString(shipName, 480, 680);
 		gfx.draw(new Rectangle(477, 677, (shipName.length() * 10) + 2, 25));
@@ -96,21 +98,28 @@ public class Hud {
 		checkHP(hp, gfx);
 		gfx.drawString("[HP] " + hp, 396, 707);
 		gfx.draw(new Rectangle(393, 703, 45, 25));
-
+		
+		gfx.draw(new Rectangle(357, 729, 74, 25));
+		
+		if(radarOn){
+			gfx.drawString("[RADAR] ON", 360, 732);
+			shipRadarCheck(cgs, gfx, camX, camY);
+			renderShipTags(cgs, gfx, camX, camY);
+		}else{
+			gfx.drawString("[RADAR] OFF", 360, 732);
+		
+		}
+		
+		renderPoints(ldm, gfx, camX,camY);
+		
 		if(showMission){
 			renderObjectivesList(gfx);
 		}
 		
-		renderRadarTags(ldm, gfx, camX, camY);
-		
-		if(radarOn){
-			gfx.drawString("[RADAR] ON", 360, 732);
-		}else{
-			gfx.drawString("[RADAR] OFF", 360, 732);
+		if(showPoints){
+			renderNavTags(ldm, gfx, camX, camY);
 		}
-		gfx.draw(new Rectangle(357, 729, 74, 25));
-
-		renderPoints(ldm, gfx, camX,camY);
+		
 		if (googles) {
 			gfx.setColor(Color.yellow);
 			devGoggles(gfx, gc, ldm, camX, camY);
@@ -163,6 +172,7 @@ public class Hud {
 		if(radarOn){
 			gfx.setColor(Color.blue);
 			gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
+			
 		}
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
 		for (BasicTrigger trig : ldm.getTriggerMap().values()) {
@@ -179,9 +189,6 @@ public class Hud {
 		for (BasicShip s : cgs.getShips().values()) {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 		}
-
-		gfx.draw(camBounds);
-		gfx.setColor(Color.white);
 
 	}
 
@@ -203,6 +210,14 @@ public class Hud {
 
 	public void setRadarOn(boolean radarOn) {
 		this.radarOn = radarOn;
+	}
+	
+	public void setShowNav(boolean p){
+		this.showPoints = p;
+	}
+	
+	public boolean getShowNav(){
+		return this.showPoints;
 	}
 
 	public void checkHP(double hp, Graphics gfx) {
@@ -298,19 +313,44 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void renderRadarTags(LevelDataModel ldm, Graphics gfx,int camX, int camY){
+	public void renderNavTags(LevelDataModel ldm, Graphics gfx,int camX, int camY){
 		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
 		for(NavPoint p : ldm.getNavMap().values()){
 			if(p.isActive()){
+				gfx.setColor(Color.green);
 				Vector2f pLoc = new Vector2f((p.getX()), (p.getY()));
 				Line toTarg = new Line(ship, pLoc);
 				int len = (int) toTarg.length();
 				if (len > 600) {double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
-					Vector2f point = cgs.circularFunction((float) angle);
+					Vector2f point = cgs.circularFunction((float) angle, 350);
 					gfx.drawString(p.getName(), point.getX(), point.getY());
 					gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
 				}
 			}
+		}
+	}
+	
+	public void renderShipTags(ClientGameplayState cgs, Graphics gfx,int camX, int camY){
+		Vector2f player = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
+		for(BasicShip ship : cgs.getShips().values()){
+			if(!ship.equals(cgs.getPlayerShip())){	
+				Vector2f target = new Vector2f((float)(ship.getX()), (float)(ship.getY()));
+				Line toTarg = new Line(player, target);
+				int len = (int) toTarg.length();
+				if (len < cgs.getPlayerShip().getRadarRadius().getRadius() && len > 600) {
+					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
+					Vector2f point = cgs.circularFunction((float) angle, 150);
+					if(ship.getFaction()==0){
+						gfx.setColor(Color.red);
+						gfx.drawString("!["+ship.getName()+"]!", point.getX(), point.getY());
+						gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+					}else if(ship.getFaction()==1){
+						gfx.setColor(Color.blue);
+						gfx.drawString("("+ship.getName()+")", point.getX(), point.getY());
+						gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+					}
+				}
+			}	
 		}
 	}
 	

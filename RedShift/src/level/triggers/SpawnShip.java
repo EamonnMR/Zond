@@ -19,5 +19,9 @@ public class SpawnShip extends BasicTrigger{
 		ship.setY(getY());
 		cgs.addShip(ship);
 	}
+	
+	public BasicShip getShip(){
+		return ship;
+	}
 
 }

@@ -5,6 +5,7 @@
 	[weight](5)
 	[gunPtLen](26)
 	[engPtLen](-24)
+	[faction](1)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -14,9 +15,10 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](200)
+		[radius](1000)
 		/[segments](24)/
 	}
+
 }
 
 [gemini]{
@@ -26,6 +28,7 @@
 	[weight](5)
 	[gunPtLen](28)
 	[engPtLen](-24)
+	[faction](1)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -38,6 +41,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+
 }
 
 [lunar]{
@@ -47,6 +51,7 @@
 	[weight](5)
 	[gunPtLen](-28)
 	[engPtLen](24)
+	[faction](1)
 	[collider]{
 		[type] (poly)
 		[points]<
@@ -71,6 +76,7 @@
 	[weight](5)
 	[gunPtLen](-28)
 	[engPtLen](24)
+	[faction](0)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -92,6 +98,7 @@
 	[weight](5)
 	[gunPtLen](-28)
 	[engPtLen](24)
+	[faction](0)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -113,6 +120,7 @@
 	[weight](5)
 	[gunPtLen](-28)
 	[engPtLen](24)
+	[faction](0)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -125,6 +133,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+
 }
 
 [skylab]{
@@ -134,6 +143,7 @@
 	[weight](0)
 	[gunPtLen](0)
 	[engPtLen](0)
+	[faction](1)
 	[collider]{
 		[type] (poly)
 		[points]<

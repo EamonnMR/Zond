@@ -9,7 +9,9 @@ import level.NavPoint;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
+import level.triggers.CompleteObjective;
 import level.triggers.CountTrigger;
+import level.triggers.DeathTrigger;
 import level.triggers.SpawnShip;
 import level.triggers.ToggleNavPoint;
 
@@ -34,23 +36,22 @@ public class LevelBuilder {
 	private NavPoint navCappa;
 	private NavPoint navDelta;
 	private NavPoint navEpsilon;
-	
-	//objectives
-	private BasicObjective checkAlpha;
-	private BasicObjective clearBeta;
-	private BasicObjective attackCappa;
-	private BasicObjective scanDelta;
-	private BasicObjective returnEpsilon;
-	
-	//triggers
-	private BasicTrigger alphaHit;
-	private SpawnShip makeShip1;
-	private SpawnShip makeShip2;
-	private SpawnShip makeShip3;
-	private ToggleNavPoint togNavBeta;
+//	
+//	//objectives
+//	private BasicObjective checkAlpha;
+//	private BasicObjective clearBeta;
+//	private BasicObjective attackCappa;
+//	private BasicObjective scanDelta;
+//	private BasicObjective returnEpsilon;
+//	
+//	//triggers
+//	private BasicTrigger alphaHit;
+//	private SpawnShip makeShip1;
+//	private SpawnShip makeShip2;
+//	private SpawnShip makeShip3;
 	
 //	private BasicTrigger betaClear;
-	private CountTrigger counter;
+//	private CountTrigger counter;
 	
 	//actions
 
@@ -61,11 +62,17 @@ public class LevelBuilder {
 	public HashMap<String, NavPoint> buildNavPoints(){
 		HashMap<String, NavPoint> points = new HashMap<String, NavPoint>();
 		
-		navAlpha = new NavPoint(0, 0, "Alpha", true);
-		navBeta = new NavPoint(100, 100, "Beta", false);
+		navAlpha = new NavPoint(2584, 2088, "Alpha", true);
+		navBeta = new NavPoint(-2336, 5670, "Beta", true);
+		navCappa = new NavPoint(-2816, -2592, "Cappa", true);
+		navDelta = new NavPoint(1928, -2104, "Delta", true);
+		navEpsilon = new NavPoint(0, 0, "Epsilon", true);
 		
 		points.put(navAlpha.getName(), navAlpha);
 		points.put(navBeta.getName(), navBeta );
+		points.put(navCappa.getName(), navCappa );
+		points.put(navDelta.getName(), navDelta );
+		points.put(navEpsilon.getName(), navEpsilon );
 		
 		return points;
 	}
@@ -79,36 +86,68 @@ public class LevelBuilder {
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 
 //		private BasicTrigger alphaHit;
-		alphaHit = new BasicTrigger(TriggerTypes.SHIP);
+		BasicTrigger alphaHit = new BasicTrigger(TriggerTypes.SHIP);
 		alphaHit.setName("alphaHit");
-		alphaHit.setX(0);
-		alphaHit.setY(0);
-		alphaHit.setCollider(new Circle(0,0,48));
+		alphaHit.setX(2584);
+		alphaHit.setY(2088);
+		alphaHit.setCollider(new Circle(2584,2088,64));
 		
 		
 //		private SpawnShip makeShip1;
-		makeShip1 = new SpawnShip(null, entFac.stockVoskhod());
+		SpawnShip makeShip1 = new SpawnShip(null, entFac.stockVoskhod());
 		makeShip1.setName("makeShip1");
-		makeShip1.setX(-100);
-		makeShip1.setY(-100);
+		makeShip1.setX(2000);
+		makeShip1.setY(2088);
 		makeShip1.setCollider(null);
 		alphaHit.setTargetName(makeShip1.getName());
 		
 //		private SpawnShip makeShip2;
+		SpawnShip makeShip2 = new SpawnShip(null, entFac.stockVoskhod());
+		makeShip2.setName("makeShip2");
+		makeShip2.setX(2584);
+		makeShip2.setY(1500);
+		makeShip2.setCollider(null);
+		makeShip1.setTargetName(makeShip2.getName());
 		
 //		private SpawnShip makeShip3;
+		SpawnShip makeShip3 = new SpawnShip(null, entFac.stockVoskhod());
+		makeShip3.setName("makeShip3");
+		makeShip3.setX(3000);
+		makeShip3.setY(2088);
+		makeShip3.setCollider(null);
+		makeShip2.setTargetName(makeShip3.getName());
+
+		//alpha counter trigger
+		CountTrigger killAllatAlpha = new CountTrigger(null, 3, "killAllatAlpha");
 		
-//		private ToggleNavPoint togNavBeta;
-		togNavBeta = new ToggleNavPoint(null, navBeta, true);
-		togNavBeta.setName("enableBeta");
-		togNavBeta.setX(0);
-		togNavBeta.setY(0);
-		togNavBeta.setCollider(null);
-		makeShip1.setTargetName(togNavBeta.getName());
+		//alpha death triggers
+		DeathTrigger ship1Death = new DeathTrigger(null, "ship1Death");
+		ship1Death.setTargetName(killAllatAlpha.getName());
+		makeShip1.getShip().setTriggerTargetName(ship1Death.getName());
+		
+		DeathTrigger ship2Death = new DeathTrigger(null, "ship2Death");
+		ship2Death.setTargetName(killAllatAlpha.getName());
+		makeShip2.getShip().setTriggerTargetName(ship2Death.getName());
+		
+		DeathTrigger ship3Death = new DeathTrigger(null, "ship3Death");
+		ship3Death.setTargetName(killAllatAlpha.getName());
+		makeShip3.getShip().setTriggerTargetName(ship3Death.getName());
+		
+		//complete alpha objective
+		ToggleNavPoint togAlpha = new ToggleNavPoint(null, navAlpha, false);
+		togAlpha.setName("togAlpha");
+		killAllatAlpha.setTargetName(togAlpha.getName());
+		
 		
 		trigs.put(alphaHit.getName(),alphaHit);
 		trigs.put(makeShip1.getName(),makeShip1);
-		trigs.put(togNavBeta.getName(), togNavBeta);
+		trigs.put(makeShip2.getName(),makeShip2);
+		trigs.put(makeShip3.getName(),makeShip3);
+		trigs.put(ship1Death.getName(), ship1Death);
+		trigs.put(ship2Death.getName(), ship2Death);
+		trigs.put(ship3Death.getName(), ship3Death);
+		trigs.put(killAllatAlpha.getName(), killAllatAlpha);
+		trigs.put(togAlpha.getName(), togAlpha);
 		return trigs;
 	}
 	
