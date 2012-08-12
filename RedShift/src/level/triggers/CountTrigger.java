@@ -7,11 +7,12 @@ public class CountTrigger extends BasicTrigger {
 	private int total;
 	private int count;
 	
-	public CountTrigger(TriggerTypes trig, int tot) {
+	public CountTrigger(TriggerTypes trig, int tot, String name) {
 		super(trig);
 		this.setX(0);
 		this.setY(0);
 		this.setCollider(null);
+		this.setName(name);
 		this.total = tot;
 	}
 	

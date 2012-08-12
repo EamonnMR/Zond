@@ -14,30 +14,10 @@ public class BasicObjective {
 	//vars
 	private String name, blurb, full;	//blurb is for in-hud use || full is for during briefings
 	private boolean complete, active;			//derp
-	private BasicTrigger trigger;
-	private BasicAction action;
 	
 	public BasicObjective(String name, BasicTrigger trig, BasicAction act){
 		this.complete = false;
 		this.name = name;
-		this.action = act;
-		this.trigger = trig;
-	}
-
-	public void setAction(BasicAction act){
-		action = act;
-	}
-	
-	public BasicAction getAction(){
-		return action;
-	}
-	
-	public void setTrigger(BasicTrigger trig){
-		trigger = trig;
-	}
-
-	public BasicTrigger getTrigger(){
-		return trigger;
 	}
 
 	public String getName() {

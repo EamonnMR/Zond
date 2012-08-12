@@ -46,6 +46,7 @@ public class EntityFactory {
 		build.setCollider(new Circle(gdb.getShip(shipPointer).getCollider().getX(),gdb.getShip(shipPointer).getCollider().getY(),gdb.getShip(shipPointer).getCollider().getHeight(),24));
 		
 		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
+		build.setFaction(gdb.getShip(shipPointer).getFaction());
 		build.getImg().setRotation(0);
 
 		BasicGun g = buildGun(gunPointer);
@@ -55,6 +56,7 @@ public class EntityFactory {
 		build.setEngine(e);
 		
 		//XXX:hacky hack hack
+		//TODO: properly made, rotatable collider
 		if(shipPointer=="lunar"){
 			Polygon p = new Polygon();
 			p.addPoint(-64, 42);

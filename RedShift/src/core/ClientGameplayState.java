@@ -9,6 +9,7 @@ import level.LevelDataModel;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
+import level.triggers.DeathTrigger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -209,6 +210,13 @@ public class ClientGameplayState extends BasicGameState{
 				}
 				playerHud.setRadarOn(pc.getRadarState());
 			}
+			if(p.isKeyPressed(Input.KEY_A)){
+				if(playerHud.getShowNav()==false){
+					playerHud.setShowNav(true);
+				}else if(playerHud.getShowNav()){
+					playerHud.setShowNav(false);
+				}
+			}
 
 			// ======Begin updates!
 			// update ships
@@ -287,6 +295,13 @@ public class ClientGameplayState extends BasicGameState{
 			entry.getValue().update(delta);
 			if(entry.getValue().getHealth()<=0){
 				removeShips.add(entry.getKey());
+				if(entry.getValue().getTriggerTargetName()!=null){
+					if(levelData.getTrigger(entry.getValue().getTriggerTargetName()).getClass().equals(DeathTrigger.class)){
+						levelData.getTrigger(entry.getValue().getTriggerTargetName()).trigger(true);
+						levelData.setNeedUpdate(true);
+					}
+				}
+				
 				if(entry.getValue().equals(pc.getPlayShip())){
 					gameOver = true;
 					winLose = -1;
@@ -303,11 +318,6 @@ public class ClientGameplayState extends BasicGameState{
 		//Update Doodads
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
-		}
-		
-		//update objectives
-		for(BasicObjective obj : levelData.getObjectives().values()){
-			
 		}
 	}
 	
@@ -517,8 +527,8 @@ public class ClientGameplayState extends BasicGameState{
 		return clients;
 	}
 	
-	public Vector2f circularFunction(float angle){
-	       return new Vector2f((float) (Math.cos(angle+Math.PI) * radius + 512), (float)(Math.sin(angle+Math.PI) * radius + 384));
+	public Vector2f circularFunction(float angle, int rad){
+	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + 512), (float)(Math.sin(angle+Math.PI) * rad + 384));
 	}
 	
 	@Override
@@ -544,5 +554,7 @@ public class ClientGameplayState extends BasicGameState{
 		return this.winLose;
 	}
 	
-	
+	public BasicShip getPlayerShip(){
+		return pc.getPlayShip();
+	}
 }
