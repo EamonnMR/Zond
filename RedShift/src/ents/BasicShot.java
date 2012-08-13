@@ -1,6 +1,6 @@
 package ents;
 
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 
 /**
  * derive any kind of projectile from this class
@@ -16,7 +16,7 @@ public class BasicShot extends BaseEnt {
 	private float speed;
 	private int interval;
 	private int timer;
-	private Sound snd; //FIXME: Fix sound!
+	private Audio snd; //FIXME: Fix sound!
 	//constructor
 	public BasicShot(){
 	}
@@ -88,11 +88,11 @@ public class BasicShot extends BaseEnt {
 	
 	//FIXME: Fix sound!
 	
-	public Sound getSnd() {
+	public Audio getSnd() {
 		return snd;
 	} 
 
-	public void setSnd(Sound snd) {
+	public void setSnd(Audio snd) {
 		this.snd = snd;
 	}
 	
