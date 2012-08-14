@@ -301,7 +301,7 @@ public class ClientGameplayState extends BasicGameState{
 						levelData.setNeedUpdate(true);
 					}
 				}
-				
+				//TODO: play ship death sound
 				if(entry.getValue().equals(pc.getPlayShip())){
 					gameOver = true;
 					winLose = -1;
@@ -337,6 +337,7 @@ public class ClientGameplayState extends BasicGameState{
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
 					}
+					//TODO: play shot collision sound
 				}
 			}
 		}
@@ -366,6 +367,7 @@ public class ClientGameplayState extends BasicGameState{
 			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
 				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
 					removeShots.add(shot.getKey());
+					//TODO: play shot collision sound
 				}
 			}
 		}

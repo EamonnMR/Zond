@@ -9,7 +9,6 @@ import level.NavPoint;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
-import level.triggers.CompleteObjective;
 import level.triggers.CountTrigger;
 import level.triggers.DeathTrigger;
 import level.triggers.SpawnShip;
@@ -43,15 +42,6 @@ public class LevelBuilder {
 //	private BasicObjective attackCappa;
 //	private BasicObjective scanDelta;
 //	private BasicObjective returnEpsilon;
-//	
-//	//triggers
-//	private BasicTrigger alphaHit;
-//	private SpawnShip makeShip1;
-//	private SpawnShip makeShip2;
-//	private SpawnShip makeShip3;
-	
-//	private BasicTrigger betaClear;
-//	private CountTrigger counter;
 	
 	//actions
 
@@ -84,7 +74,8 @@ public class LevelBuilder {
 	
 	public HashMap<String, BasicTrigger> buildTriggers(){
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
-
+		
+		//ALPHA OBJECTIVE
 //		private BasicTrigger alphaHit;
 		BasicTrigger alphaHit = new BasicTrigger(TriggerTypes.SHIP);
 		alphaHit.setName("alphaHit");
@@ -148,6 +139,12 @@ public class LevelBuilder {
 		trigs.put(ship3Death.getName(), ship3Death);
 		trigs.put(killAllatAlpha.getName(), killAllatAlpha);
 		trigs.put(togAlpha.getName(), togAlpha);
+		
+		//BETA OBJECTIVE
+		
+		
+		
+		
 		return trigs;
 	}
 	
