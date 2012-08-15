@@ -13,7 +13,7 @@
 	[dmg]  (5)
 	[speed](0.2)
 	[life] (10000)
-	[snd]  (twentyh)	
+	[snd]  (twentys)	
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
@@ -27,7 +27,7 @@
 	[dmg]  (5)
 	[speed](0.12)
 	[life] (7500)
-	[snd]  (twentyh)
+	[snd]  (twentys)
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
@@ -41,7 +41,7 @@
 	[dmg]  (5)
 	[speed](0.1)
 	[life] (5000)
-	[snd]  (twentyh)
+	[snd]  (twentys)
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)

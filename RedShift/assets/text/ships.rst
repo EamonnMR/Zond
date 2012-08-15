@@ -18,6 +18,7 @@
 		[radius](1000)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 
 }
 
@@ -41,7 +42,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
-
+	[deadsnd](shipexplode)
 }
 
 [lunar]{
@@ -67,6 +68,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 }
 
 [voskhod]{
@@ -89,6 +91,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 }
 
 [vostok]{
@@ -111,6 +114,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 }
 
 [zond4]{
@@ -133,6 +137,7 @@
 		[radius](100)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 
 }
 
@@ -158,5 +163,6 @@
 		[radius](100)
 		/[segments](24)/
 	}
+	[deadsnd](shipexplode)
 }
 //

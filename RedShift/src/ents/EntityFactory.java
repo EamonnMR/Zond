@@ -47,6 +47,7 @@ public class EntityFactory {
 		
 		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
 		build.setFaction(gdb.getShip(shipPointer).getFaction());
+		build.setDeathSFX(gdb.getShip(shipPointer).getDeathSFX());
 		build.getImg().setRotation(0);
 
 		BasicGun g = buildGun(gunPointer);
