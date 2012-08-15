@@ -1,9 +1,8 @@
 package ents;
 
-import level.triggers.BasicTrigger;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.openal.Audio;
 
 /**
  * root entity from which BasicShip, BasicEngine, and BasicGun derive from
@@ -18,6 +17,7 @@ public class BaseEnt {
 	private float turnrate;
 	private Shape collider;
 	private String trigger;
+	private Audio deathSnd;
 	
 	//constructors
 	public BaseEnt(){}
@@ -85,6 +85,14 @@ public class BaseEnt {
 
 	public String getTriggerTargetName() {
 		return trigger;
+	}
+
+	public Audio getDeathSnd() {
+		return deathSnd;
+	}
+
+	public void setDeathSnd(Audio deathSnd) {
+		this.deathSnd = deathSnd;
 	}
 	
 }

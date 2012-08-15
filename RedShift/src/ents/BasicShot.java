@@ -16,7 +16,7 @@ public class BasicShot extends BaseEnt {
 	private float speed;
 	private int interval;
 	private int timer;
-	private Audio snd; //FIXME: Fix sound!
+	private Audio impactSnd; //FIXME: Fix sound!
 	//constructor
 	public BasicShot(){
 	}
@@ -89,11 +89,11 @@ public class BasicShot extends BaseEnt {
 	//FIXME: Fix sound!
 	
 	public Audio getSnd() {
-		return snd;
+		return impactSnd;
 	} 
 
 	public void setSnd(Audio snd) {
-		this.snd = snd;
+		this.impactSnd = snd;
 	}
 	
 }
