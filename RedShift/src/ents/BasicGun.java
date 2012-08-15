@@ -56,7 +56,7 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			shot.setSnd(proj.getSnd());
-			shot.getSnd().playAsSoundEffect(1.0f, 1.0f, false);
+			shot.getSnd().playAsSoundEffect(0.6f, 1.0f, false, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
 	

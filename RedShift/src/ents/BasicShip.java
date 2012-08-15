@@ -1,7 +1,7 @@
 package ents;
 
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.openal.Audio;
 
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
@@ -28,6 +28,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 	private Circle radar;					 //new functionality! radar! 
 	private int faction;						// which allegiance is this ship? 0 RUS 1 NAS
+	private Audio deathSFX;						//self-explanatory
 	
 	
 	//constructor
@@ -291,4 +292,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		return this.faction;
 	}
 	
+	public void setDeathSFX(Audio death){
+		this.deathSFX = death;
+	}
+	
+	public Audio getDeathSFX(){
+		return this.deathSFX;
+	}
 }

@@ -188,6 +188,7 @@ public class GameDatabase {
 			m.setCollider(parseShape(s, child, "collider"));
 			m.setRadarRadius((Circle)parseShape(s, child, "radar"));
 			m.setName(child);
+			m.setDeathSFX(indexSounds.get(s.getValue(child, "deadsnd")));
 			indexShip.put(child, m);
 		}
 	}
