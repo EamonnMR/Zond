@@ -301,7 +301,7 @@ public class ClientGameplayState extends BasicGameState{
 						levelData.setNeedUpdate(true);
 					}
 				}
-				entry.getValue().getDeathSFX().playAsSoundEffect(0.6f, 1.0f, false, (float)entry.getValue().getX(), (float)entry.getValue().getY(), 0.0f);
+				entry.getValue().getDeathSnd().playAsSoundEffect(0.6f, 1.0f, false, (float)entry.getValue().getX(), (float)entry.getValue().getY(), 0.0f);
 				if(entry.getValue().equals(pc.getPlayShip())){
 					gameOver = true;
 					winLose = -1;
