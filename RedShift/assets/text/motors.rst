@@ -18,4 +18,6 @@
 	[thrusty]     (0.1)
 	[strafeRate]  (0.1)
 	[img]         (eng1)
+	[primeThrst]  (test)
+	[sideThrst]   (sidethrust)
 }

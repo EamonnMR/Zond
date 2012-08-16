@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import level.BasicObjective;
 import level.LevelDataModel;
 import level.TriggerTypes;
 import level.actions.BasicAction;
@@ -337,7 +336,6 @@ public class ClientGameplayState extends BasicGameState{
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
 					}
-					//TODO: play shot collision sound
 				}
 			}
 		}

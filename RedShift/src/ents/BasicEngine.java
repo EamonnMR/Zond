@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.openal.Audio;
 
 /**
  * The bare bones Engine class, this is necessary for any ship to move.
@@ -16,6 +17,8 @@ public class BasicEngine {
 	private float forwardThrust, reverseThrust, turnRate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
 	private String name;
+	private Audio primeThrust;
+	private Audio sideThrust;
 	
 	//constructors
 	public BasicEngine(){}
@@ -88,6 +91,22 @@ public class BasicEngine {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setPrimeThrust(Audio primeThrust) {
+		this.primeThrust = primeThrust;
+	}
+
+	public Audio getPrimeThrust() {
+		return primeThrust;
+	}
+
+	public void setSideThrust(Audio sideThrust) {
+		this.sideThrust = sideThrust;
+	}
+
+	public Audio getSideThrust() {
+		return sideThrust;
 	}
 
 	

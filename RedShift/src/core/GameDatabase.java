@@ -39,7 +39,7 @@ public class GameDatabase {
 	private Map<String, BasicEngine> indexEng;
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
-	private Map<String, Audio> indexSounds; //FIXME: FIX SOUND
+	private Map<String, Audio> indexSounds;
 	
 	//constructor
 	public GameDatabase(){}
@@ -55,11 +55,11 @@ public class GameDatabase {
 	 */
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
-		indexSounds = new HashMap<String, Audio>(); //FIXME: FIX SOUND
+		indexSounds = new HashMap<String, Audio>();
 		try {
 			try {
 				xloadImages();
-				loadSounds(); //FIXME: FIX SOUND
+				loadSounds();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -77,8 +77,6 @@ public class GameDatabase {
 		populateAll();
 	}
 	
-	
-	//FIXME: FIX SOUND
 	/**
 	* Loads all sound files
 	* @throws FileNotFoundException
@@ -108,7 +106,7 @@ public class GameDatabase {
 		xpopulateShips();
 	}
 
-	private void ldSnd(String name, String location) { //FIXME: FIX SOUND
+	private void ldSnd(String name, String location) {
 		try{
 		indexSounds.put(name, AudioLoader.getAudio("OGG", new FileInputStream(location)));
 			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
@@ -150,6 +148,7 @@ public class GameDatabase {
 			current.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			current.setProj(indexShot.get(s.getValue(child, "proj")));
 			current.setName(child);
+			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			indexGuns.put(child, current);
 		}
 	}
@@ -217,6 +216,8 @@ public class GameDatabase {
 			e.setThrustY(Float.parseFloat(s.getValue(child, "thrusty")));
 			e.setStrafeRate(Float.parseFloat(s.getValue(child, "strafeRate")));
 			e.setInGameImg(indexImages.get(s.getValue(child, "img")).copy());
+			e.setPrimeThrust(indexSounds.get(s.getValue(child, "primeThrst")));
+			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
 			indexEng.put(child, e);
 		}
 		
@@ -247,7 +248,7 @@ public class GameDatabase {
 			h.setDamage(Integer.parseInt(s.getValue(child, "dmg")));
 			h.setSpeed(Float.parseFloat(s.getValue(child, "speed")));
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
-			h.setSnd(indexSounds.get(s.getValue(child, "snd"))); //FIXME: FIX SOUND
+			h.setSnd(indexSounds.get(s.getValue(child, "snd")));
 			h.setCollider(parseShape(s, child, "collider"));
 			indexShot.put(child, h);
 		}

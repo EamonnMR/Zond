@@ -44,7 +44,7 @@ public class BasicShot extends BaseEnt {
 	}
 	
 	public void onHit() {
-		//snd.play(); FIXME: Fix sound!
+		impactSnd.playAsSoundEffect(0.6f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 	}
 	
 	public void render(int xOffset, int yOffset){

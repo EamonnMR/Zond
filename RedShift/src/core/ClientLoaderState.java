@@ -45,6 +45,7 @@ public class ClientLoaderState extends BasicGameState {
 			e.printStackTrace();
 		}
 		entFac.ini(gdb);
+		
 	}
 
 	@Override
