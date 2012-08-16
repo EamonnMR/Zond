@@ -16,6 +16,7 @@
 	[img]     (gun1)
 	[weight]  (0)
 	[proj]    (twentyShot)
+	[fireSnd] (twentys)
 }
 
 /60 mm cannon/
@@ -25,6 +26,7 @@
 	[img]     (gun2)
 	[weight]  (0)
 	[proj]    (sixtyShot)
+	[fireSnd] (twentys)
 }
 
 /105 mm cannon/
@@ -34,6 +36,7 @@
 	[img]     (gun3)
 	[weight]  (0)
 	[proj]    (oneFiveShot)
+	[fireSnd] (twentys)
 }
 
 /small plasma/
@@ -43,6 +46,7 @@
 	[img]     (gun1) / Why aren't we loading the images? /
 	[weight]  (0)
 	[proj]    (oneFiveShot) /No projectile type yet/
+	[fireSnd] (twentys)
 }
 
 /small laser/
@@ -52,4 +56,5 @@
 	[img]     (gun1)
 	[weight]  (0)
 	[proj]    (oneFiveShot) /No projectile type yet/
+	[fireSnd] (twentys)
 }

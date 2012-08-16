@@ -59,4 +59,6 @@ public class CoreStateManager extends StateBasedGame {
          app.setDisplayMode(1024, 768, false);
          app.start();
     }
+    
+    
 }

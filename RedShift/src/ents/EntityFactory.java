@@ -83,6 +83,7 @@ public class EntityFactory {
 		gun.setCost(gdb.getGun(gunPointer).getCost());
 		gun.setWeight(gdb.getGun(gunPointer).getWeight());
 		gun.setProj(gdb.getGun(gunPointer).getProj());
+		gun.setFireSnd(gdb.getGun(gunPointer).getFireSnd());
 		return gun;
 	}
 	
@@ -101,6 +102,8 @@ public class EntityFactory {
 		engine.setThrustY(gdb.getEngine(engPointer).getThrustY());
 		engine.setStrafeRate(gdb.getEngine(engPointer).getStrafeRate());
 		engine.setInGameImg(gdb.getEngine(engPointer).getInGameImg().copy());
+		engine.setPrimeThrust(gdb.getEngine(engPointer).getPrimeThrust());
+		engine.setSideThrust(gdb.getEngine(engPointer).getSideThrust());
 		return engine;
 	}
 	
@@ -116,7 +119,7 @@ public class EntityFactory {
 		shot.setDamage(original.getDamage());
 		shot.setSpeed(original.getSpeed());
 		shot.setInterval(original.getInterval());
-		//shot.setSnd(original.getSnd()); FIXME: Fix sound!
+		shot.setSnd(original.getSnd());
 		return shot;
 	}
 	
