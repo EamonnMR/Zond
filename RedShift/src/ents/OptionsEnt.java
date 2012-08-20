@@ -7,74 +7,63 @@ package ents;
 public class OptionsEnt {
 
 	//vars
-	private int smallWin, medWin, largeWin;
-	private int musevol, fxvol, voicevol, totvol;
-	private boolean fullscreen;
+	private int musVol, fxVol, voiceVol, totalVol;
+	private boolean fullscrn_bool, sndOn_bool, musOn_bool;
 	
 	//const
-	public OptionsEnt(){}
+	public OptionsEnt(){
+		
+	}
 	//methods
 	public boolean getFullscreen() {
-		return fullscreen;
+		return fullscrn_bool;
 	}
 
 	public void setFullscreen(boolean fullscreen) {
-		this.fullscreen = fullscreen;
-	}
-
-	public int getSmallWin() {
-		return smallWin;
-	}
-
-	public void setSmallWin(int smallWin) {
-		this.smallWin = smallWin;
-	}
-
-	public int getMedWin() {
-		return medWin;
-	}
-
-	public void setMedWin(int medWin) {
-		this.medWin = medWin;
-	}
-
-	public int getLargeWin() {
-		return largeWin;
-	}
-
-	public void setLargeWin(int largeWin) {
-		this.largeWin = largeWin;
+		this.fullscrn_bool = fullscreen;
 	}
 
 	public int getMusevol() {
-		return musevol;
+		return musVol;
 	}
 
 	public void setMusevol(int musevol) {
-		this.musevol = musevol;
+		this.musVol = musevol;
 	}
 
 	public int getFxvol() {
-		return fxvol;
+		return fxVol;
 	}
 
 	public void setFxvol(int fxvol) {
-		this.fxvol = fxvol;
+		this.fxVol = fxvol;
 	}
 
 	public void setTotvol(int totvol) {
-		this.totvol = totvol;
+		this.totalVol = totvol;
 	}
 
 	public int getTotvol() {
-		return totvol;
+		return totalVol;
 	}
 
 	public void setVoicevol(int voicevol) {
-		this.voicevol = voicevol;
+		this.voiceVol = voicevol;
 	}
 
 	public int getVoicevol() {
-		return voicevol;
+		return voiceVol;
+	}
+	public boolean isSndOn_bool() {
+		return sndOn_bool;
+	}
+	public void setSndOn_bool(boolean sndOn_bool) {
+		this.sndOn_bool = sndOn_bool;
+	}
+	public boolean isMusOn_bool() {
+		return musOn_bool;
+	}
+	public void setMusOn_bool(boolean musOn_bool) {
+		this.musOn_bool = musOn_bool;
 	}
 }

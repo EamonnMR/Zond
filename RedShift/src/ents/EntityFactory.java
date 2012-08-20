@@ -50,11 +50,16 @@ public class EntityFactory {
 		build.setDeathSnd(gdb.getShip(shipPointer).getDeathSnd());
 		build.getImg().setRotation(0);
 
-		BasicGun g = buildGun(gunPointer);
-		BasicEngine e = buildEngine(engPointer);
+		if(gunPointer!=null){
+			BasicGun g = buildGun(gunPointer);
+			build.setWeapon(g);
+		}
+		if(engPointer!=null){
+			BasicEngine e = buildEngine(engPointer);
+			build.setEngine(e);
+		}
 		
-		build.setWeapon(g);
-		build.setEngine(e);
+		
 		
 		//XXX:hacky hack hack
 		//TODO: properly made, rotatable collider

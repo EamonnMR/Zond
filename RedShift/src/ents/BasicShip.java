@@ -1,7 +1,7 @@
 package ents;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.openal.Audio;
 
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
@@ -86,11 +86,15 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getRadarRadius().setCenterX((float)getX());
 			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
-		
+		if(getWeapon()!=null){
 			updateGun(angle, delta);
-		//update engine			
+		}
+		if(getEngine()!=null){
+			//update engine			
 			setEngOffX(getX() + engineOffsetDistance *Math.cos(angle));		//where to draw engine on ship
 			setEngOffY(getY() + engineOffsetDistance *Math.sin(angle));
+		}
+
 	}
 	
 	/**
@@ -130,7 +134,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getPrimeThrust().isPlaying()){
 			getEngine().getPrimeThrust().stop();
 		}
-		getEngine().getPrimeThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 	}
 	/**
 	 * move the ship backwards
@@ -141,7 +145,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getPrimeThrust().isPlaying()){
 			getEngine().getPrimeThrust().stop();
 		}
-		getEngine().getPrimeThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 	}
 	
 	/**
@@ -154,7 +158,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getEngine().getSideThrust().stop();
 		}
 		getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
-		
 	}
 	/**
 	 * this will strafe the ship right
@@ -163,9 +166,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void strafeRight(int delta){
 		physAnchor.pushDir(getRot() + HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
 		
-		if(getEngine().getSideThrust().isPlaying()){
-			getEngine().getSideThrust().stop();
-		}
+//		if(getEngine().getSideThrust().isPlaying()){
+//			getEngine().getSideThrust().stop();
+//		}
 		getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 	}
 	
