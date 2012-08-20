@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.openal.Audio;
 
 /**
@@ -19,6 +20,7 @@ public class BasicEngine {
 	private String name;
 	private Audio primeThrust;
 	private Audio sideThrust;
+	private Sound pt;
 	
 	//constructors
 	public BasicEngine(){}
@@ -107,6 +109,14 @@ public class BasicEngine {
 
 	public Audio getSideThrust() {
 		return sideThrust;
+	}
+	
+	public void setPt(Sound s){
+		pt = s;
+	}
+	
+	public Sound getPt(){
+		return pt;
 	}
 
 	

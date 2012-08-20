@@ -134,7 +134,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getPrimeThrust().isPlaying()){
 			getEngine().getPrimeThrust().stop();
 		}
-		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+//		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+		
+//		if(getEngine().getPt().playing()){
+//			getEngine().getPt().stop();
+//		}
+//		getEngine().getPt().play(1.0f, 1.0f);
 	}
 	/**
 	 * move the ship backwards
@@ -145,7 +150,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getPrimeThrust().isPlaying()){
 			getEngine().getPrimeThrust().stop();
 		}
-		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+//		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+
+//		getEngine().getPt().play(1.0f, 1.0f);
+		getEngine().getPt().playAt(0.5f, 0.75f, (float)getX(), (float)getY(), 0.0f);
 	}
 	
 	/**
