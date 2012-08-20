@@ -27,7 +27,6 @@ public class CoreStateManager extends StateBasedGame {
 	public static int MAINMENUSTATE = 3;
 	public static int OPTIONSMENUSTATE = 4;
 	public static int HANGARBAYSTATE = 5;
-	public Sound test;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -44,7 +43,6 @@ public class CoreStateManager extends StateBasedGame {
 		entFac = new EntityFactory();
 		lvbr = new LevelBuilder();
 		
-
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
@@ -52,7 +50,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new HangarBayState(HANGARBAYSTATE));
 		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
-//		this.enterState(CLIENTLOADERSTATE);
+//		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
 		this.enterState(MAINMENUSTATE);
 
 	}

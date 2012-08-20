@@ -1,5 +1,7 @@
 package ents;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 
@@ -56,6 +58,11 @@ public class EntityFactory {
 		}
 		if(engPointer!=null){
 			BasicEngine e = buildEngine(engPointer);
+			try {
+				e.setPt(new Sound("assets/sound/thrust.ogg"));
+			} catch (SlickException e1) {
+				e1.printStackTrace();
+			}
 			build.setEngine(e);
 		}
 		
