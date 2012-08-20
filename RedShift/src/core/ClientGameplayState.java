@@ -172,6 +172,7 @@ public class ClientGameplayState extends BasicGameState{
 			Input p = arg0.getInput();
 			if (p.isKeyDown(Input.KEY_UP)) {
 				pc.getPlayShip().moveForward(delta);
+				
 			}
 			if (p.isKeyDown(Input.KEY_DOWN)) {
 				pc.getPlayShip().moveBackward(delta);
@@ -194,7 +195,7 @@ public class ClientGameplayState extends BasicGameState{
 				}
 				pc.tryShot();
 			}
-			if (p.isKeyPressed(Input.KEY_Q)) {
+			if (p.isKeyPressed(Input.KEY_APOSTROPHE)) {
 				if (playerHud.getDevGogState() == false) {
 					playerHud.setDevGog(true);
 				} else if (playerHud.getDevGogState() == true) {

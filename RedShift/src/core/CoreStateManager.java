@@ -7,6 +7,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.menustates.HangarBayState;
+import ui.menustates.MainMenuState;
+import ui.menustates.OptionMenuState;
 import ents.EntityFactory;
 
 /**
@@ -21,6 +24,9 @@ public class CoreStateManager extends StateBasedGame {
 	public static int CLIENTPLAYSTATE = 1;
 	public static int CLIENTGAMEOVERSTATE = -1;
 	public static int CLIENTSUCCSTATE = 2;
+	public static int MAINMENUSTATE = 3;
+	public static int OPTIONSMENUSTATE = 4;
+	public static int HANGARBAYSTATE = 5;
 	public Sound test;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
@@ -32,7 +38,7 @@ public class CoreStateManager extends StateBasedGame {
 	
 	//constructor
 	public CoreStateManager() {
-		super("RedShift v1.0");
+		super("RedShift v1.5");
 		player = new PlayerClient(1);
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
@@ -43,13 +49,18 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
-		this.enterState(CLIENTLOADERSTATE);
+		this.addState(new MainMenuState(MAINMENUSTATE));
+		this.addState(new HangarBayState(HANGARBAYSTATE));
+		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
+//		this.enterState(CLIENTLOADERSTATE);
+		this.enterState(MAINMENUSTATE);
+
 	}
 
 	//methods
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-		this.getState(CLIENTLOADERSTATE).init(arg0, this);
+//		this.getState(CLIENTLOADERSTATE).init(arg0, this);
 	}
 
     public static void main(String[] args) throws SlickException

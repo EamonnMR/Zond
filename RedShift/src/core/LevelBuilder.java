@@ -75,6 +75,31 @@ public class LevelBuilder {
 	public HashMap<String, BasicTrigger> buildTriggers(){
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 		
+		//INI TRIGGERS
+		BasicTrigger fireINI = new BasicTrigger(TriggerTypes.SHIP);
+		fireINI.setName("fireINI");
+		fireINI.setX(512);
+		fireINI.setY(396);
+		fireINI.setCollider(new Rectangle(0,0, 1024,768));
+		
+		SpawnShip iniSkyLab = new SpawnShip(null, entFac.buildShip("skylab", null, null));
+		iniSkyLab.setName("iniSkyLab");
+		iniSkyLab.setX(0);
+		iniSkyLab.setY(0);
+		iniSkyLab.setCollider(null);
+		fireINI.setTargetName(iniSkyLab.getName());
+		
+		SpawnShip iniLunar = new SpawnShip(null, entFac.stockLunar());
+		iniLunar.setName("iniLunar");
+		iniLunar.setX(0);
+		iniLunar.setY(256);
+		iniLunar.setCollider(null);
+		iniSkyLab.setTargetName(iniLunar.getName());
+		
+		trigs.put(fireINI.getName(), fireINI);
+		trigs.put(iniSkyLab.getName(), iniSkyLab);
+		trigs.put(iniLunar.getName(), iniLunar);
+		
 		//ALPHA OBJECTIVE
 //		private BasicTrigger alphaHit;
 		BasicTrigger alphaHit = new BasicTrigger(TriggerTypes.SHIP);
@@ -128,6 +153,7 @@ public class LevelBuilder {
 		ToggleNavPoint togAlpha = new ToggleNavPoint(null, navAlpha, false);
 		togAlpha.setName("togAlpha");
 		killAllatAlpha.setTargetName(togAlpha.getName());
+		
 		
 		
 		trigs.put(alphaHit.getName(),alphaHit);

@@ -2,13 +2,13 @@ package core;
 
 import java.util.HashMap;
 
-
 import org.newdawn.slick.geom.Rectangle;
 
 import ents.BasicArmor;
 import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
+import ents.OptionsEnt;
 
 /**
  * the client class for the player, both house-keeping and gameplay related
@@ -28,11 +28,21 @@ public class PlayerClient {
 	private HashMap<String, Integer> clientKeys;
 	private Rectangle clientCameraBounds;
 	private boolean radar;
+	private OptionsEnt options;
+	
 	//constructor
 	public PlayerClient(int clientId){
-		
+		options = new OptionsEnt();
 	}
 	//methods
+	
+	public void setOptions(OptionsEnt ops){
+		options = ops;
+	}
+	
+	public OptionsEnt getOptions(){
+		return options;
+	}
 	
 	/**
 	 * puts all keycodes into the keys array. Ideally
