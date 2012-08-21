@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.openal.Audio;
 
@@ -17,7 +18,7 @@ public class BaseEnt {
 	private float turnrate;
 	private Shape collider;
 	private String trigger;
-	private Audio deathSnd;
+	private Sound deathSnd;
 	
 	//constructors
 	public BaseEnt(){}
@@ -87,11 +88,11 @@ public class BaseEnt {
 		return trigger;
 	}
 
-	public Audio getDeathSnd() {
+	public Sound getDeathSnd() {
 		return deathSnd;
 	}
 
-	public void setDeathSnd(Audio deathSnd) {
+	public void setDeathSnd(Sound deathSnd) {
 		this.deathSnd = deathSnd;
 	}
 	

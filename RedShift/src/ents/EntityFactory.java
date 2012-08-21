@@ -58,15 +58,8 @@ public class EntityFactory {
 		}
 		if(engPointer!=null){
 			BasicEngine e = buildEngine(engPointer);
-			try {
-				e.setPt(new Sound("assets/sound/thrust.ogg"));
-			} catch (SlickException e1) {
-				e1.printStackTrace();
-			}
 			build.setEngine(e);
 		}
-		
-		
 		
 		//XXX:hacky hack hack
 		//TODO: properly made, rotatable collider
