@@ -195,7 +195,7 @@ public class ClientGameplayState extends BasicGameState{
 				}
 				pc.tryShot();
 			}
-			if (p.isKeyPressed(Input.KEY_APOSTROPHE)) {
+			if (p.isKeyPressed(Input.KEY_Q)) {
 				if (playerHud.getDevGogState() == false) {
 					playerHud.setDevGog(true);
 				} else if (playerHud.getDevGogState() == true) {
@@ -216,6 +216,9 @@ public class ClientGameplayState extends BasicGameState{
 				}else if(playerHud.getShowNav()){
 					playerHud.setShowNav(false);
 				}
+			}
+			if(p.isKeyPressed(Input.KEY_ESCAPE)){
+				arg0.exit();
 			}
 
 			// ======Begin updates!
@@ -301,7 +304,7 @@ public class ClientGameplayState extends BasicGameState{
 						levelData.setNeedUpdate(true);
 					}
 				}
-				entry.getValue().getDeathSnd().playAsSoundEffect(0.6f, 1.0f, false, (float)entry.getValue().getX(), (float)entry.getValue().getY(), 0.0f);
+				entry.getValue().getDeathSnd().playAt(0.6f, 1.0f, (float)entry.getValue().getX(), (float)entry.getValue().getY(), 0.0f);
 				if(entry.getValue().equals(pc.getPlayShip())){
 					gameOver = true;
 					winLose = -1;

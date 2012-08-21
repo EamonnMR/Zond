@@ -51,8 +51,6 @@ public class MainMenuState extends BasicGameState {
 		x = String.valueOf(arg0.getInput().getMouseY());
 		gfx.drawString(x, 175.0f, 10.0f);
 		
-		gfx.drawString(title, 500, 100);
-		
 		gfx.setColor(Color.gray);
 		gfx.draw(playBTN_rec);
 		gfx.draw(optBTN_rec);

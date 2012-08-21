@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.openal.Audio;
 
@@ -22,7 +23,7 @@ public class BasicGun {
 	private int coolDown;
 	private String name;
 	private BasicShot proj;
-	private Audio fireSnd;
+	private Sound fireSnd;
 
 	//constructor
 	public BasicGun(){}
@@ -58,7 +59,7 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			shot.setSnd(proj.getSnd());
-			this.getFireSnd().playAsSoundEffect(0.6f, 1.0f, false, (float)shot.getX(), (float)shot.getY(), 0.0f);
+			getFireSnd().playAt(0.6f, 1.0f, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
 	
@@ -150,11 +151,11 @@ public class BasicGun {
 		return false;
 	}
 
-	public Audio getFireSnd() {
+	public Sound getFireSnd() {
 		return fireSnd;
 	}
 
-	public void setFireSnd(Audio fireSnd) {
+	public void setFireSnd(Sound fireSnd) {
 		this.fireSnd = fireSnd;
 	}
 

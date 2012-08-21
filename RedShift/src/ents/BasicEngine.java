@@ -18,9 +18,8 @@ public class BasicEngine {
 	private float forwardThrust, reverseThrust, turnRate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
 	private String name;
-	private Audio primeThrust;
-	private Audio sideThrust;
-	private Sound pt;
+	private Sound primeThrust;
+	private Sound sideThrust;
 	
 	//constructors
 	public BasicEngine(){}
@@ -95,29 +94,19 @@ public class BasicEngine {
 		this.name = name;
 	}
 
-	public void setPrimeThrust(Audio primeThrust) {
+	public void setPrimeThrust(Sound primeThrust) {
 		this.primeThrust = primeThrust;
 	}
 
-	public Audio getPrimeThrust() {
+	public Sound getPrimeThrust() {
 		return primeThrust;
 	}
 
-	public void setSideThrust(Audio sideThrust) {
+	public void setSideThrust(Sound sideThrust) {
 		this.sideThrust = sideThrust;
 	}
 
-	public Audio getSideThrust() {
+	public Sound getSideThrust() {
 		return sideThrust;
 	}
-	
-	public void setPt(Sound s){
-		pt = s;
-	}
-	
-	public Sound getPt(){
-		return pt;
-	}
-
-	
 }

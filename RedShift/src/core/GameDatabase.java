@@ -8,12 +8,11 @@ import java.util.Map;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
 
 import ents.BasicArmor;
 import ents.BasicEngine;
@@ -39,7 +38,7 @@ public class GameDatabase {
 	private Map<String, BasicEngine> indexEng;
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
-	private Map<String, Audio> indexSounds;
+	private Map<String, Sound> indexSounds;
 	
 	//constructor
 	public GameDatabase(){}
@@ -55,7 +54,7 @@ public class GameDatabase {
 	 */
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
-		indexSounds = new HashMap<String, Audio>();
+		indexSounds = new HashMap<String, Sound>();
 		try {
 			try {
 				xloadImages();
@@ -108,11 +107,11 @@ public class GameDatabase {
 
 	private void ldSnd(String name, String location) {
 		try{
-		indexSounds.put(name, AudioLoader.getAudio("OGG", new FileInputStream(location)));
+//		indexSounds.put(name, AudioLoader.getAudio("OGG", new FileInputStream(location)));
+		indexSounds.put(name, new Sound(location));
 			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

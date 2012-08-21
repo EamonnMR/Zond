@@ -106,10 +106,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		getImg().rotate(rot);
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
-		if(getEngine().getSideThrust().isPlaying()){
+		if(getEngine().getSideThrust().playing()){
 			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 1.0f);
+    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * rotate the ship to the right
@@ -120,10 +120,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
     	getImg().rotate(rot);
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
-		if(getEngine().getSideThrust().isPlaying()){
+		if(getEngine().getSideThrust().playing()){
 			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * move the ship forward
@@ -131,7 +131,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void moveForward(int delta){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
-		if(getEngine().getPrimeThrust().isPlaying()){
+		if(getEngine().getPrimeThrust().playing()){
 			getEngine().getPrimeThrust().stop();
 		}
 //		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
@@ -147,13 +147,13 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void moveBackward(int delta){
 		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
-		if(getEngine().getPrimeThrust().isPlaying()){
+		if(getEngine().getPrimeThrust().playing()){
 			getEngine().getPrimeThrust().stop();
 		}
 //		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 
 //		getEngine().getPt().play(1.0f, 1.0f);
-		getEngine().getPt().playAt(0.5f, 0.75f, (float)getX(), (float)getY(), 0.0f);
+//		getEngine().getPt().playAt(0.5f, 0.75f, (float)getX(), (float)getY(), 0.0f);
 	}
 	
 	/**
@@ -162,10 +162,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void strafeLeft(int delta){
 		physAnchor.pushDir(getRot() - HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
-		if(getEngine().getSideThrust().isPlaying()){
+		if(getEngine().getSideThrust().playing()){
 			getEngine().getSideThrust().stop();
 		}
-		getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * this will strafe the ship right
@@ -173,11 +173,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void strafeRight(int delta){
 		physAnchor.pushDir(getRot() + HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
-		
-//		if(getEngine().getSideThrust().isPlaying()){
-//			getEngine().getSideThrust().stop();
-//		}
-		getEngine().getSideThrust().playAsSoundEffect(1.0f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
+		if(getEngine().getSideThrust().playing()){
+			getEngine().getSideThrust().stop();
+		}
+    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	
 	/**
