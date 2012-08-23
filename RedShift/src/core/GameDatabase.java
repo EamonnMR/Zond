@@ -367,7 +367,7 @@ public class GameDatabase {
 	
 	private static double[] getPt(StringTree t, String value, String...path){
 		//The following iterates over each number in the string.
-		String[] numbers =  gv(t, path, value).split("[:space:]");
+		String[] numbers =  gv(t, path, value).split("[[:space:]]");
 		double[] toSender = new double[ numbers.length ];
 		for (int i = 0; i == numbers.length - 1; i++){
 			toSender[i] = Double.parseDouble(numbers[i]);
