@@ -57,15 +57,16 @@ public class ClientGameplayState extends BasicGameState{
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
 	LevelHandler lh;
+	private effects.Stack fxStack;
 	//====================================================================
 	
 	//EXTERNAL VARIABLES AND DATA=========================================
-	PlayerClient pc, pc2, pc3, pc4;
+	PlayerClient pc, pc2, pc3, pc4; //Why do we have four players?
 	private BaseLevel level; //soon to be deprecated
 //	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
-	private LevelBuilder lb;
+	private LevelBuilder lb; //Soon to be deprecated
 	//====================================================================
 	
 	//constructor
@@ -417,9 +418,9 @@ public class ClientGameplayState extends BasicGameState{
 		}
 	}
 	
-	public int addShip(BasicShip e){
+	public int addShip(BasicShip baseEnt){
 		entCount++;
-		ships.put(entCount, e);
+		ships.put(entCount, baseEnt);
 		return entCount;
 	}
 	
@@ -560,5 +561,13 @@ public class ClientGameplayState extends BasicGameState{
 	
 	public BasicShip getPlayerShip(){
 		return pc.getPlayShip();
+	}
+	
+	public void pushEffect(effects.Effect e){
+		fxStack.push(e);
+	}
+	
+	public void spawnShip(ents.ShipDesc s){
+		addShip(entFac.shipFromDesc(s));
 	}
 }

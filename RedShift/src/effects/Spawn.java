@@ -12,6 +12,6 @@ public class Spawn extends Effect {
 
 	@Override
 	public void affect(ClientGameplayState c) {
-		// TODO Make it spawn a ship
+		c.spawnShip(s);
 	}
 }

@@ -218,7 +218,7 @@ public class EntityFactory {
 //		return smallAsteroid;
 //	}
 	
-	public BaseEnt shipFromDesc(ShipDesc desc){
+	public BasicShip shipFromDesc(ShipDesc desc){
 		return buildShip(desc.kind, desc.gun, desc.engine);
 	}
 }
