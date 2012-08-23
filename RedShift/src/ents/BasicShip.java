@@ -26,8 +26,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private double engineOffsetDistance;		 //the offset for where to draw the engine
 	private double gunOffsetDistance;			 //the offset for where to draw the weapon
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
-	private Circle radar;					 //new functionality! radar! 
-	private int faction;						// which allegiance is this ship? 0 RUS 1 NAS
+	private Circle radar;					     //new functionality! radar! 
+	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
 	
 	
 	//constructor
