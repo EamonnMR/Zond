@@ -3,14 +3,13 @@
 /SHIPDESC:/
 {   [kind](NAME) /What kind of ship to spawn/
     [loc] (POINT) /Where to spawn the ship/
-    [deatheffects]<EFFECTS>
+    [deatheffects]<EFFECT>
 }
     
 
 
 /EFFECTS:/
-<
-    {   [type](STRING) /The following fields are arrainged by effect type:/
+{       [type](STRING) /The following fields are arrainged by effect type:/
 
         /"spawn" Spawn ship/
         [ship]{SHIPDESC}
@@ -26,15 +25,29 @@
         /"objective" Set (appear or disappear) an objective or make it complete or incomplete /
         [target](NAME)
         [newstate](BOOL)     /Visible or invisible?/
-        [newcompletion](BOOL)/Completed or not completed?/
+        [newcompl](BOOL)/Completed or not completed?/
+
+	/"action" Set (enable or disable) an action./
+	[target](NAME)
+        [flags] ("ini" "fire") /Flags (so it would look like (ini) (fire) () or (ini fire)) that
+        decide if ini is called, and if it is fired onto the actions qeue./
+        [done]  (BOOL) /Set the 'done' member of the targeted action./
+
+        /"multi"/
+        /So I heard you liek recursion.
+        /These will execute in order when this effect reaches the top of the stack./
+        [effects]<
+            {EFFECT}
+            ...
+        >
+        
 
         /Other possible values for type include:
         "victory": Player wins the level
         "defeat" : Player looses the level
+        "noop"   : Nothing Happens (blank trigger)
         /
     }
-    ...
->
     
 
 /LEVEL:/
@@ -42,7 +55,7 @@
     /Lists/
     [triggers]{
 	[name]{/Name of the trigger./
-            [fx]<EFFECTS>/What happens when the trigger goes off.  See the effects block for details./
+            [fx]{EFFECT}/What happens when the trigger goes off.  See the effects block for details./
 
             [kind](STRING) /What kind of trigger it is.  Depending on this field, it'll read the following:/
             /"collision" Activates when something runs into it./

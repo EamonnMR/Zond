@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -353,12 +354,20 @@ public class GameDatabase {
 	 * For brevity.
 	 */
 	private static float fft(StringTree t, String value, String... path){
-		return Float.parseFloat(t.getValue(cat(path, value)));
+		return Float.parseFloat(gv(t, path, value));
+	}
+	
+	/**
+	 * Abbreviated Get value from tree
+	 * Use when possible to make code readable.
+	 */
+	private static String gv(StringTree sourceTree, String[] sourcePath, String last){
+		return sourceTree.getValue(cat(sourcePath, last));
 	}
 	
 	private static double[] getPt(StringTree t, String value, String...path){
 		//The following iterates over each number in the string.
-		String[] numbers =  t.getValue(cat(path, value)).split("[:space:]");
+		String[] numbers =  gv(t, path, value).split("[:space:]");
 		double[] toSender = new double[ numbers.length ];
 		for (int i = 0; i == numbers.length - 1; i++){
 			toSender[i] = Double.parseDouble(numbers[i]);
@@ -371,8 +380,73 @@ public class GameDatabase {
 		//This should make sense by now
 		//Coded tersely because it's more fun that way
 		return new ShipDesc(t.getValue(cat(path, "kind")),
-				t.getValue(cat(path,"gun")),
-				t.getValue(cat(path,"engine")),
-				getPt(t, "loc", path));
+				gv(t,path,"gun"),
+				gv(t,path,"engine"),
+				getPt(t, "loc", path),
+				getEffect(t, cat(path,"fx")));
+	}
+	
+	private static boolean getBool(StringTree t, String[] path) {
+		String truth = "1 true TRUE True yes YES Yes y T t";
+		String falsehood = "0 false FALSE False no NO n No F f";
+		String value = t.getValue(path);
+		if (value.equals("")){
+			System.out.print("SEMANTIC ERROR: ");
+			System.out.print(path);
+			System.out.print("IS BLANK.\n");
+			return false;
+		} else if (falsehood.contains(value)) return false;
+		else if (truth.contains(value)) return true;
+		else{
+			System.out.print("SEMANTIC ERROR: ");
+			System.out.print(value);
+			System.out.print("IS NITHER TRUE NOR FALSE.");
+			return false;
+		}
+	}
+	
+	private static effects.Effect getEffect(StringTree t, String...path){
+		//We need to upgrade to Java 7
+		//It can do a switch(string)
+		//Which would make this code much less ugly.
+		String type = gv(t,path, "type");
+		if(type.equals("defeat")){
+			return new effects.Defeat();
+		} else if (type.equals("action")){
+			String flags = gv(t, path, "flags");
+			return new effects.ModAction(gv(t,path,"target"),
+					flags.contains("ini"),
+					flags.contains("fire"),
+					getBool(t, cat(path, "done")));
+		} else if(type.equals("navpoint")){
+			return new effects.ModNavPoint(gv(t, path, "target"),
+					getBool(t, cat(path, "newstate")));
+		} else if(type.equals("objective")){
+			return new effects.ModObjective(gv(t, path, "target"), 
+					getBool(t, cat(path, "newstate")),
+					getBool(t, cat(path, "newcompl")));
+		}else if(type.equals("modtrig")){
+			return new effects.ModTrig(gv(t, path, "target"),
+					getBool(t, cat(path, "newstate")));
+		} else if(type.equals("multi")){
+			//This one is clearly the most fun
+			int numberOfFx = t.childSet(cat(path, "effects")).size();
+			effects.Effect[] fx = new effects.Effect[numberOfFx];
+			for(int i = 0; i == numberOfFx; i++){
+				//This relies on the fact that an anon list's names are 0, 1, 2, etc.
+				fx[i] = getEffect(t, cat(cat(path,"effects"),Integer.toString(i)));
+			}
+			return new effects.Multi(fx);
+		} else if(type.equals("noop")){
+			return new effects.NoOp();
+		} else if(type.equals("spawn")){
+			return new effects.Spawn(getShipDesc(t, cat(path, "ship")));
+		} else if(type.equals("victory")){
+			return new effects.Victory();
+		}
+		System.out.print("SEMANTIC ERROR: EFFECT TYPE ''");
+		System.out.print(type);
+		System.out.print("UNRECOGNIZED.  RETURNING No-Op.");
+		return new effects.NoOp();
 	}
 }
