@@ -19,6 +19,7 @@ import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
 import ents.BasicShot;
+import ents.ShipDesc;
 
 /**
  * Master Database for media resources
@@ -353,5 +354,25 @@ public class GameDatabase {
 	 */
 	private static float fft(StringTree t, String value, String... path){
 		return Float.parseFloat(t.getValue(cat(path, value)));
+	}
+	
+	private static double[] getPt(StringTree t, String value, String...path){
+		//The following iterates over each number in the string.
+		String[] numbers =  t.getValue(cat(path, value)).split("[:space:]");
+		double[] toSender = new double[ numbers.length ];
+		for (int i = 0; i == numbers.length - 1; i++){
+			toSender[i] = Double.parseDouble(numbers[i]);
+		}
+		return toSender;
+	}
+	
+	private static ShipDesc getShipDesc(StringTree t, String... path){
+		//Extract each field from the RST
+		//This should make sense by now
+		//Coded tersely because it's more fun that way
+		return new ShipDesc(t.getValue(cat(path, "kind")),
+				t.getValue(cat(path,"gun")),
+				t.getValue(cat(path,"engine")),
+				getPt(t, "loc", path));
 	}
 }

@@ -63,14 +63,14 @@ public class EntityFactory {
 		
 		//XXX:hacky hack hack
 		//TODO: properly made, rotatable collider
-		if(shipPointer=="lunar"){
+		/*if(shipPointer=="lunar"){
 			Polygon p = new Polygon();
 			p.addPoint(-64, 42);
 			p.addPoint(64, 42);
 			p.addPoint(64, -42);
 			p.addPoint(-64, -42);
 			build.setCollider(p);
-		}
+		}*/
 		
 		return build;
 	}
@@ -218,6 +218,7 @@ public class EntityFactory {
 //		return smallAsteroid;
 //	}
 	
-	
-
+	public BaseEnt shipFromDesc(ShipDesc desc){
+		return buildShip(desc.kind, desc.gun, desc.engine);
+	}
 }
