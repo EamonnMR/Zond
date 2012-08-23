@@ -1,0 +1,51 @@
+ /LevelDataModel RST/
+
+[name]{ /Name of the level/
+    /Lists/
+    [triggers]{
+	[name]{/Name of the level
+            [target](NAME) /Name of the action it fires off?/
+            [shape]{COLLIDER} /Collider tree for the object/
+            [loc](POINT) /Location of the trigger.  DO we need this if it's a collider anyway?/
+            [type](TYPE) /What trigger type it is
+
+            /Optional values:/
+            [total](INT) /Will make it a count trigger; total that it must reach/
+            [kind](DEATH | MULTI | ETC)/Use special trigger class... aren't those actions?
+            do these need to exist?/
+            /These depend on the flags.
+            [multi]<
+                (NAME) /Triggers to execute./
+                ...
+            >
+            [spawnship](NAME) /Name of the ship to spawn.  This overrides any other optional value./
+        }
+            
+    [actions]{
+        [name]{
+            /Optional:/
+            [message](STRING)
+            [loc](POINT)
+        }
+    [navpoints]{
+        [name]{
+            [name](STRING)
+            [loc](POINT)
+            [state](BOOLEAN)
+        }
+    }
+    [objectives]{
+        [name]{
+            [words](STRING)
+            [checked](BOOLEAN)
+            [visible](BOOLEAN)
+        }
+    }
+    /Might we also want a list of ships to start with?/
+
+
+    /Specifics/
+    [activeArea] {RECTANGLE}
+    [warnArea]   {RECTANGLE}
+    [spawn]      (POINT) /Where the player spawns/
+}

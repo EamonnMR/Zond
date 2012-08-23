@@ -1,0 +1,94 @@
+ /LevelDataModel RST/
+
+/SHIPDESC:/
+{   [kind](NAME) /What kind of ship to spawn/
+    [loc] (POINT) /Where to spawn the ship/
+    [deatheffects]<EFFECTS>
+}
+    
+
+
+/EFFECTS:/
+<
+    {   [type](STRING) /The following fields are arrainged by effect type:/
+
+        /"spawn" Spawn ship/
+        [ship]{SHIPDESC}
+
+        /"modtrig" Set (make triggerable or untriggerable) trigger/
+        [target](NAME)
+        [newstate](BOOL)
+
+        /"navpoint" Set (appear or disappear) the state of a navpoint/
+        [target](NAME)
+        [newstate](BOOL)
+
+        /"objective" Set (appear or disappear) an objective or make it complete or incomplete /
+        [target](NAME)
+        [newstate](BOOL)     /Visible or invisible?/
+        [newcompletion](BOOL)/Completed or not completed?/
+
+        /Other possible values for type include:
+        "victory": Player wins the level
+        "defeat" : Player looses the level
+        /
+    }
+    ...
+>
+    
+
+/LEVEL:/
+[name]{ /Name of the level/
+    /Lists/
+    [triggers]{
+	[name]{/Name of the trigger./
+            [fx]<EFFECTS>/What happens when the trigger goes off.  See the effects block for details./
+
+            [kind](STRING) /What kind of trigger it is.  Depending on this field, it'll read the following:/
+            /"collision" Activates when something runs into it./
+            [shape](SHAPE) /Shape to collide with./
+            [type] (STRING) /values: ship, shot, doodad?/
+            /"counter"   Activates when the counter reaches the given value./
+            [max](INT)
+        }
+        ...
+    }
+
+    [actions]{
+        [name]{
+            [class](STRING) /How to parse the rest of the action./
+            /"displaytext" show a string on-screen/
+            [message](STRING)
+            [loc](POINT)
+        }
+        ...
+    }
+
+    [navpoints]{
+        [name]{
+            [name](STRING)
+            [loc](POINT)
+            [state](BOOLEAN)
+        }
+        ...
+    }
+
+    [objectives]{
+        [name]{
+            [words](STRING)
+            [checked](BOOLEAN)
+            [visible](BOOLEAN)
+        }
+        ...
+    }
+    [ships]<  /Initial ships to spawn./
+        {SHIPDESC}
+    >
+
+    /Specifics/
+    [activeArea] {RECTANGLE}
+    [warnArea]   {RECTANGLE}
+    [spawn]      (POINT) /Where the player spawns/
+    [music]      (NAME) /Sound to use for music/
+    [bgimg]      (NAME) /Background image/
+}

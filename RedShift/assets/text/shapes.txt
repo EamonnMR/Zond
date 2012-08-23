@@ -1,0 +1,43 @@
+Shape format description:
+Shape definitions are a subset of .rst that are designed to closely correspond with the slick.geom constructors.
+
+/ Axis aligned rectangle /
+{
+	[type](rect)
+	[x] (FLOAT) [y] (FLOAT)
+	[W] (FLOAT) [h] (FLOAT)
+}
+
+/ line from point 1 to point 2
+not sure why you'd want it, but it's here just in case (laser shots might use it?)/
+
+{
+	[type](line)
+	[x1] (FLOAT) [y1] (FLOAT)
+	[x2] (FLOAT) [y2] (FLOAT)
+}
+
+/circle without segments/
+{
+	[type] (circle)
+	[x] (FLOAT) [y] (FLOAT)
+	[radius] (FLOAT)
+}
+
+/This circle has segments-note that the only difference is the presence or non presence of the 'segcount' variable./
+{
+	[type] (circle)
+	[x] (FLOAT) [y] (FLOAT)
+	[radius] (FLOAT)
+	[segments] (INT)
+}
+
+/polygon/
+{
+	[type] (poly)
+	[points]<
+		<(FLOAT)(FLOAT)> /x1, y1/
+		<(FLOAT)(FLOAT)> /x2, y2/
+		<(FLOAT)(FLOAT)> /x3, y3/
+		/... any number of additional pairs can be added./
+		>
