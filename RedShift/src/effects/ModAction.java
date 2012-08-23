@@ -19,5 +19,4 @@ public class ModAction extends Effect {
 		this.fire = fire;
 		this.done = done;
 	}
-
 }
