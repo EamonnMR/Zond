@@ -14,6 +14,50 @@ public class StringTree {
 
 	Node root;
 	
+	public class SubTree{
+		Node currentNode;
+		String[] nodePath;
+		
+		private SubTree(Node currentNode, String[] nodePath){
+			 this.currentNode = currentNode;
+		}
+		
+		public Set<String> getChildren(){
+			return currentNode.childNodes.keySet();
+		}
+		
+		public String[] getPosition(){
+			return nodePath;
+		}
+		
+		public String getValue(String... path){
+			Node current = currentNode; //Current: current in this method.  CurrentNode: current in this SubTree
+			for(String i : path){
+				current = current.getChild(i);
+			}
+			return current.getValue();
+		}
+		
+		public SubTree getSubTree(String... path){
+			//The only ugly parts of this code are the ones that make a new path array.
+			//Sadly, the notion of a string array path thing is only there because it makes the syntax HOT.
+			String[] newPath = new String[ path.length + nodePath.length ];
+			System.arraycopy(nodePath, 0, newPath, 0, nodePath.length);
+			System.arraycopy(path, 0, newPath, nodePath.length - 1, path.length);
+			
+			Node current = currentNode;
+			for(String i : path){
+				current = current.getChild(i);
+			}
+			
+			return new SubTree(current, newPath);
+		}
+	}
+	
+	public SubTree getSubTree(String... nodepath){
+		return new StringTree.SubTree(getNode(nodepath), nodepath);
+	}
+	
 	public StringTree (){
 		root = branch("root");
 	}
