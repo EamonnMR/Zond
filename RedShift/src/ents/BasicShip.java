@@ -1,6 +1,5 @@
 package ents;
 
-import org.newdawn.slick.Music;
 import org.newdawn.slick.geom.Circle;
 
 /**

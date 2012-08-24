@@ -3,7 +3,6 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.openal.Audio;
 
 /**
  * root entity from which BasicShip, BasicEngine, and BasicGun derive from

@@ -30,7 +30,7 @@ public class MainMenuState extends BasicGameState {
 		optBTN_str = "Options";
 		quitBTN_str = "Quit";
 		
-		mouse_rec = new Rectangle(0,0,5,5);
+		mouse_rec = new Rectangle(0,0,1,1);
 		playBTN_rec = new Rectangle(100,200,200,50);
 		optBTN_rec = new Rectangle(100,350,200,50);
 		quitBTN_rec = new Rectangle(100,500,200,50);
@@ -66,8 +66,8 @@ public class MainMenuState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 		Input in = arg0.getInput();
-		mouse_rec.setX(in.getMouseX());
-		mouse_rec.setY(in.getMouseY());
+		mouse_rec.setCenterX(in.getMouseX());
+		mouse_rec.setCenterY(in.getMouseY());
 		
 		updateCollisions( arg0,  arg1);
 	}
@@ -86,9 +86,23 @@ public class MainMenuState extends BasicGameState {
 				stbg.enterState(4);
 			}
 			if(quitBTN_rec.intersects(mouse_rec)){
-				gc.exit();
+//				gc.exit();
 			}
 		}
+//		else if (gc.getInput().isMouseButtonDown(0)){
+//			if(playBTN_rec.intersects(mouse_rec)){
+//				playBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				playBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+//			if(optBTN_rec.intersects(mouse_rec)){
+//				optBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				optBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+//			if(quitBTN_rec.intersects(mouse_rec)){
+//				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+//		}
 	}
 
 	@Override

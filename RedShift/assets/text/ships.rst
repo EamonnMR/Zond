@@ -27,8 +27,8 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](28)
-	[engPtLen](-24)
+	[gunPtLen](25)
+	[engPtLen](-30)
 	[faction](1)
 	[collider]{
 		[type] (circle)
@@ -50,8 +50,8 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](-28)
-	[engPtLen](24)
+	[gunPtLen](34)
+	[engPtLen](-34)
 	[faction](1)
 	[collider]{
 		[type] (poly)
@@ -76,8 +76,8 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](-28)
-	[engPtLen](24)
+	[gunPtLen](28)
+	[engPtLen](-28)
 	[faction](0)
 	[collider]{
 		[type] (circle)
@@ -99,8 +99,8 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](-28)
-	[engPtLen](24)
+	[gunPtLen](28)
+	[engPtLen](-26)
 	[faction](0)
 	[collider]{
 		[type] (circle)
@@ -122,8 +122,8 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](-28)
-	[engPtLen](24)
+	[gunPtLen](36)
+	[engPtLen](-34)
 	[faction](0)
 	[collider]{
 		[type] (circle)
@@ -142,7 +142,7 @@
 }
 
 [skylab]{
-	[img](skylab)
+	[img](skypost)
 	[health](100)
 	[points](50)
 	[weight](0)
