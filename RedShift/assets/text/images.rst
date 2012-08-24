@@ -18,3 +18,4 @@
 [plas]        (assets/images/fx/ppc.png)
 [asteroid]    (assets/images/doodads/ast1.png)
 [skylab]      (assets/images/ships/nasa/skypost.png)
+[skypost]     (assets/images/ships/nasa/skypost_beta.png)

@@ -89,7 +89,7 @@ public class LevelBuilder {
 		iniSkyLab.setCollider(null);
 		fireINI.setTargetName(iniSkyLab.getName());
 		
-		SpawnShip iniLunar = new SpawnShip(null, entFac.stockLunar());
+		SpawnShip iniLunar = new SpawnShip(null, entFac.stockZond());
 		iniLunar.setName("iniLunar");
 		iniLunar.setX(0);
 		iniLunar.setY(256);

@@ -2,7 +2,6 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
-import org.newdawn.slick.openal.Audio;
 
 /**
  * The bare bones Engine class, this is necessary for any ship to move.

@@ -1,9 +1,6 @@
 package ents;
 
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Polygon;
 
 import core.GameDatabase;
 /**
