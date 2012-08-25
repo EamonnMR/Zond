@@ -84,6 +84,7 @@ public class ClientGameplayState extends BasicGameState{
 		this.gamePlay = false;
 //		this.lh = new LevelHandler();
 		this.winLose = 0;
+		this.fxStack = new effects.Stack();
 	}
 	
 	//methods
@@ -261,9 +262,10 @@ public class ClientGameplayState extends BasicGameState{
 
 			pc.updateCamera(this);
 
+			fxStack.unwind(this); //Unwind the effects stack.
 
 			// Check for win conditions
-			if (winLose==-1) {
+			if (winLose== -1 ) {
 				cleanEntities(removeShots, removeShips, removeDoodads,
 						removeObjective);
 				gameOver = false;
@@ -273,7 +275,7 @@ public class ClientGameplayState extends BasicGameState{
 				levelData = null;
 				arg1.enterState(-1, new FadeOutTransition(Color.red) , null);
 			}
-			if(winLose==1){
+			if(winLose== 1 ){
 				cleanEntities(removeShots, removeShips, removeDoodads,
 						removeObjective);
 				gameOver = false;
@@ -553,6 +555,9 @@ public class ClientGameplayState extends BasicGameState{
 	
 	public void setWinLose(int i){
 		this.winLose = i;
+		if (i == -1){
+			gameOver = true; //It might make out lives easier if we get rid of gameOver...
+		}
 	}
 	
 	public int getWinLose(){
