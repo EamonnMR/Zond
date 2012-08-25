@@ -26,6 +26,16 @@ import ents.ShipDesc;
  * loads resources, populates maps with images
  * ultimately a batch load approach is warranted, but a procedural will work
  * for development
+ * 
+ * Update:
+ * Batch loading implemented.
+ * This class has evolved into a monster.  It would probably be sane to break this into
+ * smaller classes somewhere down the line.  Probably staying a monster for RedShift 1 though.
+ * 
+ * Also, StringTree now does most of the work of lexing an RST, this parses from the actual tree
+ * it creates.  You'll notice that early on, it uses the tree in a fairly simple way, but by 
+ * the time it reaches the level loader, it starts to warrant a different approach.
+ * 
  * @author proohr
  * @version 1.0
  */
@@ -364,88 +374,107 @@ public class GameDatabase {
 		return sourceTree.getValue(cat(sourcePath, last));
 	}
 	
-	private static double[] getPt(StringTree t, String value, String...path){
-		//The following iterates over each number in the string.
-		String[] numbers =  gv(t, path, value).split("[[:space:]]");
+	
+	private static double[] parsePoint(String str){
+		String[] numbers =  str.split("[[:space:]]");
 		double[] toSender = new double[ numbers.length ];
 		for (int i = 0; i == numbers.length - 1; i++){
 			toSender[i] = Double.parseDouble(numbers[i]);
 		}
 		return toSender;
+
 	}
 	
-	private static ShipDesc getShipDesc(StringTree t, String... path){
-		//Extract each field from the RST
-		//This should make sense by now
-		//Coded tersely because it's more fun that way
-		return new ShipDesc(t.getValue(cat(path, "kind")),
-				gv(t,path,"gun"),
-				gv(t,path,"engine"),
-				getPt(t, "loc", path),
-				getEffect(t, cat(path,"fx")));
-	}
-	
-	private static boolean getBool(StringTree t, String[] path) {
+	private static boolean parseBool(String from, String... path) {
 		String truth = "1 true TRUE True yes YES Yes y T t";
 		String falsehood = "0 false FALSE False no NO n No F f";
-		String value = t.getValue(path);
-		if (value.equals("")){
+		if (from.equals("")){
 			System.out.print("SEMANTIC ERROR: ");
 			System.out.print(path);
 			System.out.print("IS BLANK.\n");
 			return false;
-		} else if (falsehood.contains(value)) return false;
-		else if (truth.contains(value)) return true;
+		} else if (falsehood.contains(from)) return false;
+		else if (truth.contains(from)) return true;
 		else{
 			System.out.print("SEMANTIC ERROR: ");
-			System.out.print(value);
+			System.out.print(from);
 			System.out.print("IS NITHER TRUE NOR FALSE.");
 			return false;
 		}
 	}
 	
-	private static effects.Effect getEffect(StringTree t, String...path){
+	private static ShipDesc getShipDesc(StringTree t){
+		//Extract each field from the RST
+		//This should make sense by now
+		return new ShipDesc(t.getValue("kind"),
+				t.getValue("gun"),
+				t.getValue("engine"),
+				parsePoint(t.getValue("loc")),
+				getEffect(t.getSubTree("deatheffects")));
+	}
+	
+	private static boolean getBool(StringTree t) {
+		//SURGEON GENERAL'S WARNING:
+		//THAT STRINGTREE IS AT A LEAF NODE
+		//DO NOT CALL GETVALUE WITH ARGUMENTS!
+		return parseBool(t.getValue(), t.getPath());
+	}
+	
+	private static effects.Effect getEffect(StringTree t){
 		//We need to upgrade to Java 7
 		//It can do a switch(string)
 		//Which would make this code much less ugly.
-		String type = gv(t,path, "type");
+		String type = t.getValue("type");
 		if(type.equals("defeat")){
 			return new effects.Defeat();
+			
 		} else if (type.equals("action")){
-			String flags = gv(t, path, "flags");
-			return new effects.ModAction(gv(t,path,"target"),
-					flags.contains("ini"),
+			String flags = t.getValue("flags"); //These are tested in the below "contains" calls
+			return new effects.ModAction(t.getValue("target"),
+					flags.contains("ini"), 
 					flags.contains("fire"),
-					getBool(t, cat(path, "done")));
+					getBool(t.getSubTree("done")));
+			
 		} else if(type.equals("navpoint")){
-			return new effects.ModNavPoint(gv(t, path, "target"),
-					getBool(t, cat(path, "newstate")));
+			return new effects.ModNavPoint(t.getValue("target"),
+					getBool(t.getSubTree("newstate")));
+			
 		} else if(type.equals("objective")){
-			return new effects.ModObjective(gv(t, path, "target"), 
-					getBool(t, cat(path, "newstate")),
-					getBool(t, cat(path, "newcompl")));
+			return new effects.ModObjective(t.getValue("target"), 
+					getBool(t.getSubTree("newstate")),
+					getBool(t.getSubTree("newcompl")));
+			
 		}else if(type.equals("modtrig")){
-			return new effects.ModTrig(gv(t, path, "target"),
-					getBool(t, cat(path, "newstate")));
+			return new effects.ModTrig(t.getValue("target"),
+					getBool(t.getSubTree("newstate")));
+			
 		} else if(type.equals("multi")){
 			//This one is clearly the most fun
-			int numberOfFx = t.childSet(cat(path, "effects")).size();
+			int numberOfFx = t.childSet("effects").size();
 			effects.Effect[] fx = new effects.Effect[numberOfFx];
 			for(int i = 0; i == numberOfFx; i++){
 				//This relies on the fact that an anon list's names are 0, 1, 2, etc.
-				fx[i] = getEffect(t, cat(cat(path,"effects"),Integer.toString(i)));
+				fx[i] = getEffect(t.getSubTree("effects", Integer.toString(i)));
+				//Note that the args to getSubTree are parsed from (a, b, c) to {a, b, c}
 			}
 			return new effects.Multi(fx);
+			
 		} else if(type.equals("noop")){
 			return new effects.NoOp();
+			
 		} else if(type.equals("spawn")){
-			return new effects.Spawn(getShipDesc(t, cat(path, "ship")));
+			return new effects.Spawn(getShipDesc(t.getSubTree("ship")));
+			
 		} else if(type.equals("victory")){
 			return new effects.Victory();
+			
 		}
+		//Unrecognized type.  Returns a no-op
+		//just to try and survive, but prints an error.
 		System.out.print("SEMANTIC ERROR: EFFECT TYPE ''");
 		System.out.print(type);
 		System.out.print("UNRECOGNIZED.  RETURNING No-Op.");
 		return new effects.NoOp();
 	}
+
 }
