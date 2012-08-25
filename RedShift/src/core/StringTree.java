@@ -10,56 +10,50 @@ import java.util.Set;
  * More features (remembering last nodes, etc) will be added later (when we actually need the class).
  * @author Eamonn
  */
-public class StringTree {
-
-	Node root;
+public class StringTree{
+	private Node root;
+	private String[] rootPath;
 	
-	public class SubTree{
-		Node currentNode;
-		String[] nodePath;
-		
-		private SubTree(Node currentNode, String[] nodePath){
-			 this.currentNode = currentNode;
+	/**
+	 * This is the workhorse of the whole tree, because walking isn't
+	 * actually what we want.
+	 * I only added it when I realized that it already existed in three or four places.
+	 */
+	protected static Node descend(Node initial, String...nodepath){
+		//Iterative version - If Java's array could pop
+		//Or otherwise change it's length, I'd definitely
+		//give you a recursive version.
+		Node toSender = initial;
+		for(String i : nodepath){
+			toSender = toSender.getChild(i);
 		}
-		
-		public Set<String> getChildren(){
-			return currentNode.childNodes.keySet();
-		}
-		
-		public String[] getPosition(){
-			return nodePath;
-		}
-		
-		public String getValue(String... path){
-			Node current = currentNode; //Current: current in this method.  CurrentNode: current in this SubTree
-			for(String i : path){
-				current = current.getChild(i);
-			}
-			return current.getValue();
-		}
-		
-		public SubTree getSubTree(String... path){
-			//The only ugly parts of this code are the ones that make a new path array.
-			//Sadly, the notion of a string array path thing is only there because it makes the syntax HOT.
-			String[] newPath = new String[ path.length + nodePath.length ];
-			System.arraycopy(nodePath, 0, newPath, 0, nodePath.length);
-			System.arraycopy(path, 0, newPath, nodePath.length - 1, path.length);
-			
-			Node current = currentNode;
-			for(String i : path){
-				current = current.getChild(i);
-			}
-			
-			return new SubTree(current, newPath);
-		}
+		return toSender;
 	}
 	
-	public SubTree getSubTree(String... nodepath){
-		return new StringTree.SubTree(getNode(nodepath), nodepath);
+	public StringTree getSubTree(String... path){
+		//The only ugly parts of this code are the ones that make a new path array.
+		//Sadly, the notion of a string array path thing is only there because it makes the syntax HOT.
+		String[] newPath = new String[ path.length + rootPath.length ];
+		System.arraycopy(rootPath, 0, newPath, 0, rootPath.length);
+		System.arraycopy(path, 0, newPath, rootPath.length - 1, path.length);
+		return new StringTree(descend(root, newPath), newPath);
 	}
 	
-	public StringTree (){
+	//Dumb constructor.  Used by getSubTree.
+	public StringTree (Node root, String[] rootPath){
+		this.root = root;
+		this.rootPath = rootPath;
+	}
+	
+	//This is the default constructor, and it assumes
+	//that this tree stands alone.
+	public StringTree(){
 		root = branch("root");
+		rootPath = new String[0];
+	}
+	
+	public String[] getPath(){
+		return rootPath;
 	}
 	
 	/**
@@ -213,11 +207,7 @@ public class StringTree {
 	}
 
 	private Node getNode(String... name){
-		Node toSender = root;
-		for (String n : name){
-			toSender = toSender.getChild(n);
-		}
-		return toSender;
+		return descend(root, name);
 	}
 	
 	private static class Node{

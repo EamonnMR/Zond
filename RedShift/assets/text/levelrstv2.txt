@@ -3,7 +3,9 @@
 /SHIPDESC:/
 {   [kind](NAME) /What kind of ship to spawn/
     [loc] (POINT) /Where to spawn the ship/
-    [deatheffects]<EFFECT>
+    [engine](NAME) /Engine type/
+    [gun]   (NAME) /Weapon type/
+    [deatheffects]{EFFECT}
 }
     
 

@@ -268,5 +268,4 @@ public class BasicLevel {
 	    toSender.setCenterY( y + dy);
 	    return toSender;
 	}
-	
 }
