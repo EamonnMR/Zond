@@ -7,8 +7,9 @@ package ents;
 public class OptionsEnt {
 
 	//vars
-	private int musVol, fxVol, voiceVol, totalVol;
-	private boolean fullscrn_bool, sndOn_bool, musOn_bool;
+	private float musVol, fxVol, voiceVol, totalVol;
+	private boolean fullscrn_bool, partcle_bool;
+	
 	
 	//const
 	public OptionsEnt(){
@@ -23,47 +24,41 @@ public class OptionsEnt {
 		this.fullscrn_bool = fullscreen;
 	}
 
-	public int getMusevol() {
+	public float getMusevol() {
 		return musVol;
 	}
 
-	public void setMusevol(int musevol) {
+	public void setMusevol(float musevol) {
 		this.musVol = musevol;
 	}
 
-	public int getFxvol() {
+	public float getFxvol() {
 		return fxVol;
 	}
 
-	public void setFxvol(int fxvol) {
+	public void setFxvol(float fxvol) {
 		this.fxVol = fxvol;
 	}
 
-	public void setTotvol(int totvol) {
+	public void setTotvol(float totvol) {
 		this.totalVol = totvol;
 	}
 
-	public int getTotvol() {
+	public float getTotvol() {
 		return totalVol;
 	}
 
-	public void setVoicevol(int voicevol) {
+	public void setVoicevol(float voicevol) {
 		this.voiceVol = voicevol;
 	}
 
-	public int getVoicevol() {
+	public float getVoicevol() {
 		return voiceVol;
 	}
-	public boolean isSndOn_bool() {
-		return sndOn_bool;
+	public void setPartcle_bool(boolean partcle_bool) {
+		this.partcle_bool = partcle_bool;
 	}
-	public void setSndOn_bool(boolean sndOn_bool) {
-		this.sndOn_bool = sndOn_bool;
-	}
-	public boolean isMusOn_bool() {
-		return musOn_bool;
-	}
-	public void setMusOn_bool(boolean musOn_bool) {
-		this.musOn_bool = musOn_bool;
+	public boolean isPartcle_bool() {
+		return partcle_bool;
 	}
 }

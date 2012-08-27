@@ -30,6 +30,10 @@ public class BaseEnt {
 	public void update(int delta){
 		
 	}
+	
+	
+	
+	
 	public double getX() {
 		return x;
 	}
