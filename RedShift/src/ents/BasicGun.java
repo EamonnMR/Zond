@@ -58,7 +58,7 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			shot.setSnd(proj.getSnd());
-			getFireSnd().playAt(0.6f, 1.0f, (float)shot.getX(), (float)shot.getY(), 0.0f);
+			getFireSnd().playAt(0.6f, 0.2f, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
 	

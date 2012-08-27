@@ -314,6 +314,7 @@ public class ClientGameplayState extends BasicGameState{
 				}
 			}
 		}
+		
 		//update shots
 		for (Map.Entry<Integer, BasicShot> shot : shots.entrySet()) {
 			shot.getValue().update(delta);
@@ -366,7 +367,21 @@ public class ClientGameplayState extends BasicGameState{
 				}
 			}
 		}
-			
+		
+		//check ship to ship collision
+		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
+			for(Map.Entry<Integer, BasicShip> s : ships.entrySet()){
+				if(s.getValue().getCollider().intersects(ship.getValue().getCollider())){
+					if(ship.getValue()!=pc.getPlayShip() && !ship.getValue().equals(s.getValue())){
+					double sHp = s.getValue().getHealth();
+					s.getValue().setHealth(sHp -0.5);
+					double shHp = ship.getValue().getHealth();
+					ship.getValue().setHealth(shHp -0.5);
+					}
+				}
+			}
+		}
+		
 		//check shot/doodad collision
 		for(Map.Entry<Integer, BasicShot> shot : shots.entrySet()){
 			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
