@@ -4,7 +4,6 @@ package core;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ui.menustates.HangarBayState;
@@ -54,7 +53,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
 		this.addState(new ModHudMenuState(HUDMODSTATE));
 //		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
-		this.enterState(MAINMENUSTATE);
+		this.enterState(HUDMODSTATE);
 
 	}
 
