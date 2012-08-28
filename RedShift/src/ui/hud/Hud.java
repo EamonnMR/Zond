@@ -62,6 +62,8 @@ public class Hud {
 		engName = pc.getPlayShip().getEngine().getName();
 		detected = new HashMap<Boolean, BasicShip>();
 		camBounds = new Rectangle(1,1,camBoundsW,camBoundsH);
+		
+
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -100,6 +102,7 @@ public class Hud {
 		gfx.draw(new Rectangle(393, 703, 45, 25));
 		
 		gfx.draw(new Rectangle(357, 729, 74, 25));
+		
 		
 		if(radarOn){
 			gfx.drawString("[RADAR] ON", 360, 732);
