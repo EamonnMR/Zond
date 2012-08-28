@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ui.menustates.HangarBayState;
 import ui.menustates.MainMenuState;
+import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
 import ents.EntityFactory;
 
@@ -27,6 +28,7 @@ public class CoreStateManager extends StateBasedGame {
 	public static int MAINMENUSTATE = 3;
 	public static int OPTIONSMENUSTATE = 4;
 	public static int HANGARBAYSTATE = 5;
+	public static int HUDMODSTATE = 6;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -50,6 +52,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new HangarBayState(HANGARBAYSTATE));
 		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
+		this.addState(new ModHudMenuState(HUDMODSTATE));
 //		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
 		this.enterState(MAINMENUSTATE);
 
