@@ -46,10 +46,6 @@ public class OptionMenuState extends BasicGameState{
 		
 		updateCollisions(delta, mouse_rec, arg0, in, arg1);
 		
-		if(options.getFullscreen()){
-		}else{
-
-		}
 	}
 
 	@Override

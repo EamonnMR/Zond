@@ -14,8 +14,8 @@ public class HudDataModel {
 
 	private String shipName, gunName, engName, health, radar, minimap;
 	private Rectangle shipName_rec, gunName_rec, engName_rec, hp_rec, radar_rec, minimap_rec;
-	private Point shipName_point_def, gunName_point_def, engName_point_def, hp_point_def, radar_point_def, minimap_point_def;
-	private Point shipName_point_mod, gunName_point_mod, engName_point_mod, hp_point_mod, radar_point_mod, minimap_point_mod;
+	private Point shipName_pt_def, gunName_pt_def, engName_pt_def, hp_pt_def, radar_pt_def, minimap_pt_def;
+	private Point shipName_pt_mod, gunName_pt_mod, engName_pt_mod, hp_pt_mod, radar_pt_mod, minimap_pt_mod;
 	
 	public HudDataModel(){
 		shipName = "ship name";
@@ -25,36 +25,54 @@ public class HudDataModel {
 		radar = "radar";
 		minimap = "minimap";
 		
-		shipName_point_def = new Point(512, 690);
-		hp_point_def = new Point(413,715);
-		gunName_point_def = new Point(596, 715);
-		engName_point_def = new Point(628, 740);
-		radar_point_def = new Point(594, 715);
-		minimap_point_def = new Point(391,740);
+		shipName_pt_def = new Point(512, 690);
+		hp_pt_def = new Point(413,715);
+		gunName_pt_def = new Point(596, 715);
+		engName_pt_def = new Point(628, 740);
+		radar_pt_def = new Point(394, 740);
+		minimap_pt_def = new Point(100,740);
 		
 		
-		shipName_rec = new Rectangle((float)shipName_point_def.getX(), (float)shipName_point_def.getY(),(float)(shipName.length()*10),(float)25);
-		gunName_rec = new Rectangle((float)gunName_point_def.getX(), (float)gunName_point_def.getY(),(float)(gunName.length()*10),(float)25);
-		engName_rec = new Rectangle((float)engName_point_def.getX(), (float)engName_point_def.getY(),(float)(engName.length()*10),(float)25);
-		hp_rec = new Rectangle((float)engName_point_def.getX(), (float)engName_point_def.getY(),(float)(engName.length()*10),(float)25);
-		radar_rec = new Rectangle((float)radar_point_def.getX(), (float)radar_point_def.getY(),(float)(radar.length()*10),(float)25);
-		minimap_rec = new Rectangle((float)minimap_point_def.getX(), (float)minimap_point_def.getY(),(float)(minimap.length()*10),(float)25);
+		shipName_rec = new Rectangle(0, 0,(float)(shipName.length()*10),(float)25);
+		shipName_rec.setCenterX(shipName_pt_def.x);
+		shipName_rec.setCenterY(shipName_pt_def.y);
 		
-		shipName_point_mod = shipName_point_def;
-		gunName_point_mod = gunName_point_def;
-		engName_point_mod = engName_point_def;
-		hp_point_mod = hp_point_def;
-		radar_point_mod = radar_point_def;
-		minimap_point_mod = minimap_point_def;
+		gunName_rec = new Rectangle(0, 0,(float)(gunName.length()*10),(float)25);
+		gunName_rec.setCenterX(gunName_pt_def.x);
+		gunName_rec.setCenterY(gunName_pt_def.y);
+		
+		engName_rec = new Rectangle(0, 0,(float)(engName.length()*10),(float)25);
+		engName_rec.setCenterX(engName_pt_def.x);
+		engName_rec.setCenterY(engName_pt_def.y);
+		
+		hp_rec = new Rectangle(0, 0,(float)(health.length()*10),(float)25);
+		hp_rec.setCenterX(hp_pt_def.x);
+		hp_rec.setCenterY(hp_pt_def.y);
+		
+		radar_rec = new Rectangle(0, 0,(float)(radar.length()*10),(float)25);
+		radar_rec.setCenterX(radar_pt_def.x);
+		radar_rec.setCenterY(radar_pt_def.y);
+		
+		minimap_rec = new Rectangle(0, 0,(float)(minimap.length()*10),(float)25);
+		minimap_rec.setCenterX(minimap_pt_def.x);
+		minimap_rec.setCenterY(minimap_pt_def.y);
+		
+		
+		shipName_pt_mod = shipName_pt_def;
+		gunName_pt_mod = gunName_pt_def;
+		engName_pt_mod = engName_pt_def;
+		hp_pt_mod = hp_pt_def;
+		radar_pt_mod = radar_pt_def;
+		minimap_pt_mod = minimap_pt_def;
 	}
 	
 	public void reset(){
-		shipName_point_mod = shipName_point_def;
-		gunName_point_mod = gunName_point_def;
-		engName_point_mod = engName_point_def;
-		hp_point_mod = hp_point_def;
-		radar_point_mod = radar_point_def;
-		minimap_point_mod = minimap_point_def;
+		shipName_pt_mod = shipName_pt_def;
+		gunName_pt_mod = gunName_pt_def;
+		engName_pt_mod = engName_pt_def;
+		hp_pt_mod = hp_pt_def;
+		radar_pt_mod = radar_pt_def;
+		minimap_pt_mod = minimap_pt_def;
 	}
 
 	public String getShipName() {
@@ -138,83 +156,83 @@ public class HudDataModel {
 	}
 
 	public Point getShipName_point_def() {
-		return shipName_point_def;
+		return shipName_pt_def;
 	}
 
 	public void setShipName_point_def(Point shipName_point_def) {
-		this.shipName_point_def = shipName_point_def;
+		this.shipName_pt_def = shipName_point_def;
 	}
 
 	public Point getGunName_point_def() {
-		return gunName_point_def;
+		return gunName_pt_def;
 	}
 
 	public void setGunName_point_def(Point gunName_point_def) {
-		this.gunName_point_def = gunName_point_def;
+		this.gunName_pt_def = gunName_point_def;
 	}
 
 	public Point getEngName_point_def() {
-		return engName_point_def;
+		return engName_pt_def;
 	}
 
 	public void setEngName_point_def(Point engName_point_def) {
-		this.engName_point_def = engName_point_def;
+		this.engName_pt_def = engName_point_def;
 	}
 
 	public Point getRadar_point_def() {
-		return radar_point_def;
+		return radar_pt_def;
 	}
 
 	public void setRadar_point_def(Point radar_point_def) {
-		this.radar_point_def = radar_point_def;
+		this.radar_pt_def = radar_point_def;
 	}
 
 	public Point getMinimap_point_def() {
-		return minimap_point_def;
+		return minimap_pt_def;
 	}
 
 	public void setMinimap_point_def(Point minimap_point_def) {
-		this.minimap_point_def = minimap_point_def;
+		this.minimap_pt_def = minimap_point_def;
 	}
 
 	public Point getShipName_point_mod() {
-		return shipName_point_mod;
+		return shipName_pt_mod;
 	}
 
 	public void setShipName_point_mod(Point shipName_point_mod) {
-		this.shipName_point_mod = shipName_point_mod;
+		this.shipName_pt_mod = shipName_point_mod;
 	}
 
 	public Point getGunName_point_mod() {
-		return gunName_point_mod;
+		return gunName_pt_mod;
 	}
 
 	public void setGunName_point_mod(Point gunName_point_mod) {
-		this.gunName_point_mod = gunName_point_mod;
+		this.gunName_pt_mod = gunName_point_mod;
 	}
 
 	public Point getEngName_point_mod() {
-		return engName_point_mod;
+		return engName_pt_mod;
 	}
 
 	public void setEngName_point_mod(Point engName_point_mod) {
-		this.engName_point_mod = engName_point_mod;
+		this.engName_pt_mod = engName_point_mod;
 	}
 
 	public Point getRadar_point_mod() {
-		return radar_point_mod;
+		return radar_pt_mod;
 	}
 
 	public void setRadar_point_mod(Point radar_point_mod) {
-		this.radar_point_mod = radar_point_mod;
+		this.radar_pt_mod = radar_point_mod;
 	}
 
 	public Point getMinimap_point_mod() {
-		return minimap_point_mod;
+		return minimap_pt_mod;
 	}
 
 	public void setMinimap_point_mod(Point minimap_point_mod) {
-		this.minimap_point_mod = minimap_point_mod;
+		this.minimap_pt_mod = minimap_point_mod;
 	}
 
 	public String getHealth() {
@@ -234,19 +252,19 @@ public class HudDataModel {
 	}
 
 	public Point getHp_point_def() {
-		return hp_point_def;
+		return hp_pt_def;
 	}
 
 	public void setHp_point_def(Point hp_point_def) {
-		this.hp_point_def = hp_point_def;
+		this.hp_pt_def = hp_point_def;
 	}
 
 	public Point getHp_point_mod() {
-		return hp_point_mod;
+		return hp_pt_mod;
 	}
 
 	public void setHp_point_mod(Point hp_point_mod) {
-		this.hp_point_mod = hp_point_mod;
+		this.hp_pt_mod = hp_point_mod;
 	}
 	
 }
