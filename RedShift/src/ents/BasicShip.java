@@ -2,6 +2,8 @@ package ents;
 
 import org.newdawn.slick.geom.Circle;
 
+import core.ClientGameplayState;
+
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
  * @author Roohr
@@ -27,6 +29,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 	private Circle radar;					     //new functionality! radar! 
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
+	private effects.Effect deathFx;              //Effect that fires off when the ship dies
+	//(to replace death trigs)
 	
 	
 	//constructor
@@ -203,6 +207,23 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		gun.tickTimer(delta);
 	}
 	
+	
+	/*Begin massive list of getters & setters.
+	 * Yuck.
+	 */
+	
+	public boolean isDead(){
+		return health <= 0;
+	}
+	
+	public void onDie(ClientGameplayState c){
+		//Play sound
+		getDeathSnd().playAt(0.6f, 1.0f, (float)getX(), (float)getY(), 0.0f);
+		if (deathFx != null) {
+			c.pushEffect(deathFx);
+		}
+	}
+	
 	public int getTotalWeight() {
 		return totalWeight;
 	}
@@ -324,5 +345,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	public int getFaction(){
 		return this.faction;
+	}
+	
+	public void setDeathFx(effects.Effect deathFx){
+		this.deathFx = deathFx;
 	}
 }
