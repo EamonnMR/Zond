@@ -14,7 +14,7 @@ public class MainMenuState extends BasicGameState {
 
 	private int id;
 	private String title, playBTN_str, optBTN_str, quitBTN_str;
-	private Rectangle playBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
+	private Rectangle playBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec, comScrn_rec;
 	
 	public MainMenuState(int i){
 		id = i;
@@ -31,25 +31,29 @@ public class MainMenuState extends BasicGameState {
 		quitBTN_str = "Quit";
 		
 		mouse_rec = new Rectangle(0,0,1,1);
-		playBTN_rec = new Rectangle(100,200,200,50);
-		optBTN_rec = new Rectangle(100,350,200,50);
-		quitBTN_rec = new Rectangle(100,500,200,50);
+		playBTN_rec = new Rectangle(100,200,100,50);
+		optBTN_rec = new Rectangle(100,350,100,50);
+		quitBTN_rec = new Rectangle(100,500,100,50);
+		comScrn_rec = new Rectangle(20, 300, 500, 450);
 		
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
+		String x = String.valueOf(arg0.getInput().getMouseX());
+		gfx.drawString(x, 100, 10);
+		x = String.valueOf(arg0.getInput().getMouseY());
+		gfx.drawString(x, 150, 10);
+		
 		gfx.setColor(Color.red);
 		gfx.drawString("=["+title+"v1.5]=", 512, 10);
 		
 		gfx.setColor(Color.yellow);
 		gfx.draw(mouse_rec);
 		
-		String x = String.valueOf(arg0.getInput().getMouseX());
-		gfx.drawString(x, 105.0f, 10.0f);
-		x = String.valueOf(arg0.getInput().getMouseY());
-		gfx.drawString(x, 175.0f, 10.0f);
+		gfx.setColor(Color.green);
+		gfx.draw(comScrn_rec);
 		
 		gfx.setColor(Color.gray);
 		gfx.draw(playBTN_rec);
@@ -74,35 +78,39 @@ public class MainMenuState extends BasicGameState {
 
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
 		if(gc.getInput().isMousePressed(0)){
-			if(playBTN_rec.intersects(mouse_rec)){
-				try {
-					stbg.getState(0).init(gc, stbg);
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
-				stbg.enterState(0, new FadeOutTransition(Color.gray), null);
-			}
-			if(optBTN_rec.intersects(mouse_rec)){
-				stbg.enterState(4);
-			}
-			if(quitBTN_rec.intersects(mouse_rec)){
-//				gc.exit();
-			}
-		}
-//		else if (gc.getInput().isMouseButtonDown(0)){
 //			if(playBTN_rec.intersects(mouse_rec)){
-//				playBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				playBTN_rec.setCenterY(gc.getInput().getMouseY());
+//				try {
+//					stbg.getState(0).init(gc, stbg);
+//				} catch (SlickException e) {
+//					e.printStackTrace();
+//				}
+//				stbg.enterState(0, new FadeOutTransition(Color.gray), null);
 //			}
 //			if(optBTN_rec.intersects(mouse_rec)){
-//				optBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				optBTN_rec.setCenterY(gc.getInput().getMouseY());
+//				stbg.enterState(4);
 //			}
 //			if(quitBTN_rec.intersects(mouse_rec)){
-//				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
+//				gc.exit();
 //			}
-//		}
+		}
+		else if (gc.getInput().isMouseButtonDown(0)){
+			if(playBTN_rec.intersects(mouse_rec)){
+				playBTN_rec.setCenterX(gc.getInput().getMouseX());
+				playBTN_rec.setCenterY(gc.getInput().getMouseY());
+			}
+			if(optBTN_rec.intersects(mouse_rec)){
+				optBTN_rec.setCenterX(gc.getInput().getMouseX());
+				optBTN_rec.setCenterY(gc.getInput().getMouseY());
+			}
+			if(quitBTN_rec.intersects(mouse_rec)){
+				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
+				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
+			}
+//			if(comScrn_rec.intersects(mouse_rec)){
+//				comScrn_rec.setCenterX(gc.getInput().getMouseX());
+//				comScrn_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+		}
 	}
 
 	@Override
