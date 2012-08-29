@@ -7,7 +7,8 @@ public class Timer extends Condition {
 	private int max;
 	
 	
-	public Timer(int max){
+	public Timer(int max, String target){
+		this.target = target;
 		count = 0;
 		this.max = max;
 	}
