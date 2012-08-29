@@ -7,7 +7,12 @@ public class NoOp extends Effect {
 	@Override
 	public void affect(ClientGameplayState c) {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
+	public String toString() {
+		return "EFFECT: No-Op";
+	}
+
+	
 }

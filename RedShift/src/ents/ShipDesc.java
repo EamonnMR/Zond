@@ -14,4 +14,12 @@ public class ShipDesc {
 		this.fx = fx;
 	}
 
+	@Override
+	public String toString() {
+		return "SHIPDESC: ''"+ kind + "'' gun: ''" + gun + "'' engine: ''" +
+				engine + "'' location: " + Double.toString(x) + "," +
+				Double.toString(y) + " fx: " + fx.toString();
+	}
+
+	
 }

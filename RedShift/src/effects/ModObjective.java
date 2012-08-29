@@ -16,5 +16,11 @@ public class ModObjective extends Effect {
 		this.newState = newState;
 		this.newCompletion = newCompletion;
 	}
+	@Override
+	public String toString() {
+		return "EFFECT: Mod Objective: targetName: ''" + targetName +
+				"'' newState: " + Boolean.toString(newState) +
+				" newCompletion: " + newCompletion;
+	}
 
 }
