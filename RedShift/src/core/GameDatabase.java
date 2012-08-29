@@ -441,8 +441,7 @@ public class GameDatabase {
 					gb(t.getValue("newcompl")));
 			
 		}else if(type.equals("modtrig")){
-			return new effects.ModTrig(t.getValue("target"),
-					gb(t.getValue("newstate")));
+			return new effects.ModTrig(t.getValue("target"));
 			
 		} else if(type.equals("multi")){
 			//This one is clearly the most fun
@@ -470,12 +469,26 @@ public class GameDatabase {
 			return new effects.Victory();
 			
 		}
-		//Unrecognized type.  Returns a no-op
-		//just to try and survive, but prints an error.
-		
 		throw new SemanticError("Effect at has type ''" + type
 				+"'' which is not recognized and probably an error.");
 	}
+	
+	public static cond.Condition parseCond(StringTree t){
+		String type = t.getValue("type");
+		String target = t.getValue("target");
+		if (type.equals("counter")){
+			return new cond.Counter(Integer.parseInt(t.getValue("total")), target);
+		} else if (type.equals("timer")){
+			return new cond.Timer(Integer.parseInt(t.getValue("max")), target);
+		} else if (type.equals("ship")){
+			return new cond.ShipTouch(parseShape(t, "shape"), target);
+		} else if (type.equals("shot")){
+			return new cond.ShotTouch(parseShape(t, "shape"), target);
+		} else {
+			throw new SemanticError("Could not recognize condition type ''" + type + "''.");
+		}
+	}
+	
 	public static class SemanticError extends RuntimeException{
 		/**
 		 * The RST formed a tree, but the values aren't in line with the spec.

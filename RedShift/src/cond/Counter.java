@@ -7,7 +7,8 @@ public class Counter extends Condition {
 	int count = 0;
 	int total;
 	
-	public Counter(int total){
+	public Counter(int total, String target){
+		this.target = target;
 		this.total = total;
 	}
 	

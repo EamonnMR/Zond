@@ -10,7 +10,8 @@ public class ShotTouch extends Condition {
 
 	private Shape collider;
 	
-	public ShotTouch(Shape collider){
+	public ShotTouch(Shape collider, String target){
+		this.target = target;
 		this.collider = collider;
 	}
 	

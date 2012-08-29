@@ -10,7 +10,8 @@ public class ShipTouch extends Condition {
 
 	private Shape collider;
 	
-	public ShipTouch(Shape collider){
+	public ShipTouch(Shape collider, String target){
+		this.target = target;
 		this.collider = collider;
 	}
 	
