@@ -7,6 +7,14 @@ public class Counter extends Condition {
 	int count = 0;
 	int total;
 	
+	public Counter(int total){
+		this.total = total;
+	}
+	
+	public String toString(){
+		return "COND: Counter total =" + Integer.toString(total);
+	}
+	
 	public void incremet(ClientGameplayState c){
 		count ++;
 		if (count >= total){
