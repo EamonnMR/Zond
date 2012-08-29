@@ -379,31 +379,16 @@ public class GameDatabase {
 	
 	
 	private static double[] parsePoint(String str){
-		String[] numbers =  str.split("[[:space:]]");
+		String[] numbers =  str.split(" ");
 		double[] toSender = new double[ numbers.length ];
+		if(numbers.length < 2){
+			throw new SemanticError("Point ''" + str + "'' is mal-formed; not enough numbers.");
+		}
 		for (int i = 0; i == numbers.length - 1; i++){
 			toSender[i] = Double.parseDouble(numbers[i]);
 		}
 		return toSender;
 
-	}
-	
-	private static boolean parseBool(String from, String... path) {
-		String truth = "1 true TRUE True yes YES Yes y T t";
-		String falsehood = "0 false FALSE False no NO n No F f";
-		if (from.equals("")){
-			System.out.print("SEMANTIC ERROR: ");
-			System.out.print(path);
-			System.out.print("IS BLANK.\n");
-			return false;
-		} else if (falsehood.contains(from)) return false;
-		else if (truth.contains(from)) return true;
-		else{
-			System.out.print("SEMANTIC ERROR: ");
-			System.out.print(from);
-			System.out.print("IS NITHER TRUE NOR FALSE.");
-			return false;
-		}
 	}
 	
 	private static ShipDesc getShipDesc(StringTree t){
@@ -416,11 +401,15 @@ public class GameDatabase {
 				getEffect(t.getSubTree("deatheffects")));
 	}
 	
-	private static boolean getBool(StringTree t) {
-		//SURGEON GENERAL'S WARNING:
-		//THAT STRINGTREE IS AT A LEAF NODE
-		//DO NOT CALL GETVALUE WITH ARGUMENTS!
-		return parseBool(t.getValue(), t.getPath());
+	private static boolean gb(String value){
+		if (value.equals("t")){
+			return true;
+		} else if (value.equals("f")){
+			return false;
+		} else {
+			throw new SemanticError("value ''" + value + "'' is not a boolean value.");
+		}
+		
 	}
 	
 	/**
@@ -440,28 +429,33 @@ public class GameDatabase {
 			return new effects.ModAction(t.getValue("target"),
 					flags.contains("ini"), 
 					flags.contains("fire"),
-					getBool(t.getSubTree("done")));
+					gb(t.getValue("done")));
 			
 		} else if(type.equals("navpoint")){
 			return new effects.ModNavPoint(t.getValue("target"),
-					getBool(t.getSubTree("newstate")));
+					gb(t.getValue("newstate")));
 			
 		} else if(type.equals("objective")){
 			return new effects.ModObjective(t.getValue("target"), 
-					getBool(t.getSubTree("newstate")),
-					getBool(t.getSubTree("newcompl")));
+					gb(t.getValue("newstate")),
+					gb(t.getValue("newcompl")));
 			
 		}else if(type.equals("modtrig")){
 			return new effects.ModTrig(t.getValue("target"),
-					getBool(t.getSubTree("newstate")));
+					gb(t.getValue("newstate")));
 			
 		} else if(type.equals("multi")){
 			//This one is clearly the most fun
 			int numberOfFx = t.childSet("effects").size();
+			//Get the highest number
+			if( numberOfFx == 0){
+				throw new SemanticError("Please don't use empty multi triggers.  It's counterproductive.");
+			}
 			effects.Effect[] fx = new effects.Effect[numberOfFx];
-			for(int i = 0; i == numberOfFx; i++){
+			
+			for(int j = 0; j != numberOfFx; j++){
 				//This relies on the fact that an anon list's names are 0, 1, 2, etc.
-				fx[i] = getEffect(t.getSubTree("effects", Integer.toString(i)));
+				fx[j] = getEffect(t.getSubTree("effects", Integer.toString(j)));
 				//Note that the args to getSubTree are parsed from (a, b, c) to {a, b, c}
 			}
 			return new effects.Multi(fx);
@@ -478,10 +472,18 @@ public class GameDatabase {
 		}
 		//Unrecognized type.  Returns a no-op
 		//just to try and survive, but prints an error.
-		System.out.print("SEMANTIC ERROR: EFFECT TYPE ''");
-		System.out.print(type);
-		System.out.print("UNRECOGNIZED.  RETURNING No-Op.");
-		return new effects.NoOp();
+		
+		throw new SemanticError("Effect at has type ''" + type
+				+"'' which is not recognized and probably an error.");
 	}
+	public static class SemanticError extends RuntimeException{
+		/**
+		 * The RST formed a tree, but the values aren't in line with the spec.
+		 */
+		private static final long serialVersionUID = 1L;
 
+		SemanticError(String s){
+			super(s + "\n");
+		}
+	}
 }

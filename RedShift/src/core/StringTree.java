@@ -11,8 +11,9 @@ import java.util.Set;
  * @author Eamonn
  */
 public class StringTree{
+	private static final boolean WALL = true;
+	//That turns the massive walls of debugging text on and off
 	private Node root;
-	private String[] rootPath;
 	
 	/**
 	 * This is the workhorse of the whole tree, because walking isn't
@@ -24,7 +25,12 @@ public class StringTree{
 		//Or otherwise change it's length, I'd definitely
 		//give you a recursive version.
 		Node toSender = initial;
+		Dbg.psa("Nodepath inside wall", nodepath);
+		if( nodepath.length == 0){ //Short circut, just in case.
+			return initial;        //This should not need to exist.
+		}
 		for(String i : nodepath){
+			//System.out.println(i + "\n");
 			toSender = toSender.getChild(i);
 		}
 		return toSender;
@@ -33,27 +39,19 @@ public class StringTree{
 	public StringTree getSubTree(String... path){
 		//The only ugly parts of this code are the ones that make a new path array.
 		//Sadly, the notion of a string array path thing is only there because it makes the syntax HOT.
-		String[] newPath = new String[ path.length + rootPath.length ];
-		System.arraycopy(rootPath, 0, newPath, 0, rootPath.length);
-		System.arraycopy(path, 0, newPath, rootPath.length - 1, path.length);
-		return new StringTree(descend(root, newPath), newPath);
+		Dbg.psa("Path inside getSubTree", path);
+		return new StringTree(descend(root, path));
 	}
 	
 	//Dumb constructor.  Used by getSubTree.
-	public StringTree (Node root, String[] rootPath){
+	public StringTree (Node root){
 		this.root = root;
-		this.rootPath = rootPath;
 	}
 	
 	//This is the default constructor, and it assumes
 	//that this tree stands alone.
 	public StringTree(){
 		root = branch("root");
-		rootPath = new String[0];
-	}
-	
-	public String[] getPath(){
-		return rootPath;
 	}
 	
 	/**
@@ -61,6 +59,7 @@ public class StringTree{
 	 * @param name Names of nodes after root to get the leaf you want
 	 */
 	public String getValue(String... name){
+		//Debug stuff, remove this!
 		return getNode(name).getValue();
 	}
 	
@@ -105,9 +104,8 @@ public class StringTree{
 			}
 		}
 		//If it does not reach char 'ender' it probably fowls the entire input read,
-		//so print a warning.
-		System.out.println( "(GetUntil) BAD INPUT: MISSING " + Character.toString(ender) + " ");
-		return toSender;
+		//so throw an exception
+		throw new RstSyntaxError( "(GetUntil) BAD INPUT: MISSING " + Character.toString(ender) + " ");
 	}
 
 	private static StringTree.Node parseBranch(InputStream inp, String name) throws IOException{
@@ -117,36 +115,40 @@ public class StringTree{
 			switch( (char) inp.read() ){
 				case ( '[' ): { //It's a label applying to the next node.
 					nextName = getUntil(inp, ']');
-					System.out.println("[" + nextName + "]");
+					Dbg.line("[" + nextName + "]");
 					break;
 				}
 				case ( '(' ): { //It's a leaf node, load the text and attach it to the branch
 					currentNode.addChild( leaf( nextName, getUntil( inp, ')' ) ) );
-					System.out.println("(" + currentNode.getChild(nextName).getValue() + ")" );
+					Dbg.line("(" + currentNode.getChild(nextName).getValue() + ")" );
 					break;
 				}
 				case ( '{' ): { //This is the recursive bit-if it's another branch, recurse!
+					Dbg.line("ENTERED NEW BRANCH");
 					currentNode.addChild( parseBranch( inp, nextName) );
-					System.out.println("ENTERED NEW BRANCH");
 					break;
 				}
 				case ( '/' ): {//Comment-just there for completeness
-					System.out.println("Comment:/" + getUntil(inp, '/') + "/"); //This is discarded.
+					Dbg.line("Comment:/" + getUntil(inp, '/') + "/"); //This is discarded.
+					break;
+				}
+				case ( '#' ): {//Line comment, in case you really need one.
+					Dbg.line("Comment:#" + getUntil(inp, '\n'));
 					break;
 				}
 				case ( '<' ): { //It's a branch without named child nodes
+					Dbg.line("ENTERED NEW ANON BRNACH");
 					currentNode.addChild( parseAnonBranch(inp, nextName) );
-					System.out.println("ENTERED NEW ANON BRNACH");
 					break;
 				}
 				case ( '}' ): { //End of branch
-					System.out.println("END OF BRANCH");
+					Dbg.line("END OF BRANCH");
 					return currentNode;
 				}
 			}
 		} //This should never be passed except if it's the root node, which is in fact terminated by
 		if (name != "root"){ //The end of the file.
-			System.out.println( "BAD INPUT: MISSING } ");
+			throw new RstSyntaxError("Reached eof with no }, is not root branch.\n");
 		}
 		return currentNode; //If it is root, it's fine that it did not have a close bracket.
 	}
@@ -172,7 +174,11 @@ public class StringTree{
 					break;
 				}
 				case ( '/' ): {//Comment-just there for completeness
-					System.out.println("Comment:/" + getUntil(inp, '/') + "/"); //This is discarded.
+					Dbg.line("Comment:/" + getUntil(inp, '/') + "/"); //This is discarded.
+					break;
+				}
+				case ( '#' ): {//Line comment, in case you really need one.
+					Dbg.line("Comment:#" + getUntil(inp, '\n'));
 					break;
 				}
 				case ( '>' ): { //End of branch
@@ -180,8 +186,7 @@ public class StringTree{
 				}
 			}
 		} //This should never be passed, ever!
-		System.out.println( "BAD INPUT: MISSING > ");
-		return currentNode; //Can't be root, since root is parsed with ParseBranch
+		throw new RstSyntaxError("Ran out of text at end of anon branch\n");
 	}
 			 
 		
@@ -215,19 +220,62 @@ public class StringTree{
 		String value;
 		HashMap<String,Node> childNodes;
 		
+		private HashMap<String, Node> gcn(){
+			if(childNodes == null){
+				throw new ParserError(name + " is a leaf node, attempted to get children\n");
+			}
+			return childNodes;
+		}
+		
+		private String gv(){
+			if(value == null){
+				throw new ParserError(name + "is a branch node, attempted to get value");
+			}
+			return value;
+		}
+		
 		Node(String name){
 			this.name = name;
 		}
 		
 		String getValue(){
-			return value;
+			return gv();
 		}
 		Node getChild(String name){
+			//Debug stuff, comment out:
+			if( ! gcn().containsKey(name) ){
+				throw new ParserError(this.name + " does not contain node " + name);
+			}
+			//This probably introduces way too much parser inefficiency.
+			//Also note that I didn't notice the name clash until I added this check.
 			return childNodes.get(name);
 		}
 		
+		
 		void addChild(Node newChild){
-			childNodes.put(newChild.name, newChild);
+			gcn().put(newChild.name, newChild);
+		}
+	}
+	
+	public static class ParserError extends RuntimeException{
+		/**
+		 * A tree parser tried to do something bad with a node.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		ParserError(String s){
+			super(s);
+		}
+	}
+	
+	public static class RstSyntaxError extends RuntimeException{
+		/**
+		 * An error was encountered while making a tree.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		RstSyntaxError(String s){
+			super(s);
 		}
 	}
 }

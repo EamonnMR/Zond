@@ -1,4 +1,4 @@
-[1]{   [type](spawn)
+[1]{ [type](spawn)
 	[ship]{
 		[kind](mercury)
 		[loc] (10 10)
@@ -13,28 +13,32 @@
 }
 [3]{   [type](navpoint)
 	[target](*a navpoint*)
-	[newstate](0)
+	[newstate](f)
 }
 [4]{   [type](objective)
 	[target](*An objective*)
 	[newstate](t)
-	[newcompl](T)
+	[newcompl](t)
 }
 [5]{   [type](action)
+	[target](*An action*)
 	[flags](ini)
-	[done](FALSE)
+	[done](f)
 }
 [6]{   [type](action)
+	[target](*An action*)
 	[flags](fire)
-	[done](true)
+	[done](t)
 }
 [7]{   [type](action)
+	[target](*An action*)
 	[flags](fire ini)
-	[done](False)
+	[done](f)
 }
 [8]{   [type](action)
+	[target](*An action*)
 	[flags]()
-	[done](True)
+	[done](t)
 }
 [9]{   [type](multi)
 	[effects]<
@@ -43,4 +47,6 @@
 		{[type](defeat)}
 	>
 }
->
+[10]{[type](victory)}
+[11]		{[type](noop)}
+[12]		{[type](defeat)}
