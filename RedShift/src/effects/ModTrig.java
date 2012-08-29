@@ -13,5 +13,12 @@ public class ModTrig extends Effect {
 		this.targetTrigger = targetTrigger;
 		this.newState = newState;
 	}
+	@Override
+	public String toString() {
+		return "EFFECT: Mod Trig: targetTrigger: ''" + targetTrigger +
+				"'' newState: " + Boolean.toString(newState);
+	}
+	
+	
 
 }

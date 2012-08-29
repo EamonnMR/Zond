@@ -14,4 +14,10 @@ public class Spawn extends Effect {
 	public void affect(ClientGameplayState c) {
 		c.spawnShip(s);
 	}
+
+	@Override
+	public String toString() {
+		return "EFFECT: Spawn:\n\t" + s.toString();
+	}
+	
 }

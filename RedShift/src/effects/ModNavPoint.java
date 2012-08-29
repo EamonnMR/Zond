@@ -17,5 +17,11 @@ public class ModNavPoint extends Effect {
 		this.targetName = targetName;
 		this.newState = newState;
 	}
+
+	@Override
+	public String toString() {
+		return "EFFECT: Mod Nav Point: targetName: ''"+ targetName +"'' newState: " +
+				Boolean.toString(newState);
+	}
 	
 }
