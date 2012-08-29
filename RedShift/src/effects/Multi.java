@@ -18,7 +18,11 @@ public class Multi extends Effect {
 		// TODO Auto-generated method stub
 		String toSender = "EFFECT: Multi:\n";
 		for(Effect i : effects){
-			toSender = toSender + "\n\t" + i.toString();
+			if(i == null){
+				toSender += "\n\tNULL";
+			} else {
+				toSender += "\n\t" + i.toString();
+			}
 		}
 		return toSender;
 	}

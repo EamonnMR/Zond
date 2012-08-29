@@ -22,7 +22,8 @@ public class FxLdrTest {
 			e.printStackTrace();
 		}
 		for(String i : s.childSet()){
-			System.out.print(core.GameDatabase.getEffect(s.getSubTree(i)));
+			System.out.println("[" + i + "]");
+			System.out.println(core.GameDatabase.getEffect(s.getSubTree(i)) + "\n");
 		}
 	}
 
