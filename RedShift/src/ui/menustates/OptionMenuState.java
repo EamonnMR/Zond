@@ -1,6 +1,5 @@
 package ui.menustates;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -15,8 +14,9 @@ public class OptionMenuState extends BasicGameState{
 
 	private int id, next_state;
 	private OptionsEnt options;
-	private Rectangle mouse_rec;
-	private String title;
+	private Rectangle mouse_rec, sfxVol_rec, musVol_rec, voiVol_rec, part_rec, fullscrn_rec;
+	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld;
+	private String title, sfxVol_str, musVol_str, voiVol_str, part_str, fullscrn_str;
 
 	
 	public OptionMenuState(int i, OptionsEnt ops){
@@ -27,14 +27,29 @@ public class OptionMenuState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
+		//strings
 		title = "Options";
-
+		sfxVol_str = "SFX";
+		musVol_str = "Music";
+		voiVol_str = "Voice";
+		
+		//rectangles
+		sfxVol_rec = new Rectangle(0,0,0,0);
+		musVol_rec = new Rectangle(0,0,0,0);
+		voiVol_rec = new Rectangle(0,0,0,0);
+		part_rec = new Rectangle(0,0,0,0);
+		fullscrn_rec = new Rectangle(0,0,0,0);
+		
+		//sliders
+		sfxVol_sld = new Rectangle(0,0,0,0);
+		musVol_sld = new Rectangle(0,0,0,0);
+		voiVol_sld = new Rectangle(0,0,0,0);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-
+		
 	}
 
 	@Override
@@ -55,6 +70,14 @@ public class OptionMenuState extends BasicGameState{
 	
 	public void updateCollisions(int delta, Rectangle mouse, GameContainer gc, Input in, StateBasedGame stg){
 
+	}
+	
+	public void drawOn(Graphics gfx, double x, double y){
+		
+	}
+	
+	public void drawOff(Graphics gfx, double x, double y){
+		
 	}
 
 }
