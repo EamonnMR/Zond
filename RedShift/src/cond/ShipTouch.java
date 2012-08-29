@@ -14,6 +14,10 @@ public class ShipTouch extends Condition {
 		this.collider = collider;
 	}
 	
+	public String toString(){
+		return "COND: ShitTouch collider = " + collider.toString();
+	}
+	
 	@Override
 	public boolean updateMe() {
 		return true;

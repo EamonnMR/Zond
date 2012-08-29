@@ -14,6 +14,9 @@ public class ShotTouch extends Condition {
 		this.collider = collider;
 	}
 	
+	public String toString(){
+		return "COND: ShotTouch collider = " + collider.toString();
+	}
 	@Override
 	public boolean updateMe() {
 		return true;
