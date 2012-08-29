@@ -87,6 +87,9 @@ public class GameDatabase {
 		populateAll();
 	}
 	
+	public static StringTree loadRst(String from) throws FileNotFoundException, IOException{
+		return StringTree.fromStream(new FileInputStream(from));
+	}
 	/**
 	* Loads all sound files
 	* @throws FileNotFoundException
@@ -94,7 +97,7 @@ public class GameDatabase {
 	* @throws SlickException
 	*/
 	private void loadSounds() throws FileNotFoundException, IOException, SlickException {
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/sounds.rst"));
+		StringTree s = loadRst("assets/text/sounds.rst");
 		for (String child : s.childSet()){
 			ldSnd(child, s.getValue(child));
 			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
@@ -133,7 +136,7 @@ public class GameDatabase {
 	 * @throws SlickException
 	 */
 	public void xloadImages() throws SlickException, FileNotFoundException, IOException{
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/images.rst"));
+		StringTree s = loadRst("assets/text/images.rst");
 		for (String child : s.childSet()){
 			ldImg(child, s.getValue(child));
 			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
@@ -149,7 +152,7 @@ public class GameDatabase {
 	 * @throws IOException
 	 */
 	public void xpopulateGun() throws FileNotFoundException, IOException{
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/guns.rst"));
+		StringTree s = loadRst("assets/text/guns.rst");
 		for (String child : s.childSet()){
 			BasicGun current = new BasicGun();
 			current.setCoolDown(Integer.parseInt(s.getValue(child, "cooldown")));
@@ -184,7 +187,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateShips() throws FileNotFoundException, IOException{
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/ships.rst"));
+		StringTree s = loadRst("assets/text/ships.rst");
 		for (String child : s.childSet()){
 			BasicShip m = new BasicShip();
 			m.setImg(indexImages.get(s.getValue(child, "img")).copy());
@@ -215,7 +218,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateEngine() throws FileNotFoundException, IOException{
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/motors.rst"));
+		StringTree s = loadRst("assets/text/motors.rst");
 		for (String child : s.childSet()){
 			BasicEngine e = new BasicEngine();
 			e.setName(child);
@@ -251,7 +254,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateShot() throws FileNotFoundException, IOException{
-		StringTree s = StringTree.fromStream(new FileInputStream("assets/text/shots.rst"));
+		StringTree s = loadRst("assets/text/shots.rst");
 		for (String child : s.childSet()){
 			BasicShot h = new BasicShot();
 			h.setImg(indexImages.get(s.getValue(child, "img")).copy());
@@ -341,7 +344,7 @@ public class GameDatabase {
 			}
 			return toSender;
 		}
-		System.out.print(" * DATA ERROR: SHAPE AT " + name.toString() + " has invalid type ''" + type + "''");
+		System.out.print(" * SEMANTIC ERROR: SHAPE AT " + name.toString() + " has invalid type ''" + type + "''");
 		return new Rectangle(0,0,0,0);
 	}
 	/**
@@ -420,7 +423,11 @@ public class GameDatabase {
 		return parseBool(t.getValue(), t.getPath());
 	}
 	
-	private static effects.Effect getEffect(StringTree t){
+	/**
+	 *  This class is only public because it's being tested.
+	 *  It won't do you any good to use it.
+	 */
+	public static effects.Effect getEffect(StringTree t){
 		//We need to upgrade to Java 7
 		//It can do a switch(string)
 		//Which would make this code much less ugly.
