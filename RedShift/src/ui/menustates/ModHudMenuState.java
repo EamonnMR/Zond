@@ -22,7 +22,7 @@ public class ModHudMenuState extends BasicGameState {
 	
 	public ModHudMenuState(int i){
 		id = i;
-		mouse_rec = new Rectangle(0,0,1,1);
+		mouse_rec = new Rectangle(0,0,10,25);
 		hdm = new HudDataModel();
 	}
 	
@@ -42,6 +42,8 @@ public class ModHudMenuState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.setColor(Color.green);
+		gfx.fill(mouse_rec);
+		
 		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
 		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
 		gfx.draw(hdm.getShipName_rec());
