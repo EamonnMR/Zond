@@ -30,7 +30,7 @@ public class MainMenuState extends BasicGameState {
 		optBTN_str = "Options";
 		quitBTN_str = "Quit";
 		
-		mouse_rec = new Rectangle(0,0,1,1);
+		mouse_rec = new Rectangle(0,0,10,25);
 		playBTN_rec = new Rectangle(100,200,100,50);
 		optBTN_rec = new Rectangle(100,350,100,50);
 		quitBTN_rec = new Rectangle(100,500,100,50);
@@ -54,6 +54,7 @@ public class MainMenuState extends BasicGameState {
 		
 		gfx.setColor(Color.green);
 		gfx.draw(comScrn_rec);
+		gfx.fill(mouse_rec);
 		
 		gfx.setColor(Color.gray);
 		gfx.draw(playBTN_rec);
@@ -74,6 +75,9 @@ public class MainMenuState extends BasicGameState {
 		mouse_rec.setCenterY(in.getMouseY());
 		
 		updateCollisions( arg0,  arg1);
+		if(in.isKeyPressed(Input.KEY_ESCAPE)){
+			arg0.exit();
+		}
 	}
 
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {

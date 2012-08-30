@@ -16,11 +16,11 @@ public class OptionsEnt {
 		
 	}
 	//methods
-	public boolean getFullscreen() {
+	public boolean getFullscreenStatus() {
 		return fullscrn_bool;
 	}
 
-	public void setFullscreen(boolean fullscreen) {
+	public void setFullscreenStatus(boolean fullscreen) {
 		this.fullscrn_bool = fullscreen;
 	}
 
@@ -55,10 +55,13 @@ public class OptionsEnt {
 	public float getVoicevol() {
 		return voiceVol;
 	}
-	public void setPartcle_bool(boolean partcle_bool) {
+	
+	public void setParticleStatus(boolean partcle_bool) {
 		this.partcle_bool = partcle_bool;
 	}
-	public boolean isPartcle_bool() {
+	
+	public boolean getParticleStatus() {
 		return partcle_bool;
 	}
+	
 }
