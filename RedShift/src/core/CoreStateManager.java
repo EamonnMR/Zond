@@ -66,7 +66,7 @@ public class CoreStateManager extends StateBasedGame {
     public static void main(String[] args) throws SlickException
     {
          AppGameContainer app = new AppGameContainer(new CoreStateManager());
-         app.setMouseGrabbed(true);
+         app.setMouseGrabbed(false);
          app.setDisplayMode(1024, 768, false);
          app.start();
     }

@@ -30,7 +30,7 @@ public class MainMenuState extends BasicGameState {
 		optBTN_str = "Options";
 		quitBTN_str = "Quit";
 		
-		mouse_rec = new Rectangle(0,0,10,25);
+		mouse_rec = new Rectangle(0,0,1,1);
 		playBTN_rec = new Rectangle(100,200,100,50);
 		optBTN_rec = new Rectangle(100,350,100,50);
 		quitBTN_rec = new Rectangle(100,500,100,50);
