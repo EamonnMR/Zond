@@ -22,7 +22,7 @@ public class ModHudMenuState extends BasicGameState {
 	
 	public ModHudMenuState(int i){
 		id = i;
-		mouse_rec = new Rectangle(0,0,10,25);
+		mouse_rec = new Rectangle(0,0,1,1);
 		hdm = new HudDataModel();
 	}
 	
@@ -42,7 +42,6 @@ public class ModHudMenuState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.setColor(Color.green);
-		gfx.fill(mouse_rec);
 		
 		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
 		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
@@ -77,6 +76,9 @@ public class ModHudMenuState extends BasicGameState {
 		gfx.drawString(resetBTN_str, resetBTN_rec.getCenterX()-(len*7), 400);
 		len = backBTN_str.length()/2;
 		gfx.drawString(backBTN_str, backBTN_rec.getCenterX()-(len*7), 400);
+		
+		gfx.setColor(Color.darkGray);
+		gfx.fill(mouse_rec);
 	}
 
 	@Override
@@ -88,27 +90,21 @@ public class ModHudMenuState extends BasicGameState {
 		if(maus.isMouseButtonDown(0)){
 			if(hdm.getShipName_rec().intersects(mouse_rec)){
 				hdm.setShipName_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getShipName());
 			}
 			if(hdm.getHp_rec().intersects(mouse_rec)){
 				hdm.setHp_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getHealth());
 			}
 			if(hdm.getGunName_rec().intersects(mouse_rec)){
 				hdm.setGunName_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getGunName());
 			}
 			if(hdm.getRadar_rec().intersects(mouse_rec)){
 				hdm.setRadar_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getRadar());
 			}
 			if(hdm.getEngName_rec().intersects(mouse_rec)){
 				hdm.setEngName_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getEngName());
 			}
 			if(hdm.getMinimap_rec().intersects(mouse_rec)){
 				hdm.setMinimap_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//				System.out.println(hdm.getMinimap());
 			}
 		}
 		

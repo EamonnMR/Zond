@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.UILib;
 import ents.OptionsEnt;
 
 public class OptionMenuState extends BasicGameState{
@@ -18,11 +19,12 @@ public class OptionMenuState extends BasicGameState{
 	private Rectangle mouse_rec, sfxVol_rec, musVol_rec, voiVol_rec, backBTN_rec, modBTN_rec, comScrn_rec;
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, offPart_rec, onFsc_rec, offFsc_rec;
 	private String title, sfxVol_str, musVol_str, voiVol_str, part_str, fullscrn_str, onPart_str, offPart_str, backBTN_str, modBTN_str;
-
+	private UILib uilib;
 	
 	public OptionMenuState(int i, OptionsEnt ops){
 		id = i;
 		options = ops;
+		uilib = new UILib();
 	}
 	
 	@Override
@@ -39,18 +41,18 @@ public class OptionMenuState extends BasicGameState{
 		modBTN_str = "[Config HUD]";
 		
 		//rectangles
-		mouse_rec = new Rectangle(0,0,10,25);
-		sfxVol_rec = new Rectangle(120,425,100,11);
-		musVol_rec = new Rectangle(120,500,100,11);
-		voiVol_rec = new Rectangle(120,575,100,11);
+		mouse_rec = new Rectangle(0,0,1,1);
+		sfxVol_rec = new Rectangle(105,425,100,11);
+		musVol_rec = new Rectangle(105,500,100,11);
+		voiVol_rec = new Rectangle(105,575,100,11);
 		comScrn_rec = new Rectangle(20, 300, 500, 450);
 		backBTN_rec = new Rectangle(35,650,60,22);
 		modBTN_rec = new Rectangle(261,567,112,22);
 		
 		//sliders
-		sfxVol_sld = new Rectangle(120,420,10,21);
-		musVol_sld = new Rectangle(120,495,10,21);
-		voiVol_sld = new Rectangle(120,570,10,21);
+		sfxVol_sld = new Rectangle(110,420,10,21);
+		musVol_sld = new Rectangle(110,495,10,21);
+		voiVol_sld = new Rectangle(110,570,10,21);
 		
 		//On Button
 		onPart_str = "[ON]";
@@ -67,7 +69,7 @@ public class OptionMenuState extends BasicGameState{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.setColor(Color.green);
-		gfx.fill(mouse_rec);
+
 		String x = String.valueOf(arg0.getInput().getMouseX());
 		gfx.drawString(x, 100, 10);
 		x = String.valueOf(arg0.getInput().getMouseY());
@@ -79,6 +81,9 @@ public class OptionMenuState extends BasicGameState{
 		renderLabels(gfx);
 		renderSliders(gfx);
 		renderOnOffs(gfx);
+		
+		gfx.setColor(Color.darkGray);
+		gfx.fill(mouse_rec);
 	}
 
 	@Override
@@ -105,6 +110,8 @@ public class OptionMenuState extends BasicGameState{
 			if (sfxVol_sld.intersects(mouse)
 					&& sfxVol_rec.contains(in.getMouseX(), 430)) {
 				sfxVol_sld.setCenterX(in.getMouseX());
+				float orig = options.getFxvol();
+				options.setFxvol(orig+in.getMouseX()/100);
 			}
 			if (musVol_sld.intersects(mouse)
 					&& musVol_rec.contains(in.getMouseX(), 505)) {
@@ -158,8 +165,11 @@ public class OptionMenuState extends BasicGameState{
 		gfx.draw(voiVol_rec);
 		
 		gfx.fill(sfxVol_sld);
+		uilib.drawStringNextToShape(String.valueOf(options.getFxvol()), sfxVol_rec, 6, gfx);
 		gfx.fill(musVol_sld);
+		uilib.drawStringNextToShape(String.valueOf(options.getMusevol()), musVol_rec, 6, gfx);
 		gfx.fill(voiVol_sld);
+		uilib.drawStringNextToShape(String.valueOf(options.getVoicevol()), voiVol_rec, 6, gfx);
 	}
 	
 	private void renderOnOffs(Graphics gfx) {
@@ -196,6 +206,7 @@ public class OptionMenuState extends BasicGameState{
 		}
 		gfx.drawString(offPart_str, 450, 495);
 		gfx.draw(offFsc_rec);
+
 	}
 	
 }
