@@ -118,11 +118,9 @@ public class GameDatabase {
 
 	private void ldSnd(String name, String location) {
 		try{
-//		indexSounds.put(name, AudioLoader.getAudio("OGG", new FileInputStream(location)));
 		indexSounds.put(name, new Sound(location));
 			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

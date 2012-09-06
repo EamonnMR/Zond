@@ -106,21 +106,26 @@ public class OptionMenuState extends BasicGameState{
 	}
 	
 	public void updateCollisions(int delta, Rectangle mouse, GameContainer gc, Input in, StateBasedGame stg){
-		if (in.isMouseButtonDown(0)) {
-			if (sfxVol_sld.intersects(mouse)
-					&& sfxVol_rec.contains(in.getMouseX(), 430)) {
+		if (sfxVol_sld.intersects(mouse)
+				&& sfxVol_rec.contains(in.getMouseX(), 430)) {
+			if (in.isMouseButtonDown(0)) {
 				sfxVol_sld.setCenterX(in.getMouseX());
-				float orig = options.getFxvol();
-				options.setFxvol(orig+in.getMouseX()/100);
+				options.setFxvol(in.getMouseX());
 			}
-			if (musVol_sld.intersects(mouse)
-					&& musVol_rec.contains(in.getMouseX(), 505)) {
+		}
+		if (musVol_sld.intersects(mouse)
+				&& musVol_rec.contains(in.getMouseX(), 505)) {
+			if (in.isMouseButtonDown(0)) {
 				musVol_sld.setCenterX(in.getMouseX());
 			}
-			if (voiVol_sld.intersects(mouse)
-					&& voiVol_rec.contains(in.getMouseX(), 580)) {
+
+		}
+		if (voiVol_sld.intersects(mouse)
+				&& voiVol_rec.contains(in.getMouseX(), 580)) {
+			if (in.isMouseButtonDown(0)) {
 				voiVol_sld.setCenterX(in.getMouseX());
 			}
+
 		}
 		
 		if(in.isMousePressed(0)){
@@ -154,6 +159,7 @@ public class OptionMenuState extends BasicGameState{
 		gfx.drawString(voiVol_str, 36, 550);
 		gfx.drawString(part_str, 261,400);
 		gfx.drawString(fullscrn_str,261, 475);
+		gfx.drawString("*Only if it looks nice :3*", 261, 525);
 		gfx.drawString(modBTN_str, 261, 570);
 		gfx.drawString(backBTN_str, 36, 650);
 	}
@@ -165,11 +171,11 @@ public class OptionMenuState extends BasicGameState{
 		gfx.draw(voiVol_rec);
 		
 		gfx.fill(sfxVol_sld);
-		uilib.drawStringNextToShape(String.valueOf(options.getFxvol()), sfxVol_rec, 6, gfx);
+		uilib.drawStringNextToShape(String.valueOf(options.getFxvol()), sfxVol_rec, 6, 1, gfx);
 		gfx.fill(musVol_sld);
-		uilib.drawStringNextToShape(String.valueOf(options.getMusevol()), musVol_rec, 6, gfx);
+		uilib.drawStringNextToShape(String.valueOf(options.getMusevol()), musVol_rec, 6, 1, gfx);
 		gfx.fill(voiVol_sld);
-		uilib.drawStringNextToShape(String.valueOf(options.getVoicevol()), voiVol_rec, 6, gfx);
+		uilib.drawStringNextToShape(String.valueOf(options.getVoicevol()), voiVol_rec, 6, 1, gfx);
 	}
 	
 	private void renderOnOffs(Graphics gfx) {

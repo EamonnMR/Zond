@@ -18,6 +18,8 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
+import ui.UILib;
+
 import core.ClientGameplayState;
 import core.PlayerClient;
 import ents.BasicShip;
@@ -31,6 +33,8 @@ import ents.BasicShip;
  */
 public class Hud {
 
+	HudDataModel hdm;
+	UILib uiLib;
 	String shipName, gunName, engName;
 	Rectangle camBounds;
 	float x, y;
@@ -54,16 +58,15 @@ public class Hud {
 	Font hudFont;
 	PlayerClient pc;
 
-	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH) {
+	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h) {
+		uiLib = new UILib();
 		pc = cl;
-		totalHP = pc.getPlayShip().getHealth();
-		shipName = pc.getPlayShip().getName();
-		gunName = pc.getPlayShip().getWeapon().getName();
-		engName = pc.getPlayShip().getEngine().getName();
 		detected = new HashMap<Boolean, BasicShip>();
 		camBounds = new Rectangle(1,1,camBoundsW,camBoundsH);
-		
-
+		hdm = h;
+		hp = pc.getPlayShip().getHealth();
+		totalHP = hp;
+		configHud(pc.getPlayShip());
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -72,8 +75,6 @@ public class Hud {
 		y = (float) pc.getPlayShip().getY();
 		hp = pc.getPlayShip().getHealth();
 		this.cgs = cgs;
-		
-		//update 
 	}
 
 	/**
@@ -86,31 +87,12 @@ public class Hud {
 	 */
 	public void render(Graphics gfx, GameContainer gc, LevelDataModel ldm, int camX,
 			int camY) {
-
-		gfx.setColor(Color.green);
-		gfx.drawString(shipName, 480, 680);
-		gfx.draw(new Rectangle(477, 677, (shipName.length() * 10) + 2, 25));
-
-		gfx.drawString("[WEAPON] "+gunName, 557, 706);
-		gfx.draw(new Rectangle(555, 703, 80, 25));
-
-		gfx.drawString("[ENGINE] "+engName, 590, 732);
-		gfx.draw(new Rectangle(588, 729, 80, 25));
-
-		checkHP(hp, gfx);
-		gfx.drawString("[HP] " + hp, 396, 707);
-		gfx.draw(new Rectangle(393, 703, 45, 25));
-		
-		gfx.draw(new Rectangle(357, 729, 74, 25));
-		
+		renderShipInfo(gfx,camX,camY);
 		
 		if(radarOn){
-			gfx.drawString("[RADAR] ON", 360, 732);
 			shipRadarCheck(cgs, gfx, camX, camY);
 			renderShipTags(cgs, gfx, camX, camY);
 		}else{
-			gfx.drawString("[RADAR] OFF", 360, 732);
-		
 		}
 		
 		renderPoints(ldm, gfx, camX,camY);
@@ -195,6 +177,55 @@ public class Hud {
 
 	}
 
+	/**
+	 * a one time run thingie at CGS startup
+	 * @param s
+	 */
+	public void configHud(BasicShip s) {
+		hdm.setShipName(pc.getPlayShip().getName());
+		int padding = 4;
+		
+		Rectangle r = new Rectangle(0,
+									0,
+									uiLib.getStringPixelWidth(hdm.getShipName())+padding,
+									25);
+		hdm.setShipName_rec(r);
+		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
+		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
+		
+		Rectangle q = new Rectangle(0, 
+									0, 
+									uiLib.getStringPixelWidth(hdm.getGunName())+padding,
+									25);
+		hdm.setGunName_rec(q);
+		hdm.getGunName_rec().setCenterX(hdm.getGunName_point_mod().x);
+		hdm.getGunName_rec().setCenterY(hdm.getGunName_point_mod().y);
+		
+		Rectangle t = new Rectangle(0, 
+				  					0, 
+				  					uiLib.getStringPixelWidth(hdm.getHealth())+padding,
+				  					25);
+		hdm.setHp_rec(t);
+		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
+		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
+		
+		Rectangle u = new Rectangle(0, 
+				  					0, 
+				  					uiLib.getStringPixelWidth(hdm.getEngName())+padding,
+				  					25);
+		hdm.setEngName_rec(u);
+		hdm.getEngName_rec().setCenterX(hdm.getEngName_point_mod().x);
+		hdm.getEngName_rec().setCenterY(hdm.getEngName_point_mod().y);
+		
+		Rectangle v = new Rectangle(0, 
+				  					0, 
+				  					uiLib.getStringPixelWidth(hdm.getRadar())+padding,
+				  					25);
+		hdm.setRadar_rec(v);
+		hdm.getRadar_rec().setCenterX(hdm.getRadar_point_mod().x);
+		hdm.getRadar_rec().setCenterY(hdm.getRadar_point_mod().y);
+	}
+	
 	public void setDevGog(boolean b) {
 		googles = b;
 	}
@@ -357,6 +388,36 @@ public class Hud {
 		}
 	}
 	
+	public void renderShipInfo(Graphics gfx, int camX, int camY) {
+		gfx.setColor(Color.green);
+		
+		gfx.draw(hdm.getShipName_rec());
+		uiLib.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
+		
+		gfx.draw(hdm.getGunName_rec());
+		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
+		uiLib.drawStringNextToShape(pc.getPlayShip().getWeapon().getName(), hdm.getGunName_rec(), 6, 1, gfx);
+		
+		gfx.draw(hdm.getEngName_rec());
+		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
+		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
+		
+		gfx.draw(hdm.getHp_rec());
+		checkHP(hp, gfx);
+		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
+		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
+		
+		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
+		gfx.draw(hdm.getRadar_rec());
+		
+		if(radarOn){
+			uiLib.drawStringNextToShape("ON", hdm.getRadar_rec(), 6, 1, gfx);
+		}else{
+			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
+		}
+	}
+	
+	
 	/**
 	 * draw objectives list on-screen
 	 * @param gfx
@@ -375,4 +436,6 @@ public class Hud {
 			
 		}
 	}
+	
+	
 }

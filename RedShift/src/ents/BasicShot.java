@@ -16,7 +16,8 @@ public class BasicShot extends BaseEnt {
 	private float speed;
 	private int interval;
 	private int timer;
-	private Sound impactSnd; //FIXME: Fix sound!
+	private Sound impactSnd;
+	
 	//constructor
 	public BasicShot(){
 	}

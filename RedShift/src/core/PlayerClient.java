@@ -33,9 +33,12 @@ public class PlayerClient {
 	//constructor
 	public PlayerClient(int clientId){
 		options = new OptionsEnt();
+		options.setFxvol(0.5f);
+		options.setMusevol(0.5f);
+		options.setVoicevol(0.5f);
 	}
-	//methods
 	
+	//methods
 	public void setOptions(OptionsEnt ops){
 		options = ops;
 	}
