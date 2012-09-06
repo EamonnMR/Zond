@@ -255,7 +255,7 @@ public class Hud {
 	}
 
 	public void checkHP(double hp, Graphics gfx) {
-		if (hp <= totalHP / 2) {
+		if (hp <= totalHP / 2 && hp > totalHP/4) {
 			gfx.setColor(Color.yellow);
 			shipHPCaution = true;
 			shipHPWarning = false;
@@ -264,7 +264,6 @@ public class Hud {
 			shipHPCaution = false;
 			shipHPWarning = true;
 		}
-		gfx.setColor(Color.green);
 	}
 
 	public static Shape offsetShape(Shape s, int dx, int dy) {
@@ -402,19 +401,20 @@ public class Hud {
 		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
 		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
 		
-		gfx.draw(hdm.getHp_rec());
 		checkHP(hp, gfx);
+		gfx.draw(hdm.getHp_rec());
 		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
 		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
 		
-		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
-		gfx.draw(hdm.getRadar_rec());
-		
+		gfx.setColor(Color.green);
 		if(radarOn){
 			uiLib.drawStringNextToShape("ON", hdm.getRadar_rec(), 6, 1, gfx);
 		}else{
+			gfx.setColor(Color.gray);
 			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
 		}
+		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
+		gfx.draw(hdm.getRadar_rec());
 	}
 	
 	
