@@ -25,6 +25,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.hud.Hud;
+import ui.hud.HudDataModel;
 import ents.BaseEnt;
 import ents.BaseLevel;
 import ents.BasicShip;
@@ -44,6 +45,7 @@ public class ClientGameplayState extends BasicGameState{
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
 	int camX, camY, boundsCheck;
 	LevelDataModel levelData;
+	private HudDataModel hdm;
 	//Constants
 	float radius = 350; //Distance to draw tags from player
 
@@ -70,8 +72,10 @@ public class ClientGameplayState extends BasicGameState{
 	//====================================================================
 	
 	//constructor
-	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl){
+	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
+		
 		this.id = i;
+		this.hdm = h;
 //		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
@@ -115,9 +119,8 @@ public class ClientGameplayState extends BasicGameState{
 			//create the client ship
 			pc.setPlayShip(pc.retrieveShip("mercury"));
 			pc.getPlayShip().ini(512, 250, 0.0f);
-			pc.getPlayShip().setHealth(10);
 			
-			playerHud = new Hud(pc, 1023, 767);
+			playerHud = new Hud(pc, 1023, 767, hdm);
 		
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());

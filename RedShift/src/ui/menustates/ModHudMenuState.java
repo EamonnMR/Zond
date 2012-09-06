@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.UILib;
 import ui.hud.HudDataModel;
 
 public class ModHudMenuState extends BasicGameState {
@@ -19,11 +20,13 @@ public class ModHudMenuState extends BasicGameState {
 	private Rectangle mouse_rec, resetBTN_rec, backBTN_rec;
 	private String resetBTN_str, backBTN_str;
 	private HudDataModel hdm;
+	private UILib uil;
 	
-	public ModHudMenuState(int i){
+	public ModHudMenuState(int i, HudDataModel h){
 		id = i;
 		mouse_rec = new Rectangle(0,0,1,1);
-		hdm = new HudDataModel();
+		hdm = h;
+		uil =  new UILib();
 	}
 	
 	@Override
@@ -31,11 +34,11 @@ public class ModHudMenuState extends BasicGameState {
 			throws SlickException {
 		mouse_rec.setCenterX(arg0.getInput().getMouseX());
 		mouse_rec.setCenterY(arg0.getInput().getMouseY());
-		resetBTN_rec = new Rectangle(412,396,100,25);
 		resetBTN_str = "RESET";
+		resetBTN_rec = new Rectangle(450,396,uil.getStringPixelWidth(resetBTN_str),25);
 		
-		backBTN_rec = new Rectangle(628,396,100,25);
 		backBTN_str = "BACK";
+		backBTN_rec = new Rectangle(525,396,uil.getStringPixelWidth(backBTN_str),25);
 	}
 
 	@Override
@@ -43,25 +46,36 @@ public class ModHudMenuState extends BasicGameState {
 			throws SlickException {
 		gfx.setColor(Color.green);
 		
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 150, 10);
+		
+		gfx.drawLine(0, 396, 1023, 396);
+		gfx.drawLine(512, 0, 512, 766);
+		
 		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
 		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
 		gfx.draw(hdm.getShipName_rec());
+		uil.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
 		
 		hdm.getEngName_rec().setCenterX(hdm.getEngName_point_mod().x);
 		hdm.getEngName_rec().setCenterY(hdm.getEngName_point_mod().y);
 		gfx.draw(hdm.getEngName_rec());
+		uil.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
 		
 		hdm.getGunName_rec().setCenterX(hdm.getGunName_point_mod().x);
 		hdm.getGunName_rec().setCenterY(hdm.getGunName_point_mod().y);
 		gfx.draw(hdm.getGunName_rec());
+		uil.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
 		
 		hdm.getRadar_rec().setCenterX(hdm.getRadar_point_mod().x);
 		hdm.getRadar_rec().setCenterY(hdm.getRadar_point_mod().y);
 		gfx.draw(hdm.getRadar_rec());
+		uil.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
 		
 		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
 		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
 		gfx.draw(hdm.getHp_rec());
+		uil.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
 		
 		hdm.getMinimap_rec().setCenterX(hdm.getMinimap_point_mod().x);
 		hdm.getMinimap_rec().setCenterY(hdm.getMinimap_point_mod().y);
@@ -71,11 +85,8 @@ public class ModHudMenuState extends BasicGameState {
 		gfx.draw(resetBTN_rec);
 		gfx.draw(backBTN_rec);
 		
-		int len = 0;
-		len = resetBTN_str.length()/2;
-		gfx.drawString(resetBTN_str, resetBTN_rec.getCenterX()-(len*7), 400);
-		len = backBTN_str.length()/2;
-		gfx.drawString(backBTN_str, backBTN_rec.getCenterX()-(len*7), 400);
+		uil.drawStringAtShapeCenter(resetBTN_str, resetBTN_rec, gfx);
+		uil.drawStringAtShapeCenter(backBTN_str, backBTN_rec, gfx);
 		
 		gfx.setColor(Color.darkGray);
 		gfx.fill(mouse_rec);

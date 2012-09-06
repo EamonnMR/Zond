@@ -82,34 +82,34 @@ public class MainMenuState extends BasicGameState {
 
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
 		if(gc.getInput().isMousePressed(0)){
-//			if(playBTN_rec.intersects(mouse_rec)){
-//				try {
-//					stbg.getState(0).init(gc, stbg);
-//				} catch (SlickException e) {
-//					e.printStackTrace();
-//				}
-//				stbg.enterState(0, new FadeOutTransition(Color.gray), null);
-//			}
-//			if(optBTN_rec.intersects(mouse_rec)){
-//				stbg.enterState(4);
-//			}
-//			if(quitBTN_rec.intersects(mouse_rec)){
-//				gc.exit();
-//			}
-		}
-		else if (gc.getInput().isMouseButtonDown(0)){
 			if(playBTN_rec.intersects(mouse_rec)){
-				playBTN_rec.setCenterX(gc.getInput().getMouseX());
-				playBTN_rec.setCenterY(gc.getInput().getMouseY());
+				try {
+					stbg.getState(0).init(gc, stbg);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+				stbg.enterState(0, new FadeOutTransition(Color.gray), null);
 			}
 			if(optBTN_rec.intersects(mouse_rec)){
-				optBTN_rec.setCenterX(gc.getInput().getMouseX());
-				optBTN_rec.setCenterY(gc.getInput().getMouseY());
+				stbg.enterState(4);
 			}
 			if(quitBTN_rec.intersects(mouse_rec)){
-				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
-				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
+				gc.exit();
 			}
+		}
+		else if (gc.getInput().isMouseButtonDown(0)){
+//			if(playBTN_rec.intersects(mouse_rec)){
+//				playBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				playBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+//			if(optBTN_rec.intersects(mouse_rec)){
+//				optBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				optBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
+//			if(quitBTN_rec.intersects(mouse_rec)){
+//				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
+//				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
+//			}
 //			if(comScrn_rec.intersects(mouse_rec)){
 //				comScrn_rec.setCenterX(gc.getInput().getMouseX());
 //				comScrn_rec.setCenterY(gc.getInput().getMouseY());

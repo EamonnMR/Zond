@@ -9,8 +9,6 @@ public class ModAction extends Effect {
 	
 	@Override
 	public void affect(ClientGameplayState c) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public ModAction(String targetName, boolean ini, boolean fire, boolean done) {

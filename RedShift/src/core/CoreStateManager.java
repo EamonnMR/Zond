@@ -6,11 +6,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.hud.HudDataModel;
 import ui.menustates.HangarBayState;
 import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
 import ents.EntityFactory;
+import ents.OptionsEnt;
 
 /**
  * core controller of the whole program, state controller as well
@@ -35,6 +37,8 @@ public class CoreStateManager extends StateBasedGame {
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
 	public LevelBuilder lvbr;
+	public OptionsEnt ops;
+	private HudDataModel hdm;
 	
 	//constructor
 	public CoreStateManager() {
@@ -43,15 +47,16 @@ public class CoreStateManager extends StateBasedGame {
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
 		lvbr = new LevelBuilder();
+		hdm = new HudDataModel();
 		
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr));
+		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr,hdm));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new HangarBayState(HANGARBAYSTATE));
 		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
-		this.addState(new ModHudMenuState(HUDMODSTATE));
+		this.addState(new ModHudMenuState(HUDMODSTATE, hdm));
 //		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
 		this.enterState(OPTIONSMENUSTATE);
 

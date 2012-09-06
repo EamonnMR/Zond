@@ -19,17 +19,17 @@ public class HudDataModel {
 	
 	public HudDataModel(){
 		shipName = "ship name";
-		gunName = "weapon";
-		engName = "engine";
-		health = "health";
-		radar = "radar";
+		gunName = "[WEAPON]";
+		engName = "[ENGINE]";
+		health = "[HEALTH]";
+		radar = "[RADAR]";
 		minimap = "minimap";
 		
 		shipName_pt_def = new Point(512, 690);
 		hp_pt_def = new Point(413,715);
 		gunName_pt_def = new Point(596, 715);
-		engName_pt_def = new Point(628, 740);
-		radar_pt_def = new Point(394, 740);
+		engName_pt_def = new Point(628, 744);
+		radar_pt_def = new Point(394, 744);
 		minimap_pt_def = new Point(100,740);
 		
 		
@@ -66,6 +66,9 @@ public class HudDataModel {
 		minimap_pt_mod = minimap_pt_def;
 	}
 	
+	/**
+	 * resets the hud psoitions back to their default locations
+	 */
 	public void reset(){
 		shipName_pt_mod = shipName_pt_def;
 		gunName_pt_mod = gunName_pt_def;

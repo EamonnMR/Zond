@@ -6,8 +6,6 @@ public class NoOp extends Effect {
 
 	@Override
 	public void affect(ClientGameplayState c) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
