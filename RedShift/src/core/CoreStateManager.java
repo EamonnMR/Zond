@@ -12,7 +12,6 @@ import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
 import ents.EntityFactory;
-import ents.OptionsEnt;
 
 /**
  * core controller of the whole program, state controller as well
@@ -37,7 +36,6 @@ public class CoreStateManager extends StateBasedGame {
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
 	public LevelBuilder lvbr;
-	public OptionsEnt ops;
 	private HudDataModel hdm;
 	
 	//constructor
