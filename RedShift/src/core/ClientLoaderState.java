@@ -61,7 +61,7 @@ public class ClientLoaderState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
-		arg1.enterState(1);
+		arg1.enterState(4);
 	}
 
 }

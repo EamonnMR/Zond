@@ -53,10 +53,10 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new HangarBayState(HANGARBAYSTATE));
-		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions()));
+		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions(), gDB));
 		this.addState(new ModHudMenuState(HUDMODSTATE, hdm));
-//		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
-		this.enterState(OPTIONSMENUSTATE);
+		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
+//		this.enterState(OPTIONSMENUSTATE);
 
 	}
 
