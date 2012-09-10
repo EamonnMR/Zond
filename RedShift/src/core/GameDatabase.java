@@ -125,6 +125,11 @@ public class GameDatabase {
 		}
 	}
 	
+	
+	public Sound getSound(String s){
+		return indexSounds.get(s);
+	}
+	
 	/**
 	 * loadImages() - loads all images
 	 * Automate this before the beta

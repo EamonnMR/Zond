@@ -7,11 +7,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ui.UILib;
+import core.GameDatabase;
 import ents.OptionsEnt;
 
 public class OptionMenuState extends BasicGameState{
@@ -24,12 +26,17 @@ public class OptionMenuState extends BasicGameState{
 	private UILib uilib;
 	private DecimalFormat df, fd;
 	private float fxVol_sld_prevX;
-	public OptionMenuState(int i, OptionsEnt ops){
+	private GameDatabase gdb;
+	private Sound s;
+	
+	public OptionMenuState(int i, OptionsEnt ops, GameDatabase gdb){
 		id = i;
 		options = ops;
 		uilib = new UILib();
 		df = new DecimalFormat("#.##");
 		fd = new DecimalFormat("###");
+		this.gdb = gdb;
+		s = gdb.getSound("twentys");
 	}
 	
 	@Override
@@ -190,6 +197,7 @@ public class OptionMenuState extends BasicGameState{
 			String form = df.format(cur_fxVol + delt);
 			float last = Float.parseFloat(form);
 			options.setFxvol(last);
+			
 		} else if (cur_fxVol_sldX < fxVol_sld_prevX) {
 			float temp = fxVol_sld_prevX - cur_fxVol_sldX;
 			float delt = temp / 100f;
@@ -197,12 +205,18 @@ public class OptionMenuState extends BasicGameState{
 			float last = Float.parseFloat(form);
 			options.setFxvol(last);
 		}
+
 		
 		if(options.getFxvol()>1.0){
 			options.setFxvol(1.0f);
 		}else if(options.getFxvol()<0.0){
 			options.setFxvol(0.0f);
 		}
+		
+		if(s.playing()){
+			s.stop();
+		}
+		s.play(1.0f, options.getFxvol());
 	}
 
 	private void renderLabels(Graphics gfx){
