@@ -22,10 +22,11 @@ public class OptionMenuState extends BasicGameState{
 	private OptionsEnt options;
 	private Rectangle mouse_rec, sfxVol_rec, musVol_rec, voiVol_rec, backBTN_rec, modBTN_rec, comScrn_rec;
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, offPart_rec, onFsc_rec, offFsc_rec;
+	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private String title, sfxVol_str, musVol_str, voiVol_str, part_str, fullscrn_str, onPart_str, offPart_str, backBTN_str, modBTN_str;
 	private UILib uilib;
 	private DecimalFormat df, fd;
-	private float fxVol_sld_prevX;
+	private float fxVol_sld_prevX, mxVol_sld_prevX, voVol_sld_prevX;
 	private GameDatabase gdb;
 	private Sound s;
 	
@@ -36,7 +37,7 @@ public class OptionMenuState extends BasicGameState{
 		df = new DecimalFormat("#.##");
 		fd = new DecimalFormat("###");
 		this.gdb = gdb;
-		s = gdb.getSound("twentys");
+//		s = gdb.getSound("twentys");
 	}
 	
 	@Override
@@ -52,7 +53,7 @@ public class OptionMenuState extends BasicGameState{
 		backBTN_str = "[Back]";
 		modBTN_str = "[Config HUD]";
 		
-		//rectangles
+		//display rectangles
 		mouse_rec = new Rectangle(0,0,1,1);
 		sfxVol_rec = new Rectangle(105,425,100,11);
 		musVol_rec = new Rectangle(105,500,100,11);
@@ -60,6 +61,11 @@ public class OptionMenuState extends BasicGameState{
 		comScrn_rec = new Rectangle(20, 300, 500, 450);
 		backBTN_rec = new Rectangle(35,650,60,22);
 		modBTN_rec = new Rectangle(261,567,112,22);
+		
+		//bounding rectangles
+		sfxBnd_rec = new Rectangle(105,425,100,21);
+		musBnd_rec = new Rectangle(105,495,100,21);
+		voiBnd_rec = new Rectangle(105,570,100,21);
 		
 		//sliders
 		sfxVol_sld = new Rectangle(155,420,5,21);
@@ -102,9 +108,11 @@ public class OptionMenuState extends BasicGameState{
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
 		fxVol_sld_prevX = sfxVol_sld.getCenterX();
-		float cur_fxVol = options.getFxvol();
-		float cur_musVol = options.getMusevol();
-		float cur_voVol = options.getVoicevol();
+		mxVol_sld_prevX = musVol_sld.getCenterX();
+		voVol_sld_prevX = voiVol_sld.getCenterX();
+		float prev_fxVol = options.getFxvol();
+		float prev_musVol = options.getMusevol();
+		float prev_voVol = options.getVoicevol();
 		
 		Input in = arg0.getInput();
 		mX = in.getMouseX();
@@ -114,7 +122,7 @@ public class OptionMenuState extends BasicGameState{
 		mouse_rec.setY(mY);
 		
 		updateCollisions(delta, mouse_rec, arg0, in, arg1);
-		updateOptionsVals(cur_fxVol);
+		updateOptionsVals(prev_fxVol,prev_musVol,prev_voVol);
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			arg0.exit();
@@ -137,26 +145,38 @@ public class OptionMenuState extends BasicGameState{
 	 */
 	public void updateCollisions(int delta, Rectangle mouse, GameContainer gc, Input in, StateBasedGame stg){
 
-		if(in.isMouseButtonDown(0)){
-			if(sfxVol_sld.intersects(mouse) && sfxVol_rec.contains(mX, 430)){
-				sfxVol_sld.setX(mX);
-			}else if(sfxVol_rec.contains(mX, 430)){
-				sfxVol_sld.setX(mX);
+		
+		if(mouse.intersects(sfxBnd_rec)){
+			if(in.isMouseButtonDown(0)){
+				if(sfxVol_sld.intersects(mouse) && sfxVol_rec.contains(mX, 430)){
+					sfxVol_sld.setX(mX);
+				}else if(sfxVol_rec.contains(mX, 430)){
+					sfxVol_sld.setX(mX);
+				}
 			}
-		}
-		if (musVol_sld.intersects(mouse) && musVol_rec.contains(in.getMouseX(), 505)) {
-			if (in.isMouseButtonDown(0)) {
-				musVol_sld.setCenterX(in.getMouseX());
-			}
-
-		}
-		if (voiVol_sld.intersects(mouse) && voiVol_rec.contains(in.getMouseX(), 580)) {
-			if (in.isMouseButtonDown(0)) {
-				voiVol_sld.setCenterX(in.getMouseX());
-			}
-
 		}
 		
+		if(mouse.intersects(musBnd_rec)){
+			if(in.isMouseButtonDown(0)){
+				if(musVol_sld.intersects(mouse) && musVol_rec.contains(mX, 505)){
+					musVol_sld.setX(mX);
+				}else if(musVol_rec.contains(mX, 505)){
+					musVol_sld.setX(mX);
+				}
+			}
+		}
+		
+		if(mouse.intersects(voiBnd_rec)){
+			if(in.isMouseButtonDown(0)){
+				if(voiVol_sld.intersects(mouse) && voiVol_rec.contains(mX, 580)){
+					voiVol_sld.setX(mX);
+				}else if(voiVol_rec.contains(mX, 580)){
+					voiVol_sld.setX(mX);
+				}	
+			}
+		}
+
+
 		if(in.isMousePressed(0)){
 			if(onPart_rec.intersects(mouse)){
 				options.setParticleStatus(true);
@@ -189,35 +209,31 @@ public class OptionMenuState extends BasicGameState{
 		}
 	}
 	
-	private void updateOptionsVals(float cur_fxVol) {
-		float cur_fxVol_sldX = sfxVol_sld.getCenterX();
-		if (cur_fxVol_sldX > fxVol_sld_prevX) {
-			float temp = cur_fxVol_sldX - fxVol_sld_prevX;
-			float delt = temp / 100f;
-			String form = df.format(cur_fxVol + delt);
-			float last = Float.parseFloat(form);
-			options.setFxvol(last);
-			
-		} else if (cur_fxVol_sldX < fxVol_sld_prevX) {
-			float temp = fxVol_sld_prevX - cur_fxVol_sldX;
-			float delt = temp / 100f;
-			String form = df.format(cur_fxVol - delt);
-			float last = Float.parseFloat(form);
-			options.setFxvol(last);
-		}
+	private void updateOptionsVals(float prev_fxVol, float prev_muVol, float prev_voVol) {
 
-		
+		options.setFxvol(convertNewValToOps(fxVol_sld_prevX, 0));
 		if(options.getFxvol()>1.0){
 			options.setFxvol(1.0f);
 		}else if(options.getFxvol()<0.0){
 			options.setFxvol(0.0f);
 		}
 		
-		if(s.playing()){
-			s.stop();
+		options.setMusevol(convertNewValToOps(mxVol_sld_prevX, 1));
+		if(options.getMusevol()>1.0){
+			options.setMusevol(1.0f);
+		}else if(options.getMusevol()<0.0){
+			options.setMusevol(0.0f);
 		}
-		s.play(1.0f, options.getFxvol());
+		
+		options.setVoicevol(convertNewValToOps(voVol_sld_prevX, 2));
+		if(options.getVoicevol()>1.0){
+			options.setVoicevol(1.0f);
+		}else if(options.getVoicevol()<0.0){
+			options.setVoicevol(0.0f);
+		}
 	}
+
+
 
 	private void renderLabels(Graphics gfx){
 		gfx.setColor(Color.green);
@@ -230,6 +246,10 @@ public class OptionMenuState extends BasicGameState{
 		gfx.drawString("*Only if it looks nice :3*", 261, 525);
 		gfx.drawString(modBTN_str, 261, 570);
 		gfx.drawString(backBTN_str, 36, 650);
+		
+		gfx.draw(voiBnd_rec);
+		gfx.draw(sfxBnd_rec);
+		gfx.draw(musBnd_rec);
 	}
 	
 	private void renderSliders(Graphics gfx){
@@ -239,18 +259,16 @@ public class OptionMenuState extends BasicGameState{
 		gfx.draw(voiVol_rec);
 		
 		gfx.fill(sfxVol_sld);
-		float mod = options.getFxvol()*100;
-		String s = String.valueOf(mod);
-		String.format(s, fd);
-		uilib.drawStringNextToShape(s, sfxVol_rec, 6, 1, gfx);
+		
+		uilib.drawStringNextToShape(getFormattedValue(options.getFxvol()), sfxVol_rec, 6, 1, gfx);
 		
 		gfx.fill(musVol_sld);
 		
-		uilib.drawStringNextToShape(String.valueOf(options.getMusevol()), musVol_rec, 6, 1, gfx);
+		uilib.drawStringNextToShape(getFormattedValue(options.getMusevol()), musVol_rec, 6, 1, gfx);
 		
 		gfx.fill(voiVol_sld);
 		
-		uilib.drawStringNextToShape(String.valueOf(options.getVoicevol()), voiVol_rec, 6, 1, gfx);
+		uilib.drawStringNextToShape(getFormattedValue(options.getVoicevol()), voiVol_rec, 6, 1, gfx);
 		
 	}
 	
@@ -291,4 +309,38 @@ public class OptionMenuState extends BasicGameState{
 
 	}
 	
+	private float convertNewValToOps(float prev_vol, int slider) {
+		float cur_sldr_x = 0f, temp, delta, prevVol=0f, result = 0f;
+		if(slider == 0){
+			cur_sldr_x = sfxVol_sld.getCenterX();
+		}else if(slider == 1){
+			cur_sldr_x = musVol_sld.getCenterX();
+		}else if(slider == 2){
+			cur_sldr_x = voiVol_sld.getCenterX();
+		}
+		prevVol  = prev_vol;
+		
+		if(cur_sldr_x > prevVol ){
+			temp = cur_sldr_x - prevVol;
+			delta = temp / 100f;
+			String form = df.format(cur_sldr_x + delta);
+			result = Float.parseFloat(form);
+			return result;
+		}else if(cur_sldr_x < prevVol ){
+			temp = prevVol-cur_sldr_x;
+			delta = temp / 100f;
+			String form = df.format(cur_sldr_x - delta);
+			result = Float.parseFloat(form);
+			return result;
+		}
+		return result;
+	}
+	
+	private String getFormattedValue(float val){
+		String form;
+		float mod = val*100;
+		form = String.valueOf(mod);
+		String.format(form, fd);
+		return form;
+	}
 }
