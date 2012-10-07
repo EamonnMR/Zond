@@ -51,7 +51,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr,hdm));
 		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
 		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
-		this.addState(new MainMenuState(MAINMENUSTATE));
+		this.addState(new MainMenuState(MAINMENUSTATE, gDB));
 		this.addState(new HangarBayState(HANGARBAYSTATE));
 		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions(), gDB));
 		this.addState(new ModHudMenuState(HUDMODSTATE, hdm));

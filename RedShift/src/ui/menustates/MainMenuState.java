@@ -3,6 +3,7 @@ package ui.menustates;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -11,47 +12,41 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.UILib;
+import core.GameDatabase;
 
 public class MainMenuState extends BasicGameState {
 
 	private int id;
-	private String title, playBTN_str, scenBTN_str, optBTN_str, quitBTN_str;
+	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec, comScrn_rec;
-	private UILib ulib;
+	private GameDatabase gdb;
+	private Image campBTN_img, scenBTN_img, optBTN_img, qutBTN_img, montrBKG;
 	
-	public MainMenuState(int i){
+	public MainMenuState(int i, GameDatabase g){
 		id = i;
-		ulib = new UILib();
+		gdb = g;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		
+
 		title = "RedShift";
-		playBTN_str = "[Campaign]";
-		scenBTN_str = "[Scenarios]";
-		optBTN_str = "[Options]";
-		quitBTN_str = "[Quit]";
 		
 		mouse_rec = new Rectangle(0,0,1,1);
-		playBTN_rec = new Rectangle(0,0,100,25);
-		playBTN_rec.setCenterX(100);
-		playBTN_rec.setCenterY(357);
 		
-		scenBTN_rec = new Rectangle(0, 0, 100, 25);
-		scenBTN_rec.setCenterX(100);
-		scenBTN_rec.setCenterY(455);
+		montrBKG = gdb.getIMG("montrBKC");
 		
-		optBTN_rec = new Rectangle(0,0,90,25);
-		optBTN_rec.setCenterX(95);
-		optBTN_rec.setCenterY(553);
-		
-		quitBTN_rec = new Rectangle(0,0,60,25);
-		quitBTN_rec.setCenterX(80);
-		quitBTN_rec.setCenterY(651);
-		comScrn_rec = new Rectangle(20, 300, 500, 450);
-		
+		campBTN_img = gdb.getIMG("campBTN_n");
+		scenBTN_img = gdb.getIMG("scenBTN_n");
+		optBTN_img = gdb.getIMG("optBTN_n");
+		qutBTN_img = gdb.getIMG("qutBTN_n");
+
+		playBTN_rec = new Rectangle(50, 345,campBTN_img.getWidth(),campBTN_img.getHeight());
+		scenBTN_rec = new Rectangle(50, 410, scenBTN_img.getWidth(), scenBTN_img.getHeight());	
+		optBTN_rec = new Rectangle(50, 485,optBTN_img.getWidth(),optBTN_img.getHeight());
+		quitBTN_rec = new Rectangle(50, 545, qutBTN_img.getWidth(),qutBTN_img.getHeight());
+
 	}
 
 	@Override
@@ -69,19 +64,21 @@ public class MainMenuState extends BasicGameState {
 		gfx.draw(mouse_rec);
 		
 		gfx.setColor(Color.green);
-		gfx.draw(comScrn_rec);
 		gfx.fill(mouse_rec);
+		
+
+		
+		gfx.drawImage(montrBKG, 20, 300);
+		gfx.drawImage(campBTN_img, 50, 345);
+		gfx.drawImage(scenBTN_img, 50, 410);
+		gfx.drawImage(optBTN_img, 50, 485);
+		gfx.drawImage(qutBTN_img, 50, 545);
 		
 		gfx.draw(playBTN_rec);
 		gfx.draw(scenBTN_rec);
 		gfx.draw(optBTN_rec);
 		gfx.draw(quitBTN_rec);
 		
-		ulib.drawStringAtShapeCenter(playBTN_str,playBTN_rec , gfx);
-		ulib.drawStringAtShapeCenter(scenBTN_str, scenBTN_rec, gfx);
-		ulib.drawStringAtShapeCenter(optBTN_str,optBTN_rec , gfx);
-		ulib.drawStringAtShapeCenter(quitBTN_str,quitBTN_rec , gfx);
-	
 	}
 
 	@Override
@@ -142,5 +139,4 @@ public class MainMenuState extends BasicGameState {
 	public int getID() {
 		return id;
 	}
-
 }
