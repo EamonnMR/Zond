@@ -19,3 +19,9 @@
 [asteroid]    (assets/images/doodads/ast1.png)
 [skylab]      (assets/images/ships/nasa/skypost.png)
 [skypost]     (assets/images/ships/nasa/skypost_beta.png)
+/UI/
+[campBTN_n]	(assets/images/gui/mainmenu/campBTN_n.png)
+[scenBTN_n]	(assets/images/gui/mainmenu/scenBTN_n.png)
+[optBTN_n]	(assets/images/gui/mainmenu/optBTN_n.png)
+[qutBTN_n]	(assets/images/gui/mainmenu/qutBTN_n.png)
+[montrBKC]	(assets/images/gui/mainmenu/menu_monitor_bkg.png)

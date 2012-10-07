@@ -44,7 +44,8 @@ public class ClientLoaderState extends BasicGameState {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		entFac.ini(gdb);		
+		entFac.ini(gdb);
+
 	}
 
 	@Override
@@ -61,6 +62,7 @@ public class ClientLoaderState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
+		
 		arg1.enterState(3);
 	}
 

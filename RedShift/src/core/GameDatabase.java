@@ -183,6 +183,15 @@ public class GameDatabase {
 	}
 	
 	/**
+	 * gets an images, whoopee
+	 * @param s
+	 * @return
+	 */
+	public Image getIMG(String s){
+		return indexImages.get(s);
+	}
+	
+	/**
 	 *build all ship instances
 	 * populate map with instances
 	 */
