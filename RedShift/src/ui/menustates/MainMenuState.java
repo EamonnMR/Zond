@@ -10,15 +10,18 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import ui.UILib;
+
 public class MainMenuState extends BasicGameState {
 
 	private int id;
-	private String title, playBTN_str, optBTN_str, quitBTN_str;
-	private Rectangle playBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec, comScrn_rec;
+	private String title, playBTN_str, scenBTN_str, optBTN_str, quitBTN_str;
+	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec, comScrn_rec;
+	private UILib ulib;
 	
 	public MainMenuState(int i){
 		id = i;
-		
+		ulib = new UILib();
 	}
 	
 	@Override
@@ -26,14 +29,27 @@ public class MainMenuState extends BasicGameState {
 			throws SlickException {
 		
 		title = "RedShift";
-		playBTN_str = "Campaign";
-		optBTN_str = "Options";
-		quitBTN_str = "Quit";
+		playBTN_str = "[Campaign]";
+		scenBTN_str = "[Scenarios]";
+		optBTN_str = "[Options]";
+		quitBTN_str = "[Quit]";
 		
 		mouse_rec = new Rectangle(0,0,1,1);
-		playBTN_rec = new Rectangle(100,200,100,50);
-		optBTN_rec = new Rectangle(100,350,100,50);
-		quitBTN_rec = new Rectangle(100,500,100,50);
+		playBTN_rec = new Rectangle(0,0,100,25);
+		playBTN_rec.setCenterX(100);
+		playBTN_rec.setCenterY(357);
+		
+		scenBTN_rec = new Rectangle(0, 0, 100, 25);
+		scenBTN_rec.setCenterX(100);
+		scenBTN_rec.setCenterY(455);
+		
+		optBTN_rec = new Rectangle(0,0,90,25);
+		optBTN_rec.setCenterX(95);
+		optBTN_rec.setCenterY(553);
+		
+		quitBTN_rec = new Rectangle(0,0,60,25);
+		quitBTN_rec.setCenterX(80);
+		quitBTN_rec.setCenterY(651);
 		comScrn_rec = new Rectangle(20, 300, 500, 450);
 		
 	}
@@ -56,15 +72,16 @@ public class MainMenuState extends BasicGameState {
 		gfx.draw(comScrn_rec);
 		gfx.fill(mouse_rec);
 		
-		gfx.setColor(Color.gray);
 		gfx.draw(playBTN_rec);
+		gfx.draw(scenBTN_rec);
 		gfx.draw(optBTN_rec);
 		gfx.draw(quitBTN_rec);
 		
-		gfx.setColor(Color.red);
-		gfx.drawString(playBTN_str, playBTN_rec.getCenterX(), playBTN_rec.getCenterY());
-		gfx.drawString(optBTN_str, optBTN_rec.getCenterX(), optBTN_rec.getCenterY());
-		gfx.drawString(quitBTN_str, quitBTN_rec.getCenterX(), quitBTN_rec.getCenterY());
+		ulib.drawStringAtShapeCenter(playBTN_str,playBTN_rec , gfx);
+		ulib.drawStringAtShapeCenter(scenBTN_str, scenBTN_rec, gfx);
+		ulib.drawStringAtShapeCenter(optBTN_str,optBTN_rec , gfx);
+		ulib.drawStringAtShapeCenter(quitBTN_str,quitBTN_rec , gfx);
+	
 	}
 
 	@Override
@@ -88,10 +105,14 @@ public class MainMenuState extends BasicGameState {
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
-				stbg.enterState(0, new FadeOutTransition(Color.gray), null);
+				stbg.enterState(1, new FadeOutTransition(Color.gray), null);
+			}
+			if(scenBTN_rec.intersects(mouse_rec)){
+				
 			}
 			if(optBTN_rec.intersects(mouse_rec)){
 				stbg.enterState(4);
+
 			}
 			if(quitBTN_rec.intersects(mouse_rec)){
 				gc.exit();
@@ -102,6 +123,10 @@ public class MainMenuState extends BasicGameState {
 //				playBTN_rec.setCenterX(gc.getInput().getMouseX());
 //				playBTN_rec.setCenterY(gc.getInput().getMouseY());
 //			}
+//			if(scenBTN_rec.intersects(mouse_rec)){
+//				scenBTN_rec.setCenterX(mouse_rec.getCenterX());
+//				scenBTN_rec.setCenterY(mouse_rec.getCenterY());
+//			}
 //			if(optBTN_rec.intersects(mouse_rec)){
 //				optBTN_rec.setCenterX(gc.getInput().getMouseX());
 //				optBTN_rec.setCenterY(gc.getInput().getMouseY());
@@ -109,10 +134,6 @@ public class MainMenuState extends BasicGameState {
 //			if(quitBTN_rec.intersects(mouse_rec)){
 //				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
 //				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
-//			}
-//			if(comScrn_rec.intersects(mouse_rec)){
-//				comScrn_rec.setCenterX(gc.getInput().getMouseX());
-//				comScrn_rec.setCenterY(gc.getInput().getMouseY());
 //			}
 		}
 	}

@@ -63,7 +63,7 @@ public class OptionMenuState extends BasicGameState{
 		modBTN_rec = new Rectangle(261,567,112,22);
 		
 		//bounding rectangles
-		sfxBnd_rec = new Rectangle(105,425,100,21);
+		sfxBnd_rec = new Rectangle(105,420,100,21);
 		musBnd_rec = new Rectangle(105,495,100,21);
 		voiBnd_rec = new Rectangle(105,570,100,21);
 		
@@ -247,9 +247,9 @@ public class OptionMenuState extends BasicGameState{
 		gfx.drawString(modBTN_str, 261, 570);
 		gfx.drawString(backBTN_str, 36, 650);
 		
-		gfx.draw(voiBnd_rec);
-		gfx.draw(sfxBnd_rec);
-		gfx.draw(musBnd_rec);
+//		gfx.draw(voiBnd_rec);
+//		gfx.draw(sfxBnd_rec);
+//		gfx.draw(musBnd_rec);
 	}
 	
 	private void renderSliders(Graphics gfx){
@@ -276,11 +276,14 @@ public class OptionMenuState extends BasicGameState{
 		gfx.setColor(Color.green);
 		if(options.getParticleStatus()){
 			gfx.setColor(Color.green);
+
 		}else{
 			gfx.setColor(Color.gray);
 		}
 		gfx.drawString(onPart_str, 390, 420);
-		gfx.draw(onPart_rec);
+		uilib.drawRectangleAroundString(onPart_str, 390, 420, gfx);
+		
+//		gfx.draw(onPart_rec);
 		
 		if(options.getParticleStatus()){
 			gfx.setColor(Color.gray);
@@ -288,7 +291,7 @@ public class OptionMenuState extends BasicGameState{
 			gfx.setColor(Color.green);
 		}
 		gfx.drawString(offPart_str, 450, 420);
-		gfx.draw(offPart_rec);
+		uilib.drawRectangleAroundString(offPart_str, 450, 420, gfx);
 		
 		
 		if(options.getFullscreenStatus()){
@@ -297,7 +300,7 @@ public class OptionMenuState extends BasicGameState{
 			gfx.setColor(Color.gray);
 		}
 		gfx.drawString(onPart_str, 390, 495);
-		gfx.draw(onFsc_rec);
+		uilib.drawRectangleAroundString(onPart_str, 390, 495, gfx);
 		
 		if(options.getFullscreenStatus()){
 			gfx.setColor(Color.gray);
@@ -305,7 +308,7 @@ public class OptionMenuState extends BasicGameState{
 			gfx.setColor(Color.green);
 		}
 		gfx.drawString(offPart_str, 450, 495);
-		gfx.draw(offFsc_rec);
+		uilib.drawRectangleAroundString(offPart_str, 450, 495, gfx);
 
 	}
 	
