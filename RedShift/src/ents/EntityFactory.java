@@ -57,18 +57,6 @@ public class EntityFactory {
 			BasicEngine e = buildEngine(engPointer);
 			build.setEngine(e);
 		}
-		
-		//XXX:hacky hack hack
-		//TODO: properly made, rotatable collider
-		/*if(shipPointer=="lunar"){
-			Polygon p = new Polygon();
-			p.addPoint(-64, 42);
-			p.addPoint(64, 42);
-			p.addPoint(64, -42);
-			p.addPoint(-64, -42);
-			build.setCollider(p);
-		}*/
-		
 		return build;
 	}
 	

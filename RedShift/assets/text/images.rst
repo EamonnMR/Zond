@@ -20,7 +20,7 @@
 [skylab]      (assets/images/ships/nasa/skypost.png)
 [skypost]     (assets/images/ships/nasa/skypost_beta.png)
 /UI/
-[campBTN_n]	(assets/images/gui/mainmenu/campBTN_n.png)
+[campBTN_n]	(assets/images/gui/mainmenu/campBTN_n_test.png)
 [scenBTN_n]	(assets/images/gui/mainmenu/scenBTN_n.png)
 [optBTN_n]	(assets/images/gui/mainmenu/optBTN_n.png)
 [qutBTN_n]	(assets/images/gui/mainmenu/qutBTN_n.png)
