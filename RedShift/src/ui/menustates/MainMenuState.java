@@ -11,14 +11,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import ui.UILib;
 import core.GameDatabase;
 
 public class MainMenuState extends BasicGameState {
 
 	private int id;
 	private String title;
-	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec, comScrn_rec;
+	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image campBTN_img, scenBTN_img, optBTN_img, qutBTN_img, montrBKG;
 	
@@ -42,10 +41,10 @@ public class MainMenuState extends BasicGameState {
 		optBTN_img = gdb.getIMG("optBTN_n");
 		qutBTN_img = gdb.getIMG("qutBTN_n");
 
-		playBTN_rec = new Rectangle(50, 345,campBTN_img.getWidth(),campBTN_img.getHeight());
-		scenBTN_rec = new Rectangle(50, 410, scenBTN_img.getWidth(), scenBTN_img.getHeight());	
-		optBTN_rec = new Rectangle(50, 485,optBTN_img.getWidth(),optBTN_img.getHeight());
-		quitBTN_rec = new Rectangle(50, 545, qutBTN_img.getWidth(),qutBTN_img.getHeight());
+		playBTN_rec = new Rectangle(25, 345,campBTN_img.getWidth(),campBTN_img.getHeight());
+		scenBTN_rec = new Rectangle(25, 410, scenBTN_img.getWidth(), scenBTN_img.getHeight());	
+		optBTN_rec = new Rectangle(25, 485,optBTN_img.getWidth(),optBTN_img.getHeight());
+		quitBTN_rec = new Rectangle(25, 545, qutBTN_img.getWidth(),qutBTN_img.getHeight());
 
 	}
 
@@ -69,16 +68,17 @@ public class MainMenuState extends BasicGameState {
 
 		
 		gfx.drawImage(montrBKG, 20, 300);
-		gfx.drawImage(campBTN_img, 50, 345);
-		gfx.drawImage(scenBTN_img, 50, 410);
-		gfx.drawImage(optBTN_img, 50, 485);
-		gfx.drawImage(qutBTN_img, 50, 545);
+		gfx.drawImage(campBTN_img, 25, 345);
+		gfx.drawImage(scenBTN_img, 25, 410);
+		gfx.drawImage(optBTN_img, 25, 485);
+		gfx.drawImage(qutBTN_img, 25, 545);
 		
-		gfx.draw(playBTN_rec);
-		gfx.draw(scenBTN_rec);
-		gfx.draw(optBTN_rec);
-		gfx.draw(quitBTN_rec);
 		
+		//XXX:sanity stuff, remove when finalized
+//		gfx.draw(playBTN_rec);
+//		gfx.draw(scenBTN_rec);
+//		gfx.draw(optBTN_rec);
+//		gfx.draw(quitBTN_rec);	
 	}
 
 	@Override
@@ -115,6 +115,7 @@ public class MainMenuState extends BasicGameState {
 				gc.exit();
 			}
 		}
+		//only here for quick moving of recs
 		else if (gc.getInput().isMouseButtonDown(0)){
 //			if(playBTN_rec.intersects(mouse_rec)){
 //				playBTN_rec.setCenterX(gc.getInput().getMouseX());
