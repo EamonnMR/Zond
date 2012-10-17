@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -23,12 +24,12 @@ public class OptionMenuState extends BasicGameState{
 	private Rectangle mouse_rec, sfxVol_rec, musVol_rec, voiVol_rec, backBTN_rec, modBTN_rec, comScrn_rec;
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, offPart_rec, onFsc_rec, offFsc_rec;
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
-	private String title, sfxVol_str, musVol_str, voiVol_str, part_str, fullscrn_str, onPart_str, offPart_str, backBTN_str, modBTN_str;
 	private UILib uilib;
 	private DecimalFormat df, fd;
 	private float fxVol_sld_prevX, mxVol_sld_prevX, voVol_sld_prevX;
 	private GameDatabase gdb;
 	private Sound s;
+	private Image bkIMG,backBTN_i, cfghudBTN_i, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
 	
 	public OptionMenuState(int i, OptionsEnt ops, GameDatabase gdb){
 		id = i;
@@ -43,15 +44,18 @@ public class OptionMenuState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		//strings
-		title = "+-------+\n|Options|\n+-------+";
-		sfxVol_str = "+---+\n|SFX|\n+---+";
-		musVol_str = "+-----+\n|Music|\n+-----+";
-		voiVol_str = "+-----+\n|Voice|\n+-----+";
-		part_str = "+---------+\n|Particles|\n+---------+";
-		fullscrn_str = "+----------+\n|FullScreen|\n+----------+";
-		backBTN_str = "[Back]";
-		modBTN_str = "[Config HUD]";
+
+		bkIMG = gdb.getIMG("montrBKC");
+		backBTN_i = gdb.getIMG("bckBTN_n");
+		cfghudBTN_i = gdb.getIMG("cfghdBTN_n");
+		optLBL_i = gdb.getIMG("optLBL_n");
+		sfxLBL_i = gdb.getIMG("sfxLBL_n");
+		musLBL_i = gdb.getIMG("musLBL_n");
+		voiLBL_i = gdb.getIMG("voiLBL_n");
+		fscLBL_i = gdb.getIMG("fscLBL_n");
+		partLBL_i = gdb.getIMG("ptcLBL_n");
+		onBTN_i = gdb.getIMG("onBTN_n");
+		offBTN_i = gdb.getIMG("offBTN_n");
 		
 		//display rectangles
 		mouse_rec = new Rectangle(0,0,1,1);
@@ -73,12 +77,10 @@ public class OptionMenuState extends BasicGameState{
 		voiVol_sld = new Rectangle(155,570,5,21);
 		
 		//On Button
-		onPart_str = "[ON]";
 		onPart_rec = new Rectangle(385, 418, 50,22);
 		onFsc_rec = new Rectangle(385, 493, 50,22);
 		
 		//Off Button
-		offPart_str = "[OFF]";
 		offPart_rec = new Rectangle(449, 418, 50,22);
 		offFsc_rec = new Rectangle(449, 493, 50,22);
 	}
@@ -86,6 +88,7 @@ public class OptionMenuState extends BasicGameState{
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
+		gfx.drawImage(bkIMG, 20, 300);
 		gfx.setColor(Color.green);
 
 		String x = String.valueOf(arg0.getInput().getMouseX());
@@ -237,15 +240,38 @@ public class OptionMenuState extends BasicGameState{
 
 	private void renderLabels(Graphics gfx){
 		gfx.setColor(Color.green);
-		gfx.drawString(title,225, 305);
-		gfx.drawString(sfxVol_str, 36, 400);
-		gfx.drawString(musVol_str, 36, 475);
-		gfx.drawString(voiVol_str, 36, 550);
-		gfx.drawString(part_str, 261,400);
-		gfx.drawString(fullscrn_str,261, 475);
-		gfx.drawString("*Only if it looks nice :3*", 261, 525);
-		gfx.drawString(modBTN_str, 261, 570);
-		gfx.drawString(backBTN_str, 36, 650);
+//		gfx.drawString(title,225, 305);
+//		gfx.drawString(sfxVol_str, 36, 400);
+//		gfx.drawString(musVol_str, 36, 475);
+//		gfx.drawString(voiVol_str, 36, 550);
+//		gfx.drawString(part_str, 261,400);
+//		gfx.drawString(fullscrn_str,261, 475);
+//		gfx.drawString("*Only if it looks nice :3*", 261, 525);
+//		gfx.drawString(modBTN_str, 261, 570);
+//		gfx.drawString(backBTN_str, 36, 650);
+		gfx.drawImage(backBTN_i, 36, 650);
+		gfx.drawImage(cfghudBTN_i, 261, 570);
+		gfx.drawImage(optLBL_i, 225, 305);
+		gfx.drawImage(sfxLBL_i, 36, 400);
+		gfx.drawImage(musLBL_i, 36, 475);
+		gfx.drawImage(voiLBL_i, 36, 550);
+		gfx.drawImage(fscLBL_i, 261, 475);
+		gfx.drawImage(partLBL_i, 261,400);
+		gfx.drawImage(onBTN_i, 36, 550);
+		gfx.drawImage(offBTN_i, 36, 550);
+		gfx.drawImage(onBTN_i, 36, 550);
+		gfx.drawImage(offBTN_i, 36, 550);
+		
+//		backBTN_i = gdb.getIMG("bckBTN_n");
+//		cfghudBTN_i = gdb.getIMG("cfghdBTN_n");
+//		optLBL_i = gdb.getIMG("optLBL_n");
+//		sfxLBL_i = gdb.getIMG("sfxLBL_n");
+//		musLBL_i = gdb.getIMG("musLBL_n");
+//		voiLBL_i = gdb.getIMG("voiLBL_n");
+//		fscLBL_i = gdb.getIMG("fscLBL_n");
+//		partLBL_i = gdb.getIMG("ptcLBL_n");
+//		onBTN_i = gdb.getIMG("onBTN_n");
+//		offBTN_i = gdb.getIMG("offBTN_n");
 		
 //		gfx.draw(voiBnd_rec);
 //		gfx.draw(sfxBnd_rec);
@@ -275,23 +301,18 @@ public class OptionMenuState extends BasicGameState{
 	private void renderOnOffs(Graphics gfx) {
 		gfx.setColor(Color.green);
 		if(options.getParticleStatus()){
-			gfx.setColor(Color.green);
-
+			gfx.drawImage(onBTN_i, 390, 420);
 		}else{
-			gfx.setColor(Color.gray);
+			gfx.drawImage(offBTN_i, 390, 420);
 		}
-		gfx.drawString(onPart_str, 390, 420);
-		uilib.drawRectangleAroundString(onPart_str, 390, 420, gfx);
-		
-//		gfx.draw(onPart_rec);
 		
 		if(options.getParticleStatus()){
 			gfx.setColor(Color.gray);
 		}else{
 			gfx.setColor(Color.green);
 		}
-		gfx.drawString(offPart_str, 450, 420);
-		uilib.drawRectangleAroundString(offPart_str, 450, 420, gfx);
+//		gfx.drawString(offPart_str, 450, 420);
+//		uilib.drawRectangleAroundString(offPart_str, 450, 420, gfx);
 		
 		
 		if(options.getFullscreenStatus()){
@@ -299,16 +320,16 @@ public class OptionMenuState extends BasicGameState{
 		}else{
 			gfx.setColor(Color.gray);
 		}
-		gfx.drawString(onPart_str, 390, 495);
-		uilib.drawRectangleAroundString(onPart_str, 390, 495, gfx);
+//		gfx.drawString(onPart_str, 390, 495);
+//		uilib.drawRectangleAroundString(onPart_str, 390, 495, gfx);
 		
 		if(options.getFullscreenStatus()){
 			gfx.setColor(Color.gray);
 		}else{
 			gfx.setColor(Color.green);
 		}
-		gfx.drawString(offPart_str, 450, 495);
-		uilib.drawRectangleAroundString(offPart_str, 450, 495, gfx);
+//		gfx.drawString(offPart_str, 450, 495);
+//		uilib.drawRectangleAroundString(offPart_str, 450, 495, gfx);
 
 	}
 	
