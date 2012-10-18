@@ -22,7 +22,7 @@ public class OptionMenuState extends BasicGameState{
 	private int id, mX, mY;
 	private OptionsEnt options;
 	private Rectangle mouse_rec, sfxVol_rec, musVol_rec, voiVol_rec, backBTN_rec, modBTN_rec, comScrn_rec;
-	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, offPart_rec, onFsc_rec, offFsc_rec;
+	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, onFsc_rec;
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private UILib uilib;
 	private DecimalFormat df, fd;
@@ -56,33 +56,35 @@ public class OptionMenuState extends BasicGameState{
 		partLBL_i = gdb.getIMG("ptcLBL_n");
 		onBTN_i = gdb.getIMG("onBTN_n");
 		offBTN_i = gdb.getIMG("offBTN_n");
+		onBTN_i = gdb.getIMG("onBTN_n");
+		offBTN_i = gdb.getIMG("offBTN_n");
 		
 		//display rectangles
 		mouse_rec = new Rectangle(0,0,1,1);
-		sfxVol_rec = new Rectangle(105,425,100,11);
-		musVol_rec = new Rectangle(105,500,100,11);
-		voiVol_rec = new Rectangle(105,575,100,11);
+		
+		sfxVol_rec = new Rectangle(121,422,100,11);
+		musVol_rec = new Rectangle(121,497,100,11);
+		voiVol_rec = new Rectangle(121,572,100,11);
+		
 		comScrn_rec = new Rectangle(20, 300, 500, 450);
-		backBTN_rec = new Rectangle(35,650,60,22);
-		modBTN_rec = new Rectangle(261,567,112,22);
+		
+		backBTN_rec = new Rectangle(35,650,96,19);
+		modBTN_rec = new Rectangle(261,567,165,22);
 		
 		//bounding rectangles
-		sfxBnd_rec = new Rectangle(105,420,100,21);
-		musBnd_rec = new Rectangle(105,495,100,21);
-		voiBnd_rec = new Rectangle(105,570,100,21);
+		sfxBnd_rec = new Rectangle(121,418,100,21);
+		musBnd_rec = new Rectangle(121,492,100,21);
+		voiBnd_rec = new Rectangle(121,568,100,21);
 		
 		//sliders
-		sfxVol_sld = new Rectangle(155,420,5,21);
-		musVol_sld = new Rectangle(155,495,5,21);
-		voiVol_sld = new Rectangle(155,570,5,21);
+		sfxVol_sld = new Rectangle(155,418,5,21);
+		musVol_sld = new Rectangle(155,493,5,21);
+		voiVol_sld = new Rectangle(155,568,5,21);
 		
-		//On Button
-		onPart_rec = new Rectangle(385, 418, 50,22);
-		onFsc_rec = new Rectangle(385, 493, 50,22);
-		
-		//Off Button
-		offPart_rec = new Rectangle(449, 418, 50,22);
-		offFsc_rec = new Rectangle(449, 493, 50,22);
+		//On/off Button
+		onPart_rec = new Rectangle(410, 417, 84,20);
+		onFsc_rec = new Rectangle(410, 492, 84,20);
+	
 	}
 
 	@Override
@@ -96,8 +98,6 @@ public class OptionMenuState extends BasicGameState{
 		x = String.valueOf(arg0.getInput().getMouseY());
 		gfx.drawString(x, 150, 10);
 		gfx.draw(comScrn_rec);
-		gfx.draw(modBTN_rec);
-		gfx.draw(backBTN_rec);
 		
 		renderLabels(gfx);
 		renderSliders(gfx);
@@ -128,7 +128,7 @@ public class OptionMenuState extends BasicGameState{
 		updateOptionsVals(prev_fxVol,prev_musVol,prev_voVol);
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
-			arg0.exit();
+			
 		}
 
 	}
@@ -147,8 +147,6 @@ public class OptionMenuState extends BasicGameState{
 	 * @param stg
 	 */
 	public void updateCollisions(int delta, Rectangle mouse, GameContainer gc, Input in, StateBasedGame stg){
-
-		
 		if(mouse.intersects(sfxBnd_rec)){
 			if(in.isMouseButtonDown(0)){
 				if(sfxVol_sld.intersects(mouse) && sfxVol_rec.contains(mX, 430)){
@@ -182,23 +180,22 @@ public class OptionMenuState extends BasicGameState{
 
 		if(in.isMousePressed(0)){
 			if(onPart_rec.intersects(mouse)){
-				options.setParticleStatus(true);
-			}
-			if(offPart_rec.intersects(mouse)){
-				options.setParticleStatus(false);
-			}
-			if(onFsc_rec.intersects(mouse)){
-				options.setFullscreenStatus(true);
-				try {
-					gc.setFullscreen(true);
-				} catch (SlickException e) {
-					e.printStackTrace();
+				if(options.getParticleStatus()==true){
+					options.setParticleStatus(false);
+				}else{
+					options.setParticleStatus(true);
 				}
 			}
-			if(offFsc_rec.intersects(mouse)){
-				options.setFullscreenStatus(false);
+			if(onFsc_rec.intersects(mouse)){
+				
+				if(options.getFullscreenStatus()==true){
+					options.setFullscreenStatus(false);
+				}else{
+					options.setFullscreenStatus(true);
+				}
+				
 				try {
-					gc.setFullscreen(false);
+					gc.setFullscreen(true);
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
@@ -240,15 +237,6 @@ public class OptionMenuState extends BasicGameState{
 
 	private void renderLabels(Graphics gfx){
 		gfx.setColor(Color.green);
-//		gfx.drawString(title,225, 305);
-//		gfx.drawString(sfxVol_str, 36, 400);
-//		gfx.drawString(musVol_str, 36, 475);
-//		gfx.drawString(voiVol_str, 36, 550);
-//		gfx.drawString(part_str, 261,400);
-//		gfx.drawString(fullscrn_str,261, 475);
-//		gfx.drawString("*Only if it looks nice :3*", 261, 525);
-//		gfx.drawString(modBTN_str, 261, 570);
-//		gfx.drawString(backBTN_str, 36, 650);
 		gfx.drawImage(backBTN_i, 36, 650);
 		gfx.drawImage(cfghudBTN_i, 261, 570);
 		gfx.drawImage(optLBL_i, 225, 305);
@@ -257,25 +245,10 @@ public class OptionMenuState extends BasicGameState{
 		gfx.drawImage(voiLBL_i, 36, 550);
 		gfx.drawImage(fscLBL_i, 261, 475);
 		gfx.drawImage(partLBL_i, 261,400);
-		gfx.drawImage(onBTN_i, 36, 550);
-		gfx.drawImage(offBTN_i, 36, 550);
-		gfx.drawImage(onBTN_i, 36, 550);
-		gfx.drawImage(offBTN_i, 36, 550);
 		
-//		backBTN_i = gdb.getIMG("bckBTN_n");
-//		cfghudBTN_i = gdb.getIMG("cfghdBTN_n");
-//		optLBL_i = gdb.getIMG("optLBL_n");
-//		sfxLBL_i = gdb.getIMG("sfxLBL_n");
-//		musLBL_i = gdb.getIMG("musLBL_n");
-//		voiLBL_i = gdb.getIMG("voiLBL_n");
-//		fscLBL_i = gdb.getIMG("fscLBL_n");
-//		partLBL_i = gdb.getIMG("ptcLBL_n");
-//		onBTN_i = gdb.getIMG("onBTN_n");
-//		offBTN_i = gdb.getIMG("offBTN_n");
-		
-//		gfx.draw(voiBnd_rec);
-//		gfx.draw(sfxBnd_rec);
-//		gfx.draw(musBnd_rec);
+		gfx.draw(voiBnd_rec);
+		gfx.draw(sfxBnd_rec);
+		gfx.draw(musBnd_rec);
 	}
 	
 	private void renderSliders(Graphics gfx){
@@ -299,38 +272,17 @@ public class OptionMenuState extends BasicGameState{
 	}
 	
 	private void renderOnOffs(Graphics gfx) {
-		gfx.setColor(Color.green);
 		if(options.getParticleStatus()){
-			gfx.drawImage(onBTN_i, 390, 420);
+			gfx.drawImage(onBTN_i, 410, 416);
 		}else{
-			gfx.drawImage(offBTN_i, 390, 420);
+			gfx.drawImage(offBTN_i, 410, 416);
 		}
-		
-		if(options.getParticleStatus()){
-			gfx.setColor(Color.gray);
-		}else{
-			gfx.setColor(Color.green);
-		}
-//		gfx.drawString(offPart_str, 450, 420);
-//		uilib.drawRectangleAroundString(offPart_str, 450, 420, gfx);
-		
 		
 		if(options.getFullscreenStatus()){
-			gfx.setColor(Color.green);
+			gfx.drawImage(onBTN_i, 410, 491);
 		}else{
-			gfx.setColor(Color.gray);
+			gfx.drawImage(offBTN_i, 410, 491);
 		}
-//		gfx.drawString(onPart_str, 390, 495);
-//		uilib.drawRectangleAroundString(onPart_str, 390, 495, gfx);
-		
-		if(options.getFullscreenStatus()){
-			gfx.setColor(Color.gray);
-		}else{
-			gfx.setColor(Color.green);
-		}
-//		gfx.drawString(offPart_str, 450, 495);
-//		uilib.drawRectangleAroundString(offPart_str, 450, 495, gfx);
-
 	}
 	
 	private float convertNewValToOps(float prev_vol, int slider) {
