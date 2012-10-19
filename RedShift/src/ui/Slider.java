@@ -10,13 +10,11 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Slider {
 
-	private Rectangle bar, slider;
-	private Double value, min, max;
+	private Rectangle bar, slider, bounding;
+	private float value, min, mid, max;
 	
-	public Slider(float x, float y, double lo, double hi){
-		bar = new Rectangle(0,0,0,0);
-		bar.setCenterX(x);
-		bar.setCenterY(y);
+	public Slider(float x, float y, float lo, float m, float hi){
+		
 	}
 	
 	public void render(Graphics gfx){
