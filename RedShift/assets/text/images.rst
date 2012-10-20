@@ -42,3 +42,8 @@
 [voiLBL_n]	(assets/images/gui/options/voiLBL_n.png)
 [fscLBL_n]	(assets/images/gui/options/fscLBL_n.png)
 [ptcLBL_n]	(assets/images/gui/options/ptcLBL_n.png)
+/HUD/
+[radar_i]	(assets/images/gui/hud/radar_i.png)
+[engine_i]	(assets/images/gui/hud/engine_i.png)
+[hp_i]		(assets/images/gui/hud/hp_i.png)
+[wep_i]		(assets/images/gui/hud/weapon_i.png)
