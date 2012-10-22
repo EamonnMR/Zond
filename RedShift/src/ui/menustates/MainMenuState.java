@@ -98,7 +98,7 @@ public class MainMenuState extends BasicGameState {
 		if(gc.getInput().isMousePressed(0)){
 			if(playBTN_rec.intersects(mouse_rec)){
 				try {
-					stbg.getState(0).init(gc, stbg);
+					stbg.getState(1).init(gc, stbg);
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
@@ -109,7 +109,6 @@ public class MainMenuState extends BasicGameState {
 			}
 			if(optBTN_rec.intersects(mouse_rec)){
 				stbg.enterState(4);
-
 			}
 			if(quitBTN_rec.intersects(mouse_rec)){
 				gc.exit();
