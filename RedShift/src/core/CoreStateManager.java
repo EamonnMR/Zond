@@ -48,22 +48,12 @@ public class CoreStateManager extends StateBasedGame {
 		hdm = new HudDataModel();
 		
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.addState(new ClientGameplayState(CLIENTPLAYSTATE, player, gDB, entFac, lvbr,hdm));
-		this.addState(new GameOverState(CLIENTGAMEOVERSTATE));
-		this.addState(new GameSuccessState(CLIENTSUCCSTATE));
-		this.addState(new MainMenuState(MAINMENUSTATE, gDB));
-		this.addState(new HangarBayState(HANGARBAYSTATE));
-		this.addState(new OptionMenuState(OPTIONSMENUSTATE, player.getOptions(), gDB));
-		this.addState(new ModHudMenuState(HUDMODSTATE, hdm));
 		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
-//		this.enterState(OPTIONSMENUSTATE);
-
 	}
 
 	//methods
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-//		this.getState(CLIENTLOADERSTATE).init(arg0, this);
 	}
 
     public static void main(String[] args) throws SlickException

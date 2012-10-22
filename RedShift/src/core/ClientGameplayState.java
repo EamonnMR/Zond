@@ -65,7 +65,7 @@ public class ClientGameplayState extends BasicGameState{
 	//EXTERNAL VARIABLES AND DATA=========================================
 	PlayerClient pc, pc2, pc3, pc4; //Why do we have four players?
 	private BaseLevel level; //soon to be deprecated
-//	private GameDatabase gdb;
+	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
@@ -76,7 +76,7 @@ public class ClientGameplayState extends BasicGameState{
 		
 		this.id = i;
 		this.hdm = h;
-//		this.gdb = gDB;
+		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
 		this.lb = lvl;
@@ -120,7 +120,7 @@ public class ClientGameplayState extends BasicGameState{
 			pc.setPlayShip(pc.retrieveShip("mercury"));
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			
-			playerHud = new Hud(pc, 1023, 767, hdm);
+			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
 		
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());

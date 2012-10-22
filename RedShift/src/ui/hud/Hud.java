@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
@@ -19,8 +20,8 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 import ui.UILib;
-
 import core.ClientGameplayState;
+import core.GameDatabase;
 import core.PlayerClient;
 import ents.BasicShip;
 
@@ -37,6 +38,8 @@ public class Hud {
 	UILib uiLib;
 	String shipName, gunName, engName;
 	Rectangle camBounds;
+	GameDatabase gdb;
+	Image name_i,hp_i,radar_i,engine_i,wep_i;
 	float x, y;
 	double hp, totalHP;
 	boolean googles = false; // bool for developer view mode
@@ -58,7 +61,7 @@ public class Hud {
 	Font hudFont;
 	PlayerClient pc;
 
-	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h) {
+	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
 		pc = cl;
 		detected = new HashMap<Boolean, BasicShip>();
@@ -67,6 +70,13 @@ public class Hud {
 		hp = pc.getPlayShip().getHealth();
 		totalHP = hp;
 		configHud(pc.getPlayShip());
+		this.gdb=gdb;
+		
+		hp_i = gdb.getIMG("hp_i");
+		radar_i = gdb.getIMG("radar_i");
+		engine_i = gdb.getIMG("engine_i");
+		wep_i = gdb.getIMG("wep_i");
+		
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -391,19 +401,23 @@ public class Hud {
 		gfx.setColor(Color.green);
 		
 		gfx.draw(hdm.getShipName_rec());
+
 		uiLib.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
 		
-		gfx.draw(hdm.getGunName_rec());
-		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
+//		gfx.draw(hdm.getGunName_rec());
+		gfx.drawImage(wep_i, hdm.getGunName_rec().getX(), hdm.getGunName_rec().getY());
+//		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
 		uiLib.drawStringNextToShape(pc.getPlayShip().getWeapon().getName(), hdm.getGunName_rec(), 6, 1, gfx);
 		
-		gfx.draw(hdm.getEngName_rec());
-		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
+//		gfx.draw(hdm.getEngName_rec());
+		gfx.drawImage(engine_i, hdm.getEngName_rec().getX(), hdm.getEngName_rec().getY());
+//		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
 		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
 		
 		checkHP(hp, gfx);
-		gfx.draw(hdm.getHp_rec());
-		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
+//		gfx.draw(hdm.getHp_rec());
+		gfx.drawImage(hp_i, hdm.getHp_rec().getX(), hdm.getHp_rec().getY());
+//		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
 		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
 		
 		gfx.setColor(Color.green);
@@ -413,8 +427,9 @@ public class Hud {
 			gfx.setColor(Color.gray);
 			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
 		}
-		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
-		gfx.draw(hdm.getRadar_rec());
+//		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
+//		gfx.draw(hdm.getRadar_rec());
+		gfx.drawImage(radar_i, hdm.getRadar_rec().getX(), hdm.getRadar_rec().getY());
 	}
 	
 	
