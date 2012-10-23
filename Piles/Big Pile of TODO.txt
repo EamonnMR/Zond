@@ -163,4 +163,14 @@ EMR-player data persistence
 1 September 2012
 
 Beta will basically be a tech demo, showcasing all the fun things
-a player can do in the game.  
+a player can do in the game. 
+
+//====Alpha blitz====11/25/12
+-final sprint towards a workable alpha
+-graphics for hud
+-graphics for hud mod menu
+-graphics / functionality for hangarstate
+-functionality for scenario selector
+-ai
+-scenarios
+-items

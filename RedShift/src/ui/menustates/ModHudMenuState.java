@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -13,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ui.UILib;
 import ui.hud.HudDataModel;
+import core.GameDatabase;
 
 public class ModHudMenuState extends BasicGameState {
 
@@ -21,17 +23,26 @@ public class ModHudMenuState extends BasicGameState {
 	private String resetBTN_str, backBTN_str;
 	private HudDataModel hdm;
 	private UILib uil;
+	private GameDatabase gdb;
+	private Image hp_i, radar_i, wep_i, eng_i;
 	
-	public ModHudMenuState(int i, HudDataModel h){
+	public ModHudMenuState(int i, HudDataModel h, GameDatabase g){
 		id = i;
 		mouse_rec = new Rectangle(0,0,1,1);
 		hdm = h;
 		uil =  new UILib();
+		gdb = g;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
+		hp_i = gdb.getIMG("hp_i");
+		radar_i = gdb.getIMG("radar_i");
+		wep_i = gdb.getIMG("weapon_i");
+		eng_i = gdb.getIMG("engine_i");
+		
+		
 		mouse_rec.setCenterX(arg0.getInput().getMouseX());
 		mouse_rec.setCenterY(arg0.getInput().getMouseY());
 		resetBTN_str = "RESET";
@@ -74,8 +85,8 @@ public class ModHudMenuState extends BasicGameState {
 		
 		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
 		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
+		gfx.drawImage(hp_i, hp_i.getCenterOfRotationX(), hp_i.getCenterOfRotationY());
 		gfx.draw(hdm.getHp_rec());
-		uil.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
 		
 		hdm.getMinimap_rec().setCenterX(hdm.getMinimap_point_mod().x);
 		hdm.getMinimap_rec().setCenterY(hdm.getMinimap_point_mod().y);

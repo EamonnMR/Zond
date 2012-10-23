@@ -19,8 +19,10 @@ public class HangarBayState extends BasicGameState {
 	private BasicShip displayShip;
 	private GameDatabase gdb;
 	
-	public HangarBayState(int i){
+	public HangarBayState(int i, GameDatabase g, PlayerClient p){
 		id = i;
+		gdb = g;
+		pc=p;
 	}
 	
 	@Override

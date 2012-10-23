@@ -66,9 +66,9 @@ public class ClientLoaderState extends BasicGameState {
 		arg1.addState(new GameOverState(-1));
 		arg1.addState(new GameSuccessState(2));
 		arg1.addState(new MainMenuState(3, gdb));
-		arg1.addState(new HangarBayState(5));
+		arg1.addState(new HangarBayState(5, gdb, player));
 		arg1.addState(new OptionMenuState(4, player.getOptions(), gdb));
-		arg1.addState(new ModHudMenuState(6, hdm));
+		arg1.addState(new ModHudMenuState(6, hdm, gdb));
 		
 		try {
 			arg1.getState(3).init(arg0, arg1);
