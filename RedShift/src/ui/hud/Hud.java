@@ -192,48 +192,48 @@ public class Hud {
 	 * @param s
 	 */
 	public void configHud(BasicShip s) {
-		hdm.setShipName(pc.getPlayShip().getName());
-		int padding = 4;
-		
-		Rectangle r = new Rectangle(0,
-									0,
-									uiLib.getStringPixelWidth(hdm.getShipName())+padding,
-									25);
-		hdm.setShipName_rec(r);
-		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
-		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
-		
-		Rectangle q = new Rectangle(0, 
-									0, 
-									uiLib.getStringPixelWidth(hdm.getGunName())+padding,
-									25);
-		hdm.setGunName_rec(q);
-		hdm.getGunName_rec().setCenterX(hdm.getGunName_point_mod().x);
-		hdm.getGunName_rec().setCenterY(hdm.getGunName_point_mod().y);
-		
-		Rectangle t = new Rectangle(0, 
-				  					0, 
-				  					uiLib.getStringPixelWidth(hdm.getHealth())+padding,
-				  					25);
-		hdm.setHp_rec(t);
-		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
-		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
-		
-		Rectangle u = new Rectangle(0, 
-				  					0, 
-				  					uiLib.getStringPixelWidth(hdm.getEngName())+padding,
-				  					25);
-		hdm.setEngName_rec(u);
-		hdm.getEngName_rec().setCenterX(hdm.getEngName_point_mod().x);
-		hdm.getEngName_rec().setCenterY(hdm.getEngName_point_mod().y);
-		
-		Rectangle v = new Rectangle(0, 
-				  					0, 
-				  					uiLib.getStringPixelWidth(hdm.getRadar())+padding,
-				  					25);
-		hdm.setRadar_rec(v);
-		hdm.getRadar_rec().setCenterX(hdm.getRadar_point_mod().x);
-		hdm.getRadar_rec().setCenterY(hdm.getRadar_point_mod().y);
+//		hdm.setShipName(pc.getPlayShip().getName());
+//		int padding = 4;
+//		
+//		Rectangle r = new Rectangle(0,
+//									0,
+//									uiLib.getStringPixelWidth(hdm.getShipName())+padding,
+//									25);
+//		hdm.setShipName_rec(r);
+//		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
+//		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
+//		
+//		Rectangle q = new Rectangle(0, 
+//									0, 
+//									uiLib.getStringPixelWidth(hdm.getGunName())+padding,
+//									25);
+//		hdm.setGunName_rec(q);
+//		hdm.getGunName_rec().setCenterX(hdm.getGunName_point_mod().x);
+//		hdm.getGunName_rec().setCenterY(hdm.getGunName_point_mod().y);
+//		
+//		Rectangle t = new Rectangle(0, 
+//				  					0, 
+//				  					uiLib.getStringPixelWidth(hdm.getHealth())+padding,
+//				  					25);
+//		hdm.setHp_rec(t);
+//		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
+//		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
+//		
+//		Rectangle u = new Rectangle(0, 
+//				  					0, 
+//				  					uiLib.getStringPixelWidth(hdm.getEngName())+padding,
+//				  					25);
+//		hdm.setEngName_rec(u);
+//		hdm.getEngName_rec().setCenterX(hdm.getEngName_point_mod().x);
+//		hdm.getEngName_rec().setCenterY(hdm.getEngName_point_mod().y);
+//		
+//		Rectangle v = new Rectangle(0, 
+//				  					0, 
+//				  					uiLib.getStringPixelWidth(hdm.getRadar())+padding,
+//				  					25);
+//		hdm.setRadar_rec(v);
+//		hdm.getRadar_rec().setCenterX(hdm.getRadar_point_mod().x);
+//		hdm.getRadar_rec().setCenterY(hdm.getRadar_point_mod().y);
 	}
 	
 	public void setDevGog(boolean b) {
@@ -398,38 +398,39 @@ public class Hud {
 	}
 	
 	public void renderShipInfo(Graphics gfx, int camX, int camY) {
-		gfx.setColor(Color.green);
-		
-		gfx.draw(hdm.getShipName_rec());
-
-		uiLib.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
-		
-//		gfx.draw(hdm.getGunName_rec());
-		gfx.drawImage(wep_i, hdm.getGunName_rec().getX(), hdm.getGunName_rec().getY());
-//		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
-		uiLib.drawStringNextToShape(pc.getPlayShip().getWeapon().getName(), hdm.getGunName_rec(), 6, 1, gfx);
-		
-//		gfx.draw(hdm.getEngName_rec());
-		gfx.drawImage(engine_i, hdm.getEngName_rec().getX(), hdm.getEngName_rec().getY());
-//		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
-		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
-		
-		checkHP(hp, gfx);
-//		gfx.draw(hdm.getHp_rec());
-		gfx.drawImage(hp_i, hdm.getHp_rec().getX(), hdm.getHp_rec().getY());
-//		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
-		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
-		
-		gfx.setColor(Color.green);
-		if(radarOn){
-			uiLib.drawStringNextToShape("ON", hdm.getRadar_rec(), 6, 1, gfx);
-		}else{
-			gfx.setColor(Color.gray);
-			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
-		}
-//		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
-//		gfx.draw(hdm.getRadar_rec());
-		gfx.drawImage(radar_i, hdm.getRadar_rec().getX(), hdm.getRadar_rec().getY());
+//		gfx.drawImage(hp_i, camX, camY)
+//		gfx.setColor(Color.green);
+//		
+//		gfx.draw(hdm.getShipName_rec());
+//
+//		uiLib.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
+//		
+////		gfx.draw(hdm.getGunName_rec());
+//		gfx.drawImage(wep_i, hdm.getGunName_rec().getX(), hdm.getGunName_rec().getY());
+////		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
+//		uiLib.drawStringNextToShape(pc.getPlayShip().getWeapon().getName(), hdm.getGunName_rec(), 6, 1, gfx);
+//		
+////		gfx.draw(hdm.getEngName_rec());
+//		gfx.drawImage(engine_i, hdm.getEngName_rec().getX(), hdm.getEngName_rec().getY());
+////		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
+//		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
+//		
+//		checkHP(hp, gfx);
+////		gfx.draw(hdm.getHp_rec());
+//		gfx.drawImage(hp_i, hdm.getHp_rec().getX(), hdm.getHp_rec().getY());
+////		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
+//		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
+//		
+//		gfx.setColor(Color.green);
+//		if(radarOn){
+//			uiLib.drawStringNextToShape("ON", hdm.getRadar_rec(), 6, 1, gfx);
+//		}else{
+//			gfx.setColor(Color.gray);
+//			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
+//		}
+////		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
+////		gfx.draw(hdm.getRadar_rec());
+//		gfx.drawImage(radar_i, hdm.getRadar_rec().getX(), hdm.getRadar_rec().getY());
 	}
 	
 	

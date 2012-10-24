@@ -2,6 +2,7 @@ package ui;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -112,6 +113,18 @@ public class UILib {
 		gfx.draw(rec);
 	}
 	
+	/**
+	 * draws an image at the center of a shape
+	 * @param g Graphics
+	 * @param b Shape
+	 * @param i Image
+	 */
+	public void drawImageAtShapeCenter(Graphics gfx, Shape b, Image i){
+		float x = b.getCenterX(), y=b.getCenterY();
+		int h=i.getHeight(),w=i.getWidth();
+		gfx.drawImage(i, x-(w/2), y-(h/2));
+	}
+	
 	
 	/**
 	 * draws a shape with a given color
@@ -133,5 +146,7 @@ public class UILib {
 		gfx.setColor(color);
 		gfx.drawString(s, x, y);
 	}
+	
+
 	
 }
