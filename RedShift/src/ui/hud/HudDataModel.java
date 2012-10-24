@@ -2,11 +2,6 @@ package ui.hud;
 
 import java.awt.Point;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
-
-import core.GameDatabase;
-
 /**
  * Data class to hold all the data related to the hud. It will have default values and variables
  * this is so the user can modify the in-game Hud.

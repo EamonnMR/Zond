@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Point;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -17,6 +19,73 @@ import org.newdawn.slick.geom.Shape;
 public class UILib {
  
 	public UILib(){
+	}
+	
+	/**
+	 * draws a rectangle around a given string;
+	 * @param s
+	 * @param x
+	 * @param y
+	 * @param gfx
+	 */
+	public void drawRectangleAroundString(String s, float x, float y, Graphics gfx){
+		Rectangle rec;
+		int len = getStringPixelWidth(s);
+		int h = getStringPixelHeight(s);
+		rec = new Rectangle(x-2, y-2, len+4,h+14);
+		gfx.draw(rec);
+	}
+	
+	/**
+	 * draws an image at the center of a shape
+	 * @param g Graphics
+	 * @param b Shape
+	 * @param i Image
+	 */
+	public void drawImageAtShapeCenter(Graphics gfx, Shape b, Image i){
+		float x = b.getCenterX(), y=b.getCenterY();
+		int h=i.getHeight(),w=i.getWidth();
+		gfx.drawImage(i, x-(w/2), y-(h/2));
+	}
+	
+	/**
+	 * draws an image centered on a point
+	 * @param gfx
+	 * @param i
+	 * @param x
+	 * @param y
+	 */
+	public void drawImageCenteredOnPoint(Graphics gfx, Image i, Point p){
+		int w=i.getWidth(),h=i.getHeight();
+		gfx.drawImage(i, p.x-(w/2), p.y-(h/2));
+	}
+	
+	/**
+	 * draws an image directly next to another image, no rotations!
+	 * @param gfx
+	 * @param orig
+	 * @param prox
+	 * @param p
+	 * @param dir 0-l, 1-r, 2-u, 3-d
+	 * @param dist
+	 */
+	public void drawImageNextToImage(Graphics gfx, Image orig, Image prox, Point p, int dir, int dist){
+		int w = orig.getWidth(), h=orig.getHeight();
+		float x=0f,y=0f;
+		if(dir==0){
+			x=(p.x-w/2)-(dist+prox.getWidth());
+			y=p.y-h/2;
+		}else if(dir==1){
+			x=(p.x+w/2)+dist;
+			y=p.y-h/2;
+		}else if(dir==2){
+			x=p.x;
+			y=(p.y-h/2)-(prox.getHeight()+dist);
+		}else if(dir==3){
+			x=p.x;
+			y=(p.y+h/2)+(+dist);
+		}
+		gfx.drawImage(prox, x, y);
 	}
 	
 	/**
@@ -54,6 +123,32 @@ public class UILib {
 		}else {
 			cX = b.getCenterX()-(getStringPixelWidth(s)/2);
 			cY = (b.getY() + distance)+16;
+		}
+		gfx.drawString(s, cX, cY-8);
+	}
+	
+	/**
+	 * @param s string
+	 * @param b shape
+	 * @param distance from shape
+	 * @param direction: 0 left, 1 right, 2 up, 3 down
+	 * @param gfx graphics class
+	 */
+	public void drawStringNextToImage(String s, Image i, int distance, int dir, Graphics gfx, Point p){
+		float cX= 0.0f, cY = 0.0f;
+		int w=i.getWidth(),h=i.getHeight();
+		if(dir == 0){
+			cX = (float) (p.getX() - (distance+ getStringPixelWidth(s)));
+			cY = (float) p.getY();
+		}else if(dir == 1){
+			cX = (float) ((p.getX()+(w/2)) + distance);
+			cY = (float) p.getY();
+		}else if(dir == 2){
+			cX = (float) (p.getX()-(getStringPixelWidth(s)/2));
+			cY = (float) ((p.getY()-h/2) - distance);
+		}else {
+			cX = (float) (p.getX()-(getStringPixelWidth(s)/2));
+			cY = (float) ((p.getY()-h/2) + distance)+16;
 		}
 		gfx.drawString(s, cX, cY-8);
 	}
@@ -97,34 +192,6 @@ public class UILib {
 			return 8;
 		}
 	}
-	
-	/**
-	 * draws a rectangle around a given string;
-	 * @param s
-	 * @param x
-	 * @param y
-	 * @param gfx
-	 */
-	public void drawRectangleAroundString(String s, float x, float y, Graphics gfx){
-		Rectangle rec;
-		int len = getStringPixelWidth(s);
-		int h = getStringPixelHeight(s);
-		rec = new Rectangle(x-2, y-2, len+4,h+14);
-		gfx.draw(rec);
-	}
-	
-	/**
-	 * draws an image at the center of a shape
-	 * @param g Graphics
-	 * @param b Shape
-	 * @param i Image
-	 */
-	public void drawImageAtShapeCenter(Graphics gfx, Shape b, Image i){
-		float x = b.getCenterX(), y=b.getCenterY();
-		int h=i.getHeight(),w=i.getWidth();
-		gfx.drawImage(i, x-(w/2), y-(h/2));
-	}
-	
 	
 	/**
 	 * draws a shape with a given color
