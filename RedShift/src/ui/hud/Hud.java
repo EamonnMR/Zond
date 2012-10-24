@@ -39,7 +39,7 @@ public class Hud {
 	String shipName, gunName, engName;
 	Rectangle camBounds;
 	GameDatabase gdb;
-	Image name_i,hp_i,radar_i,engine_i,wep_i;
+	Image name_i,hp_i,radar_i,engine_i,wep_i, on_i, off_i;
 	float x, y;
 	double hp, totalHP;
 	boolean googles = false; // bool for developer view mode
@@ -63,10 +63,10 @@ public class Hud {
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
-		pc = cl;
 		detected = new HashMap<Boolean, BasicShip>();
 		camBounds = new Rectangle(1,1,camBoundsW,camBoundsH);
 		hdm = h;
+		pc = cl;
 		hp = pc.getPlayShip().getHealth();
 		totalHP = hp;
 		configHud(pc.getPlayShip());
@@ -76,7 +76,11 @@ public class Hud {
 		radar_i = gdb.getIMG("radar_i");
 		engine_i = gdb.getIMG("engine_i");
 		wep_i = gdb.getIMG("wep_i");
-		
+		on_i=gdb.getIMG("onBTN_n");
+		off_i=gdb.getIMG("offBTN_n");
+		shipName=pc.getPlayShip().getName();
+		gunName=pc.getPlayShip().getWeapon().getName();
+		engName=pc.getPlayShip().getEngine().getName();
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -396,41 +400,43 @@ public class Hud {
 			}	
 		}
 	}
-	
+	/**
+	 * displays the player's ship info images 
+	 * @param gfx
+	 * @param camX
+	 * @param camY
+	 */
 	public void renderShipInfo(Graphics gfx, int camX, int camY) {
-//		gfx.drawImage(hp_i, camX, camY)
-//		gfx.setColor(Color.green);
-//		
-//		gfx.draw(hdm.getShipName_rec());
-//
-//		uiLib.drawStringAtShapeCenter(hdm.getShipName(), hdm.getShipName_rec(), gfx);
-//		
-////		gfx.draw(hdm.getGunName_rec());
-//		gfx.drawImage(wep_i, hdm.getGunName_rec().getX(), hdm.getGunName_rec().getY());
-////		uiLib.drawStringAtShapeCenter(hdm.getGunName(), hdm.getGunName_rec(), gfx);
-//		uiLib.drawStringNextToShape(pc.getPlayShip().getWeapon().getName(), hdm.getGunName_rec(), 6, 1, gfx);
-//		
-////		gfx.draw(hdm.getEngName_rec());
-//		gfx.drawImage(engine_i, hdm.getEngName_rec().getX(), hdm.getEngName_rec().getY());
-////		uiLib.drawStringAtShapeCenter(hdm.getEngName(), hdm.getEngName_rec(), gfx);
-//		uiLib.drawStringNextToShape(pc.getPlayShip().getEngine().getName(), hdm.getEngName_rec(), 6, 1, gfx);
-//		
-//		checkHP(hp, gfx);
-////		gfx.draw(hdm.getHp_rec());
-//		gfx.drawImage(hp_i, hdm.getHp_rec().getX(), hdm.getHp_rec().getY());
-////		uiLib.drawStringAtShapeCenter(hdm.getHealth(), hdm.getHp_rec(), gfx);
-//		uiLib.drawStringNextToShape(String.valueOf(hp), hdm.getHp_rec(), 6, 1, gfx);
-//		
-//		gfx.setColor(Color.green);
-//		if(radarOn){
-//			uiLib.drawStringNextToShape("ON", hdm.getRadar_rec(), 6, 1, gfx);
-//		}else{
-//			gfx.setColor(Color.gray);
-//			uiLib.drawStringNextToShape("OFF", hdm.getRadar_rec(), 6, 1, gfx);
-//		}
-////		uiLib.drawStringAtShapeCenter(hdm.getRadar(), hdm.getRadar_rec(), gfx);
-////		gfx.draw(hdm.getRadar_rec());
-//		gfx.drawImage(radar_i, hdm.getRadar_rec().getX(), hdm.getRadar_rec().getY());
+		gfx.setColor(Color.green);
+		
+		//name
+		float x = hdm.getShipName_point_mod().x - (uiLib.getStringPixelWidth(shipName)/2);
+		float y = hdm.getShipName_point_mod().y- (uiLib.getStringPixelHeight(shipName)/2);
+		gfx.drawString(shipName, x, y);
+		
+		//weapon
+		uiLib.drawImageCenteredOnPoint(gfx, wep_i, hdm.getGunName_point_mod());
+		uiLib.drawStringNextToImage(String.valueOf(gunName), wep_i, 0, 1, gfx, hdm.getGunName_point_mod());
+		
+		//engine
+		uiLib.drawImageCenteredOnPoint(gfx, engine_i, hdm.getEngName_point_mod());
+		uiLib.drawStringNextToImage(engName, engine_i, 0, 1, gfx, hdm.getEngName_point_mod());
+		
+		//health
+		//TODO:need that text to image convert piece in the uiLib
+		uiLib.drawImageCenteredOnPoint(gfx, hp_i, hdm.getHp_point_mod());
+		checkHP(hp, gfx);
+		uiLib.drawStringNextToImage(String.valueOf(hp), hp_i, 0, 1, gfx, hdm.getHp_point_mod());
+		
+		//radar
+		uiLib.drawImageCenteredOnPoint(gfx, radar_i, hdm.getRadar_point_mod());
+		if(radarOn){
+			uiLib.drawImageNextToImage(gfx, radar_i, on_i, hdm.getRadar_point_mod(), 1, 4);
+
+		}else{
+			uiLib.drawImageNextToImage(gfx, radar_i, off_i, hdm.getRadar_point_mod(), 1, 4);
+		}
+
 	}
 	
 	

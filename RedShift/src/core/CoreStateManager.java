@@ -36,7 +36,6 @@ public class CoreStateManager extends StateBasedGame {
 	public PlayerClient player;			//PlayerClient for the whole game
 	public EntityFactory entFac;		//Entity Factory for the whole game
 	public LevelBuilder lvbr;
-	private HudDataModel hdm;
 	
 	//constructor
 	public CoreStateManager() {
@@ -45,7 +44,6 @@ public class CoreStateManager extends StateBasedGame {
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
 		lvbr = new LevelBuilder();
-		hdm = new HudDataModel();
 		
 		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
 		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
