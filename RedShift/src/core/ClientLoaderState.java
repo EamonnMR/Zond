@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -61,13 +62,16 @@ public class ClientLoaderState extends BasicGameState {
 		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
 		
+		createGreenLetters(gdb.getIMG("grnAlphNm"));
+		createGrayLetters(gdb.getIMG("graAlphNm"));
+		
 		arg1.addState(new ClientGameplayState(0, player, gdb, entFac, lvbr,hdm));
 		arg1.addState(new ClientGameplayState(1, player, gdb, entFac, lvbr, hdm));
 		arg1.addState(new GameOverState(-1));
 		arg1.addState(new GameSuccessState(2));
 		arg1.addState(new MainMenuState(3, gdb));
-		arg1.addState(new HangarBayState(5, gdb, player));
 		arg1.addState(new OptionMenuState(4, player.getOptions(), gdb));
+		arg1.addState(new HangarBayState(5, gdb, player));
 		arg1.addState(new ModHudMenuState(6, hdm, gdb));
 		
 		try {
@@ -96,6 +100,16 @@ public class ClientLoaderState extends BasicGameState {
 			throws SlickException {
 
 		arg1.enterState(3);
+	}
+	
+
+	private void createGrayLetters(Image img) {
+		
+	}
+
+	private void createGreenLetters(Image img) {
+
+		
 	}
 
 }

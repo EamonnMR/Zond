@@ -50,6 +50,8 @@ public class GameDatabase {
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
 	private Map<String, Sound> indexSounds;
+	private Map<String, Image> greenLetters;
+	private Map<String, Image> grayLetters;
 	
 	//constructor
 	public GameDatabase(){}
@@ -84,6 +86,8 @@ public class GameDatabase {
 		indexEng = new HashMap<String, BasicEngine>();
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
+		greenLetters = new HashMap<String, Image>();
+		grayLetters = new HashMap<String, Image>();
 		populateAll();
 	}
 	
