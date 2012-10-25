@@ -19,6 +19,15 @@ import org.newdawn.slick.geom.Shape;
 public class UILib {
  
 	public UILib(){
+		
+	}
+	
+	
+	public Image convertTextToImage(String s, Image letters){
+		Image output = null;
+		
+		
+		return output;
 	}
 	
 	/**

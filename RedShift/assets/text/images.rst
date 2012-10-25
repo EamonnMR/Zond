@@ -31,6 +31,8 @@
 [optBTN_n]	(assets/images/gui/mainmenu/optBTN_n.png)
 [qutBTN_n]	(assets/images/gui/mainmenu/qutBTN_n.png)
 [montrBKC]	(assets/images/gui/mainmenu/menu_monitor_bkg.png)
+[grnAlphNm]	(assets/images/gui/greenAlphaNums.png)
+[graAlphNm]	(assets/images/gui/grayAlphaNums.png)
 /UI Options/
 [bckBTN_n]	(assets/images/gui/options/bckBTN_n.png)
 [cfghdBTN_n]	(assets/images/gui/options/cfghudBTN_n.png)

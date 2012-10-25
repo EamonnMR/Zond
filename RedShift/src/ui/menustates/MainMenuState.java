@@ -105,7 +105,7 @@ public class MainMenuState extends BasicGameState {
 				stbg.enterState(1, new FadeOutTransition(Color.gray), null);
 			}
 			if(scenBTN_rec.intersects(mouse_rec)){
-				
+				stbg.enterState(5);
 			}
 			if(optBTN_rec.intersects(mouse_rec)){
 				stbg.enterState(4);
@@ -113,25 +113,6 @@ public class MainMenuState extends BasicGameState {
 			if(quitBTN_rec.intersects(mouse_rec)){
 				gc.exit();
 			}
-		}
-		//only here for quick moving of recs
-		else if (gc.getInput().isMouseButtonDown(0)){
-//			if(playBTN_rec.intersects(mouse_rec)){
-//				playBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				playBTN_rec.setCenterY(gc.getInput().getMouseY());
-//			}
-//			if(scenBTN_rec.intersects(mouse_rec)){
-//				scenBTN_rec.setCenterX(mouse_rec.getCenterX());
-//				scenBTN_rec.setCenterY(mouse_rec.getCenterY());
-//			}
-//			if(optBTN_rec.intersects(mouse_rec)){
-//				optBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				optBTN_rec.setCenterY(gc.getInput().getMouseY());
-//			}
-//			if(quitBTN_rec.intersects(mouse_rec)){
-//				quitBTN_rec.setCenterX(gc.getInput().getMouseX());
-//				quitBTN_rec.setCenterY(gc.getInput().getMouseY());
-//			}
 		}
 	}
 
