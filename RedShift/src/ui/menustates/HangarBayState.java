@@ -85,6 +85,11 @@ public class HangarBayState extends BasicGameState {
 				gdb.getIMG("engine_i"), 
 				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
 						,center.y-(mainScn_i.getHeight()/2-10)));
+		try {
+			gfx.drawImage(ulib.convertTextToImage("012", gdb.getIMG("grnAlphNm"), gdb), 100, 300);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

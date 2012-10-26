@@ -9,6 +9,8 @@ import java.util.Map;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
@@ -50,9 +52,10 @@ public class GameDatabase {
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
 	private Map<String, Sound> indexSounds;
-	private Map<String, Image> greenLetters;
-	private Map<String, Image> grayLetters;
-	
+	private SpriteSheet greenAlphaNms;
+	private SpriteSheet grayAlphaNms;
+	private SpriteSheetFont greenFont;
+	private SpriteSheetFont grayFont;
 	//constructor
 	public GameDatabase(){}
 
@@ -86,8 +89,7 @@ public class GameDatabase {
 		indexEng = new HashMap<String, BasicEngine>();
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
-		greenLetters = new HashMap<String, Image>();
-		grayLetters = new HashMap<String, Image>();
+
 		populateAll();
 	}
 	
