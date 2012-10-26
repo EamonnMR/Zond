@@ -52,6 +52,7 @@ public class GameDatabase {
 	private Map<String, BasicShot> indexShot;
 	private Map<String, BasicArmor> indexArmor;
 	private Map<String, Sound> indexSounds;
+	private Map<String, SpriteSheetFont> indexFonts;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
@@ -89,7 +90,7 @@ public class GameDatabase {
 		indexEng = new HashMap<String, BasicEngine>();
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
-
+		indexFonts = new HashMap<String, SpriteSheetFont>();
 		populateAll();
 	}
 	
@@ -120,6 +121,7 @@ public class GameDatabase {
 		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateEngine();
 		xpopulateShips();
+		populateFonts();
 	}
 
 	private void ldSnd(String name, String location) {
@@ -311,6 +313,29 @@ public class GameDatabase {
 	 */
 	public BasicArmor getArmor(String index){
 		return indexArmor.get(index);
+	}
+	
+	
+	/**
+	 * creates the fonts out of sprite sheets
+	 */
+	public void populateFonts(){
+		greenAlphaNms = new SpriteSheet(getIMG("grnAlphNm"), 12, 17);
+		greenFont = new SpriteSheetFont(greenAlphaNms, '0');
+		indexFonts.put("green", greenFont);
+		
+		grayAlphaNms = new SpriteSheet(getIMG("graAlphNm"), 12, 17);
+		grayFont = new SpriteSheetFont(grayAlphaNms, '0');
+		indexFonts.put("gray", grayFont);
+	}
+
+	/**
+	 * get a font in the form of a sprite sheet font
+	 * @param s
+	 * @return
+	 */
+	public SpriteSheetFont getFont(String s){
+		return indexFonts.get(s);
 	}
 	
 	/**

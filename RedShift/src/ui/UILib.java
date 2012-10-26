@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -25,11 +26,20 @@ public class UILib {
 		
 	}
 	
-	
-	public Image convertTextToImage(String s, Image letters, GameDatabase gdb) throws SlickException{
-		Image output = new Image (s.length()*12, 17);
-
-		return output;
+	/**
+	 * takes text and draws it using a spritesheet 
+	 * @param s string to show
+	 * @param font font to use
+	 * @param gdb gamedatabase
+	 * @param gfx 
+	 * @param p point to draw at
+	 * @throws SlickException
+	 */
+	public void convertTextToImage(String s, String font, GameDatabase gdb, Graphics gfx, Point p) throws SlickException{
+		SpriteSheetFont f = gdb.getFont(font);
+		for(int i=0; i<s.length();i++){
+			f.drawString((float)p.x+(i*12), (float)p.y, String.valueOf(s.charAt(i)));
+		}
 	}
 	
 	/**

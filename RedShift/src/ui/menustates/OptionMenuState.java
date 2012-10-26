@@ -25,8 +25,7 @@ public class OptionMenuState extends BasicGameState{
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, onFsc_rec;
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private UILib uilib;
-	private DecimalFormat df;
-	private float fx_prvX, ms_prvX, vo_prvX,sfxBnd_x,prev_musVol,prev_voVol;
+	private float fx_prvX,sfxBnd_x;
 	private GameDatabase gdb;
 	private Sound s;
 	private Image bkIMG,backBTN_i, cfghudBTN_i, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
@@ -35,7 +34,6 @@ public class OptionMenuState extends BasicGameState{
 		id = i;
 		options = ops;
 		uilib = new UILib();
-		df = new DecimalFormat("#.##");
 		this.gdb = gdb;
 //		s = gdb.getSound("twentys");
 	}
@@ -89,8 +87,6 @@ public class OptionMenuState extends BasicGameState{
 		//On/off Button
 		onPart_rec = new Rectangle(410, 417, 84,20);
 		onFsc_rec = new Rectangle(410, 492, 84,20);
-	
-		
 	}
 
 	@Override
@@ -133,9 +129,8 @@ public class OptionMenuState extends BasicGameState{
 		updateOptionsVals();
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
-			
+			arg1.enterState(3);
 		}
-
 	}
 	/**
 	 * checks for collisions between cursor and gui elements
