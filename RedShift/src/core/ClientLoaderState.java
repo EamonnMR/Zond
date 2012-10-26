@@ -102,14 +102,11 @@ public class ClientLoaderState extends BasicGameState {
 		arg1.enterState(3);
 	}
 	
+	private void createGreenLetters(Image img) {
+
+	}
 
 	private void createGrayLetters(Image img) {
 		
 	}
-
-	private void createGreenLetters(Image img) {
-
-		
-	}
-
 }

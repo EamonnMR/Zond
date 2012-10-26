@@ -5,8 +5,11 @@ import java.awt.Point;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+
+import core.GameDatabase;
 
 /**
  * a file of nothing but common methods that are used by 
@@ -23,10 +26,9 @@ public class UILib {
 	}
 	
 	
-	public Image convertTextToImage(String s, Image letters){
-		Image output = null;
-		
-		
+	public Image convertTextToImage(String s, Image letters, GameDatabase gdb) throws SlickException{
+		Image output = new Image (s.length()*12, 17);
+
 		return output;
 	}
 	
