@@ -2,10 +2,10 @@ package core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -15,7 +15,7 @@ import ui.menustates.HangarBayState;
 import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
-
+import ents.BasicEngine;
 import ents.EntityFactory;
 
 public class ClientLoaderState extends BasicGameState {
@@ -62,9 +62,6 @@ public class ClientLoaderState extends BasicGameState {
 		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
 		
-		createGreenLetters(gdb.getIMG("grnAlphNm"));
-		createGrayLetters(gdb.getIMG("graAlphNm"));
-		
 		arg1.addState(new ClientGameplayState(0, player, gdb, entFac, lvbr,hdm));
 		arg1.addState(new ClientGameplayState(1, player, gdb, entFac, lvbr, hdm));
 		arg1.addState(new GameOverState(-1));
@@ -73,6 +70,8 @@ public class ClientLoaderState extends BasicGameState {
 		arg1.addState(new OptionMenuState(4, player.getOptions(), gdb));
 		arg1.addState(new HangarBayState(5, gdb, player, entFac));
 		arg1.addState(new ModHudMenuState(6, hdm, gdb));
+		
+		createTestClientData(player);
 		
 		try {
 			arg1.getState(3).init(arg0, arg1);
@@ -102,11 +101,9 @@ public class ClientLoaderState extends BasicGameState {
 		arg1.enterState(3);
 	}
 	
-	private void createGreenLetters(Image img) {
-
-	}
-
-	private void createGrayLetters(Image img) {
+	private void createTestClientData(PlayerClient client) {
+		HashMap<String, BasicEngine> testEngines = new HashMap<String, BasicEngine>();
+		
 		
 	}
 }
