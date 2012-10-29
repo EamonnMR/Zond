@@ -321,11 +321,11 @@ public class GameDatabase {
 	 */
 	public void populateFonts(){
 		greenAlphaNms = new SpriteSheet(getIMG("grnAlphNm"), 12, 17);
-		greenFont = new SpriteSheetFont(greenAlphaNms, '0');
+		greenFont = new SpriteSheetFont(greenAlphaNms, ' ');
 		indexFonts.put("green", greenFont);
 		
 		grayAlphaNms = new SpriteSheet(getIMG("graAlphNm"), 12, 17);
-		grayFont = new SpriteSheetFont(grayAlphaNms, '0');
+		grayFont = new SpriteSheetFont(grayAlphaNms, ' ');
 		indexFonts.put("gray", grayFont);
 	}
 
