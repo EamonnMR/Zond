@@ -57,14 +57,15 @@ public class HangarBayState extends BasicGameState {
 		engScn_i = gdb.getIMG("small_scrn");
 		backBTN_i = gdb.getIMG("bckBTN_n");
 		
-		
-		
 		pc.setPlayShip(entFac.stockMercury());
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 50);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 50);
+		
 		renderMainDisplay(gfx);
 		
 		renderEngines(gfx);
@@ -101,11 +102,7 @@ public class HangarBayState extends BasicGameState {
 				gdb.getIMG("engine_i"), 
 				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
 						,center.y-(mainScn_i.getHeight()/2-10)));
-		try {
-			ulib.convertTextToImage(pc.getPlayShip().getName(),"green", gdb, gfx, new Point(300,100));
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		gdb.getFont("green").drawString(300, 1,pc.getPlayShip().getName());
 		
 	}
 	

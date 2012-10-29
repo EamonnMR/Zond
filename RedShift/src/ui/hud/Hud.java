@@ -12,6 +12,7 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
@@ -60,6 +61,9 @@ public class Hud {
 	ClientGameplayState cgs;
 	Font hudFont;
 	PlayerClient pc;
+	SpriteSheetFont grnF;
+	SpriteSheetFont redF;
+	SpriteSheetFont graF;
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
@@ -81,6 +85,9 @@ public class Hud {
 		shipName=pc.getPlayShip().getName();
 		gunName=pc.getPlayShip().getWeapon().getName();
 		engName=pc.getPlayShip().getEngine().getName();
+		
+		grnF = gdb.getFont("green");
+		graF = gdb.getFont("gray");
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -124,11 +131,8 @@ public class Hud {
 			devGoggles(gfx, gc, ldm, camX, camY);
 		}
 		if (boundsWarning) {
-			gfx.setColor(Color.red);
-			String x = "<==!WARNING!==>";
-			gfx.drawString(x, 458, 627);
-			x = "<==!Leaving Mission Area!==>";
-			gfx.drawString(x, 400, 652);
+			graF.drawString(458, 627, "<==!WARNING!==>",Color.red);
+			graF.drawString(400, 652, "<==!Leaving Mission Area!==>",Color.red);
 		}
 
 		// sanity check to make sure color is reset
@@ -303,12 +307,13 @@ public class Hud {
 		float y = (float)s.getY();
 		float lenX = w/3;
 		float lenY = h/3;	
-		
+		Color col = Color.green;
 		if(s.getName().equals("lunar")||s.getName().equals("gemini")||s.getName().equals("mercury")||s.getName().equals("skylab")){
-			gfx.setColor(Color.green);
+			col= Color.green;
 		}else if(s.getName().equals("vostok")||s.getName().equals("voskhod")||s.getName().equals("zond4")){
-			gfx.setColor(Color.red);
+			col = Color.red;
 		}
+			gfx.setColor(col);
 			gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, ((x-(w/2)-5)+lenX)+camX, (y-(h/2)-5)+camY);
 			gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, (x-(w/2)-5)+camX, ((y-(h/2)-5)+lenY)+camY);
 		
@@ -323,13 +328,11 @@ public class Hud {
 		
 			
 		int half = (s.getName().length()*8)/2;
-		gfx.drawString(s.getName(), (x-half)+camX, (y+(h/2)+4)+camY);
+		graF.drawString((x-half)+camX, (y+(h/2)+4)+camY, s.getName(), col);
 		int shipX = (int)s.getX();
-		gfx.drawString(String.valueOf(shipX), (x-(w/2)-5)+camX,(y+(h/2)+20)+camY);
+		graF.drawString((x-(w/2)-5)+camX, (y+(h/2)+20)+camY, String.valueOf(shipX), col);
 		shipX = (int)s.getY();
-		gfx.drawString(String.valueOf(shipX), (x+(w/2)-5)+camX,(y+(h/2)+20)+camY);
-		
-		gfx.setColor(Color.white);
+		graF.drawString((x+(w/2)-5)+camX, (y+(h/2)+20)+camY,String.valueOf(shipX), col);
 	}
 	
 	/**
@@ -345,7 +348,7 @@ public class Hud {
 			if(p.isActive()){
 				int len = p.getName().length();
 				int tenlen = len*8;
-				gfx.drawString(p.getName(),(p.getX()-(tenlen/2))+camX, p.getY()+camY-5);
+				grnF.drawString((p.getX()-(tenlen/2))+camX,  p.getY()+camY-5, p.getName());
 				gfx.draw(new Circle(p.getX()+camX, p.getY()+camY, tenlen));
 			}
 		}
@@ -364,14 +367,13 @@ public class Hud {
 		Vector2f ship = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
 		for(NavPoint p : ldm.getNavMap().values()){
 			if(p.isActive()){
-				gfx.setColor(Color.green);
 				Vector2f pLoc = new Vector2f((p.getX()), (p.getY()));
 				Line toTarg = new Line(ship, pLoc);
 				int len = (int) toTarg.length();
 				if (len > 600) {double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
-					Vector2f point = cgs.circularFunction((float) angle, 350);
-					gfx.drawString(p.getName(), point.getX(), point.getY());
-					gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+					Vector2f point = cgs.circularFunction((float) angle, 350);;
+					grnF.drawString(point.getX(), point.getY(), p.getName());
+					grnF.drawString(point.getX(), point.getY() + 25,String.valueOf(len));
 				}
 			}
 		}
@@ -388,13 +390,11 @@ public class Hud {
 					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 150);
 					if(ship.getFaction()==0){
-						gfx.setColor(Color.red);
-						gfx.drawString("!["+ship.getName()+"]!", point.getX(), point.getY());
-						gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+						graF.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", Color.red);
+						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), Color.red);
 					}else if(ship.getFaction()==1){
-						gfx.setColor(Color.blue);
-						gfx.drawString("("+ship.getName()+")", point.getX(), point.getY());
-						gfx.drawString(String.valueOf(len), point.getX(),point.getY() + 25);
+						graF.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", Color.blue);
+						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), Color.blue);
 					}
 				}
 			}	
@@ -410,23 +410,21 @@ public class Hud {
 		gfx.setColor(Color.green);
 		
 		//name
-		float x = hdm.getShipName_point_mod().x - (uiLib.getStringPixelWidth(shipName)/2);
-		float y = hdm.getShipName_point_mod().y- (uiLib.getStringPixelHeight(shipName)/2);
-		gfx.drawString(shipName, x, y);
+		int nameW = pc.getPlayShip().getEngine().getName().length()*12;
+		grnF.drawString(hdm.getShipName_point_mod().x-nameW/2, hdm.getShipName_point_mod().y-8.5f, pc.getPlayShip().getEngine().getName());
 		
 		//weapon
 		uiLib.drawImageCenteredOnPoint(gfx, wep_i, hdm.getGunName_point_mod());
-		uiLib.drawStringNextToImage(String.valueOf(gunName), wep_i, 0, 1, gfx, hdm.getGunName_point_mod());
+		grnF.drawString(hdm.getGunName_point_mod().x+wep_i.getWidth()/2+4, hdm.getGunName_point_mod().y-8.5f, pc.getPlayShip().getWeapon().getName());
 		
 		//engine
 		uiLib.drawImageCenteredOnPoint(gfx, engine_i, hdm.getEngName_point_mod());
-		uiLib.drawStringNextToImage(engName, engine_i, 0, 1, gfx, hdm.getEngName_point_mod());
+		grnF.drawString(hdm.getEngName_point_mod().x+engine_i.getWidth()/2+4, hdm.getEngName_point_mod().y-8.5f, pc.getPlayShip().getEngine().getName());
 		
 		//health
-		//TODO:need that text to image convert piece in the uiLib
 		uiLib.drawImageCenteredOnPoint(gfx, hp_i, hdm.getHp_point_mod());
 		checkHP(hp, gfx);
-		uiLib.drawStringNextToImage(String.valueOf(hp), hp_i, 0, 1, gfx, hdm.getHp_point_mod());
+		grnF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp));
 		
 		//radar
 		uiLib.drawImageCenteredOnPoint(gfx, radar_i, hdm.getRadar_point_mod());
