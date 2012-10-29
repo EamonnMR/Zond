@@ -16,6 +16,8 @@ import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
 import ents.BasicEngine;
+import ents.BasicGun;
+import ents.BasicShip;
 import ents.EntityFactory;
 
 public class ClientLoaderState extends BasicGameState {
@@ -102,8 +104,34 @@ public class ClientLoaderState extends BasicGameState {
 	}
 	
 	private void createTestClientData(PlayerClient client) {
+		//build some engines
 		HashMap<String, BasicEngine> testEngines = new HashMap<String, BasicEngine>();
+		BasicEngine small =entFac.buildEngine("smallEngine");
+		testEngines.put(small.getName(), small);
+		BasicEngine med =entFac.buildEngine("mediumEngine");
+		testEngines.put(med.getName(), med);
+		BasicEngine large =entFac.buildEngine("largeEngine");
+		testEngines.put(large.getName(), large);
+		player.setClientEngines(testEngines);
 		
+		//get some guns
+		HashMap<String, BasicGun> testGuns = new HashMap<String, BasicGun>();
+		BasicGun g1 = entFac.buildGun("20mm");
+		testGuns.put(g1.getName(), g1);
+		BasicGun g2 = entFac.buildGun("60mm");
+		testGuns.put(g2.getName(), g2);
+		BasicGun g3 = entFac.buildGun("105mm");
+		testGuns.put(g3.getName(), g3);
+		player.setClientGuns(testGuns);
 		
+		//get some ships
+		HashMap<String, BasicShip> testShips = new HashMap<String, BasicShip>();
+		BasicShip s1 = entFac.buildShip("mercury", "20mm", "smallEngine");
+		testShips.put(s1.getName(), s1);
+		BasicShip s2 = entFac.buildShip("gemini", "20mm", "smallEngine");
+		testShips.put(s2.getName(), s2);
+		BasicShip s3 = entFac.buildShip("lunar", "20mm", "smallEngine");
+		testShips.put(s3.getName(), s3);
+		player.setClientShips(testShips);
 	}
 }
