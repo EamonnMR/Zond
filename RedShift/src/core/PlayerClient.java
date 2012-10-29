@@ -174,7 +174,6 @@ public class PlayerClient {
 		clientKeys.put(key, value);
 	}
 
-	//Is Client still alive?
 	public boolean isAlive() {
 		return clientIsAlive;
 	}
