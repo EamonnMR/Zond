@@ -12,7 +12,9 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.UIButton;
 import ui.UILib;
+import core.ClientGameplayState;
 import core.GameDatabase;
 import core.PlayerClient;
 import ents.BasicEngine;
@@ -34,9 +36,7 @@ public class HangarBayState extends BasicGameState {
 	private HashMap<Integer, BasicGun> guns;
 	private HashMap<Integer, BasicEngine> engines;
 	private HashMap<Integer, BasicShip> ships;
-	private HashMap<BasicGun, HashMap<Rectangle, Boolean>> gunBTN;
-	private HashMap<BasicEngine, HashMap<Rectangle, Boolean>> engBTN;
-	private HashMap<BasicShip, HashMap<Rectangle, Boolean>> shpBTN;
+	private HashMap<String, UIButton> listedButtons;
 	private float mx,my;
 	
 	public HangarBayState(int i, GameDatabase g, PlayerClient p, EntityFactory ef){
@@ -55,14 +55,16 @@ public class HangarBayState extends BasicGameState {
 		unspoolData();
 		
 		iniButtons();
-
-		
 		
 		//media stuffs
 		mainScn_i = gdb.getIMG("montrBKC");
 		wepScn_i = gdb.getIMG("small_scrn");
 		engScn_i = gdb.getIMG("small_scrn");
+		
 		backBTN_i = gdb.getIMG("bckBTN_n");
+		backBTN_rec = new Rectangle(270,697,backBTN_i.getWidth(),backBTN_i.getHeight());
+		
+		acceptBTN_rec = new Rectangle(630,697, 120,17);
 		
 		//mouse...maybe there should be a mouse class next go around?
 		mouse = new Rectangle(0,0,1,1);
@@ -92,22 +94,24 @@ public class HangarBayState extends BasicGameState {
 		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, center);
 		
 		gdb.getFont("green").drawString(center.x-(6*12/2), 278, "[SHIP]");
-		
+				
 		int x = 290;
-		for (BasicShip g : shpBTN.keySet()) {
-			for(Rectangle r : shpBTN.get(g).keySet()){
-				r.setX(x);
-//				gfx.draw(r);
-			}
-			for(Boolean b : shpBTN.get(g).values()){
-				if (b == true) {
-					gdb.getFont("green").drawString(x, 308, "[" + g.getName() + "]");
-				} else {
-					gdb.getFont("green").drawString(x, 308, g.getName());
+		for(UIButton u : listedButtons.values()){
+			if(u.getThing().getClass().equals(BasicShip.class)){
+				u.getRectangle().setX(x);
+//				gfx.draw(u.getRectangle());
+				
+				if(u.isState()){
+					gdb.getFont("green").drawString(x, 308, "[" + u.getName() + "]");
+				}else{
+					gdb.getFont("green").drawString(x, 308, u.getName());
 				}
+				x = x + u.getName().length()*12+32;
 			}
-			x = x + g.getName().length()*12+24;
 		}
+		
+		gfx.drawImage(backBTN_i, 270,697);
+		gdb.getFont("green").drawString(630, 697, "[(Accept)]");
 	}
 	
 
@@ -119,23 +123,24 @@ public class HangarBayState extends BasicGameState {
 						,center.y-(mainScn_i.getHeight()/2-10)));
 		
 		int y = 308;
-		for (BasicGun g : gunBTN.keySet()) {
-			for(Rectangle r : gunBTN.get(g).keySet()){
-				r.setY(y);
-//				gfx.draw(r);
-			}
-			for(Boolean b : gunBTN.get(g).values()){
-				if (b == true) {
-					gdb.getFont("green").drawString(4, y, "[" + g.getName() + "]");
-				} else {
-					gdb.getFont("green").drawString(4, y, g.getName());
+		for(UIButton u : listedButtons.values()){
+			if(u.getThing().getClass().equals(BasicGun.class)){
+				u.getRectangle().setY(y);
+//				gfx.draw(u.getRectangle());
+				
+				if(u.isState()){
+					gdb.getFont("green").drawString(4, y, "[" + u.getName() + "]");
+				}else{
+					gdb.getFont("green").drawString(4, y, u.getName());
 				}
+				
+				y+=17;
 			}
-			y = y + 15;
 		}
+		
 		gdb.getFont("green").drawString(4, 400, "RoF:"+displayShip.getWeapon().getCoolDown());
-		gdb.getFont("green").drawString(4, 417, "Weight:"+displayShip.getWeapon().getWeight()+"kg");
-		gdb.getFont("green").drawString(4, 434, "Size:"+displayShip.getWeapon().getCost());
+		gdb.getFont("green").drawString(4, 419, "Weight:"+displayShip.getWeapon().getWeight()+"kg");
+		gdb.getFont("green").drawString(4, 438, "Size:"+displayShip.getWeapon().getCost());
 	}
 
 	private void renderEngines(Graphics gfx) {
@@ -144,21 +149,21 @@ public class HangarBayState extends BasicGameState {
 				gdb.getIMG("engine_i"), 
 				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
 						,center.y-(mainScn_i.getHeight()/2-10)));
-		
 		int y = 308;
-		for (BasicEngine g : engBTN.keySet()) {
-			for(Rectangle r : engBTN.get(g).keySet()){
-				r.setY(y);
-//				gfx.draw(r);
-			}
-			for(Boolean b : engBTN.get(g).values()){
-				if (b == true) {
-					gdb.getFont("green").drawString(755, y, "[" + g.getName() + "]");
+		for(UIButton u : listedButtons.values()){
+			if (u.getThing().getClass().equals(BasicEngine.class)) {
+				u.getRectangle().setY(y);
+//				gfx.draw(u.getRectangle());
+
+				if (u.isState()) {
+					gdb.getFont("green").drawString(755, y,
+							"[" + u.getName() + "]");
 				} else {
-					gdb.getFont("green").drawString(755, y, g.getName());
+					gdb.getFont("green").drawString(755, y, u.getName());
 				}
+
+				y += 17;
 			}
-			y = y + 15;
 		}
 	}
 
@@ -166,40 +171,48 @@ public class HangarBayState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException{
 		Input i = arg0.getInput();
-		mouse.setCenterX(i.getMouseX());
-		mouse.setCenterY(i.getMouseY());
+		mouse.setX(i.getMouseX());
+		mouse.setY(i.getMouseY());
 		
-		updateWeaponButtons(mouse, i);
+		updateButtons(mouse, i);
+		
+		if(backBTN_rec.intersects(mouse) && i.isMousePressed(0)){
+			arg1.enterState(3);
+		}else if(acceptBTN_rec.intersects(mouse) && i.isMousePressed(0)){
+			
+			pc.setPlayShip(displayShip);
+			ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
+			gamePlay.setPlayerClient(pc);
+			arg1.enterState(1);
+		}
 	}
 
-	
-	private void updateWeaponButtons(Rectangle m, Input i) {
-		for(HashMap<Rectangle, Boolean> k : gunBTN.values()){
-			for(Rectangle r : k.keySet()){
-				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==false){
-						k.put(r, true);
+	/**
+	 * checks the buttons list for changes and updates the displayship
+	 * @param m
+	 * @param i
+	 */
+	private void updateButtons(Rectangle m, Input i) {
+		for(UIButton u : listedButtons.values()){
+			if(u.getRectangle().intersects(m)  && i.isMousePressed(0)){
+				if(u.getThing().getClass().equals(BasicGun.class)){
+					if((BasicGun)u.getThing()!=displayShip.getWeapon()){
+						u.setState(true);
+						listedButtons.get(displayShip.getWeapon().getName()).setState(false);
 					}
-				}	
-			}
-		}
-		
-		for(HashMap<Rectangle, Boolean> k : engBTN.values()){
-			for(Rectangle r : k.keySet()){
-				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==false){
-						k.put(r, true);
+					displayShip.setWeapon((BasicGun)u.getThing());
+				}else if(u.getThing().getClass().equals(BasicEngine.class)){
+					if((BasicEngine)u.getThing()!=displayShip.getEngine()){
+						u.setState(true);
+						listedButtons.get(displayShip.getEngine().getName()).setState(false);
 					}
-				}
-			}
-		}
-		
-		for(HashMap<Rectangle, Boolean> k : shpBTN.values()){
-			for(Rectangle r : k.keySet()){
-				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==false){
-						k.put(r, true);
+					displayShip.setEngine((BasicEngine)u.getThing());
+				}else if(u.getThing().getClass().equals(BasicShip.class)){
+					if((BasicShip)u.getThing()!=displayShip){
+						u.setState(true);
+						listedButtons.get(displayShip.getName()).setState(false);
 					}
+					displayShip=(BasicShip)u.getThing();		
 				}
 			}
 		}
@@ -238,25 +251,36 @@ public class HangarBayState extends BasicGameState {
 	}
 	
 	private void iniButtons() {
-		gunBTN = new HashMap<BasicGun, HashMap<Rectangle,Boolean>>();
+		
+		listedButtons = new HashMap<String, UIButton>();
 		for(BasicGun g : guns.values()){
-			HashMap<Rectangle, Boolean> p = new HashMap<Rectangle, Boolean>();
-			p.put(new Rectangle(4,0,g.getName().length()*12+24,17), false);
-			gunBTN.put(g, p);
+			Rectangle r = new Rectangle(4, 0, g.getName().length()*12+24,17);
+			UIButton uib = new UIButton(g.getName(), false, g);
+			uib.setRectangle(r);
+			if(guns.get(0).getName().equals(g.getName())){
+				uib.setState(true);
+			}
+			listedButtons.put(g.getName(), uib);
 		}
 		
-		engBTN = new HashMap<BasicEngine, HashMap<Rectangle,Boolean>>();
 		for(BasicEngine g : engines.values()){
-			HashMap<Rectangle, Boolean> p = new HashMap<Rectangle, Boolean>();
-			p.put(new Rectangle(755,0,g.getName().length()*12+24,17), false);
-			engBTN.put(g, p);
+			Rectangle r = new Rectangle(755,0,g.getName().length()*12+24,17);
+			UIButton uib = new UIButton(g.getName(), false, g);
+			uib.setRectangle(r);
+			if(engines.get(0).getName().equals(g.getName())){
+				uib.setState(true);
+			}
+			listedButtons.put(g.getName(), uib);
 		}
 		
-		shpBTN = new HashMap<BasicShip, HashMap<Rectangle, Boolean>>();
 		for(BasicShip g : ships.values()){
-			HashMap<Rectangle, Boolean> p = new HashMap<Rectangle, Boolean>();
-			p.put(new Rectangle(0,308,g.getName().length()*12+24,17), false);
-			shpBTN.put(g, p);
+			Rectangle r = new Rectangle(0,308,g.getName().length()*12+24,17);
+			UIButton uib = new UIButton(g.getName(), false, g);
+			uib.setRectangle(r);
+			if(ships.get(0).getName().equals(g.getName())){
+				uib.setState(true);
+			}
+			listedButtons.put(g.getName(), uib);
 		}
 	}
 
