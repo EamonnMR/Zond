@@ -3,7 +3,6 @@ package ui.menustates;
 import java.awt.Point;
 import java.util.HashMap;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -57,6 +56,8 @@ public class HangarBayState extends BasicGameState {
 		
 		iniButtons();
 
+		
+		
 		//media stuffs
 		mainScn_i = gdb.getIMG("montrBKC");
 		wepScn_i = gdb.getIMG("small_scrn");
@@ -107,7 +108,6 @@ public class HangarBayState extends BasicGameState {
 			}
 			x = x + g.getName().length()*12+24;
 		}
-		
 	}
 	
 
@@ -133,6 +133,9 @@ public class HangarBayState extends BasicGameState {
 			}
 			y = y + 15;
 		}
+		gdb.getFont("green").drawString(4, 400, "RoF:"+displayShip.getWeapon().getCoolDown());
+		gdb.getFont("green").drawString(4, 417, "Weight:"+displayShip.getWeapon().getWeight()+"kg");
+		gdb.getFont("green").drawString(4, 434, "Size:"+displayShip.getWeapon().getCost());
 	}
 
 	private void renderEngines(Graphics gfx) {
@@ -174,21 +177,17 @@ public class HangarBayState extends BasicGameState {
 		for(HashMap<Rectangle, Boolean> k : gunBTN.values()){
 			for(Rectangle r : k.keySet()){
 				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==true){
-						k.put(r, false);
-					}else if(k.get(r)==false){
+					if(k.get(r)==false){
 						k.put(r, true);
 					}
-				}
+				}	
 			}
 		}
 		
 		for(HashMap<Rectangle, Boolean> k : engBTN.values()){
 			for(Rectangle r : k.keySet()){
 				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==true){
-						k.put(r, false);
-					}else if(k.get(r)==false){
+					if(k.get(r)==false){
 						k.put(r, true);
 					}
 				}
@@ -198,9 +197,7 @@ public class HangarBayState extends BasicGameState {
 		for(HashMap<Rectangle, Boolean> k : shpBTN.values()){
 			for(Rectangle r : k.keySet()){
 				if(r.intersects(m)&&i.isMousePressed(0)){
-					if(k.get(r)==true){
-						k.put(r, false);
-					}else if(k.get(r)==false){
+					if(k.get(r)==false){
 						k.put(r, true);
 					}
 				}
@@ -235,6 +232,9 @@ public class HangarBayState extends BasicGameState {
 			ships.put(i, s);
 			i++;
 		}
+		
+		pc.setPlayShip(entFac.buildShip(ships.get(0).getName(), guns.get(0).getName(), engines.get(0).getName()));
+		displayShip = pc.getPlayShip();
 	}
 	
 	private void iniButtons() {

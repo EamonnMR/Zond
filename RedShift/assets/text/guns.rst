@@ -12,9 +12,9 @@
 /20 mm cannon/
 [20mm]{
 	[cooldown](200)
-	[cost]    (0)
+	[cost]    (1)
 	[img]     (gun1)
-	[weight]  (0)
+	[weight]  (119)
 	[proj]    (twentyShot)
 	[fireSnd] (twentys)
 }
@@ -22,9 +22,9 @@
 /60 mm cannon/
 [60mm]{
 	[cooldown](300);
-	[cost]    (0)
+	[cost]    (2)
 	[img]     (gun2)
-	[weight]  (0)
+	[weight]  (540)
 	[proj]    (sixtyShot)
 	[fireSnd] (twentys)
 }
@@ -32,9 +32,9 @@
 /105 mm cannon/
 [105mm]{
 	[cooldown](400);
-	[cost]    (0)
+	[cost]    (3)
 	[img]     (gun3)
-	[weight]  (0)
+	[weight]  (540)
 	[proj]    (oneFiveShot)
 	[fireSnd] (twentys)
 }
@@ -54,7 +54,7 @@
 	[cooldown](150);
 	[cost]    (0)
 	[img]     (gun1)
-	[weight]  (0)
+	[weight]  (984)
 	[proj]    (oneFiveShot) /No projectile type yet/
 	[fireSnd] (twentys)
 }

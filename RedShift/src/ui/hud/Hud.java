@@ -35,35 +35,35 @@ import ents.BasicShip;
  */
 public class Hud {
 
-	HudDataModel hdm;
-	UILib uiLib;
-	String shipName, gunName, engName;
+	private HudDataModel hdm;
+	private UILib uiLib;
+	private String shipName, gunName, engName;
 	Rectangle camBounds;
-	GameDatabase gdb;
-	Image name_i,hp_i,radar_i,engine_i,wep_i, on_i, off_i;
+	private GameDatabase gdb;
+	private Image name_i,hp_i,radar_i,engine_i,wep_i, on_i, off_i;
 	float x, y;
 	double hp, totalHP;
-	boolean googles = false; // bool for developer view mode
-	boolean boundsWarning = false; // warn the player they are leaving
-	boolean shipHPCaution = false; // if health is below half - make hp yellow,
+	private boolean googles = false; // bool for developer view mode
+	private boolean boundsWarning = false; // warn the player they are leaving
+	private boolean shipHPCaution = false; // if health is below half - make hp yellow,
 									// show caution
-	boolean shipHPWarning = false; // if health is below 1/4 - make hp red, show
+	private boolean shipHPWarning = false; // if health is below 1/4 - make hp red, show
 									// warning
-	boolean radarOn = false; // is radar active?
+	private boolean radarOn = false; // is radar active?
 	
-	boolean showFriends = false;	//display freindly tags
-	boolean showBads = false;		//display enemy tags...possibly unnecessary
-	boolean showPoints = false;		//display navpoints
+	private boolean showFriends = false;	//display freindly tags
+	private boolean showBads = false;		//display enemy tags...possibly unnecessary
+	private boolean showPoints = false;		//display navpoints
 	
-	boolean showMission = false;	//show list of active objectives
-	HashMap<Boolean, BasicShip> detected;
+	private boolean showMission = false;	//show list of active objectives
+	private HashMap<Boolean, BasicShip> detected;
 
-	ClientGameplayState cgs;
-	Font hudFont;
-	PlayerClient pc;
-	SpriteSheetFont grnF;
-	SpriteSheetFont redF;
-	SpriteSheetFont graF;
+	private ClientGameplayState cgs;
+	private Font hudFont;
+	private PlayerClient pc;
+	private SpriteSheetFont grnF;
+	private SpriteSheetFont graF;
+	private Color brightRed, brightBlue, brightYel;
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
@@ -88,6 +88,9 @@ public class Hud {
 		
 		grnF = gdb.getFont("green");
 		graF = gdb.getFont("gray");
+		brightRed = new Color(255,39,64);
+		brightBlue = new Color(28, 87, 255);
+		brightYel = new Color(242, 255, 28);
 	}
 
 	public void update(PlayerClient cl, ClientGameplayState cgs) {
@@ -127,12 +130,12 @@ public class Hud {
 		}
 		
 		if (googles) {
-			gfx.setColor(Color.yellow);
+			gfx.setColor(brightYel);
 			devGoggles(gfx, gc, ldm, camX, camY);
 		}
 		if (boundsWarning) {
-			graF.drawString(458, 627, "<==!WARNING!==>",Color.red);
-			graF.drawString(400, 652, "<==!Leaving Mission Area!==>",Color.red);
+			graF.drawString(458, 627, "<==!WARNING!==>",brightRed);
+			graF.drawString(400, 652, "<==!Leaving Mission Area!==>",brightRed);
 		}
 
 		// sanity check to make sure color is reset
@@ -184,7 +187,7 @@ public class Hud {
 				gfx.draw(offsetShape(trig.getCollider(), camX, camY));
 				float tx = trig.getCollider().getCenterX() + camX;
 				float ty = trig.getCollider().getCenterY() + camY;
-				gfx.setColor(Color.red);
+				gfx.setColor(brightRed);
 				gfx.drawString(trig.getName(), tx, ty);
 			}
 		}
@@ -274,14 +277,13 @@ public class Hud {
 
 	public void checkHP(double hp, Graphics gfx) {
 		if (hp <= totalHP / 2 && hp > totalHP/4) {
-			gfx.setColor(Color.yellow);
-			shipHPCaution = true;
-			shipHPWarning = false;
+			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightYel);
 		} else if (hp <= totalHP / 4) {
-			gfx.setColor(Color.red);
-			shipHPCaution = false;
-			shipHPWarning = true;
+			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightRed);
+		}else {
+			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), Color.green);
 		}
+
 	}
 
 	public static Shape offsetShape(Shape s, int dx, int dy) {
@@ -311,7 +313,7 @@ public class Hud {
 		if(s.getName().equals("lunar")||s.getName().equals("gemini")||s.getName().equals("mercury")||s.getName().equals("skylab")){
 			col= Color.green;
 		}else if(s.getName().equals("vostok")||s.getName().equals("voskhod")||s.getName().equals("zond4")){
-			col = Color.red;
+			col = brightRed;
 		}
 			gfx.setColor(col);
 			gfx.drawLine((x-(w/2)-5)+camX, (y-(h/2)-5)+camY, ((x-(w/2)-5)+lenX)+camX, (y-(h/2)-5)+camY);
@@ -343,16 +345,15 @@ public class Hud {
 	 * @param camY
 	 */
 	public void renderPoints(LevelDataModel ldm, Graphics gfx, int camX, int camY){
-		gfx.setColor(Color.green);
+		gfx.setColor(brightYel);
 		for(NavPoint p : ldm.getNavMap().values()){
 			if(p.isActive()){
 				int len = p.getName().length();
 				int tenlen = len*8;
-				grnF.drawString((p.getX()-(tenlen/2))+camX,  p.getY()+camY-5, p.getName());
+				grnF.drawString((p.getX()-(tenlen/2))+camX,  p.getY()+camY-5, p.getName(),brightYel);
 				gfx.draw(new Circle(p.getX()+camX, p.getY()+camY, tenlen));
 			}
 		}
-		gfx.setColor(Color.white);
 	}
 	
 	/**
@@ -372,8 +373,8 @@ public class Hud {
 				int len = (int) toTarg.length();
 				if (len > 600) {double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 350);;
-					grnF.drawString(point.getX(), point.getY(), p.getName());
-					grnF.drawString(point.getX(), point.getY() + 25,String.valueOf(len));
+					graF.drawString(point.getX(), point.getY(), p.getName(),brightYel);
+					graF.drawString(point.getX(), point.getY() + 25,String.valueOf(len),brightYel);
 				}
 			}
 		}
@@ -390,11 +391,11 @@ public class Hud {
 					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 150);
 					if(ship.getFaction()==0){
-						graF.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", Color.red);
-						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), Color.red);
+						graF.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", brightRed);
+						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightRed);
 					}else if(ship.getFaction()==1){
-						graF.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", Color.blue);
-						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), Color.blue);
+						graF.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", brightBlue);
+						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightBlue);
 					}
 				}
 			}	
@@ -424,7 +425,7 @@ public class Hud {
 		//health
 		uiLib.drawImageCenteredOnPoint(gfx, hp_i, hdm.getHp_point_mod());
 		checkHP(hp, gfx);
-		grnF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp));
+		
 		
 		//radar
 		uiLib.drawImageCenteredOnPoint(gfx, radar_i, hdm.getRadar_point_mod());
