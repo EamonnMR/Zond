@@ -34,7 +34,7 @@
 	[cooldown](400);
 	[cost]    (3)
 	[img]     (gun3)
-	[weight]  (540)
+	[weight]  (983)
 	[proj]    (oneFiveShot)
 	[fireSnd] (twentys)
 }

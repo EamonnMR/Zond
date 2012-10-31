@@ -235,6 +235,6 @@ public class UILib {
 		gfx.drawString(s, x, y);
 	}
 	
-
+	
 	
 }
