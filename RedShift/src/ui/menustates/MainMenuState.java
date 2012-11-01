@@ -88,6 +88,7 @@ public class MainMenuState extends BasicGameState {
 		mouse_rec.setCenterX(in.getMouseX());
 		mouse_rec.setCenterY(in.getMouseY());
 		
+		updateRollOvers();
 		updateCollisions( arg0,  arg1);
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			arg0.exit();
@@ -114,6 +115,12 @@ public class MainMenuState extends BasicGameState {
 				gc.exit();
 			}
 		}
+	}
+	
+
+	private void updateRollOvers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

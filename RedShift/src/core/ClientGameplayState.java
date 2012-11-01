@@ -117,7 +117,7 @@ public class ClientGameplayState extends BasicGameState{
 			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 			//create the client ship
-			pc.setPlayShip(pc.retrieveShip("mercury"));
+//			pc.setPlayShip(pc.retrieveShip("mercury"));
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
