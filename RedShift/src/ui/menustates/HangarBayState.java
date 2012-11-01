@@ -161,7 +161,6 @@ public class HangarBayState extends BasicGameState {
 				} else {
 					gdb.getFont("green").drawString(755, y, u.getName());
 				}
-
 				y += 17;
 			}
 		}
@@ -183,6 +182,7 @@ public class HangarBayState extends BasicGameState {
 			pc.setPlayShip(displayShip);
 			ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
 			gamePlay.setPlayerClient(pc);
+			gamePlay.init(arg0, arg1);
 			arg1.enterState(1);
 		}
 	}
