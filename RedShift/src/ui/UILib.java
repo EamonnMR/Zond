@@ -25,38 +25,7 @@ public class UILib {
 	public UILib(){
 		
 	}
-	
-	/**
-	 * takes text and draws it using a spritesheet 
-	 * @param s string to show
-	 * @param font font to use
-	 * @param gdb gamedatabase
-	 * @param gfx 
-	 * @param p point to draw at
-	 * @throws SlickException
-	 */
-	public void convertTextToImage(String s, String font, GameDatabase gdb, Graphics gfx, Point p) throws SlickException{
-		SpriteSheetFont f = gdb.getFont(font);
-		for(int i=0; i<s.length();i++){
-			f.drawString((float)p.x+(i*12), (float)p.y, String.valueOf(s.charAt(i)));
-		}
-	}
-	
-	/**
-	 * draws a rectangle around a given string;
-	 * @param s
-	 * @param x
-	 * @param y
-	 * @param gfx
-	 */
-	public void drawRectangleAroundString(String s, float x, float y, Graphics gfx){
-		Rectangle rec;
-		int len = getStringPixelWidth(s);
-		int h = getStringPixelHeight(s);
-		rec = new Rectangle(x-2, y-2, len+4,h+14);
-		gfx.draw(rec);
-	}
-	
+
 	/**
 	 * draws an image at the center of a shape
 	 * @param g Graphics
@@ -110,20 +79,6 @@ public class UILib {
 	}
 	
 	/**
-	 * draws a string at the center of a shape
-	 * @param s string
-	 * @param b shape
-	 * @param gfx graphics
-	 */
-	public void drawStringAtShapeCenter(String s, Shape b, Graphics gfx){
-		float width = getStringPixelWidth(s);
-		float height = getStringPixelHeight(s); 
-		float str_x = b.getCenterX()-(width/2);
-		float str_y = b.getCenterY()-height;
-		gfx.drawString(s, str_x, str_y);
-	}
-	
-	/**
 	 * @param s string
 	 * @param b shape
 	 * @param distance from shape
@@ -144,32 +99,6 @@ public class UILib {
 		}else {
 			cX = b.getCenterX()-(getStringPixelWidth(s)/2);
 			cY = (b.getY() + distance)+16;
-		}
-		gfx.drawString(s, cX, cY-8);
-	}
-	
-	/**
-	 * @param s string
-	 * @param b shape
-	 * @param distance from shape
-	 * @param direction: 0 left, 1 right, 2 up, 3 down
-	 * @param gfx graphics class
-	 */
-	public void drawStringNextToImage(String s, Image i, int distance, int dir, Graphics gfx, Point p){
-		float cX= 0.0f, cY = 0.0f;
-		int w=i.getWidth(),h=i.getHeight();
-		if(dir == 0){
-			cX = (float) (p.getX() - (distance+ getStringPixelWidth(s)));
-			cY = (float) p.getY();
-		}else if(dir == 1){
-			cX = (float) ((p.getX()+(w/2)) + distance);
-			cY = (float) p.getY();
-		}else if(dir == 2){
-			cX = (float) (p.getX()-(getStringPixelWidth(s)/2));
-			cY = (float) ((p.getY()-h/2) - distance);
-		}else {
-			cX = (float) (p.getX()-(getStringPixelWidth(s)/2));
-			cY = (float) ((p.getY()-h/2) + distance)+16;
 		}
 		gfx.drawString(s, cX, cY-8);
 	}
@@ -213,28 +142,4 @@ public class UILib {
 			return 8;
 		}
 	}
-	
-	/**
-	 * draws a shape with a given color
-	 * @param b
-	 * @param color
-	 */
-	public void highlightShape(Shape b, Color color, Graphics gfx){
-		gfx.setColor(color);
-		gfx.draw(b);
-	}
-	
-	/**
-	 * draws a string with a given color
-	 * @param s
-	 * @param color
-	 * @param gfx
-	 */
-	public void highlightString(String s, Color color, Graphics gfx, float x, float y){
-		gfx.setColor(color);
-		gfx.drawString(s, x, y);
-	}
-	
-	
-	
 }

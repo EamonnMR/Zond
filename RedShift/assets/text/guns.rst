@@ -40,21 +40,21 @@
 }
 
 /small plasma/
-[smallPlas]{
+[plas]{
 	[cooldown](150);
 	[cost]    (0)
 	[img]     (gun1) / Why aren't we loading the images? /
 	[weight]  (0)
-	[proj]    (oneFiveShot) /No projectile type yet/
+	[proj]    (plasShot) /No projectile type yet/
 	[fireSnd] (twentys)
 }
 
 /small laser/
-[smallLaser]{
+[las]{
 	[cooldown](150);
 	[cost]    (0)
 	[img]     (gun1)
 	[weight]  (984)
-	[proj]    (oneFiveShot) /No projectile type yet/
+	[proj]    (lazShot) /No projectile type yet/
 	[fireSnd] (twentys)
 }

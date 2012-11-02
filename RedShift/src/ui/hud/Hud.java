@@ -400,6 +400,7 @@ public class Hud {
 		
 		//weapon
 		uiLib.drawImageCenteredOnPoint(gfx, wep_i, hdm.getGunName_point_mod());
+		
 		grnF.drawString(hdm.getGunName_point_mod().x+wep_i.getWidth()/2+4, hdm.getGunName_point_mod().y-8.5f, pc.getPlayShip().getWeapon().getName());
 		
 		//engine

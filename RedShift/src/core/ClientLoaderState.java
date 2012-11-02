@@ -122,16 +122,26 @@ public class ClientLoaderState extends BasicGameState {
 		testGuns.put(g2.getName(), g2);
 		BasicGun g3 = entFac.buildGun("105mm");
 		testGuns.put(g3.getName(), g3);
+		BasicGun g4 = entFac.buildGun("plas");
+		testGuns.put(g4.getName(), g4);
+		BasicGun g5 = entFac.buildGun("las");
+		testGuns.put(g5.getName(), g5);
 		player.setClientGuns(testGuns);
 		
 		//get some ships
 		HashMap<String, BasicShip> testShips = new HashMap<String, BasicShip>();
-		BasicShip s1 = entFac.buildShip("mercury", "20mm", "smallEngine");
+		BasicShip s1 = entFac.stockMercury();
 		testShips.put(s1.getName(), s1);
-		BasicShip s2 = entFac.buildShip("gemini", "20mm", "smallEngine");
+		BasicShip s2 = entFac.stockGem();
 		testShips.put(s2.getName(), s2);
-		BasicShip s3 = entFac.buildShip("lunar", "20mm", "smallEngine");
+		BasicShip s3 = entFac.stockLunar();
 		testShips.put(s3.getName(), s3);
+		BasicShip s4 = entFac.stockVoskhod();
+		testShips.put(s4.getName(), s4);
+		BasicShip s5 = entFac.stockVostok();
+		testShips.put(s5.getName(), s5);
+		BasicShip s6 = entFac.stockZond();
+		testShips.put(s6.getName(), s6);
 		player.setClientShips(testShips);
 	}
 }
