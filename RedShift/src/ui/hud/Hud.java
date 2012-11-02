@@ -37,29 +37,17 @@ public class Hud {
 
 	private HudDataModel hdm;
 	private UILib uiLib;
-	private String shipName, gunName, engName;
 	Rectangle camBounds;
 	private GameDatabase gdb;
-	private Image name_i,hp_i,radar_i,engine_i,wep_i, on_i, off_i;
+	private Image hp_i,radar_i,engine_i,wep_i, on_i, off_i;
 	float x, y;
 	double hp, totalHP;
 	private boolean googles = false; // bool for developer view mode
 	private boolean boundsWarning = false; // warn the player they are leaving
-	private boolean shipHPCaution = false; // if health is below half - make hp yellow,
-									// show caution
-	private boolean shipHPWarning = false; // if health is below 1/4 - make hp red, show
-									// warning
 	private boolean radarOn = false; // is radar active?
-	
-	private boolean showFriends = false;	//display freindly tags
-	private boolean showBads = false;		//display enemy tags...possibly unnecessary
 	private boolean showPoints = false;		//display navpoints
-	
-	private boolean showMission = false;	//show list of active objectives
-	private HashMap<Boolean, BasicShip> detected;
-
+	private boolean showMission = false;	//show list of active objective
 	private ClientGameplayState cgs;
-	private Font hudFont;
 	private PlayerClient pc;
 	private SpriteSheetFont grnF;
 	private SpriteSheetFont graF;
@@ -67,7 +55,6 @@ public class Hud {
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
-		detected = new HashMap<Boolean, BasicShip>();
 		camBounds = new Rectangle(1,1,camBoundsW,camBoundsH);
 		hdm = h;
 		pc = cl;
@@ -82,9 +69,6 @@ public class Hud {
 		wep_i = gdb.getIMG("wep_i");
 		on_i=gdb.getIMG("onBTN_n");
 		off_i=gdb.getIMG("offBTN_n");
-		shipName=pc.getPlayShip().getName();
-		gunName=pc.getPlayShip().getWeapon().getName();
-		engName=pc.getPlayShip().getEngine().getName();
 		
 		grnF = gdb.getFont("green");
 		graF = gdb.getFont("gray");
@@ -412,7 +396,7 @@ public class Hud {
 		
 		//name
 		int nameW = pc.getPlayShip().getEngine().getName().length()*12;
-		grnF.drawString(hdm.getShipName_point_mod().x-nameW/2, hdm.getShipName_point_mod().y-8.5f, pc.getPlayShip().getEngine().getName());
+		grnF.drawString(hdm.getShipName_point_mod().x-nameW/2, hdm.getShipName_point_mod().y-8.5f, pc.getPlayShip().getName());
 		
 		//weapon
 		uiLib.drawImageCenteredOnPoint(gfx, wep_i, hdm.getGunName_point_mod());

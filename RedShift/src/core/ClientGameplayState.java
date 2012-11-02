@@ -110,14 +110,15 @@ public class ClientGameplayState extends BasicGameState{
 			this.clients = new HashMap<Integer, PlayerClient>();
 			this.incomingClientShips = new HashMap<String, BasicShip>();
 		
-			incomingClientShips.put("mercury", entFac.stockMercury());
-			pc.setClientShips(incomingClientShips);
+//			incomingClientShips.put("mercury", entFac.stockMercury());
+//			pc.setClientShips(incomingClientShips);
 
 			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
 			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 			//create the client ship
-//			pc.setPlayShip(pc.retrieveShip("mercury"));
+			
+			pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
@@ -223,7 +224,7 @@ public class ClientGameplayState extends BasicGameState{
 				}
 			}
 			if(p.isKeyPressed(Input.KEY_ESCAPE)){
-				arg0.exit();
+				arg1.enterState(5);
 			}
 
 			// ======Begin updates!

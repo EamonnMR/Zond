@@ -80,8 +80,8 @@ public class HangarBayState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		renderMainDisplay(gfx);
 		
@@ -104,7 +104,7 @@ public class HangarBayState extends BasicGameState {
 				if(u.isState()){
 					gdb.getFont("green").drawString(x, 308, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("green").drawString(x, 308, u.getName());
+					gdb.getFont("green").drawString(x, 308, " "+u.getName()+" ");
 				}
 				x = x + u.getName().length()*12+32;
 			}
@@ -131,7 +131,7 @@ public class HangarBayState extends BasicGameState {
 				if(u.isState()){
 					gdb.getFont("green").drawString(4, y, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("green").drawString(4, y, u.getName());
+					gdb.getFont("green").drawString(4, y, " "+u.getName()+" ");
 				}
 				
 				y+=17;
@@ -140,7 +140,7 @@ public class HangarBayState extends BasicGameState {
 		
 		gdb.getFont("green").drawString(4, 438, "Cooldown:"+(double)displayShip.getWeapon().getCoolDown()/1000+"sec");
 		gdb.getFont("green").drawString(4, 457, "Size:    "+displayShip.getWeapon().getCost());
-		gdb.getFont("green").drawString(4, 476, "Weight:  "+displayShip.getWeapon().getWeight()+"kg");
+//		gdb.getFont("green").drawString(4, 476, "Weight:  "+displayShip.getWeapon().getWeight()+"kg");
 	}
 
 	private void renderEngines(Graphics gfx) {
@@ -159,14 +159,16 @@ public class HangarBayState extends BasicGameState {
 					gdb.getFont("green").drawString(760, y,
 							"[" + u.getName() + "]");
 				} else {
-					gdb.getFont("green").drawString(760, y, u.getName());
+					gdb.getFont("green").drawString(760, y, " "+u.getName()+" ");
 				}
 				y += 17;
 			}
 		}
 		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayShip.getEngine().getThrustX());
-		gdb.getFont("green").drawString(760, 457, "Turn:"+displayShip.getEngine().getTurnrate());
-		gdb.getFont("green").drawString(760, 476, "Strafe:"+displayShip.getEngine().getStrafeRate());
+		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayShip.getEngine().getTurnrate());
+		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayShip.getEngine().getStrafeRate());
+		gdb.getFont("green").drawString(760, 419, "Size:  "+displayShip.getEngine().getCost());
+//		gdb.getFont("green").drawString(760, 476, "Weight:"+displayShip.getEngine().getWeight()+"kg");
 	}
 
 	@Override
