@@ -80,8 +80,8 @@ public class HangarBayState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		renderMainDisplay(gfx);
 		
@@ -95,18 +95,25 @@ public class HangarBayState extends BasicGameState {
 		
 		gdb.getFont("green").drawString(center.x-(6*12/2), 278, "[SHIP]");
 				
-		int x = 290;
+		int x = 290, y = 308;
 		for(UIButton u : listedButtons.values()){
 			if(u.getThing().getClass().equals(BasicShip.class)){
 				u.getRectangle().setX(x);
+				u.getRectangle().setY(y);
 //				gfx.draw(u.getRectangle());
 				
 				if(u.isState()){
-					gdb.getFont("green").drawString(x, 308, "[" + u.getName() + "]");
+					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("green").drawString(x, 308, " "+u.getName()+" ");
+					gdb.getFont("green").drawString(x, y, " "+u.getName()+" ");
 				}
-				x = x + u.getName().length()*12+32;
+				
+				if(x>580){
+					y+=29;
+					x=290;
+				}else{
+					x = x + u.getName().length()*12+32;
+				}
 			}
 		}
 		
@@ -122,19 +129,25 @@ public class HangarBayState extends BasicGameState {
 				new Point(center.x-((mainScn_i.getWidth()/2)+(wepScn_i.getWidth()/2))
 						,center.y-(mainScn_i.getHeight()/2-10)));
 		
-		int y = 308;
+		int y = 308, x = 4;
 		for(UIButton u : listedButtons.values()){
 			if(u.getThing().getClass().equals(BasicGun.class)){
 				u.getRectangle().setY(y);
+				u.getRectangle().setX(x);
 //				gfx.draw(u.getRectangle());
 				
 				if(u.isState()){
-					gdb.getFont("green").drawString(4, y, "[" + u.getName() + "]");
+					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("green").drawString(4, y, " "+u.getName()+" ");
+					gdb.getFont("green").drawString(x, y, " "+u.getName()+" ");
 				}
 				
-				y+=17;
+				if(y>408){
+					y=308;
+					x=135;
+				}else{
+					y+=17;
+				}
 			}
 		}
 		

@@ -48,3 +48,29 @@
 		[radius](4)
 	}
 }
+
+[plasShot]{
+	[img]  (plas)
+	[dmg]  (5)
+	[speed](0.5)
+	[life] (5000)
+	[snd]  (twentyh)
+	[collider]{
+		[type](circle)
+		[x](0)[y](0)
+		[radius](4)
+	}
+}
+
+[lazShot]{
+	[img]  (laz)
+	[dmg]  (5)
+	[speed](0.0)
+	[life] (5000)
+	[snd]  (twentyh)
+	[collider]{
+		[type](circle)
+		[x](0)[y](0)
+		[radius](4)
+	}
+}
