@@ -204,6 +204,10 @@ public class EntityFactory {
 //	}
 	
 	public BasicShip shipFromDesc(ShipDesc desc){
-		return buildShip(desc.kind, desc.gun, desc.engine);
+		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine);
+		toSender.setDeathFx(desc.fx);
+		toSender.setX(desc.x);
+		toSender.setY(desc.y);
+		return toSender;
 	}
 }

@@ -13,4 +13,17 @@ public class Multi extends Effect {
 	public Multi(Effect[] effects) {
 		this.effects = effects;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String toSender = "EFFECT: Multi:\n";
+		for(Effect i : effects){
+			if(i == null){
+				toSender += "\n\tNULL";
+			} else {
+				toSender += "\n\t" + i.toString();
+			}
+		}
+		return toSender;
+	}
 }

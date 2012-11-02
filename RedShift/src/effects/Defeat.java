@@ -9,4 +9,11 @@ public class Defeat extends Effect {
 		c.setWinLose(-1);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "EFFECT: Defeat";
+	}
+
+	
 }

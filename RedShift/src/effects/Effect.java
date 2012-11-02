@@ -7,4 +7,10 @@ package effects;
  */
 public abstract class Effect {
 	public abstract void affect(core.ClientGameplayState c);
+
+	@Override
+	public String toString() {
+		return "Effect []";
+	}
+	
 }

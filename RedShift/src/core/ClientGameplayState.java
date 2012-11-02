@@ -301,17 +301,18 @@ public class ClientGameplayState extends BasicGameState{
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
-			entry.getValue().update(delta);
-			if(entry.getValue().getHealth()<=0){
+			BasicShip ship = entry.getValue();
+			ship.update(delta);
+			if(ship.isDead()){
 				removeShips.add(entry.getKey());
-				if(entry.getValue().getTriggerTargetName()!=null){
-					if(levelData.getTrigger(entry.getValue().getTriggerTargetName()).getClass().equals(DeathTrigger.class)){
-						levelData.getTrigger(entry.getValue().getTriggerTargetName()).trigger(true);
+				ship.onDie(this);
+				if(ship.getTriggerTargetName()!=null){
+					if(levelData.getTrigger(ship.getTriggerTargetName()).getClass().equals(DeathTrigger.class)){
+						levelData.getTrigger(ship.getTriggerTargetName()).trigger(true);
 						levelData.setNeedUpdate(true);
 					}
 				}
-				entry.getValue().getDeathSnd().playAt(0.6f, 1.0f, (float)entry.getValue().getX(), (float)entry.getValue().getY(), 0.0f);
-				if(entry.getValue().equals(pc.getPlayShip())){
+				if(ship.equals(pc.getPlayShip())){
 					gameOver = true;
 					winLose = -1;
 				}
@@ -588,6 +589,12 @@ public class ClientGameplayState extends BasicGameState{
 	
 	public void pushEffect(effects.Effect e){
 		fxStack.push(e);
+	}
+	
+	public void tripTrigger(String trigName){
+		Dbg.line("Trigger ''" + trigName + "'' fired off.");
+		levelData.getTrigger(trigName).trigger(true);
+		levelData.setNeedUpdate(true);
 	}
 	
 	public void spawnShip(ents.ShipDesc s){
