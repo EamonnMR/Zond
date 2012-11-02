@@ -8,17 +8,25 @@
     [deatheffects]{EFFECT}
 }
     
+/CONDITIONS:/
+{       [type](STRING) /The following fields are arranged by cond type:/
+		[target](NAME) /All have a trigger that they target/
+		/"counter" wait on a counter (counters are incremented by effect)/
+		[total](INT)
+		/"timer" wait for a specific amount of game time to pass/
+		[max]  (INT)
+		/"ship" and "shot" both wait for a ship to touch the shape/
+		[shape]	(SHAPE) /refer to the shapes file on how to format this... it'll change though./
 
 
 /EFFECTS:/
-{       [type](STRING) /The following fields are arrainged by effect type:/
+{       [type](STRING) /The following fields are arranged by effect type:/
 
         /"spawn" Spawn ship/
         [ship]{SHIPDESC}
 
-        /"modtrig" Set (make triggerable or untriggerable) trigger/
+        /"modtrig" Activate the target trigger/
         [target](NAME)
-        [newstate](BOOL)
 
         /"navpoint" Set (appear or disappear) the state of a navpoint/
         [target](NAME)

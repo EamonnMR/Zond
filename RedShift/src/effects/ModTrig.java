@@ -4,14 +4,18 @@ import core.ClientGameplayState;
 
 public class ModTrig extends Effect {
 	String targetTrigger;
-	boolean newState;
 	@Override
 	public void affect(ClientGameplayState c) {
-		// TODO Make it set the state of a trigger
+		c.tripTrigger(targetTrigger);
 	}
-	public ModTrig(String targetTrigger, boolean newState) {
+	public ModTrig(String targetTrigger) {
 		this.targetTrigger = targetTrigger;
-		this.newState = newState;
 	}
+	@Override
+	public String toString() {
+		return "EFFECT: Mod Trig: targetTrigger: ''" + targetTrigger;
+	}
+	
+	
 
 }

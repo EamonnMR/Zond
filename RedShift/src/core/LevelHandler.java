@@ -68,7 +68,7 @@ public class LevelHandler {
 				if(trig.getClass().equals(CountTrigger.class)){
 					CountTrigger counter = (CountTrigger)trig;
 					counter.add();
-					System.out.println(counter.getName() + " at "+counter.getCount());
+					Dbg.line(counter.getName() + " at "+counter.getCount());
 					counter.trigger(false);
 					if(counter.getCount()>=counter.getTotal()){
 						executeTriggers.add(trig);

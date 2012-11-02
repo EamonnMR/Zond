@@ -7,5 +7,10 @@ public class NoOp extends Effect {
 	@Override
 	public void affect(ClientGameplayState c) {
 	}
+	@Override
+	public String toString() {
+		return "EFFECT: No-Op";
+	}
 
+	
 }
