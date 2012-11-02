@@ -27,13 +27,13 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](25)
+	[gunPtLen](28)
 	[engPtLen](-30)
 	[faction](1)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](8)
 		/[segments](28)/
 	}
 	[radar]{
@@ -50,17 +50,14 @@
 	[health](5)
 	[points](5)
 	[weight](5)
-	[gunPtLen](34)
+	[gunPtLen](38)
 	[engPtLen](-34)
 	[faction](1)
 	[collider]{
-		[type] (poly)
-		[points]<
-			<(0)(0)>
-			<(32)(32)>
-			<(-32)(-32)>
-		>
-
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](10)
+		/[segments](28)/
 	}
 	[radar]{
 		[type] (circle)

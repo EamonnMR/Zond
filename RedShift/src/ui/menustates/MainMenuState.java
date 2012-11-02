@@ -51,21 +51,19 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		String x = String.valueOf(arg0.getInput().getMouseX());
-		gfx.drawString(x, 100, 10);
-		x = String.valueOf(arg0.getInput().getMouseY());
-		gfx.drawString(x, 150, 10);
+//		String x = String.valueOf(arg0.getInput().getMouseX());
+//		gfx.drawString(x, 100, 10);
+//		x = String.valueOf(arg0.getInput().getMouseY());
+//		gfx.drawString(x, 150, 10);
 		
 		gfx.setColor(Color.red);
 		gfx.drawString("=["+title+"v1.5]=", 512, 10);
 		
-		gfx.setColor(Color.yellow);
-		gfx.draw(mouse_rec);
-		
-		gfx.setColor(Color.green);
-		gfx.fill(mouse_rec);
-		
-
+//		gfx.setColor(Color.yellow);
+//		gfx.draw(mouse_rec);
+//		
+//		gfx.setColor(Color.green);
+//		gfx.fill(mouse_rec);
 		
 		gfx.drawImage(montrBKG, 20, 300);
 		gfx.drawImage(campBTN_img, 25, 345);

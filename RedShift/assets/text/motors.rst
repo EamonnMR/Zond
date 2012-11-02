@@ -11,8 +11,8 @@
 /
 
 [smallEngine]{
-	[cost]        (5)
-	[weight]      (0)
+	[cost]        (1)
+	[weight]      (1500)
 	[turnrate]    (0.25)
 	[thrustx]     (0.3)
 	[thrusty]     (0.1)
@@ -23,8 +23,8 @@
 }
 
 [mediumEngine]{
-	[cost]        (10)
-	[weight]      (1)
+	[cost]        (2)
+	[weight]      (1996)
 	[turnrate]    (0.25)
 	[thrustx]     (0.3)
 	[thrusty]     (0.1)
@@ -36,8 +36,8 @@
 
 
 [largeEngine]{
-	[cost]        (15)
-	[weight]      (2)
+	[cost]        (3)
+	[weight]      (2300)
 	[turnrate]    (0.25)
 	[thrustx]     (0.3)
 	[thrusty]     (0.1)
