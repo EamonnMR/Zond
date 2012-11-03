@@ -43,15 +43,12 @@ public class ClientGameplayState extends BasicGameState{
 	//INTERNAL VARIABLES AND DATA============================
 	private int id, entCount, objCount, shotCount, clientCount, winLose;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
-	int camX, camY, boundsCheck;
+	int camX, camY, boundsCheck, deathReason;
 	LevelDataModel levelData;
 	private HudDataModel hdm;
-	//Constants
-	float radius = 350; //Distance to draw tags from player
-
-	//play with these till the tags are centered
-	float xoffset;
-	float yoffset;
+	
+	//Constants	        //play with these till the tags are centered
+	float radius = 350,xoffset,yoffset; //Distance to draw tags from player
 	
 	HashMap<Integer, BasicShip> ships;		//instance data
 	HashMap<Integer, BasicShot> shots;
@@ -63,7 +60,7 @@ public class ClientGameplayState extends BasicGameState{
 	//====================================================================
 	
 	//EXTERNAL VARIABLES AND DATA=========================================
-	PlayerClient pc, pc2, pc3, pc4; //Why do we have four players?
+	PlayerClient pc;
 	private BaseLevel level; //soon to be deprecated
 	private GameDatabase gdb;
 	private EntityFactory entFac;
@@ -262,6 +259,7 @@ public class ClientGameplayState extends BasicGameState{
 			if (boundsCheck == -1) {
 				gameOver = true;
 				winLose = -1;
+				deathReason = 0;
 			}
 
 			pc.updateCamera(this);
@@ -277,6 +275,9 @@ public class ClientGameplayState extends BasicGameState{
 				gameIni = true;
 				winLose = 0;
 				levelData = null;
+				GameOverState gameO = (GameOverState)arg1.getState(-1);
+				gameO.setReason(deathReason);
+				gameO.init(arg0, arg1);
 				arg1.enterState(-1, new FadeOutTransition(Color.red) , null);
 			}
 			if(winLose== 1 ){
@@ -348,6 +349,7 @@ public class ClientGameplayState extends BasicGameState{
 					shot.getValue().onHit();
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
+						deathReason = 1;
 					}
 				}
 			}
@@ -382,6 +384,7 @@ public class ClientGameplayState extends BasicGameState{
 					s.getValue().setHealth(sHp -0.5);
 					double shHp = ship.getValue().getHealth();
 					ship.getValue().setHealth(shHp -0.5);
+					deathReason = 2;
 					}
 				}
 			}

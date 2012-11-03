@@ -29,7 +29,7 @@ public class HangarBayState extends BasicGameState {
 	private Rectangle acceptBTN_rec, backBTN_rec, mouse;
 	private BasicShip displayShip;
 	private GameDatabase gdb;
-	private Image mainScn_i, wepScn_i, engScn_i, briefScn_i, backBTN_i;
+	private Image mainScn_i, wepScn_i, engScn_i, briefScn_i;
 	private UILib ulib;
 	private Point center;
 	private EntityFactory entFac;
@@ -37,6 +37,7 @@ public class HangarBayState extends BasicGameState {
 	private HashMap<Integer, BasicEngine> engines;
 	private HashMap<Integer, BasicShip> ships;
 	private HashMap<String, UIButton> listedButtons;
+	private boolean backBool, accptBool;
 	private float mx,my;
 	
 	public HangarBayState(int i, GameDatabase g, PlayerClient p, EntityFactory ef){
@@ -61,9 +62,7 @@ public class HangarBayState extends BasicGameState {
 		wepScn_i = gdb.getIMG("small_scrn");
 		engScn_i = gdb.getIMG("small_scrn");
 		
-		backBTN_i = gdb.getIMG("bckBTN_n");
-		backBTN_rec = new Rectangle(270,697,backBTN_i.getWidth(),backBTN_i.getHeight());
-		
+		backBTN_rec = new Rectangle(270,697,96,17);
 		acceptBTN_rec = new Rectangle(630,697, 120,17);
 		
 		//mouse...maybe there should be a mouse class next go around?
@@ -117,8 +116,16 @@ public class HangarBayState extends BasicGameState {
 			}
 		}
 		
-		gfx.drawImage(backBTN_i, 270,697);
-		gdb.getFont("green").drawString(630, 697, "[(Accept)]");
+		if(backBool==true){
+			gdb.getFont("green").drawString(270, 697, "[(Back)]");
+		}else{
+			gdb.getFont("green").drawString(270, 697, " (Back) ");
+		}
+		if(accptBool==true){
+			gdb.getFont("green").drawString(630, 697, "[(Accept)]");
+		}else{
+			gdb.getFont("green").drawString(630, 697, " (Accept) ");
+		}
 	}
 	
 
@@ -193,15 +200,23 @@ public class HangarBayState extends BasicGameState {
 		
 		updateButtons(mouse, i);
 		
-		if(backBTN_rec.intersects(mouse) && i.isMousePressed(0)){
-			arg1.enterState(3);
-		}else if(acceptBTN_rec.intersects(mouse) && i.isMousePressed(0)){
-			
-			pc.setPlayShip(displayShip);
-			ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
-			gamePlay.setPlayerClient(pc);
-			gamePlay.init(arg0, arg1);
-			arg1.enterState(1);
+		if(backBTN_rec.intersects(mouse)){
+			if(i.isMousePressed(0)){
+				arg1.enterState(3);
+			}
+			backBool=true;
+		}else if(acceptBTN_rec.intersects(mouse)){
+			if(i.isMousePressed(0)){
+				pc.setPlayShip(displayShip);
+				ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
+				gamePlay.setPlayerClient(pc);
+				gamePlay.init(arg0, arg1);
+				arg1.enterState(1);
+			}
+			accptBool=true;
+		}else{
+			backBool=false;
+			accptBool=false;
 		}
 	}
 
