@@ -28,7 +28,8 @@ public class OptionMenuState extends BasicGameState{
 	private float fx_prvX,sfxBnd_x;
 	private GameDatabase gdb;
 	private Sound s;
-	private Image bkIMG,backBTN_i, cfghudBTN_i, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
+	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
+	private boolean backBool, cfgHudBool;
 	
 	public OptionMenuState(int i, OptionsEnt ops, GameDatabase gdb){
 		id = i;
@@ -43,8 +44,6 @@ public class OptionMenuState extends BasicGameState{
 			throws SlickException {
 
 		bkIMG = gdb.getIMG("montrBKC");
-		backBTN_i = gdb.getIMG("bckBTN_n");
-		cfghudBTN_i = gdb.getIMG("cfghdBTN_n");
 		optLBL_i = gdb.getIMG("optLBL_n");
 		sfxLBL_i = gdb.getIMG("sfxLBL_n");
 		musLBL_i = gdb.getIMG("musLBL_n");
@@ -66,7 +65,7 @@ public class OptionMenuState extends BasicGameState{
 		comScrn_rec = new Rectangle(20, 300, 500, 450);
 		
 		backBTN_rec = new Rectangle(35,650,96,19);
-		modBTN_rec = new Rectangle(261,567,165,22);
+		modBTN_rec = new Rectangle(261,567,204,22);
 		
 		//bounding rectangles
 		sfxBnd_rec = new Rectangle(121,418,100,21);
@@ -123,6 +122,7 @@ public class OptionMenuState extends BasicGameState{
 		mouse_rec.setX(mX);
 		mouse_rec.setY(mY);
 		
+		updateRollOvers();
 		updateCollisions(delta, mouse_rec, arg0, in, arg1);
 		
 		updateOptionsVals();
@@ -131,6 +131,7 @@ public class OptionMenuState extends BasicGameState{
 			arg1.enterState(3);
 		}
 	}
+
 	/**
 	 * checks for collisions between cursor and gui elements
 	 * @param delta
@@ -203,6 +204,18 @@ public class OptionMenuState extends BasicGameState{
 		}
 	}
 	
+	private void updateRollOvers() {
+		if(backBTN_rec.intersects(mouse_rec)){
+			backBool=true;
+		}else 
+		if(modBTN_rec.intersects(mouse_rec)){
+			cfgHudBool = true;
+		}else{
+			backBool = false;
+			cfgHudBool = false;
+		}
+	}
+	
 	private void updateOptionsVals() {
 		
 		float ratio = 1.0f/100f;
@@ -221,8 +234,18 @@ public class OptionMenuState extends BasicGameState{
 
 	private void renderLabels(Graphics gfx){
 		gfx.setColor(Color.green);
-		gfx.drawImage(backBTN_i, 36, 650);
-		gfx.drawImage(cfghudBTN_i, 261, 570);
+		
+		if(backBool==true){
+			gdb.getFont("green").drawString(36, 650, "[(Back)]");
+		}else{
+			gdb.getFont("green").drawString(36, 650, " (Back) ");
+		}
+		if(cfgHudBool==true){
+			gdb.getFont("green").drawString(261, 570, "[(Configure HUD)]");
+		}else{
+			gdb.getFont("green").drawString(261, 570, " (Configure HUD) ");
+		}
+		
 		gfx.drawImage(optLBL_i, 225, 305);
 		gfx.drawImage(sfxLBL_i, 36, 400);
 		gfx.drawImage(musLBL_i, 36, 475);
