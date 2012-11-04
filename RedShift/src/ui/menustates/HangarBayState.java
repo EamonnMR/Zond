@@ -28,6 +28,8 @@ public class HangarBayState extends BasicGameState {
 	private PlayerClient pc;
 	private Rectangle acceptBTN_rec, backBTN_rec, mouse;
 	private BasicShip displayShip;
+	private BasicGun displayGun;
+	private BasicEngine displayEngine;
 	private GameDatabase gdb;
 	private Image mainScn_i, wepScn_i, engScn_i, briefScn_i;
 	private UILib ulib;
@@ -158,9 +160,10 @@ public class HangarBayState extends BasicGameState {
 			}
 		}
 		
-		gdb.getFont("green").drawString(4, 438, "Cooldown:"+(double)displayShip.getWeapon().getCoolDown()/1000+"sec");
-		gdb.getFont("green").drawString(4, 457, "Size:    "+displayShip.getWeapon().getCost());
-//		gdb.getFont("green").drawString(4, 476, "Weight:  "+displayShip.getWeapon().getWeight()+"kg");
+		gdb.getFont("green").drawString(4, 438, "Weight:  "+displayGun.getProj().getDamage()+"kt");
+		gdb.getFont("green").drawString(4, 457, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
+		gdb.getFont("green").drawString(4, 476, "Size:    "+displayGun.getCost());
+		
 	}
 
 	private void renderEngines(Graphics gfx) {
@@ -184,10 +187,10 @@ public class HangarBayState extends BasicGameState {
 				y += 17;
 			}
 		}
-		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayShip.getEngine().getThrustX());
-		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayShip.getEngine().getTurnrate());
-		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayShip.getEngine().getStrafeRate());
-		gdb.getFont("green").drawString(760, 419, "Size:  "+displayShip.getEngine().getCost());
+		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayEngine.getThrustX());
+		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayEngine.getTurnrate());
+		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayEngine.getStrafeRate());
+		gdb.getFont("green").drawString(760, 419, "Size:  "+displayEngine.getCost());
 //		gdb.getFont("green").drawString(760, 476, "Weight:"+displayShip.getEngine().getWeight()+"kg");
 	}
 
@@ -208,6 +211,8 @@ public class HangarBayState extends BasicGameState {
 		}else if(acceptBTN_rec.intersects(mouse)){
 			if(i.isMousePressed(0)){
 				pc.setPlayShip(displayShip);
+				pc.getPlayShip().setEngine(displayEngine);
+				pc.getPlayShip().setWeapon(displayGun);
 				ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
 				gamePlay.setPlayerClient(pc);
 				gamePlay.init(arg0, arg1);
@@ -229,23 +234,25 @@ public class HangarBayState extends BasicGameState {
 		for(UIButton u : listedButtons.values()){
 			if(u.getRectangle().intersects(m)  && i.isMousePressed(0)){
 				if(u.getThing().getClass().equals(BasicGun.class)){
-					if((BasicGun)u.getThing()!=displayShip.getWeapon()){
+					if((BasicGun)u.getThing()!=displayGun){
 						u.setState(true);
-						listedButtons.get(displayShip.getWeapon().getName()).setState(false);
+						listedButtons.get(displayGun.getName()).setState(false);
 					}
-					displayShip.setWeapon((BasicGun)u.getThing());
+					displayGun= (BasicGun)u.getThing();
 				}else if(u.getThing().getClass().equals(BasicEngine.class)){
-					if((BasicEngine)u.getThing()!=displayShip.getEngine()){
+					if((BasicEngine)u.getThing()!=displayEngine){
 						u.setState(true);
-						listedButtons.get(displayShip.getEngine().getName()).setState(false);
+						listedButtons.get(displayEngine.getName()).setState(false);
 					}
-					displayShip.setEngine((BasicEngine)u.getThing());
+					displayEngine = (BasicEngine)u.getThing();
 				}else if(u.getThing().getClass().equals(BasicShip.class)){
 					if((BasicShip)u.getThing()!=displayShip){
 						u.setState(true);
 						listedButtons.get(displayShip.getName()).setState(false);
 					}
-					displayShip=(BasicShip)u.getThing();		
+					displayShip=(BasicShip)u.getThing();
+					displayShip.setEngine(displayEngine);
+					displayShip.setWeapon(displayGun);
 				}
 			}
 		}
@@ -281,6 +288,8 @@ public class HangarBayState extends BasicGameState {
 		
 		pc.setPlayShip(entFac.buildShip(ships.get(0).getName(), guns.get(0).getName(), engines.get(0).getName()));
 		displayShip = pc.getPlayShip();
+		displayGun = pc.getPlayShip().getWeapon();
+		displayEngine = pc.getPlayShip().getEngine();
 	}
 	
 	private void iniButtons() {
