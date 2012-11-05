@@ -33,6 +33,7 @@ public class GameOverState extends BasicGameState {
 			pilotDead = "[Status] Pilot Deceased.";
 			cause="[Cause] Killed in Action.";
 		}else if(reason==2){
+			pilotDead = "[Status] Pilot Deceased.";
 			cause="[Cause] Ship collided with object.";
 		}
 		action = "[Action] ==Press ESC==";
@@ -52,8 +53,8 @@ public class GameOverState extends BasicGameState {
 			throws SlickException {
 		Input ip = arg0.getInput();
 		if(ip.isKeyDown(Input.KEY_ESCAPE)){
-			arg1.getState(5).init(arg0, arg1);
-			arg1.enterState(5);
+			ip.clearMousePressedRecord();
+			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 		}
 	}
 
@@ -64,5 +65,10 @@ public class GameOverState extends BasicGameState {
 
 	public void setReason(int i){
 		reason = i;
+	}
+	
+	@Override
+	public void leave(GameContainer gc, StateBasedGame stbg){
+		this.inputEnded();
 	}
 }

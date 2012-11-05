@@ -4,7 +4,7 @@ import level.TriggerTypes;
 
 import org.newdawn.slick.geom.Shape;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 /**
  * Defines a basic Trigger entity that is used by the 
@@ -84,6 +84,6 @@ public class BasicTrigger {
 	}
 
 
-	public void go(ClientGameplayState cgs) {
+	public void go(GameplayState cgs) {
 	}
 }

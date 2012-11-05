@@ -1,6 +1,6 @@
 package cond;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class Counter extends Condition {
 
@@ -16,7 +16,7 @@ public class Counter extends Condition {
 		return "COND: Counter total =" + Integer.toString(total);
 	}
 	
-	public void incremet(ClientGameplayState c){
+	public void incremet(GameplayState c){
 		count ++;
 		if (count >= total){
 			activated(c);
@@ -29,7 +29,7 @@ public class Counter extends Condition {
 	}
 
 	@Override
-	public boolean check(ClientGameplayState c, int delta) {
+	public boolean check(GameplayState c, int delta) {
 		// Since UpdateMe isn't there, check is unused
 		return false;
 	}

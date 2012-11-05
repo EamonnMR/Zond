@@ -2,7 +2,7 @@ package level.triggers;
 
 import level.NavPoint;
 import level.TriggerTypes;
-import core.ClientGameplayState;
+import core.GameplayState;
 
 
 public class ToggleNavPoint extends BasicTrigger {
@@ -16,7 +16,7 @@ public class ToggleNavPoint extends BasicTrigger {
 	}
 
 	@Override
-	public void go(ClientGameplayState cgs){
+	public void go(GameplayState cgs){
 		point.setActive(state);
 	}
 }

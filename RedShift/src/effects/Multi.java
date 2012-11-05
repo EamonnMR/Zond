@@ -1,11 +1,11 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class Multi extends Effect {
 	Effect[] effects;
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		for(Effect fx : effects){
 			fx.affect(c);
 		}

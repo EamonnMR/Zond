@@ -58,7 +58,7 @@ public class LevelHandler {
 	 * PS: this method is For-Loop city :P
 	 * @param delta
 	 */
-	public void update(int delta, ClientGameplayState cgs){
+	public void update(int delta, GameplayState cgs){
 		//checks for any remaining trigs or actions
 		int itemCnt = 0;
 		//find which triggers are active
@@ -121,7 +121,7 @@ public class LevelHandler {
 	}
 	
 
-	private void activateActions(ClientGameplayState cgs, int delta) {
+	private void activateActions(GameplayState cgs, int delta) {
 		for(BasicAction act : executeActions){
 			
 			//if the action has not started; start it, and flag as started

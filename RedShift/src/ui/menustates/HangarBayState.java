@@ -3,6 +3,7 @@ package ui.menustates;
 import java.awt.Point;
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,10 +12,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.UIButton;
 import ui.UILib;
-import core.ClientGameplayState;
+import core.CoreStateManager;
+import core.GameplayState;
 import core.GameDatabase;
 import core.PlayerClient;
 import ents.BasicEngine;
@@ -73,8 +76,6 @@ public class HangarBayState extends BasicGameState {
 		my = arg0.getInput().getMouseY();
 		mouse.setCenterX(mx);
 		mouse.setCenterY(my);
-		
-		pc.setPlayShip(entFac.stockMercury());
 	}
 
 
@@ -117,6 +118,7 @@ public class HangarBayState extends BasicGameState {
 				}
 			}
 		}
+		gfx.draw(backBTN_rec);
 		
 		if(backBool==true){
 			gdb.getFont("green").drawString(270, 697, "[(Back)]");
@@ -160,7 +162,7 @@ public class HangarBayState extends BasicGameState {
 			}
 		}
 		
-		gdb.getFont("green").drawString(4, 438, "Weight:  "+displayGun.getProj().getDamage()+"kt");
+		gdb.getFont("green").drawString(4, 438, "Damage:  "+displayGun.getProj().getDamage()+"kt");
 		gdb.getFont("green").drawString(4, 457, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
 		gdb.getFont("green").drawString(4, 476, "Size:    "+displayGun.getCost());
 		
@@ -191,7 +193,6 @@ public class HangarBayState extends BasicGameState {
 		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayEngine.getTurnrate());
 		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayEngine.getStrafeRate());
 		gdb.getFont("green").drawString(760, 419, "Size:  "+displayEngine.getCost());
-//		gdb.getFont("green").drawString(760, 476, "Weight:"+displayShip.getEngine().getWeight()+"kg");
 	}
 
 	@Override
@@ -204,24 +205,29 @@ public class HangarBayState extends BasicGameState {
 		updateButtons(mouse, i);
 		
 		if(backBTN_rec.intersects(mouse)){
-			if(i.isMousePressed(0)){
-				arg1.enterState(3);
-			}
 			backBool=true;
+			if(i.isMousePressed(0)){
+				arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
+			}
 		}else if(acceptBTN_rec.intersects(mouse)){
 			if(i.isMousePressed(0)){
+				i.clearMousePressedRecord();
 				pc.setPlayShip(displayShip);
 				pc.getPlayShip().setEngine(displayEngine);
 				pc.getPlayShip().setWeapon(displayGun);
-				ClientGameplayState gamePlay = (ClientGameplayState)arg1.getState(1);
+				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.PLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-				gamePlay.init(arg0, arg1);
-				arg1.enterState(1);
+//				gamePlay.init(arg0, arg1);
+				arg1.enterState(CoreStateManager.PLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;
 		}else{
 			backBool=false;
 			accptBool=false;
+		}
+		
+		if(i.isKeyPressed(Input.KEY_ESCAPE)){
+			arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
 		}
 	}
 
@@ -231,35 +237,38 @@ public class HangarBayState extends BasicGameState {
 	 * @param i
 	 */
 	private void updateButtons(Rectangle m, Input i) {
-		for(UIButton u : listedButtons.values()){
-			if(u.getRectangle().intersects(m)  && i.isMousePressed(0)){
-				if(u.getThing().getClass().equals(BasicGun.class)){
-					if((BasicGun)u.getThing()!=displayGun){
-						u.setState(true);
-						listedButtons.get(displayGun.getName()).setState(false);
+		for (UIButton u : listedButtons.values()) {
+			if (u.getRectangle().intersects(m)) {
+				if (i.isMousePressed(0))
+					if (u.getThing().getClass().equals(BasicGun.class)) {
+						if ((BasicGun) u.getThing() != displayGun) {
+							u.setState(true);
+							listedButtons.get(displayGun.getName()).setState(
+									false);
+						}
+						displayGun = (BasicGun) u.getThing();
+					} else if (u.getThing().getClass()
+							.equals(BasicEngine.class)) {
+						if ((BasicEngine) u.getThing() != displayEngine) {
+							u.setState(true);
+							listedButtons.get(displayEngine.getName())
+									.setState(false);
+						}
+						displayEngine = (BasicEngine) u.getThing();
+					} else if (u.getThing().getClass().equals(BasicShip.class)) {
+						if ((BasicShip) u.getThing() != displayShip) {
+							u.setState(true);
+							listedButtons.get(displayShip.getName()).setState(
+									false);
+						}
+						displayShip = (BasicShip) u.getThing();
+						displayShip.setEngine(displayEngine);
+						displayShip.setWeapon(displayGun);
 					}
-					displayGun= (BasicGun)u.getThing();
-				}else if(u.getThing().getClass().equals(BasicEngine.class)){
-					if((BasicEngine)u.getThing()!=displayEngine){
-						u.setState(true);
-						listedButtons.get(displayEngine.getName()).setState(false);
-					}
-					displayEngine = (BasicEngine)u.getThing();
-				}else if(u.getThing().getClass().equals(BasicShip.class)){
-					if((BasicShip)u.getThing()!=displayShip){
-						u.setState(true);
-						listedButtons.get(displayShip.getName()).setState(false);
-					}
-					displayShip=(BasicShip)u.getThing();
-					displayShip.setEngine(displayEngine);
-					displayShip.setWeapon(displayGun);
-				}
 			}
 		}
 	}
 
-
-	
 	@Override
 	public int getID() {
 		return id;
@@ -285,8 +294,9 @@ public class HangarBayState extends BasicGameState {
 			ships.put(i, s);
 			i++;
 		}
-		
-		pc.setPlayShip(entFac.buildShip(ships.get(0).getName(), guns.get(0).getName(), engines.get(0).getName()));
+		ships.get(0).setWeapon(guns.get(0));
+		ships.get(0).setEngine(engines.get(0));
+		pc.setPlayShip(ships.get(0));
 		displayShip = pc.getPlayShip();
 		displayGun = pc.getPlayShip().getWeapon();
 		displayEngine = pc.getPlayShip().getEngine();
@@ -324,6 +334,13 @@ public class HangarBayState extends BasicGameState {
 			}
 			listedButtons.put(g.getName(), uib);
 		}
+	}
+
+	@Override
+	public void enter(GameContainer gc, StateBasedGame stbg){
+		mouse.setX(gc.getInput().getMouseX());
+		mouse.setY(gc.getInput().getMouseY());
+		this.inputStarted();
 	}
 
 

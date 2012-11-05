@@ -1,6 +1,6 @@
 package cond;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class Timer extends Condition {
 	private int count;
@@ -23,7 +23,7 @@ public class Timer extends Condition {
 	}
 
 	@Override
-	public boolean check(ClientGameplayState c, int delta) {
+	public boolean check(GameplayState c, int delta) {
 		count += delta;
 		if(count >= max){
 			return true;

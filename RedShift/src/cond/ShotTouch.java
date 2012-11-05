@@ -3,7 +3,7 @@ package cond;
 
 import org.newdawn.slick.geom.Shape;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 import ents.BasicShot;
 
 public class ShotTouch extends Condition {
@@ -24,7 +24,7 @@ public class ShotTouch extends Condition {
 	}
 
 	@Override
-	public boolean check(ClientGameplayState c, int delta) {
+	public boolean check(GameplayState c, int delta) {
 		for( BasicShot shot : c.getShots().values()){
 			//Brute force collision check
 			if (collider.intersects(shot.getCollider())){

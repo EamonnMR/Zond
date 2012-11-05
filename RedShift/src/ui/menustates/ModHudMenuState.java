@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import ui.UILib;
 import ui.hud.HudDataModel;
+import core.CoreStateManager;
 import core.GameDatabase;
 
 public class ModHudMenuState extends BasicGameState {
@@ -155,7 +156,7 @@ public class ModHudMenuState extends BasicGameState {
 				hdm.reset();
 			}
 			if(backBTN_rec.intersects(mouse_rec)){
-				arg1.enterState(4);
+				arg1.enterState(CoreStateManager.OPTIONSMENUSTATE);
 			}
 		}
 	}

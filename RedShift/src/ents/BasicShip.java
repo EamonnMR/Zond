@@ -2,7 +2,7 @@ package ents;
 
 import org.newdawn.slick.geom.Circle;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 /**
  * the big bad, this class is for making any type of ship for RedShift and beyond!
@@ -216,7 +216,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		return health <= 0;
 	}
 	
-	public void onDie(ClientGameplayState c){
+	public void onDie(GameplayState c){
 		//Play sound
 		getDeathSnd().playAt(0.6f, 1.0f, (float)getX(), (float)getY(), 0.0f);
 		if (deathFx != null) {

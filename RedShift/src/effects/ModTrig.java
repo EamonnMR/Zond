@@ -1,11 +1,11 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class ModTrig extends Effect {
 	String targetTrigger;
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		c.tripTrigger(targetTrigger);
 	}
 	public ModTrig(String targetTrigger) {

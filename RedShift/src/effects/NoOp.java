@@ -1,11 +1,11 @@
 package effects;
 /* Just in case you ever needed a no-operation effect.*/
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class NoOp extends Effect {
 
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 	}
 	@Override
 	public String toString() {

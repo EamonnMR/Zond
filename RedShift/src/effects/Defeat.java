@@ -1,11 +1,11 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class Defeat extends Effect {
 
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		c.setWinLose(-1);
 	}
 

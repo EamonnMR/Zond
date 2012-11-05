@@ -3,7 +3,7 @@ package cond;
 
 import org.newdawn.slick.geom.Shape;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 import ents.BasicShip;
 
 public class ShipTouch extends Condition {
@@ -25,7 +25,7 @@ public class ShipTouch extends Condition {
 	}
 
 	@Override
-	public boolean check(ClientGameplayState c, int delta) {
+	public boolean check(GameplayState c, int delta) {
 		for( BasicShip ship : c.getShips().values()){
 			//Brute force collision check
 			if (collider.intersects(ship.getCollider())){

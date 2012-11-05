@@ -13,7 +13,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 /**
  * core level class that does all level things...ever
@@ -67,7 +67,7 @@ public class BasicLevel {
 	 * PS: this method is For-Loop city :P
 	 * @param delta
 	 */
-	public void update(int delta, ClientGameplayState cgs){
+	public void update(int delta, GameplayState cgs){
 		//minor alteration
 		
 		//find which triggers are active

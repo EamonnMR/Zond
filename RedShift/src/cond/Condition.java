@@ -1,19 +1,19 @@
 package cond;
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public abstract class Condition {
 	String target;
 	
 	public abstract boolean updateMe();
 	
-	public void activated(ClientGameplayState c){
+	public void activated(GameplayState c){
 		c.tripTrigger(target);
 	}
-	public void update(ClientGameplayState c, int delta){
+	public void update(GameplayState c, int delta){
 		if (check(c, delta)){
 			activated(c);
 		}
 	}
 	
-	public abstract boolean check(ClientGameplayState c, int delta);
+	public abstract boolean check(GameplayState c, int delta);
 }
