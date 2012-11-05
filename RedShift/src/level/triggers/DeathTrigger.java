@@ -1,7 +1,7 @@
 package level.triggers;
 
 import level.TriggerTypes;
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class DeathTrigger extends BasicTrigger{
 	
@@ -11,7 +11,7 @@ public class DeathTrigger extends BasicTrigger{
 	}
 	
 	@Override 
-	public void go(ClientGameplayState cgs){
+	public void go(GameplayState cgs){
 		if(cgs.getLevel().getTrigger(getTargetName())!=null){
 			cgs.getLevel().getTrigger(getTargetName()).trigger(true);
 		}

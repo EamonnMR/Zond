@@ -7,7 +7,7 @@ package cond;
 public class Mgr {
 	Condition[] conditions;
 	
-	public void update(core.ClientGameplayState c, int delta){
+	public void update(core.GameplayState c, int delta){
 		for(Condition d : conditions){
 			d.update(c, delta);
 		}

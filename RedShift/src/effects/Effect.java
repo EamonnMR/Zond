@@ -6,7 +6,7 @@ package effects;
  * but we can always do that later.
  */
 public abstract class Effect {
-	public abstract void affect(core.ClientGameplayState c);
+	public abstract void affect(core.GameplayState c);
 
 	@Override
 	public String toString() {

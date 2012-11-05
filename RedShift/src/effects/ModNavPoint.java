@@ -1,6 +1,6 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class ModNavPoint extends Effect {
 
@@ -8,7 +8,7 @@ public class ModNavPoint extends Effect {
 	boolean newState;
 	
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		// TODO Same as mod trig, but this time it works on a nav point.
 
 	}

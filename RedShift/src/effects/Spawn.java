@@ -1,6 +1,6 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 import ents.ShipDesc;
 
 public class Spawn extends Effect {
@@ -11,7 +11,7 @@ public class Spawn extends Effect {
 	}
 
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		c.spawnShip(s);
 	}
 

@@ -5,15 +5,17 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import core.CoreStateManager;
 import core.GameDatabase;
 
-public class MainMenuState extends BasicGameState {
+public class MainMenuState extends BasicGameState implements MouseListener {
 
 	private int id;
 	private String title;
@@ -21,6 +23,7 @@ public class MainMenuState extends BasicGameState {
 	private GameDatabase gdb;
 	private Image montrBKG;
 	private boolean campBool, scenBool, optBool, quitBool;
+	private Input i;
 	
 	public MainMenuState(int i, GameDatabase g){
 		id = i;
@@ -40,15 +43,17 @@ public class MainMenuState extends BasicGameState {
 		scenBTN_rec = new Rectangle(25, 410, 144,17);	
 		optBTN_rec = new Rectangle(25, 485,132,17);
 		quitBTN_rec = new Rectangle(25, 545,96,17);
+		
+		i = arg0.getInput();
+		i.addPrimaryListener(this);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-//		String x = String.valueOf(arg0.getInput().getMouseX());
-//		gfx.drawString(x, 100, 10);
-//		x = String.valueOf(arg0.getInput().getMouseY());
-//		gfx.drawString(x, 150, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		
 		
 		gfx.setColor(Color.red);
 		gdb.getFont("gray").drawString(512-((16*12)/2), 10, "=["+title+"v1.0]=", new Color(255,39,64));
@@ -91,7 +96,7 @@ public class MainMenuState extends BasicGameState {
 //		gfx.draw(playBTN_rec);
 //		gfx.draw(scenBTN_rec);
 //		gfx.draw(optBTN_rec);
-//		gfx.draw(quitBTN_rec);	
+		gfx.draw(quitBTN_rec);	
 	}
 
 	@Override
@@ -109,25 +114,27 @@ public class MainMenuState extends BasicGameState {
 	}
 
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
-		if(gc.getInput().isMousePressed(0)){
-			if(playBTN_rec.intersects(mouse_rec)){
-				try {
-					stbg.getState(1).init(gc, stbg);
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
-				stbg.enterState(1, new FadeOutTransition(Color.gray), null);
-			}
-			if(scenBTN_rec.intersects(mouse_rec)){
-				stbg.enterState(5);
-			}
-			if(optBTN_rec.intersects(mouse_rec)){
-				stbg.enterState(4);
-			}
-			if(quitBTN_rec.intersects(mouse_rec)){
-				gc.exit();
+		if (playBTN_rec.intersects(mouse_rec)) {
+			if (i.isMousePressed(0)) {
+				stbg.enterState(CoreStateManager.PLAYSTATE);
 			}
 		}
+		if (scenBTN_rec.intersects(mouse_rec)) {
+			if (gc.getInput().isMousePressed(0)) {
+				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+			}
+		}
+		if (optBTN_rec.intersects(mouse_rec)) {
+			if (gc.getInput().isMousePressed(0)) {
+				stbg.enterState(CoreStateManager.OPTIONSMENUSTATE);
+			}
+		}
+		if (quitBTN_rec.intersects(mouse_rec)) {
+			if (gc.getInput().isMousePressed(0)) {
+				System.exit(0);
+			}
+		}
+
 	}
 	
 
@@ -149,6 +156,12 @@ public class MainMenuState extends BasicGameState {
 			optBool = false;
 			quitBool = false;
 		}
+	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame stbg){
+		mouse_rec.setX(gc.getInput().getMouseX());
+		mouse_rec.setY(gc.getInput().getMouseY());
 	}
 
 	@Override

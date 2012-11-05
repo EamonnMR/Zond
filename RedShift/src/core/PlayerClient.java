@@ -190,7 +190,7 @@ public class PlayerClient {
 		this.radar = radar;
 	}
 
-	public void updateCamera(ClientGameplayState c) {
+	public void updateCamera(GameplayState c) {
 		c.setCamX((int)currentShip.getX());
 		c.setCamY((int)currentShip.getY());
 	}

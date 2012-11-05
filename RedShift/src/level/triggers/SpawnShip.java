@@ -1,7 +1,7 @@
 package level.triggers;
 
 import level.TriggerTypes;
-import core.ClientGameplayState;
+import core.GameplayState;
 import ents.BasicShip;
 
 public class SpawnShip extends BasicTrigger{
@@ -14,7 +14,7 @@ public class SpawnShip extends BasicTrigger{
 	}
 	
 	@Override
-	public void go(ClientGameplayState cgs){
+	public void go(GameplayState cgs){
 		ship.setX(getX());
 		ship.setY(getY());
 		cgs.addShip(ship);

@@ -20,7 +20,7 @@ import ents.BasicGun;
 import ents.BasicShip;
 import ents.EntityFactory;
 
-public class ClientLoaderState extends BasicGameState {
+public class LoaderState extends BasicGameState {
 
 	//member variables
 	GameDatabase gdb;
@@ -32,7 +32,7 @@ public class ClientLoaderState extends BasicGameState {
 	
 	private int id;
 	//constructor
-	public ClientLoaderState(int i, GameDatabase gDB, EntityFactory ef){
+	public LoaderState(int i, GameDatabase gDB, EntityFactory ef){
 		this.gdb = gDB;
 		this.entFac = ef;
 		id = i;
@@ -64,22 +64,22 @@ public class ClientLoaderState extends BasicGameState {
 		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
 		
-		arg1.addState(new ClientGameplayState(0, player, gdb, entFac, lvbr,hdm));
-		arg1.addState(new ClientGameplayState(1, player, gdb, entFac, lvbr, hdm));
-		arg1.addState(new GameOverState(-1, gdb));
-		arg1.addState(new GameSuccessState(2));
-		arg1.addState(new MainMenuState(3, gdb));
-		arg1.addState(new OptionMenuState(4, player.getOptions(), gdb));
-		arg1.addState(new HangarBayState(5, gdb, player, entFac));
-		arg1.addState(new ModHudMenuState(6, hdm, gdb));
+		arg1.addState(new GameplayState(CoreStateManager.PLAYSTATE, player, gdb, entFac, lvbr, hdm));
+		arg1.addState(new GameOverState(CoreStateManager.GAMEOVERSTATE, gdb));
+		arg1.addState(new GameSuccessState(CoreStateManager.SUCCSTATE));
+		arg1.addState(new MainMenuState(CoreStateManager.MAINMENUSTATE, gdb));
+		arg1.addState(new OptionMenuState(CoreStateManager.OPTIONSMENUSTATE, player.getOptions(), gdb));
+		arg1.addState(new HangarBayState(CoreStateManager.HANGARBAYSTATE, gdb, player, entFac));
+		arg1.addState(new ModHudMenuState(CoreStateManager.HUDMODSTATE, hdm, gdb));
 		
 		createTestClientData(player);
 		
 		try {
-			arg1.getState(3).init(arg0, arg1);
-			arg1.getState(4).init(arg0, arg1);
-			arg1.getState(5).init(arg0, arg1);
-			arg1.getState(6).init(arg0, arg1);
+			arg1.getState(CoreStateManager.GAMEOVERSTATE).init(arg0, arg1);
+			arg1.getState(CoreStateManager.MAINMENUSTATE).init(arg0, arg1);
+			arg1.getState(CoreStateManager.OPTIONSMENUSTATE).init(arg0, arg1);
+			arg1.getState(CoreStateManager.HANGARBAYSTATE).init(arg0, arg1);
+			arg1.getState(CoreStateManager.HUDMODSTATE).init(arg0, arg1);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

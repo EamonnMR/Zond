@@ -38,7 +38,7 @@ import ents.EntityFactory;
  * @version 1.0
  * the core of the active game, handles an instance of play
  */
-public class ClientGameplayState extends BasicGameState{
+public class GameplayState extends BasicGameState{
 
 	//INTERNAL VARIABLES AND DATA============================
 	private int id, entCount, objCount, shotCount, clientCount, winLose;
@@ -69,7 +69,7 @@ public class ClientGameplayState extends BasicGameState{
 	//====================================================================
 	
 	//constructor
-	public ClientGameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
+	public GameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
 		
 		this.id = i;
 		this.hdm = h;
@@ -114,8 +114,11 @@ public class ClientGameplayState extends BasicGameState{
 			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 			//create the client ship
-			
-			pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
+			if(pc.getPlayShip()==null){
+				pc.setPlayShip(entFac.stockMercury());
+			}else{
+				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
+			}
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
@@ -221,7 +224,7 @@ public class ClientGameplayState extends BasicGameState{
 				}
 			}
 			if(p.isKeyPressed(Input.KEY_ESCAPE)){
-				arg1.enterState(5);
+				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 			}
 
 			// ======Begin updates!
@@ -275,10 +278,10 @@ public class ClientGameplayState extends BasicGameState{
 				gameIni = true;
 				winLose = 0;
 				levelData = null;
-				GameOverState gameO = (GameOverState)arg1.getState(-1);
+				GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 				gameO.setReason(deathReason);
-				gameO.init(arg0, arg1);
-				arg1.enterState(-1, new FadeOutTransition(Color.red) , null);
+//				gameO.init(arg0, arg1);
+				arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
 			}
 			if(winLose== 1 ){
 				cleanEntities(removeShots, removeShips, removeDoodads,
@@ -288,6 +291,7 @@ public class ClientGameplayState extends BasicGameState{
 				gameIni = true;
 				levelData = null;
 				winLose = 0;
+				arg1.getState(2).init(arg0, arg1);
 				arg1.enterState(2, new FadeOutTransition(Color.white) , null);
 			}
 		}

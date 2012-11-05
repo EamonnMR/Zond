@@ -1,6 +1,6 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class Stack {
 	Frame top;
@@ -9,7 +9,7 @@ public class Stack {
 		top = new Frame(e, top);
 	}
 	
-	public void unwind(ClientGameplayState c){
+	public void unwind(GameplayState c){
 		while(top != null){
 			//Pop that stack till the top is null
 			top.fx.affect(c);

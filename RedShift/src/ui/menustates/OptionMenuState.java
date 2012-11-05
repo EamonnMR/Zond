@@ -14,6 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ui.UILib;
+import core.CoreStateManager;
 import core.GameDatabase;
 import ents.OptionsEnt;
 
@@ -128,7 +129,7 @@ public class OptionMenuState extends BasicGameState{
 		updateOptionsVals();
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
-			arg1.enterState(3);
+			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
 
@@ -196,10 +197,10 @@ public class OptionMenuState extends BasicGameState{
 				}
 			}
 			if(modBTN_rec.intersects(mouse)){
-				stg.enterState(6);
+				stg.enterState(CoreStateManager.HUDMODSTATE);
 			}
 			if(backBTN_rec.intersects(mouse)){
-				stg.enterState(3);
+				stg.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 		}
 	}

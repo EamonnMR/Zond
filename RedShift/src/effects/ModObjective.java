@@ -1,12 +1,12 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class ModObjective extends Effect {
 	String targetName;
 	boolean newState, newCompletion;
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		// TODO Same as the other mod methods, but for objectives
 		//IMPLEMENT ME!
 	}

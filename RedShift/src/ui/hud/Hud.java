@@ -21,7 +21,7 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 import ui.UILib;
-import core.ClientGameplayState;
+import core.GameplayState;
 import core.GameDatabase;
 import core.PlayerClient;
 import ents.BasicShip;
@@ -47,7 +47,7 @@ public class Hud {
 	private boolean radarOn = false; // is radar active?
 	private boolean showPoints = false;		//display navpoints
 	private boolean showMission = false;	//show list of active objective
-	private ClientGameplayState cgs;
+	private GameplayState cgs;
 	private PlayerClient pc;
 	private SpriteSheetFont grnF;
 	private SpriteSheetFont graF;
@@ -77,7 +77,7 @@ public class Hud {
 		brightYel = new Color(242, 255, 28);
 	}
 
-	public void update(PlayerClient cl, ClientGameplayState cgs) {
+	public void update(PlayerClient cl, GameplayState cgs) {
 		pc = cl;
 		x = (float) pc.getPlayShip().getX();
 		y = (float) pc.getPlayShip().getY();
@@ -134,7 +134,7 @@ public class Hud {
 	 * @param camX
 	 * @param camY
 	 */
-	public void shipRadarCheck(ClientGameplayState cgs, Graphics gfx, int camX, int camY){
+	public void shipRadarCheck(GameplayState cgs, Graphics gfx, int camX, int camY){
 		for(BasicShip s : cgs.getShips().values()){
 			if(!s.equals(pc.getPlayShip())){
 				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())||pc.getPlayShip().getRadarRadius().contains(s.getCollider())){
@@ -364,7 +364,7 @@ public class Hud {
 		}
 	}
 	
-	public void renderShipTags(ClientGameplayState cgs, Graphics gfx,int camX, int camY){
+	public void renderShipTags(GameplayState cgs, Graphics gfx,int camX, int camY){
 		Vector2f player = new Vector2f((float)pc.getPlayShip().getX(), (float)pc.getPlayShip().getY());
 		for(BasicShip ship : cgs.getShips().values()){
 			if(!ship.equals(cgs.getPlayerShip())){	

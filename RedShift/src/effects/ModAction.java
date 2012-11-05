@@ -1,6 +1,6 @@
 package effects;
 
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class ModAction extends Effect {
 
@@ -8,7 +8,7 @@ public class ModAction extends Effect {
 	boolean ini, fire, done;
 	
 	@Override
-	public void affect(ClientGameplayState c) {
+	public void affect(GameplayState c) {
 		// TODO Auto-generated method stub
 
 	}

@@ -2,7 +2,7 @@ package level.triggers;
 
 import level.BasicObjective;
 import level.TriggerTypes;
-import core.ClientGameplayState;
+import core.GameplayState;
 
 public class CompleteObjective extends BasicTrigger{
 
@@ -15,7 +15,7 @@ public class CompleteObjective extends BasicTrigger{
 	}
 	
 	@Override
-	public void go(ClientGameplayState cgs){
+	public void go(GameplayState cgs){
 		obj.setComplete(true);
 	}
 

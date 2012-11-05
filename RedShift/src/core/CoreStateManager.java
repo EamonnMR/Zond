@@ -21,10 +21,10 @@ import ents.EntityFactory;
 public class CoreStateManager extends StateBasedGame {
 
 	//vars
-	public static int CLIENTLOADERSTATE = 0;
-	public static int CLIENTPLAYSTATE = 1;
-	public static int CLIENTGAMEOVERSTATE = -1;
-	public static int CLIENTSUCCSTATE = 2;
+	public static int LOADERSTATE = 0;
+	public static int PLAYSTATE = 1;
+	public static int GAMEOVERSTATE = -1;
+	public static int SUCCSTATE = 2;
 	public static int MAINMENUSTATE = 3;
 	public static int OPTIONSMENUSTATE = 4;
 	public static int HANGARBAYSTATE = 5;
@@ -45,8 +45,8 @@ public class CoreStateManager extends StateBasedGame {
 		entFac = new EntityFactory();
 		lvbr = new LevelBuilder();
 		
-		this.addState(new ClientLoaderState(CLIENTLOADERSTATE, gDB, entFac));
-		this.enterState(CLIENTLOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
+		this.addState(new LoaderState(LOADERSTATE, gDB, entFac));
+		this.enterState(LOADERSTATE); //this is for shortcut, uncomment this to go straight to gameplay
 	}
 
 	//methods
