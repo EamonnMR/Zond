@@ -69,14 +69,9 @@ public class GameplayState extends BasicGameState{
 	//====================================================================
 	
 	//constructor
-	public GameplayState(int i, PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
+	public GameplayState(int i){
 		
 		this.id = i;
-		this.hdm = h;
-		this.gdb = gDB;
-		this.entFac = ef;
-		this.pc = PC;
-		this.lb = lvl;
 //		lvl.setEntFac(entFac);
 //		this.levelData = lvl.buildLevel();	//keep this here for now.
 		this.boundsCheck = 1;
@@ -95,45 +90,7 @@ public class GameplayState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		
-		if(gameIni){
-			this.lb = new LevelBuilder();
-			lb.setEntFac(entFac);
-			this.levelData = lb.buildLevel(entFac);
-			this.lh = new LevelHandler(levelData);
-			this.ships = new HashMap<Integer, BasicShip>();
-			this.shots = new HashMap<Integer, BasicShot>();
-			this.doodads = new HashMap<Integer, BaseEnt>();
-			this.clients = new HashMap<Integer, PlayerClient>();
-			this.incomingClientShips = new HashMap<String, BasicShip>();
-		
-//			incomingClientShips.put("mercury", entFac.stockMercury());
-//			pc.setClientShips(incomingClientShips);
-
-			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
-			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
-		
-			//create the client ship
-			if(pc.getPlayShip()==null){
-				pc.setPlayShip(entFac.stockMercury());
-			}else{
-				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
-			}
-			pc.getPlayShip().ini(512, 250, 0.0f);
-			
-			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
-		
-			//add both ships to the Ship hashmap
-			addShip(pc.getPlayShip());
-		
-			//camera test
-			setCamX(0);
-			setCamY(0);
-		
-//			taskCount = levelToUse.getTotalObjectives();
-			gameIni = false;
-			gamePlay = true;
-		}
+		//init state is kinda useless isnt it.
 	}
 
 	/**
@@ -168,6 +125,42 @@ public class GameplayState extends BasicGameState{
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
+		if(gameIni){
+			this.lb = new LevelBuilder();
+			lb.setEntFac(entFac);
+			this.levelData = lb.buildLevel(entFac);
+			this.lh = new LevelHandler(levelData);
+			this.ships = new HashMap<Integer, BasicShip>();
+			this.shots = new HashMap<Integer, BasicShot>();
+			this.doodads = new HashMap<Integer, BaseEnt>();
+			this.clients = new HashMap<Integer, PlayerClient>();
+			this.incomingClientShips = new HashMap<String, BasicShip>();
+
+			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
+			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
+		
+			//create the client ship
+			if(pc.getPlayShip()==null){
+				pc.setPlayShip(entFac.stockMercury());
+			}else{
+				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
+			}
+			pc.getPlayShip().ini(512, 250, 0.0f);
+			
+			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
+		
+			//add both ships to the Ship hashmap
+			addShip(pc.getPlayShip());
+		
+			//camera test
+			setCamX(0);
+			setCamY(0);
+		
+//			taskCount = levelToUse.getTotalObjectives();
+			gameIni = false;
+			gamePlay = true;
+		}
+		
 		if (gamePlay) {
 			// placed at the top for ubiquitousness
 			ArrayList<Integer> removeShots = new ArrayList<Integer>();
@@ -607,5 +600,13 @@ public class GameplayState extends BasicGameState{
 	
 	public void spawnShip(ents.ShipDesc s){
 		addShip(entFac.shipFromDesc(s));
+	}
+	
+	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
+		this.hdm = h;
+		this.gdb = gDB;
+		this.entFac = ef;
+		this.pc = PC;
+		this.lb = lvl;
 	}
 }

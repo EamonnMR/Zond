@@ -10,7 +10,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import core.CoreStateManager;
 import core.GameDatabase;
@@ -22,12 +21,12 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
-	private boolean campBool, scenBool, optBool, quitBool;
+	private boolean campBool, scenBool, optBool, quitBool, ini;
 	private Input i;
 	
-	public MainMenuState(int i, GameDatabase g){
+	public MainMenuState(int i){
 		id = i;
-		gdb = g;
+		ini=true;
 	}
 	
 	@Override
@@ -38,7 +37,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		mouse_rec = new Rectangle(0,0,1,1);
 		
-		montrBKG = gdb.getIMG("montrBKC");
 		playBTN_rec = new Rectangle(25, 345,144,17);
 		scenBTN_rec = new Rectangle(25, 410, 144,17);	
 		optBTN_rec = new Rectangle(25, 485,132,17);
@@ -102,6 +100,11 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
+		if(ini){
+			loadResources();
+			ini=false;
+		}
+		
 		Input in = arg0.getInput();
 		mouse_rec.setCenterX(in.getMouseX());
 		mouse_rec.setCenterY(in.getMouseY());
@@ -113,10 +116,17 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 	}
 
+	/**
+	 * custom resource load call as part of load restructuring
+	 */
+	private void loadResources() {
+		montrBKG = gdb.getIMG("montrBKC");
+	}
+
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
 		if (playBTN_rec.intersects(mouse_rec)) {
 			if (i.isMousePressed(0)) {
-				stbg.enterState(CoreStateManager.PLAYSTATE);
+				stbg.enterState(CoreStateManager.GAMEPLAYSTATE);
 			}
 		}
 		if (scenBTN_rec.intersects(mouse_rec)) {
@@ -167,5 +177,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	@Override
 	public int getID() {
 		return id;
+	}
+	
+	public void customInit(GameDatabase g){
+		gdb = g;
 	}
 }

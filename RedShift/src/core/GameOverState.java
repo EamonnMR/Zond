@@ -18,25 +18,14 @@ public class GameOverState extends BasicGameState {
 	private GameDatabase gdb;
 	private String pilotDead, cause, action;
 	
-	public GameOverState(int id, GameDatabase g){
+	public GameOverState(int id){
 		this.id = id;
-		gdb = g;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		if(reason==0){
-			pilotDead = "[Status] Unknown.";
-			cause="[Cause] Ship flew beyond recovery range.";
-		}else if(reason==1){
-			pilotDead = "[Status] Pilot Deceased.";
-			cause="[Cause] Killed in Action.";
-		}else if(reason==2){
-			pilotDead = "[Status] Pilot Deceased.";
-			cause="[Cause] Ship collided with object.";
-		}
-		action = "[Action] ==Press ESC==";
+
 	}
 
 	@Override
@@ -52,10 +41,28 @@ public class GameOverState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 		Input ip = arg0.getInput();
+		
+		if(reason==0){
+			pilotDead = "[Status] Unknown.";
+			cause="[Cause] Ship flew beyond recovery range.";
+		}else if(reason==1){
+			pilotDead = "[Status] Pilot Deceased.";
+			cause="[Cause] Killed in Action.";
+		}else if(reason==2){
+			pilotDead = "[Status] Pilot Deceased.";
+			cause="[Cause] Ship collided with object.";
+		}
+		action = "[Action] ==Press ESC==";
+		
+		
 		if(ip.isKeyDown(Input.KEY_ESCAPE)){
-			ip.clearMousePressedRecord();
+			ip.clearKeyPressedRecord();
 			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 		}
+	}
+	
+	public void customInit(GameDatabase g){
+		gdb = g;
 	}
 
 	@Override

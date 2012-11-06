@@ -17,8 +17,8 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import ui.UIButton;
 import ui.UILib;
 import core.CoreStateManager;
-import core.GameplayState;
 import core.GameDatabase;
+import core.GameplayState;
 import core.PlayerClient;
 import ents.BasicEngine;
 import ents.BasicGun;
@@ -42,31 +42,19 @@ public class HangarBayState extends BasicGameState {
 	private HashMap<Integer, BasicEngine> engines;
 	private HashMap<Integer, BasicShip> ships;
 	private HashMap<String, UIButton> listedButtons;
-	private boolean backBool, accptBool;
+	private boolean backBool, accptBool, ini;
 	private float mx,my;
 	
-	public HangarBayState(int i, GameDatabase g, PlayerClient p, EntityFactory ef){
+	public HangarBayState(int i){
 		id = i;
-		gdb = g;
-		pc = p;
 		ulib = new UILib();
 		center = new Point(512,500);
-		entFac = ef;
+		ini = true;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		//datums and things\
-		unspoolData();
-		
-		iniButtons();
-		
-		//media stuffs
-		mainScn_i = gdb.getIMG("montrBKC");
-		wepScn_i = gdb.getIMG("small_scrn");
-		engScn_i = gdb.getIMG("small_scrn");
-		
 		backBTN_rec = new Rectangle(270,697,96,17);
 		acceptBTN_rec = new Rectangle(630,697, 120,17);
 		
@@ -198,6 +186,10 @@ public class HangarBayState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException{
+		if(ini){
+			loadResource();
+			ini=false;
+		}
 		Input i = arg0.getInput();
 		mouse.setX(i.getMouseX());
 		mouse.setY(i.getMouseY());
@@ -207,18 +199,21 @@ public class HangarBayState extends BasicGameState {
 		if(backBTN_rec.intersects(mouse)){
 			backBool=true;
 			if(i.isMousePressed(0)){
+				i.clearMousePressedRecord();
+				i.clearKeyPressedRecord();
 				arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 		}else if(acceptBTN_rec.intersects(mouse)){
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
+				i.clearKeyPressedRecord();
 				pc.setPlayShip(displayShip);
 				pc.getPlayShip().setEngine(displayEngine);
 				pc.getPlayShip().setWeapon(displayGun);
-				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.PLAYSTATE);
+				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
 //				gamePlay.init(arg0, arg1);
-				arg1.enterState(CoreStateManager.PLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
+				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;
 		}else{
@@ -229,6 +224,18 @@ public class HangarBayState extends BasicGameState {
 		if(i.isKeyPressed(Input.KEY_ESCAPE)){
 			arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
 		}
+	}
+
+	private void loadResource() {
+		//datums and things\
+		unspoolData();
+		
+		iniButtons();
+		
+		//media stuffs
+		mainScn_i = gdb.getIMG("montrBKC");
+		wepScn_i = gdb.getIMG("small_scrn");
+		engScn_i = gdb.getIMG("small_scrn");
 	}
 
 	/**
@@ -336,6 +343,12 @@ public class HangarBayState extends BasicGameState {
 		}
 	}
 
+	public void customInit(GameDatabase g, PlayerClient p, EntityFactory ef){
+		gdb = g;
+		pc = p;
+		entFac = ef;
+	}
+	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame stbg){
 		mouse.setX(gc.getInput().getMouseX());

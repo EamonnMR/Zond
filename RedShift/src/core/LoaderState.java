@@ -10,11 +10,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ui.hud.HudDataModel;
-import ui.menustates.HangarBayState;
-import ui.menustates.MainMenuState;
-import ui.menustates.ModHudMenuState;
-import ui.menustates.OptionMenuState;
 import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
@@ -23,18 +18,14 @@ import ents.EntityFactory;
 public class LoaderState extends BasicGameState {
 
 	//member variables
-	GameDatabase gdb;
-	EntityFactory entFac;
-	
+	private GameDatabase gdb;
+	private EntityFactory entFac;
+	private int id;
 	public PlayerClient player;			//PlayerClient for the whole game
 	public LevelBuilder lvbr;
-	private HudDataModel hdm;
 	
-	private int id;
 	//constructor
-	public LoaderState(int i, GameDatabase gDB, EntityFactory ef){
-		this.gdb = gDB;
-		this.entFac = ef;
+	public LoaderState(int i){
 		id = i;
 	}
 	
@@ -60,37 +51,10 @@ public class LoaderState extends BasicGameState {
 			e.printStackTrace();
 		}
 		entFac.ini(gdb);
-		player = new PlayerClient(1);
-		lvbr = new LevelBuilder();
-		hdm = new HudDataModel();
-		
-		arg1.addState(new GameplayState(CoreStateManager.PLAYSTATE, player, gdb, entFac, lvbr, hdm));
-		arg1.addState(new GameOverState(CoreStateManager.GAMEOVERSTATE, gdb));
-		arg1.addState(new GameSuccessState(CoreStateManager.SUCCSTATE));
-		arg1.addState(new MainMenuState(CoreStateManager.MAINMENUSTATE, gdb));
-		arg1.addState(new OptionMenuState(CoreStateManager.OPTIONSMENUSTATE, player.getOptions(), gdb));
-		arg1.addState(new HangarBayState(CoreStateManager.HANGARBAYSTATE, gdb, player, entFac));
-		arg1.addState(new ModHudMenuState(CoreStateManager.HUDMODSTATE, hdm, gdb));
 		
 		createTestClientData(player);
-		
-		try {
-			arg1.getState(CoreStateManager.GAMEOVERSTATE).init(arg0, arg1);
-			arg1.getState(CoreStateManager.MAINMENUSTATE).init(arg0, arg1);
-			arg1.getState(CoreStateManager.OPTIONSMENUSTATE).init(arg0, arg1);
-			arg1.getState(CoreStateManager.HANGARBAYSTATE).init(arg0, arg1);
-			arg1.getState(CoreStateManager.HUDMODSTATE).init(arg0, arg1);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 	}
-
-	@Override
-	public void leave(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
-
-	}
-
+	
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
@@ -100,7 +64,13 @@ public class LoaderState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 
-		arg1.enterState(3);
+		arg1.enterState(CoreStateManager.MAINMENUSTATE);
+	}
+	
+	public void customInit(GameDatabase g, EntityFactory e, PlayerClient p){
+		this.gdb = g;
+		this.entFac = e;
+		this.player = p;
 	}
 	
 	private void createTestClientData(PlayerClient client) {
