@@ -25,44 +25,18 @@ public class ModHudMenuState extends BasicGameState {
 	private UILib uil;
 	private GameDatabase gdb;
 	private Image hp_i, radar_i, wep_i, eng_i, back_i, reset_i, shp_nm_i;
+	private boolean ini;
 	
-	public ModHudMenuState(int i, HudDataModel h, GameDatabase g){
+	public ModHudMenuState(int i){
 		id = i;
 		mouse_rec = new Rectangle(0,0,1,1);
-		hdm = h;
 		uil =  new UILib();
-		gdb = g;
+		ini = true;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		
-		shp_nm_i = gdb.getIMG("shp_nm");
-		nm_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
-		
-		hp_i = gdb.getIMG("hp_i");
-		hp_rec = new Rectangle(hdm.getHp_point_mod().x-hp_i.getWidth(),hdm.getHp_point_mod().y-hp_i.getHeight(),hp_i.getWidth(),hp_i.getHeight());
-		
-		radar_i = gdb.getIMG("radar_i");
-		rad_rec = new Rectangle(hdm.getRadar_point_mod().x-radar_i.getWidth(),hdm.getRadar_point_mod().y-radar_i.getHeight(),radar_i.getWidth(),radar_i.getHeight());
-		
-		wep_i = gdb.getIMG("wep_i");
-		wep_rec = new Rectangle(hdm.getGunName_point_mod().x-wep_i.getWidth(),hdm.getGunName_point_mod().y-wep_i.getHeight(),wep_i.getWidth(),wep_i.getHeight());
-		
-		eng_i = gdb.getIMG("engine_i");
-		eng_rec = new Rectangle(hdm.getEngName_point_mod().x-eng_i.getWidth(),hdm.getEngName_point_mod().y-eng_i.getHeight(),eng_i.getWidth(),eng_i.getHeight());
-		
-		shp_nm_i = gdb.getIMG("shp_nm");
-		sh_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
-		
-		
-		reset_i = gdb.getIMG("resetBTN");
-		resetBTN_rec = new Rectangle(405,396,reset_i.getWidth(),reset_i.getHeight());
-		
-		back_i = gdb.getIMG("bckBTN_n");
-		backBTN_rec = new Rectangle(512,396,back_i.getWidth(),back_i.getHeight());
-		
 		mouse_rec.setCenterX(arg0.getInput().getMouseX());
 		mouse_rec.setCenterY(arg0.getInput().getMouseY());
 	}
@@ -108,6 +82,10 @@ public class ModHudMenuState extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
+		if(ini){
+			loadResource();
+			ini=false;
+		}
 		Input maus = arg0.getInput();
 		mouse_rec.setCenterX(maus.getMouseX());
 		mouse_rec.setCenterY(maus.getMouseY());
@@ -161,12 +139,40 @@ public class ModHudMenuState extends BasicGameState {
 		}
 	}
 
+	private void loadResource() {
+		shp_nm_i = gdb.getIMG("shp_nm");
+		nm_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
+		
+		hp_i = gdb.getIMG("hp_i");
+		hp_rec = new Rectangle(hdm.getHp_point_mod().x-hp_i.getWidth(),hdm.getHp_point_mod().y-hp_i.getHeight(),hp_i.getWidth(),hp_i.getHeight());
+		
+		radar_i = gdb.getIMG("radar_i");
+		rad_rec = new Rectangle(hdm.getRadar_point_mod().x-radar_i.getWidth(),hdm.getRadar_point_mod().y-radar_i.getHeight(),radar_i.getWidth(),radar_i.getHeight());
+		
+		wep_i = gdb.getIMG("wep_i");
+		wep_rec = new Rectangle(hdm.getGunName_point_mod().x-wep_i.getWidth(),hdm.getGunName_point_mod().y-wep_i.getHeight(),wep_i.getWidth(),wep_i.getHeight());
+		
+		eng_i = gdb.getIMG("engine_i");
+		eng_rec = new Rectangle(hdm.getEngName_point_mod().x-eng_i.getWidth(),hdm.getEngName_point_mod().y-eng_i.getHeight(),eng_i.getWidth(),eng_i.getHeight());
+		
+		shp_nm_i = gdb.getIMG("shp_nm");
+		sh_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
+		
+		reset_i = gdb.getIMG("resetBTN");
+		resetBTN_rec = new Rectangle(405,396,reset_i.getWidth(),reset_i.getHeight());
+		
+		back_i = gdb.getIMG("bckBTN_n");
+		backBTN_rec = new Rectangle(512,396,back_i.getWidth(),back_i.getHeight());
+		
+	}
+
+	public void customInit(HudDataModel h, GameDatabase g){
+		hdm = h;
+		gdb = g;
+	}
+	
 	@Override
 	public int getID() {
 		return id;
-	}
-	
-	public void setHDM(HudDataModel hdm){
-		this.hdm = hdm;
 	}
 }

@@ -30,32 +30,18 @@ public class OptionMenuState extends BasicGameState{
 	private GameDatabase gdb;
 	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
-	private boolean backBool, cfgHudBool;
+	private boolean backBool, cfgHudBool, ini;
 	
-	public OptionMenuState(int i, OptionsEnt ops, GameDatabase gdb){
+	public OptionMenuState(int i){
 		id = i;
-		options = ops;
 		uilib = new UILib();
-		this.gdb = gdb;
+		ini = true;
 //		s = gdb.getSound("twentys");
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-
-		bkIMG = gdb.getIMG("montrBKC");
-		optLBL_i = gdb.getIMG("optLBL_n");
-		sfxLBL_i = gdb.getIMG("sfxLBL_n");
-		musLBL_i = gdb.getIMG("musLBL_n");
-		voiLBL_i = gdb.getIMG("voiLBL_n");
-		fscLBL_i = gdb.getIMG("fscLBL_n");
-		partLBL_i = gdb.getIMG("ptcLBL_n");
-		onBTN_i = gdb.getIMG("onBTN_n");
-		offBTN_i = gdb.getIMG("offBTN_n");
-		onBTN_i = gdb.getIMG("onBTN_n");
-		offBTN_i = gdb.getIMG("offBTN_n");
-		
 		//display rectangles
 		mouse_rec = new Rectangle(0,0,1,1);
 		
@@ -116,6 +102,10 @@ public class OptionMenuState extends BasicGameState{
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
+		if(ini){
+			loadResource();
+			ini=false;
+		}
 		Input in = arg0.getInput();
 		mX = in.getMouseX();
 		mY = in.getMouseY();
@@ -131,6 +121,20 @@ public class OptionMenuState extends BasicGameState{
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
+	}
+
+	private void loadResource() {
+		bkIMG = gdb.getIMG("montrBKC");
+		optLBL_i = gdb.getIMG("optLBL_n");
+		sfxLBL_i = gdb.getIMG("sfxLBL_n");
+		musLBL_i = gdb.getIMG("musLBL_n");
+		voiLBL_i = gdb.getIMG("voiLBL_n");
+		fscLBL_i = gdb.getIMG("fscLBL_n");
+		partLBL_i = gdb.getIMG("ptcLBL_n");
+		onBTN_i = gdb.getIMG("onBTN_n");
+		offBTN_i = gdb.getIMG("offBTN_n");
+		onBTN_i = gdb.getIMG("onBTN_n");
+		offBTN_i = gdb.getIMG("offBTN_n");
 	}
 
 	/**
@@ -186,15 +190,21 @@ public class OptionMenuState extends BasicGameState{
 				
 				if(options.getFullscreenStatus()==true){
 					options.setFullscreenStatus(false);
+					try {
+						gc.setFullscreen(false);
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
 				}else{
 					options.setFullscreenStatus(true);
+					try {
+						gc.setFullscreen(true);
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
 				}
 				
-				try {
-					gc.setFullscreen(true);
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
+
 			}
 			if(modBTN_rec.intersects(mouse)){
 				stg.enterState(CoreStateManager.HUDMODSTATE);
@@ -271,8 +281,7 @@ public class OptionMenuState extends BasicGameState{
 		
 		gfx.fill(voiVol_sld);
 		
-		uilib.drawStringNextToShape(getFormattedValue(options.getVoicevol()), voiDisplay_rec, 6, 1, gfx);
-		
+		uilib.drawStringNextToShape(getFormattedValue(options.getVoicevol()), voiDisplay_rec, 6, 1, gfx);	
 	}
 	
 	/**
@@ -298,6 +307,11 @@ public class OptionMenuState extends BasicGameState{
 		double mod = val*100;
 		form = String.valueOf(new DecimalFormat("###").format(mod));
 		return form;
+	}
+	
+	public void customInit(OptionsEnt o, GameDatabase g){
+		options = o;
+		gdb = g;
 	}
 	
 	@Override
