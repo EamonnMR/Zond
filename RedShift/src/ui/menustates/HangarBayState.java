@@ -118,7 +118,7 @@ public class HangarBayState extends BasicGameState {
 				}
 			}
 		}
-		gfx.draw(backBTN_rec);
+//		gfx.draw(backBTN_rec);
 		
 		if(backBool==true){
 			gdb.getFont("green").drawString(270, 697, "[(Back)]");
