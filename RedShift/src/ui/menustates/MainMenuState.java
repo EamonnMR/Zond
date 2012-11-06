@@ -96,7 +96,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 //		gfx.draw(playBTN_rec);
 //		gfx.draw(scenBTN_rec);
 //		gfx.draw(optBTN_rec);
-		gfx.draw(quitBTN_rec);	
+//		gfx.draw(quitBTN_rec);
 	}
 
 	@Override
