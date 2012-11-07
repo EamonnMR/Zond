@@ -24,8 +24,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import ai.AI;
-
 import ui.hud.Hud;
 import ui.hud.HudDataModel;
 import ents.BaseEnt;
@@ -34,6 +32,8 @@ import ents.BasicShip;
 import ents.BasicShot;
 import ents.EntityFactory;
 
+
+
 /**
  * 
  * @author proohr
@@ -41,7 +41,18 @@ import ents.EntityFactory;
  * the core of the active game, handles an instance of play
  */
 public class GameplayState extends BasicGameState{
-
+	private static GameplayState IAM;
+	
+	public static boolean shipExists(int ship){
+		return IAM.ships.containsKey(ship);
+	}
+	/**
+	 * Make sure the ship actually exists before calling this.
+	 */
+	public static BasicShip getShip(int ship){
+		return IAM.ships.get(ship);
+	}
+	
 	//INTERNAL VARIABLES AND DATA============================
 	private int id, entCount, objCount, shotCount, clientCount, winLose;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
@@ -82,6 +93,9 @@ public class GameplayState extends BasicGameState{
 //		this.lh = new LevelHandler();
 		this.winLose = 0;
 		this.fxStack = new effects.Stack();
+		
+		//I ARE SINGLETON NOW HURRRR
+		IAM = this;
 		
 	}
 	
