@@ -68,8 +68,6 @@ public class GameplayState extends BasicGameState{
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
-	private AI a;
-	private int[] msgs = {2,1,2,1,0,2,0,0};
 	//====================================================================
 	
 	//constructor
@@ -84,7 +82,6 @@ public class GameplayState extends BasicGameState{
 //		this.lh = new LevelHandler();
 		this.winLose = 0;
 		this.fxStack = new effects.Stack();
-		a = new AI();
 		
 	}
 	
@@ -312,6 +309,8 @@ public class GameplayState extends BasicGameState{
 			}
 		}
 		if(p.isKeyPressed(Input.KEY_ESCAPE)){
+			gameIni = true;
+			gamePlay= false;
 			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 		}
 	}
