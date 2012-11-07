@@ -70,8 +70,8 @@ public class HangarBayState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		renderMainDisplay(gfx);
 		
@@ -201,7 +201,7 @@ public class HangarBayState extends BasicGameState {
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
-				arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
+				arg1.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 		}else if(acceptBTN_rec.intersects(mouse)){
 			if(i.isMousePressed(0)){
@@ -212,7 +212,6 @@ public class HangarBayState extends BasicGameState {
 				pc.getPlayShip().setWeapon(displayGun);
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-//				gamePlay.init(arg0, arg1);
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;
@@ -222,7 +221,9 @@ public class HangarBayState extends BasicGameState {
 		}
 		
 		if(i.isKeyPressed(Input.KEY_ESCAPE)){
-			arg1.enterState(CoreStateManager.MAINMENUSTATE, new FadeOutTransition(Color.lightGray) , null);
+			i.clearMousePressedRecord();
+			i.clearKeyPressedRecord();
+			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
 
