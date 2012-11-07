@@ -24,6 +24,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import ai.AI;
+
 import ui.hud.Hud;
 import ui.hud.HudDataModel;
 import ents.BaseEnt;
@@ -66,6 +68,8 @@ public class GameplayState extends BasicGameState{
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
+	private AI a;
+	private int[] msgs = {2,1,2,1,0,2,0,0};
 	//====================================================================
 	
 	//constructor
@@ -80,6 +84,8 @@ public class GameplayState extends BasicGameState{
 //		this.lh = new LevelHandler();
 		this.winLose = 0;
 		this.fxStack = new effects.Stack();
+		a = new AI();
+		
 	}
 	
 	//methods
@@ -172,6 +178,8 @@ public class GameplayState extends BasicGameState{
 
 			// ======Begin updates!
 			// update ships
+			updateAITEST();
+			
 			updateEntities(delta, removeShots, removeShips, removeObjective);
 
 			// run collisions
@@ -217,7 +225,17 @@ public class GameplayState extends BasicGameState{
 		}
 	}
 	
-	
+	/**
+	 * new functioning! 
+	 */
+	private void updateAITEST() {
+//		for(int i =0; i < msgs.length; i++){
+//		       if      (msgs[i] == 0) a.move();
+//		         else if (msgs[i] == 1) a.pivot();
+//		         else if (msgs[i] == 2) a.attack();
+//		}
+	}
+
 	private void checkForWin(StateBasedGame arg1,ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeDoodads, ArrayList<Integer> removeObjective) {
 		if (winLose== -1 ) {
 			cleanEntities(removeShots, removeShips, removeDoodads,
@@ -563,17 +581,6 @@ public class GameplayState extends BasicGameState{
 	
 	public Vector2f circularFunction(float angle, int rad){
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + 512), (float)(Math.sin(angle+Math.PI) * rad + 384));
-	}
-	
-	@Override
-	public void enter(GameContainer container, StateBasedGame arg1){
-		try {
-			this.gameIni=true;
-			this.init(container, arg1);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public LevelDataModel getLevel(){
