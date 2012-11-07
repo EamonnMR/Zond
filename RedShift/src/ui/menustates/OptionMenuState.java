@@ -85,18 +85,13 @@ public class OptionMenuState extends BasicGameState{
 //		gfx.drawString(x, 100, 10);
 //		x = String.valueOf(arg0.getInput().getMouseY());
 //		gfx.drawString(x, 150, 10);
-		
-		gfx.drawString(String.valueOf(sfxVol_sld.getCenterX()), 200, 10);
-		gfx.drawString(String.valueOf(fx_prvX), 250, 10);
-		
-		gfx.draw(comScrn_rec);
+//		gfx.drawString(String.valueOf(sfxVol_sld.getCenterX()), 200, 10);
+//		gfx.drawString(String.valueOf(fx_prvX), 250, 10);
+//		gfx.draw(comScrn_rec);
 		
 		renderLabels(gfx);
 		renderSliders(gfx);
 		renderOnOffs(gfx);
-		
-		gfx.setColor(Color.darkGray);
-		gfx.fill(mouse_rec);
 	}
 
 	@Override
