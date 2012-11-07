@@ -72,7 +72,6 @@ public class GameplayState extends BasicGameState{
 	public GameplayState(int i){
 		
 		this.id = i;
-//		lvl.setEntFac(entFac);
 //		this.levelData = lvl.buildLevel();	//keep this here for now.
 		this.boundsCheck = 1;
 		this.gameOver = false;		
@@ -167,58 +166,9 @@ public class GameplayState extends BasicGameState{
 			ArrayList<Integer> removeShips = new ArrayList<Integer>();
 			ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
 			ArrayList<Integer> removeObjective = new ArrayList<Integer>();
-
-			Input p = arg0.getInput();
-			if (p.isKeyDown(Input.KEY_UP)) {
-				pc.getPlayShip().moveForward(delta);
-				
-			}
-			if (p.isKeyDown(Input.KEY_DOWN)) {
-				pc.getPlayShip().moveBackward(delta);
-			}
-			if (p.isKeyDown(Input.KEY_LEFT)) {
-				pc.getPlayShip().rotateLeft(delta);
-			}
-			if (p.isKeyDown(Input.KEY_RIGHT)) {
-				pc.getPlayShip().rotateRight(delta);
-			}
-			if (p.isKeyDown(Input.KEY_Z)) {
-				pc.getPlayShip().strafeLeft(delta);
-			}
-			if (p.isKeyDown(Input.KEY_X)) {
-				pc.getPlayShip().strafeRight(delta);
-			}
-			if (p.isKeyDown(Input.KEY_LCONTROL)) {
-				if (pc.tryShot()) {
-					addShot(pc.getPlayShip().getWeapon().makeShot());
-				}
-				pc.tryShot();
-			}
-			if (p.isKeyPressed(Input.KEY_Q)) {
-				if (playerHud.getDevGogState() == false) {
-					playerHud.setDevGog(true);
-				} else if (playerHud.getDevGogState() == true) {
-					playerHud.setDevGog(false);
-				}
-			}
-			if (p.isKeyPressed(Input.KEY_C)) {
-				if (pc.getRadarState() == true) {
-					pc.setRadarState(false);
-				} else {
-					pc.setRadarState(true);
-				}
-				playerHud.setRadarOn(pc.getRadarState());
-			}
-			if(p.isKeyPressed(Input.KEY_A)){
-				if(playerHud.getShowNav()==false){
-					playerHud.setShowNav(true);
-				}else if(playerHud.getShowNav()){
-					playerHud.setShowNav(false);
-				}
-			}
-			if(p.isKeyPressed(Input.KEY_ESCAPE)){
-				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
-			}
+			
+			procInput(arg0, arg1, delta);
+			
 
 			// ======Begin updates!
 			// update ships
@@ -257,40 +207,97 @@ public class GameplayState extends BasicGameState{
 				winLose = -1;
 				deathReason = 0;
 			}
-
 			pc.updateCamera(this);
 
 			fxStack.unwind(this); //Unwind the effects stack.
-
+			
+			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
 			// Check for win conditions
-			if (winLose== -1 ) {
-				cleanEntities(removeShots, removeShips, removeDoodads,
-						removeObjective);
-				gameOver = false;
-				gamePlay = false;
-				gameIni = true;
-				winLose = 0;
-				levelData = null;
-				GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
-				gameO.setReason(deathReason);
-//				gameO.init(arg0, arg1);
-				arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
-			}
-			if(winLose== 1 ){
-				cleanEntities(removeShots, removeShips, removeDoodads,
-						removeObjective);
-				gameOver = false;
-				gamePlay = false;
-				gameIni = true;
-				levelData = null;
-				winLose = 0;
-				arg1.getState(2).init(arg0, arg1);
-				arg1.enterState(2, new FadeOutTransition(Color.white) , null);
-			}
+			
 		}
 	}
 	
 	
+	private void checkForWin(StateBasedGame arg1,ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeDoodads, ArrayList<Integer> removeObjective) {
+		if (winLose== -1 ) {
+			cleanEntities(removeShots, removeShips, removeDoodads,
+					removeObjective);
+			gameOver = false;
+			gamePlay = false;
+			gameIni = true;
+			winLose = 0;
+			levelData = null;
+			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
+			gameO.setReason(deathReason);
+//			gameO.init(arg0, arg1);
+			arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
+		}
+		if(winLose== 1 ){
+			cleanEntities(removeShots, removeShips, removeDoodads,
+					removeObjective);
+			gameOver = false;
+			gamePlay = false;
+			gameIni = true;
+			levelData = null;
+			winLose = 0;
+			arg1.enterState(CoreStateManager.GAMEWINSTATE, new FadeOutTransition(Color.white) , null);
+		}
+	}
+
+	private void procInput(GameContainer arg0, StateBasedGame arg1, int delta) {
+		Input p = arg0.getInput();
+		if (p.isKeyDown(Input.KEY_UP)) {
+			pc.getPlayShip().moveForward(delta);
+			
+		}
+		if (p.isKeyDown(Input.KEY_DOWN)) {
+			pc.getPlayShip().moveBackward(delta);
+		}
+		if (p.isKeyDown(Input.KEY_LEFT)) {
+			pc.getPlayShip().rotateLeft(delta);
+		}
+		if (p.isKeyDown(Input.KEY_RIGHT)) {
+			pc.getPlayShip().rotateRight(delta);
+		}
+		if (p.isKeyDown(Input.KEY_Z)) {
+			pc.getPlayShip().strafeLeft(delta);
+		}
+		if (p.isKeyDown(Input.KEY_X)) {
+			pc.getPlayShip().strafeRight(delta);
+		}
+		if (p.isKeyDown(Input.KEY_LCONTROL)) {
+			if (pc.tryShot()) {
+				addShot(pc.getPlayShip().getWeapon().makeShot());
+			}
+			pc.tryShot();
+		}
+		if (p.isKeyPressed(Input.KEY_Q)) {
+			if (playerHud.getDevGogState() == false) {
+				playerHud.setDevGog(true);
+			} else if (playerHud.getDevGogState() == true) {
+				playerHud.setDevGog(false);
+			}
+		}
+		if (p.isKeyPressed(Input.KEY_C)) {
+			if (pc.getRadarState() == true) {
+				pc.setRadarState(false);
+			} else {
+				pc.setRadarState(true);
+			}
+			playerHud.setRadarOn(pc.getRadarState());
+		}
+		if(p.isKeyPressed(Input.KEY_A)){
+			if(playerHud.getShowNav()==false){
+				playerHud.setShowNav(true);
+			}else if(playerHud.getShowNav()){
+				playerHud.setShowNav(false);
+			}
+		}
+		if(p.isKeyPressed(Input.KEY_ESCAPE)){
+			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
+		}
+	}
+
 	/**
 	 * run updates on all entity lists
 	 * @param delta

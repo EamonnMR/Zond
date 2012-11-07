@@ -1,5 +1,6 @@
 package ui.menustates;
 
+import org.lwjgl.openal.AL;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -49,18 +50,12 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		
 		gfx.setColor(Color.red);
 		gdb.getFont("gray").drawString(512-((16*12)/2), 10, "=["+title+"v1.0]=", new Color(255,39,64));
-		
-//		gfx.setColor(Color.yellow);
-//		gfx.draw(mouse_rec);
-//		
-//		gfx.setColor(Color.green);
-//		gfx.fill(mouse_rec);
 		
 		gfx.drawImage(montrBKG, 20, 300);
 		
@@ -112,7 +107,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		updateRollOvers();
 		updateCollisions( arg0,  arg1);
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
-			arg0.exit();
+			AL.destroy();
+			arg0.reinit();
+//			arg0.exit();
 		}
 	}
 
@@ -141,6 +138,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 		if (quitBTN_rec.intersects(mouse_rec)) {
 			if (gc.getInput().isMousePressed(0)) {
+				AL.destroy();
 				System.exit(0);
 			}
 		}
@@ -166,12 +164,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			optBool = false;
 			quitBool = false;
 		}
-	}
-	
-	@Override
-	public void enter(GameContainer gc, StateBasedGame stbg){
-		mouse_rec.setX(gc.getInput().getMouseX());
-		mouse_rec.setY(gc.getInput().getMouseY());
 	}
 
 	@Override

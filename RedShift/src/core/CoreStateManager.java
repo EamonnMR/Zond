@@ -126,7 +126,6 @@ public class CoreStateManager extends StateBasedGame {
 		this.getState(GAMEOVERSTATE).init(arg0, this);
 		this.getState(GAMEWINSTATE).init(arg0, this);
 		this.getState(GAMEPLAYSTATE).init(arg0, this);
-		
 	}
 
 	
@@ -135,6 +134,7 @@ public class CoreStateManager extends StateBasedGame {
          AppGameContainer app = new AppGameContainer(new CoreStateManager());
          app.setMouseGrabbed(false);
          app.setDisplayMode(1024, 768, false);
+         app.setShowFPS(false);
          app.start();
     }
 }

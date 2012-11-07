@@ -119,6 +119,8 @@ public class OptionMenuState extends BasicGameState{
 		updateOptionsVals();
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
+			in.clearMousePressedRecord();
+			in.clearKeyPressedRecord();
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
@@ -207,9 +209,13 @@ public class OptionMenuState extends BasicGameState{
 
 			}
 			if(modBTN_rec.intersects(mouse)){
+				in.clearMousePressedRecord();
+				in.clearKeyPressedRecord();
 				stg.enterState(CoreStateManager.HUDMODSTATE);
 			}
 			if(backBTN_rec.intersects(mouse)){
+				in.clearMousePressedRecord();
+				in.clearKeyPressedRecord();
 				stg.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 		}

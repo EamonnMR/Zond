@@ -32,12 +32,13 @@ public class UILib {
 	 * @param b Shape
 	 * @param i Image
 	 */
-	public void drawImageAtShapeCenter(Graphics gfx, Shape b, Image i){
+	public Point imageCenterAtShapeCenter(Shape b, Image i){
 		float x = b.getCenterX(), y=b.getCenterY();
 		int h=i.getHeight(),w=i.getWidth();
-		gfx.drawImage(i, x-(w/2), y-(h/2));
+		return new Point((int)x-(w/2), (int)y-(h/2));
 	}
 	
+
 	/**
 	 * draws an image centered on a point
 	 * @param gfx
