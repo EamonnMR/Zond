@@ -125,7 +125,7 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](10)
 		/[segments](24)/
 	}
 	[radar]{

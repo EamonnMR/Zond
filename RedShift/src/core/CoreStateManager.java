@@ -1,7 +1,6 @@
 package core;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.newdawn.slick.AppGameContainer;

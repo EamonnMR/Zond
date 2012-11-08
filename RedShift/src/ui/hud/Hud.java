@@ -355,7 +355,8 @@ public class Hud {
 				Vector2f pLoc = new Vector2f((p.getX()), (p.getY()));
 				Line toTarg = new Line(ship, pLoc);
 				int len = (int) toTarg.length();
-				if (len > 600) {double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
+				if (len > 600) {
+					double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 350);;
 					graF.drawString(point.getX(), point.getY(), p.getName(),brightYel);
 					graF.drawString(point.getX(), point.getY() + 25,String.valueOf(len),brightYel);

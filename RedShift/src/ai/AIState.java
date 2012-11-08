@@ -5,10 +5,10 @@ import ents.BasicShip;
 
 public abstract class AIState {
 	
-	protected BasicShip ship;
+	BasicShip ship;
 	
-	void onEnter(){}
-	void onLeave(){}
-	void onUpdate(){}
-	void onMessage(){}
+	public void onEnter(int delta){};
+	public void onLeave(int delta){};
+	public void onUpdate(int delta){};
+	public void onMessage(int delta){};
 }

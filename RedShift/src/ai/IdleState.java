@@ -7,19 +7,20 @@ public class IdleState extends AIState {
 	public IdleState(BasicShip p){
 		ship = p;
 	}
-	void onUpdate(int delta){
+	
+	public void onUpdate(int delta){
 
 	}
 	
-	void onEnter(){
+	public void onEnter(){
 		
 	}
 	
-	void onLeave(){
+	public void onLeave(){
 		
 	}
 	
-	void onMessage(){
+	public void onMessage(){
 		
 	}
 }
