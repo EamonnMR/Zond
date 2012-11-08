@@ -26,6 +26,8 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.hud.Hud;
 import ui.hud.HudDataModel;
+import ai.PursueState;
+import ents.AIShip;
 import ents.BaseEnt;
 import ents.BaseLevel;
 import ents.BasicShip;
@@ -79,6 +81,7 @@ public class GameplayState extends BasicGameState{
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
+	private AIShip foe;
 	//====================================================================
 	
 	//constructor
@@ -95,7 +98,7 @@ public class GameplayState extends BasicGameState{
 		this.fxStack = new effects.Stack();
 		
 		//I ARE SINGLETON NOW HURRRR
-		IAM = this;
+		IAM = this; //live in destructible times?
 		
 	}
 	
@@ -167,7 +170,8 @@ public class GameplayState extends BasicGameState{
 		
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());
-		
+
+			buildAIShips();
 			//camera test
 			setCamX(0);
 			setCamY(0);
@@ -627,6 +631,33 @@ public class GameplayState extends BasicGameState{
 	
 	public void spawnShip(ents.ShipDesc s){
 		addShip(entFac.shipFromDesc(s));
+	}
+	
+	//AI TESTING
+	private void buildAIShips() {
+		// TODO Auto-generated method stub
+		BasicShip holder = entFac.stockZond();
+		foe = new AIShip();
+		foe.setName(holder.getName());
+		foe.setImg(holder.getImg().copy());
+		foe.setHealth(holder.getHealth());
+		foe.setPoints(holder.getPoints());
+		foe.setTotalWeight(holder.getTotalWeight());
+		foe.setGunPtLength(holder.getGunPtLength());
+		foe.setEngPtLength(holder.getEngPtLength());
+		foe.setCollider(holder.getCollider());
+		
+		foe.setRadarRadius(holder.getRadarRadius());
+		foe.setFaction(1);
+		foe.setDeathSnd(holder.getDeathSnd());
+		foe.getImg().rotate(0);
+		
+		foe.setWeapon(entFac.buildGun("20mm"));
+		foe.setEngine(entFac.buildEngine("smallEngine"));
+		foe.ini(450, 285, 0f);
+		addShip(foe);
+		
+		foe.setState(new PursueState(foe, pc.getPlayShip(),this));
 	}
 	
 	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
