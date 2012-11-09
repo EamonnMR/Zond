@@ -13,16 +13,16 @@ public class PursueState extends AIState{
 //	Params:
 //		Distance from target: dP
 //	Angle towards target: dA
-		double dP, dA;
+		double distToTarg, angleOfTarg;
 //		Tuneable constants:
 //		Arc within which the ship consideres itself "pointed at" its target (and needs no correction): noise
-		double noise = 0.25f;
+		double margin = 0.2f;
 //		Absolute longest range the ships will fire from: range
-		double range  = 400;
+		double engageRange  = 400;
 //		How far from a perfect shot: miss
 		float miss = 0.1f;
 //		How wide is the definition of "pointing towards": pointing
-		float pointing;
+		float pointing = 0.50f;
 		BasicShip targ;
 		GameplayState g;
 		
@@ -34,31 +34,32 @@ public class PursueState extends AIState{
 	
 	public void onUpdate(int delta){
 //		System.out.println(ship.getName()+"::Pursuing");
-		dP = getDistance();
 		
-//		if( arc(noise, dA)){
-//			if (dA > 0){
-//				ship.rotateLeft(delta);
-//			} else { //It never equals zero, honest
-//				ship.rotateRight(delta);
-//			}
-//			if( arc( pointing, dA) ){
-//				ship.moveForward(delta);
-//			}
-//			if( dP < range){
-//				if( arc( miss, dA) ){
-//					ship.tryShot();
-//				}
-//			}
-//		}
-		if(dP > 100){
-			ship.moveForward(delta);
-		}
-		if(dP < range){
-//			if(ship.tryShot()){
-//				g.addShot(ship.getWeapon().makeShot());
-//			}
-		}
+		//algo
+			//draw line from ship to target
+			Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
+			Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
+			Line dist = new Line(s, t);	
+			distToTarg = dist.length();
+			
+			//see if line is in ships angle
+			double angle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
+			
+			//if not bring angle to line
+			if(angle>ship.getImg().getRotation()+margin){
+				ship.rotateLeft(delta);
+			}else if(angle<ship.getImg().getRotation()-margin){
+				ship.rotateLeft(delta);
+			}//if angle is good, but out of range, get into range
+			else if(angle<=ship.getImg().getRotation()+margin || angle>=ship.getImg().getRotation()-margin ){
+				if(distToTarg > engageRange){
+					ship.moveForward(delta);
+				}else if(distToTarg <=engageRange){
+					if(ship.tryShot()){
+						g.addShot(ship.getWeapon().makeShot());
+					}
+				}
+			}
 	}
 	
 	public void onEnter(){
@@ -76,12 +77,6 @@ public class PursueState extends AIState{
 	private boolean arc(double width, double difference){
 		 return (-1 * width) > difference && difference > width;
 	}
-	
-	private double getDistance(){
-		Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
-		Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
-		Line dist = new Line(s, t);
-		return (double)dist.length();
-	}
+
 
 }
