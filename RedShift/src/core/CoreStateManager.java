@@ -133,7 +133,7 @@ public class CoreStateManager extends StateBasedGame {
          AppGameContainer app = new AppGameContainer(new CoreStateManager());
          app.setMouseGrabbed(false);
          app.setDisplayMode(1024, 768, false);
-         app.setShowFPS(false);
+         app.setShowFPS(true);
          app.start();
     }
 }
