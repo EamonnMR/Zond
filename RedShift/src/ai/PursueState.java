@@ -16,7 +16,7 @@ public class PursueState extends AIState{
 		double distToTarg, angleOfTarg;
 //		Tuneable constants:
 //		Arc within which the ship consideres itself "pointed at" its target (and needs no correction): noise
-		double margin = 0.2f;
+		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 		double engageRange  = 400;
 //		How far from a perfect shot: miss
@@ -25,6 +25,7 @@ public class PursueState extends AIState{
 		float pointing = 0.50f;
 		BasicShip targ;
 		GameplayState g;
+		static double TWOPI = Math.PI * 2;
 		
 	public PursueState(AIShip p, BasicShip target, GameplayState gs){
 		ship = p;
@@ -45,13 +46,15 @@ public class PursueState extends AIState{
 			//see if line is in ships angle
 			double angle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
 			
+			
+			double tAngle = ship.getImg().getRotation();
 			//if not bring angle to line
-			if(angle>ship.getImg().getRotation()+margin){
-				ship.rotateLeft(delta);
-			}else if(angle<ship.getImg().getRotation()-margin){
+			if(angle < add(tAngle,margin)){
+				ship.rotateRight(delta);
+			}else if(angle > add(tAngle,-margin)){
 				ship.rotateLeft(delta);
 			}//if angle is good, but out of range, get into range
-			else if(angle<=ship.getImg().getRotation()+margin || angle>=ship.getImg().getRotation()-margin ){
+			if(angle >= add(tAngle, margin) || angle <= add(tAngle,-margin) ){
 				if(distToTarg > engageRange){
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
@@ -78,5 +81,8 @@ public class PursueState extends AIState{
 		 return (-1 * width) > difference && difference > width;
 	}
 
-
+	private double add(double lAngle, double rAngle){
+		double sum = lAngle + rAngle;
+		return (sum > TWOPI ? sum - TWOPI : sum);
+	}
 }
