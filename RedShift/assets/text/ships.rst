@@ -85,7 +85,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](5)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
@@ -102,7 +102,7 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](5)
 		/[segments](24)/
 	}
 	[radar]{
@@ -125,7 +125,7 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](10)
+		[radius](5)
 		/[segments](24)/
 	}
 	[radar]{
