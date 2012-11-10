@@ -48,15 +48,18 @@ public class PursueState extends AIState{
 			distToTarg = dist.length();
 
 			//see if line is in ships angle
-			double targetAngle = calcDiff(Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX())), Math.PI);
+			double targetAngle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
 			//Ungodly hack to reverse direction of pointing:
 			//It subs 180 (PI) from the angle to make it point the other way.
 
 			double shipAngle = ship.getRot();
 			
+			//ASS
+			//We *really* need to refactor this, just to make sure *we* know what it does.
 			double diff = calcDiff(shipAngle, targetAngle);
+			
 			//if not bring angle to line
-			if(diff < -margin){
+			if(diff < margin){
 				ship.rotateRight(delta);
 			}else if(diff > margin){
 				ship.rotateLeft(delta);
@@ -87,7 +90,8 @@ public class PursueState extends AIState{
 	}
 	
 	private double calcDiff(double sAngle, double targAngle) {
-	     return  (targAngle - sAngle) % TWOPI;
+		double diff = targAngle - sAngle;
+		return Math.signum(diff) * (TWOPI % Math.abs(diff));
 	}
 
 	
