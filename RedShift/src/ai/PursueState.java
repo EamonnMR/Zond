@@ -1,10 +1,10 @@
 package ai;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Vector2f;
 
 import core.GameplayState;
-
 import ents.AIShip;
 import ents.BasicShip;
 
@@ -27,7 +27,7 @@ public class PursueState extends AIState{
 		GameplayState g;
 		static double TWOPI = Math.PI * 2;
 		
-	public PursueState(AIShip p, BasicShip target, GameplayState gs){
+	public PursueState(AIShip p, BasicShip target, GameplayState gs, Graphics gfx){
 		ship = p;
 		targ =target;
 		g = gs;
@@ -37,30 +37,43 @@ public class PursueState extends AIState{
 //		System.out.println(ship.getName()+"::Pursuing");
 		
 		//algo
+			
 			//draw line from ship to target
+			
 			Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
 			Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
-			Line dist = new Line(s, t);	
+			
+			
+			Line dist = new Line(s, t);
 			distToTarg = dist.length();
 			
 			//see if line is in ships angle
-			double angle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
+			double targetAngle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
+
+			double shipAngle = ship.getRot();
 			
+			Vector2f left = circularFunction((float)shipAngle, margin);
+			double lAngle = Math.atan2((ship.getY() - left.getY()),(ship.getX() - left.getX()));
 			
-			double tAngle = ship.getImg().getRotation();
+			Vector2f right = circularFunction((float) shipAngle, margin);
+			double rAngle = Math.atan2((ship.getY() - right.getY()),(ship.getX() - right.getX()));
+			
+			double diff = calcDiff(shipAngle, targetAngle);
 			//if not bring angle to line
-			if(angle < add(tAngle,margin)){
+			if(diff < lAngle){
 				ship.rotateRight(delta);
-			}else if(angle > add(tAngle,-margin)){
+			}else if(diff > rAngle){
 				ship.rotateLeft(delta);
-			}//if angle is good, but out of range, get into range
-			if(angle >= add(tAngle, margin) || angle <= add(tAngle,-margin) ){
+			}
+			
+			//if angle is good, but out of range, get into range
+			if(targetAngle >= lAngle && targetAngle <= rAngle  ){
 				if(distToTarg > engageRange){
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
-					if(ship.tryShot()){
-						g.addShot(ship.getWeapon().makeShot());
-					}
+//					if(ship.tryShot()){
+//						g.addShot(ship.getWeapon().makeShot());
+//					}
 				}
 			}
 	}
@@ -77,9 +90,26 @@ public class PursueState extends AIState{
 		
 	}
 	
+	private double calcDiff(double sAngle, double targAngle) {
+	     double diff = targAngle - sAngle;
+	        if (diff < -margin) {
+	        	diff += TWOPI;
+	        }
+	        if (diff > margin) {
+	        	diff -= TWOPI;
+	        }
+		return diff;
+	}
+
+	
 	private boolean arc(double width, double difference){
 		 return (-1 * width) > difference && difference > width;
 	}
+	
+	private Vector2f circularFunction(float angle, double rad){
+//	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
+	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
+	} 
 
 	private double add(double lAngle, double rAngle){
 		double sum = lAngle + rAngle;

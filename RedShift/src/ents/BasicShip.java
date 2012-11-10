@@ -110,9 +110,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
 		if(getEngine().getSideThrust().playing()){
-			getEngine().getSideThrust().stop();
+//			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * rotate the ship to the right
@@ -124,9 +124,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
     	getWeapon().getImg().rotate(rot);
     	getEngine().getInGameImg().rotate(rot);
 		if(getEngine().getSideThrust().playing()){
-			getEngine().getSideThrust().stop();
+//			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * move the ship forward
@@ -135,7 +135,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void moveForward(int delta){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
 		if(getEngine().getPrimeThrust().playing()){
-			getEngine().getPrimeThrust().stop();
+//			getEngine().getPrimeThrust().stop();
 		}
 //		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
 		
@@ -168,7 +168,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getSideThrust().playing()){
 			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * this will strafe the ship right
@@ -179,7 +179,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getSideThrust().playing()){
 			getEngine().getSideThrust().stop();
 		}
-    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	
 	/**

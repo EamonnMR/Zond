@@ -82,6 +82,7 @@ public class GameplayState extends BasicGameState{
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
 	private AIShip foe;
+	private Graphics gfx;
 	//====================================================================
 	
 	//constructor
@@ -110,6 +111,7 @@ public class GameplayState extends BasicGameState{
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
 		//init state is kinda useless isnt it.
+		gfx = arg0.getGraphics();
 	}
 
 	/**
@@ -657,7 +659,11 @@ public class GameplayState extends BasicGameState{
 		foe.ini(450, 285, 0f);
 		addShip(foe);
 		
-		foe.setState(new PursueState(foe, pc.getPlayShip(),this));
+		foe.setState(new PursueState(foe, pc.getPlayShip(),this, gfx));
+	}
+	
+	public Graphics getGfx(){
+		return gfx;
 	}
 	
 	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
