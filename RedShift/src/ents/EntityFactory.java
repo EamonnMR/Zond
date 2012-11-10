@@ -60,6 +60,30 @@ public class EntityFactory {
 		return build;
 	}
 	
+	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer){
+		AIShip foe = new AIShip();
+		BasicShip data = buildShip(shipPointer, gunPointer, engPointer);
+		
+		foe.setName(data.getName());
+		foe.setImg(data.getImg().copy());
+		foe.setHealth(data.getHealth());
+		foe.setPoints(data.getPoints());
+		foe.setTotalWeight(data.getTotalWeight());
+		foe.setGunPtLength(data.getGunPtLength());
+		foe.setEngPtLength(data.getEngPtLength());
+		foe.setCollider(data.getCollider());
+		
+		foe.setRadarRadius(data.getRadarRadius());
+		foe.setFaction(data.getFaction());
+		foe.setDeathSnd(data.getDeathSnd());
+		foe.getImg().rotate(0);
+		
+		foe.setWeapon(buildGun("20mm"));
+		foe.setEngine(buildEngine("smallEngine"));
+		
+		return foe;
+	}
+	
 	/**
 	 * builds a gun instance based on the pointer to the GameDatabase index
 	 * @param gunPointer pointer to the indexGun in GameDatabase

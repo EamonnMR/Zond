@@ -11,7 +11,7 @@
 
 /20 mm cannon/
 [20mm]{
-	[cooldown](200)
+	[cooldown](125)
 	[cost]    (1)
 	[img]     (gun1)
 	[weight]  (119)
@@ -21,7 +21,7 @@
 
 /60 mm cannon/
 [60mm]{
-	[cooldown](300);
+	[cooldown](150);
 	[cost]    (2)
 	[img]     (gun2)
 	[weight]  (540)
@@ -31,7 +31,7 @@
 
 /105 mm cannon/
 [105mm]{
-	[cooldown](400);
+	[cooldown](175);
 	[cost]    (3)
 	[img]     (gun3)
 	[weight]  (983)
@@ -41,7 +41,7 @@
 
 /small plasma/
 [plas]{
-	[cooldown](150);
+	[cooldown](100);
 	[cost]    (0)
 	[img]     (gun1) / Why aren't we loading the images? /
 	[weight]  (0)
@@ -51,7 +51,7 @@
 
 /small laser/
 [las]{
-	[cooldown](150);
+	[cooldown](25);
 	[cost]    (0)
 	[img]     (gun1)
 	[weight]  (984)

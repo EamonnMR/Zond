@@ -219,6 +219,16 @@ public class HangarBayState extends BasicGameState {
 			backBool=false;
 			accptBool=false;
 		}
+		if(i.isKeyPressed(Input.KEY_ENTER)){
+			i.clearMousePressedRecord();
+			i.clearKeyPressedRecord();
+			pc.setPlayShip(displayShip);
+			pc.getPlayShip().setEngine(displayEngine);
+			pc.getPlayShip().setWeapon(displayGun);
+			GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
+			gamePlay.setPlayerClient(pc);
+			arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
+		}
 		
 		if(i.isKeyPressed(Input.KEY_ESCAPE)){
 			i.clearMousePressedRecord();
