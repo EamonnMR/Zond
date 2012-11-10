@@ -39,35 +39,31 @@ public class PursueState extends AIState{
 		//algo
 			
 			//draw line from ship to target
-			
+			//s = ship t = target
 			Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
 			Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
 			
 			
 			Line dist = new Line(s, t);
 			distToTarg = dist.length();
-			
+
 			//see if line is in ships angle
-			double targetAngle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
+			double targetAngle = calcDiff(Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX())), Math.PI);
+			//Ungodly hack to reverse direction of pointing:
+			//It subs 180 (PI) from the angle to make it point the other way.
 
 			double shipAngle = ship.getRot();
 			
-			Vector2f left = circularFunction((float)shipAngle, margin);
-			double lAngle = Math.atan2((ship.getY() - left.getY()),(ship.getX() - left.getX()));
-			
-			Vector2f right = circularFunction((float) shipAngle, margin);
-			double rAngle = Math.atan2((ship.getY() - right.getY()),(ship.getX() - right.getX()));
-			
 			double diff = calcDiff(shipAngle, targetAngle);
 			//if not bring angle to line
-			if(diff < lAngle){
+			if(diff < -margin){
 				ship.rotateRight(delta);
-			}else if(diff > rAngle){
+			}else if(diff > margin){
 				ship.rotateLeft(delta);
 			}
 			
 			//if angle is good, but out of range, get into range
-			if(targetAngle >= lAngle && targetAngle <= rAngle  ){
+			if(Math.abs(diff) < miss){
 				if(distToTarg > engageRange){
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
@@ -91,14 +87,7 @@ public class PursueState extends AIState{
 	}
 	
 	private double calcDiff(double sAngle, double targAngle) {
-	     double diff = targAngle - sAngle;
-	        if (diff < -margin) {
-	        	diff += TWOPI;
-	        }
-	        if (diff > margin) {
-	        	diff -= TWOPI;
-	        }
-		return diff;
+	     return  (targAngle - sAngle) % TWOPI;
 	}
 
 	
@@ -110,9 +99,4 @@ public class PursueState extends AIState{
 //	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
 	} 
-
-	private double add(double lAngle, double rAngle){
-		double sum = lAngle + rAngle;
-		return (sum > TWOPI ? sum - TWOPI : sum);
-	}
 }
