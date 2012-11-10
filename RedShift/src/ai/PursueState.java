@@ -59,20 +59,20 @@ public class PursueState extends AIState{
 			double diff = calcDiff(shipAngle, targetAngle);
 			
 			//if not bring angle to line
-			if(diff < margin){
+			if (diff < margin) {
 				ship.rotateRight(delta);
-			}else if(diff > margin){
+			} else if (diff > -margin) {
 				ship.rotateLeft(delta);
 			}
-			
+
 			//if angle is good, but out of range, get into range
 			if(Math.abs(diff) < miss){
 				if(distToTarg > engageRange){
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
-//					if(ship.tryShot()){
-//						g.addShot(ship.getWeapon().makeShot());
-//					}
+					if(ship.tryShot()){
+						g.addShot(ship.getWeapon().makeShot());
+					}
 				}
 			}
 	}

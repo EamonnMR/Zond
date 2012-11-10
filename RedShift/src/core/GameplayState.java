@@ -81,7 +81,6 @@ public class GameplayState extends BasicGameState{
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private LevelBuilder lb; //Soon to be deprecated
-	private AIShip foe;
 	private Graphics gfx;
 	//====================================================================
 	
@@ -637,29 +636,10 @@ public class GameplayState extends BasicGameState{
 	
 	//AI TESTING
 	private void buildAIShips() {
-		// TODO Auto-generated method stub
-		BasicShip holder = entFac.stockZond();
-		foe = new AIShip();
-		foe.setName(holder.getName());
-		foe.setImg(holder.getImg().copy());
-		foe.setHealth(holder.getHealth());
-		foe.setPoints(holder.getPoints());
-		foe.setTotalWeight(holder.getTotalWeight());
-		foe.setGunPtLength(holder.getGunPtLength());
-		foe.setEngPtLength(holder.getEngPtLength());
-		foe.setCollider(holder.getCollider());
-		
-		foe.setRadarRadius(holder.getRadarRadius());
-		foe.setFaction(1);
-		foe.setDeathSnd(holder.getDeathSnd());
-		foe.getImg().rotate(0);
-		
-		foe.setWeapon(entFac.buildGun("20mm"));
-		foe.setEngine(entFac.buildEngine("smallEngine"));
-		foe.ini(450, 285, 0f);
-		addShip(foe);
-		
-		foe.setState(new PursueState(foe, pc.getPlayShip(),this, gfx));
+		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
+		zond1.ini(300, 285, 0f);
+		addShip(zond1);
+		zond1.setState(new PursueState(zond1, pc.getPlayShip(),this, gfx));
 	}
 	
 	public Graphics getGfx(){

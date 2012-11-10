@@ -24,7 +24,7 @@
 
 [gemini]{
 	[img](gemini)
-	[health](5)
+	[health](35)
 	[points](5)
 	[weight](5)
 	[gunPtLen](28)
@@ -39,7 +39,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](1400)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
@@ -47,7 +47,7 @@
 
 [lunar]{
 	[img](lunar)
-	[health](5)
+	[health](50)
 	[points](5)
 	[weight](5)
 	[gunPtLen](38)
@@ -62,7 +62,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](1800)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
@@ -70,7 +70,7 @@
 
 [voskhod]{
 	[img](voskhod)
-	[health](5)
+	[health](28)
 	[points](5)
 	[weight](5)
 	[gunPtLen](28)
@@ -79,13 +79,13 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](16)
+		[radius](8)
 		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](5)
+		[radius](800)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
@@ -93,7 +93,7 @@
 
 [vostok]{
 	[img](vostok)
-	[health](5)
+	[health](42)
 	[points](5)
 	[weight](5)
 	[gunPtLen](28)
@@ -102,13 +102,13 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](5)
+		[radius](8)
 		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](1200)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
@@ -116,7 +116,7 @@
 
 [zond4]{
 	[img](zond4)
-	[health](5)
+	[health](60)
 	[points](5)
 	[weight](5)
 	[gunPtLen](36)
@@ -125,13 +125,13 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](5)
+		[radius](9)
 		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](1600)
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
