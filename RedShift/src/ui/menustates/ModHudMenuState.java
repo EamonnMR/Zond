@@ -26,6 +26,7 @@ public class ModHudMenuState extends BasicGameState {
 	private GameDatabase gdb;
 	private Image hp_i, radar_i, wep_i, eng_i, shp_nm_i, ship;
 	private boolean ini, onReset, onBack;
+	private String inst1,inst2;
 	
 	public ModHudMenuState(int i){
 		id = i;
@@ -39,6 +40,9 @@ public class ModHudMenuState extends BasicGameState {
 			throws SlickException {
 		mouse_rec.setCenterX(arg0.getInput().getMouseX());
 		mouse_rec.setCenterY(arg0.getInput().getMouseY());
+		
+		inst1 = "Click and drag the HUD icons to anywhere on the screen.";
+		inst2 = "Reset resets their location, accept saves your settings.";
 	}
 
 	@Override
@@ -54,6 +58,9 @@ public class ModHudMenuState extends BasicGameState {
 		
 //		gfx.drawLine(0, 396, 1023, 396);
 //		gfx.drawLine(512, 0, 512, 766);
+		gdb.getFont("green").drawString(512-(inst1.length()*12/2), 235, inst1);
+		gdb.getFont("green").drawString(512-(inst2.length()*12/2), 252, inst2);
+		
 		uil.drawImageCenteredOnPoint(gfx, ship, new Point(512,384));
 		
 		sh_rec.setCenterX(hdm.getShipName_point_mod().x);
@@ -87,15 +94,15 @@ public class ModHudMenuState extends BasicGameState {
 		gfx.drawImage(radar_i, rP.x, rP.y);
 		
 		if(onBack){
-			gdb.getFont("green").drawString(569,375, "[(Back)]");
+			gdb.getFont("green").drawString(569,272, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(569,375, " (Back) ");
+			gdb.getFont("green").drawString(569,272, " (Back) ");
 		}
 		
 		if(onReset){
-			gdb.getFont("green").drawString(347, 375, "[(Reset)]");
+			gdb.getFont("green").drawString(347, 272, "[(Reset)]");
 		}else{
-			gdb.getFont("green").drawString(347, 375, " (Reset) ");
+			gdb.getFont("green").drawString(347, 272, " (Reset) ");
 		}
 	}
 
@@ -189,9 +196,9 @@ public class ModHudMenuState extends BasicGameState {
 		ship = gdb.getIMG("mercury");
 		ship.rotate(-90);
 		
-		resetBTN_rec = new Rectangle(347,375,108,19);
+		resetBTN_rec = new Rectangle(347,272,108,19);
 		
-		backBTN_rec = new Rectangle(569,375,96,19);
+		backBTN_rec = new Rectangle(569,272,96,19);
 		
 	}
 
