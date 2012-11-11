@@ -637,7 +637,7 @@ public class GameplayState extends BasicGameState{
 	//AI TESTING
 	private void buildAIShips() {
 		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
-		zond1.ini(300, 285, 0f);
+		zond1.ini(200, 600, 0f);
 		addShip(zond1);
 		zond1.setState(new PursueState(zond1, pc.getPlayShip(),this, gfx));
 	}
