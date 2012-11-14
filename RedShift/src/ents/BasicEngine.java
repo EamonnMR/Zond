@@ -11,6 +11,7 @@ import org.newdawn.slick.Sound;
 public class BasicEngine {
 
 	//vars
+	private String uiName;
 	private int weight;						//in-game weight of engine
 	private int cost;						//in-game cost of engine
 	private Image inGameImg, icon;			//images
@@ -108,4 +109,14 @@ public class BasicEngine {
 	public Sound getSideThrust() {
 		return sideThrust;
 	}
+
+	public String getUiName() {
+		return uiName;
+	}
+
+	public void setUiName(String uiName) {
+		this.uiName = uiName;
+	}
+	
+	
 }

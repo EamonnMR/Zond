@@ -1,7 +1,5 @@
 package ents;
 
-import org.lwjgl.Sys;
-
 import ai.AIState;
 
 public class AIShip extends BasicShip {

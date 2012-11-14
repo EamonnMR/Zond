@@ -60,6 +60,13 @@ public class EntityFactory {
 		return build;
 	}
 	
+	/**
+	 * builds an AI ship which is an extension of a BasicShip
+	 * @param shipPointer
+	 * @param gunPointer
+	 * @param engPointer
+	 * @return
+	 */
 	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer){
 		AIShip foe = new AIShip();
 		BasicShip data = buildShip(shipPointer, gunPointer, engPointer);
@@ -79,7 +86,7 @@ public class EntityFactory {
 		foe.getImg().rotate(0);
 		
 		foe.setWeapon(buildGun("20mm"));
-		foe.setEngine(buildEngine("smallEngine"));
+		foe.setEngine(buildEngine("GA-J79"));
 		
 		return foe;
 	}
@@ -92,6 +99,7 @@ public class EntityFactory {
 	public BasicGun buildGun(String gunPointer){
 		BasicGun gun = new BasicGun();
 		gun.setName(gunPointer);
+		gun.setUiName(gdb.getGun(gunPointer).getUiName());
 		gun.setImg(gdb.getGun(gunPointer).getImg().copy());
 		gun.setCoolDown(gdb.getGun(gunPointer).getCoolDown());
 		gun.setCost(gdb.getGun(gunPointer).getCost());
@@ -109,6 +117,7 @@ public class EntityFactory {
 	public BasicEngine buildEngine(String engPointer){
 		BasicEngine engine = new BasicEngine();
 		engine.setName(engPointer);
+		engine.setUiName(gdb.getEngine(engPointer).getUiName());
 		engine.setCost(gdb.getEngine(engPointer).getCost());
 		engine.setWeight(gdb.getEngine(engPointer).getWeight());
 		engine.setTurnrate(gdb.getEngine(engPointer).getTurnrate());
@@ -151,7 +160,7 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		return buildShip("gemini","60mm","smallEngine");
+		return buildShip("gemini","60mm","medEngine");
 	}
 	
 	/**
@@ -159,7 +168,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		return buildShip("lunar","105mm","smallEngine");
+		return buildShip("lunar","105mm","largeEngine");
 	}
 	
 	
