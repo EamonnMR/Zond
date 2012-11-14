@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Circle;
 public class BasicGun {
 
 	//vars
+	private String uiName;	//Definitely don't know why this wasnt done sooner
 	private double timer;
 	private int weight;
 	private int cost;	
@@ -157,5 +158,15 @@ public class BasicGun {
 	public void setFireSnd(Sound fireSnd) {
 		this.fireSnd = fireSnd;
 	}
+
+	public String getUiName() {
+		return uiName;
+	}
+
+	public void setUiName(String uiName) {
+		this.uiName = uiName;
+	}
+	
+	
 
 }

@@ -172,6 +172,7 @@ public class GameDatabase {
 			current.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			current.setProj(indexShot.get(s.getValue(child, "proj")));
 			current.setName(child);
+			current.setUiName(s.getValue(child,"name"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			indexGuns.put(child, current);
 		}
@@ -242,6 +243,7 @@ public class GameDatabase {
 		for (String child : s.childSet()){
 			BasicEngine e = new BasicEngine();
 			e.setName(child);
+			e.setUiName(s.getValue(child,"name"));
 			e.setCost(Integer.parseInt(s.getValue(child, "cost")));
 			e.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			e.setTurnrate(Float.parseFloat(s.getValue(child, "turnrate")));

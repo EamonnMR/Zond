@@ -1,5 +1,6 @@
 / ENGINES 
-	[name]{
+	[className]{	
+		[name]	      (STRING) the display name
 		[cost]        (INT)    Price of the engine
 		[weight]      (INT)    How heavy the engine is
 		[turnrate]    (FLOAT)  Turn rate
@@ -11,6 +12,7 @@
 /
 
 [smallEngine]{
+	[name]	      (GA-J79)	
 	[cost]        (1)
 	[weight]      (1500)
 	[turnrate]    (0.25)
@@ -22,7 +24,8 @@
 	[sideThrst]   (sidethrust)
 }
 
-[mediumEngine]{
+[medEngine]{
+	[name]	      (WP-J57P25)
 	[cost]        (2)
 	[weight]      (1996)
 	[turnrate]    (0.25)
@@ -36,6 +39,7 @@
 
 
 [largeEngine]{
+	[name]	      (AJ10-137)
 	[cost]        (3)
 	[weight]      (2300)
 	[turnrate]    (0.25)

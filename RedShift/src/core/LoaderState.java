@@ -78,7 +78,7 @@ public class LoaderState extends BasicGameState {
 		HashMap<String, BasicEngine> testEngines = new HashMap<String, BasicEngine>();
 		BasicEngine small =entFac.buildEngine("smallEngine");
 		testEngines.put(small.getName(), small);
-		BasicEngine med =entFac.buildEngine("mediumEngine");
+		BasicEngine med =entFac.buildEngine("medEngine");
 		testEngines.put(med.getName(), med);
 		BasicEngine large =entFac.buildEngine("largeEngine");
 		testEngines.put(large.getName(), large);

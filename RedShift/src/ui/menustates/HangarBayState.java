@@ -136,9 +136,9 @@ public class HangarBayState extends BasicGameState {
 //				gfx.draw(u.getRectangle());
 				
 				if(u.isState()){
-					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
+					gdb.getFont("green").drawString(x, y, "[" + gdb.getGun(u.getName()).getUiName() + "]");
 				}else{
-					gdb.getFont("green").drawString(x, y, " "+u.getName()+" ");
+					gdb.getFont("green").drawString(x, y, " "+gdb.getGun(u.getName()).getUiName()+" ");
 				}
 				
 				if(y>408){
@@ -170,9 +170,9 @@ public class HangarBayState extends BasicGameState {
 
 				if (u.isState()) {
 					gdb.getFont("green").drawString(760, y,
-							"[" + u.getName() + "]");
+							"[" + gdb.getEngine(u.getName()).getUiName() + "]");
 				} else {
-					gdb.getFont("green").drawString(760, y, " "+u.getName()+" ");
+					gdb.getFont("green").drawString(760, y, " "+gdb.getEngine(u.getName()).getUiName()+" ");
 				}
 				y += 17;
 			}
@@ -324,7 +324,7 @@ public class HangarBayState extends BasicGameState {
 		
 		listedButtons = new HashMap<String, UIButton>();
 		for(BasicGun g : guns.values()){
-			Rectangle r = new Rectangle(4, 0, g.getName().length()*12+24,17);
+			Rectangle r = new Rectangle(4, 0, g.getUiName().length()*12+24,17);
 			UIButton uib = new UIButton(g.getName(), false, g);
 			uib.setRectangle(r);
 			if(guns.get(0).getName().equals(g.getName())){
@@ -334,7 +334,7 @@ public class HangarBayState extends BasicGameState {
 		}
 		
 		for(BasicEngine g : engines.values()){
-			Rectangle r = new Rectangle(755,0,g.getName().length()*12+24,17);
+			Rectangle r = new Rectangle(755,0,g.getUiName().length()*12+24,17);
 			UIButton uib = new UIButton(g.getName(), false, g);
 			uib.setRectangle(r);
 			if(engines.get(0).getName().equals(g.getName())){

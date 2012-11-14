@@ -11,6 +11,7 @@
 
 /20 mm cannon/
 [20mm]{
+	[name]	  (20mm Chaingun)
 	[cooldown](125)
 	[cost]    (1)
 	[img]     (gun1)
@@ -21,6 +22,7 @@
 
 /60 mm cannon/
 [60mm]{
+	[name]	  (60mm Rifle)
 	[cooldown](150);
 	[cost]    (2)
 	[img]     (gun2)
@@ -31,6 +33,7 @@
 
 /105 mm cannon/
 [105mm]{
+	[name]	  (105mm Cannon)
 	[cooldown](175);
 	[cost]    (3)
 	[img]     (gun3)
@@ -41,6 +44,7 @@
 
 /small plasma/
 [plas]{
+	[name]	  (Plasma Rifle)
 	[cooldown](100);
 	[cost]    (0)
 	[img]     (gun1) / Why aren't we loading the images? /
@@ -51,6 +55,7 @@
 
 /small laser/
 [las]{
+	[name]	  (Laser)
 	[cooldown](25);
 	[cost]    (0)
 	[img]     (gun1)
