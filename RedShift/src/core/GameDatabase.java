@@ -310,6 +310,7 @@ public class GameDatabase {
 	 */
 	public void populateArmor(){
 		//TODO: armor types are phase 2
+		//XXX: more like, is armor every going to be in here?
 	}
 	
 	/**

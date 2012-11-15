@@ -2,15 +2,9 @@ package ui;
 
 import java.awt.Point;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheetFont;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-
-import core.GameDatabase;
 
 /**
  * a file of nothing but common methods that are used by 
