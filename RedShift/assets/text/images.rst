@@ -30,7 +30,8 @@
 [scenBTN_n]	(assets/images/gui/mainmenu/scenBTN_n.png)
 [optBTN_n]	(assets/images/gui/mainmenu/optBTN_n.png)
 [qutBTN_n]	(assets/images/gui/mainmenu/qutBTN_n.png)
-[montrBKC]	(assets/images/gui/mainmenu/menu_monitor_bkg.png)
+[montrBKC]	
+(assets/images/gui/beta_back.png)
 [grnAlphNm]	(assets/images/gui/greenAlphaNums.png)
 [graAlphNm]	(assets/images/gui/grayAlphaNums.png)
 /UI Options/
