@@ -123,28 +123,28 @@ public class ModHudMenuState extends BasicGameState {
 					hp_rec.setCenterX(hdm.getHp_point_mod().x);
 					hp_rec.setCenterY(hdm.getHp_point_mod().y);
 				}
-			}
+			}else
 			if(sh_rec.intersects(mouse_rec)){
 				if(maus.isMouseButtonDown(0)){
 					hdm.setShipName_point_mod(new Point(maus.getMouseX(),maus.getMouseY()));
 					sh_rec.setCenterX(hdm.getShipName_point_mod().x);
 					sh_rec.setCenterY(hdm.getShipName_point_mod().y);
 				}
-			}
+			}else
 			if(wep_rec.intersects(mouse_rec)){
 				if(maus.isMouseButtonDown(0)){
 					hdm.setGunName_point_mod(new Point(maus.getMouseX(),maus.getMouseY()));
 					wep_rec.setCenterX(hdm.getGunName_point_mod().x);
 					wep_rec.setCenterY(hdm.getGunName_point_mod().y);
 				}
-			}
+			}else
 			if(rad_rec.intersects(mouse_rec)){
 				if(maus.isMouseButtonDown(0)){
 					hdm.setRadar_point_mod(new Point(maus.getMouseX(),maus.getMouseY()));
 					rad_rec.setCenterX(hdm.getRadar_point_mod().x);
 					rad_rec.setCenterY(hdm.getRadar_point_mod().y);
 				}
-			}
+			}else
 			if(eng_rec.intersects(mouse_rec)){
 				if(maus.isMouseButtonDown(0)){
 					hdm.setEngName_point_mod(new Point(maus.getMouseX(),maus.getMouseY()));
@@ -166,6 +166,8 @@ public class ModHudMenuState extends BasicGameState {
 			}
 			if(backBTN_rec.intersects(mouse_rec)){
 				if(maus.isMousePressed(0)){
+					maus.clearMousePressedRecord();
+					maus.clearKeyPressedRecord();
 					arg1.enterState(CoreStateManager.OPTIONSMENUSTATE);
 				}
 				onBack = true;

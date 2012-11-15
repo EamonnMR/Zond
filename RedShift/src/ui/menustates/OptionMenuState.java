@@ -1,5 +1,6 @@
 package ui.menustates;
 
+import java.awt.Point;
 import java.text.DecimalFormat;
 
 import org.newdawn.slick.Color;
@@ -22,11 +23,11 @@ public class OptionMenuState extends BasicGameState{
 
 	private int id, mX, mY;
 	private OptionsEnt options;
-	private Rectangle mouse_rec, sfxDisplay_rec, musDisplay_rec, voiDisplay_rec, backBTN_rec, modBTN_rec, comScrn_rec;
+	private Rectangle mouse_rec, sfxDisplay_rec, musDisplay_rec, voiDisplay_rec, backBTN_rec, modBTN_rec;
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, onFsc_rec;
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private UILib uilib;
-	private float fx_prvX,sfxBnd_x;
+	private float sfxBnd_x;
 	private GameDatabase gdb;
 	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
@@ -45,49 +46,45 @@ public class OptionMenuState extends BasicGameState{
 		//display rectangles
 		mouse_rec = new Rectangle(0,0,1,1);
 		
-		sfxDisplay_rec = new Rectangle(121,422,100,11);
-		musDisplay_rec = new Rectangle(121,497,100,11);
-		voiDisplay_rec = new Rectangle(121,572,100,11);
+		sfxDisplay_rec = new Rectangle(180,227,100,11);
+		musDisplay_rec = new Rectangle(180,303,100,11);
+		voiDisplay_rec = new Rectangle(180,377,100,11);
 		
-		comScrn_rec = new Rectangle(20, 300, 500, 450);
-		
-		backBTN_rec = new Rectangle(35,650,96,19);
-		modBTN_rec = new Rectangle(261,567,204,22);
+		backBTN_rec = new Rectangle(90,430,96,19);
+		modBTN_rec = new Rectangle(326, 430,204,22);
 		
 		//bounding rectangles
-		sfxBnd_rec = new Rectangle(121,418,100,21);
-		sfxBnd_x = sfxBnd_rec.getX();
-		musBnd_rec = new Rectangle(121,492,100,21);
-		voiBnd_rec = new Rectangle(121,568,100,21);
+		sfxBnd_rec = new Rectangle(180,222,100,21);
+		musBnd_rec = new Rectangle(180,298,100,21);
+		voiBnd_rec = new Rectangle(180,372,100,21);
 		
 		//sliders
-		sfxVol_sld = new Rectangle(155,418,5,21);
-		sfxVol_sld.setCenterX(169);
+		sfxVol_sld = new Rectangle(180,222,8,21);
+		sfxVol_sld.setCenterX(230);
 		
-		musVol_sld = new Rectangle(155,493,5,21);
-		musVol_sld.setCenterX(169);
+		musVol_sld = new Rectangle(180,298,8,21);
+		musVol_sld.setCenterX(230);
 		
-		voiVol_sld = new Rectangle(155,568,5,21);
-		voiVol_sld.setCenterX(169);
+		voiVol_sld = new Rectangle(180,372,8,21);
+		voiVol_sld.setCenterX(230);
 		
 		//On/off Button
-		onPart_rec = new Rectangle(410, 417, 84,20);
-		onFsc_rec = new Rectangle(410, 492, 84,20);
+		onPart_rec = new Rectangle(326, 205, 84,20);
+		onFsc_rec = new Rectangle(326, 280, 84,20);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		gfx.drawImage(bkIMG, 20, 300);
+		gfx.drawImage(bkIMG, 0, 0);
 		gfx.setColor(Color.green);
-
-//		String x = String.valueOf(arg0.getInput().getMouseX());
-//		gfx.drawString(x, 100, 10);
-//		x = String.valueOf(arg0.getInput().getMouseY());
-//		gfx.drawString(x, 150, 10);
+		
+		String x = String.valueOf(arg0.getInput().getMouseX());
+		gfx.drawString(x, 100, 10);
+		x = String.valueOf(arg0.getInput().getMouseY());
+		gfx.drawString(x, 150, 10);
 //		gfx.drawString(String.valueOf(sfxVol_sld.getCenterX()), 200, 10);
 //		gfx.drawString(String.valueOf(fx_prvX), 250, 10);
-//		gfx.draw(comScrn_rec);
 		
 		renderLabels(gfx);
 		renderSliders(gfx);
@@ -102,14 +99,11 @@ public class OptionMenuState extends BasicGameState{
 			ini=false;
 		}
 		Input in = arg0.getInput();
-		mX = in.getMouseX();
-		mY = in.getMouseY();
-		
-		mouse_rec.setX(mX);
-		mouse_rec.setY(mY);
+		mouse_rec.setCenterX(in.getMouseX());
+		mouse_rec.setCenterY(in.getMouseY());
 		
 		updateRollOvers();
-		updateCollisions(delta, mouse_rec, arg0, in, arg1);
+		updateCollisions(delta, arg0, in, arg1);
 		
 		updateOptionsVals();
 		
@@ -142,57 +136,53 @@ public class OptionMenuState extends BasicGameState{
 	 * @param in
 	 * @param stg
 	 */
-	public void updateCollisions(int delta, Rectangle mouse, GameContainer gc, Input in, StateBasedGame stg){
-		//XXX:polish-make sound when button let up
-		if(mouse.intersects(sfxBnd_rec)){
-			if(in.isMouseButtonDown(0)){
-				if(sfxVol_sld.intersects(mouse) && sfxDisplay_rec.contains(mX, 430)){
-					sfxVol_sld.setCenterX(mX);
-				}else if(sfxDisplay_rec.contains(mX, 430)){
-					sfxVol_sld.setCenterX(mX);
+	public void updateCollisions(int delta, GameContainer gc, Input in, StateBasedGame stg){
+		if (in.isMouseButtonDown(0)) {
+			if (sfxBnd_rec.intersects(mouse_rec)) {
+				if (sfxVol_sld.intersects(mouse_rec)&& sfxDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+					sfxVol_sld.setCenterX(in.getMouseX());
+				} else if (sfxDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+						sfxVol_sld.setCenterX(in.getMouseX());
 				}
 			}
-		}
-		
-		if(mouse.intersects(musBnd_rec)){
-			if(in.isMouseButtonDown(0)){
-				if(musVol_sld.intersects(mouse) && musDisplay_rec.contains(mX, 505)){
-					musVol_sld.setCenterX(mX);
-				}else if(musDisplay_rec.contains(mX, 505)){
-					musVol_sld.setCenterX(mX);
+
+			if (musBnd_rec.intersects(mouse_rec)) {
+				if (musVol_sld.intersects(mouse_rec) && musDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+					musVol_sld.setCenterX(in.getMouseX());
+				} else if (musDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+					musVol_sld.setCenterX(in.getMouseX());
 				}
 			}
-		}
-		
-		if(mouse.intersects(voiBnd_rec)){
-			if(in.isMouseButtonDown(0)){
-				if(voiVol_sld.intersects(mouse) && voiDisplay_rec.contains(mX, 580)){
-					voiVol_sld.setCenterX(mX);
-				}else if(voiDisplay_rec.contains(mX, 580)){
-					voiVol_sld.setCenterX(mX);
-				}	
+
+			if (voiBnd_rec.intersects(mouse_rec)) {
+				if (voiVol_sld.intersects(mouse_rec)&& voiDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+					voiVol_sld.setCenterX(in.getMouseX());
+				} else if (voiDisplay_rec.contains(in.getMouseX(), in.getMouseY())) {
+					voiVol_sld.setCenterX(in.getMouseX());
+				}
 			}
 		}
 
 
-		if(in.isMousePressed(0)){
-			if(onPart_rec.intersects(mouse)){
-				if(options.getParticleStatus()==true){
+		if (onPart_rec.intersects(mouse_rec)) {
+			if (in.isMousePressed(0)) {
+				if (options.getParticleStatus() == true) {
 					options.setParticleStatus(false);
-				}else{
+				} else {
 					options.setParticleStatus(true);
 				}
 			}
-			if(onFsc_rec.intersects(mouse)){
-				
-				if(options.getFullscreenStatus()==true){
+		}
+		if (onFsc_rec.intersects(mouse_rec)) {
+			if (in.isMousePressed(0)) {
+				if (options.getFullscreenStatus() == true) {
 					options.setFullscreenStatus(false);
 					try {
 						gc.setFullscreen(false);
 					} catch (SlickException e) {
 						e.printStackTrace();
 					}
-				}else{
+				} else {
 					options.setFullscreenStatus(true);
 					try {
 						gc.setFullscreen(true);
@@ -200,20 +190,24 @@ public class OptionMenuState extends BasicGameState{
 						e.printStackTrace();
 					}
 				}
-				
-
 			}
-			if(modBTN_rec.intersects(mouse)){
+
+		}
+		if (modBTN_rec.intersects(mouse_rec)) {
+			if (in.isMousePressed(0)) {
 				in.clearMousePressedRecord();
 				in.clearKeyPressedRecord();
 				stg.enterState(CoreStateManager.HUDMODSTATE);
 			}
-			if(backBTN_rec.intersects(mouse)){
+		}
+		if (backBTN_rec.intersects(mouse_rec)) {
+			if (in.isMousePressed(0)) {
 				in.clearMousePressedRecord();
 				in.clearKeyPressedRecord();
 				stg.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 		}
+		
 	}
 	
 	private void updateRollOvers() {
@@ -233,13 +227,13 @@ public class OptionMenuState extends BasicGameState{
 		float ratio = 1.0f/100f;
 		
 		float fxSldr_x = sfxVol_sld.getCenterX();
-		options.setFxvol((fxSldr_x-sfxBnd_x)*ratio);
+		options.setFxvol((fxSldr_x-sfxBnd_rec.getX())*ratio);
 		
 		fxSldr_x = musVol_sld.getCenterX(); 
-		options.setMusevol((fxSldr_x-sfxBnd_x)*ratio);
+		options.setMusevol((fxSldr_x-sfxBnd_rec.getX())*ratio);
 		
 		fxSldr_x = voiVol_sld.getCenterX();
-		options.setVoicevol((fxSldr_x-sfxBnd_x)*ratio);
+		options.setVoicevol((fxSldr_x-sfxBnd_rec.getX())*ratio);
 		
 
 	}
@@ -248,22 +242,22 @@ public class OptionMenuState extends BasicGameState{
 		gfx.setColor(Color.green);
 		
 		if(backBool==true){
-			gdb.getFont("green").drawString(36, 650, "[(Back)]");
+			gdb.getFont("green").drawString(90,430, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(36, 650, " (Back) ");
+			gdb.getFont("green").drawString(90,430, " (Back) ");
 		}
 		if(cfgHudBool==true){
-			gdb.getFont("green").drawString(261, 570, "[(Configure HUD)]");
+			gdb.getFont("green").drawString(326, 430, "[(Configure HUD)]");
 		}else{
-			gdb.getFont("green").drawString(261, 570, " (Configure HUD) ");
+			gdb.getFont("green").drawString(326, 430, " (Configure HUD) ");
 		}
 		
-		gfx.drawImage(optLBL_i, 225, 305);
-		gfx.drawImage(sfxLBL_i, 36, 400);
-		gfx.drawImage(musLBL_i, 36, 475);
-		gfx.drawImage(voiLBL_i, 36, 550);
-		gfx.drawImage(fscLBL_i, 261, 475);
-		gfx.drawImage(partLBL_i, 261,400);
+		uilib.drawImageCenteredOnPoint(gfx, optLBL_i, new Point(512,120));
+		gfx.drawImage(sfxLBL_i, 90, 205);
+		gfx.drawImage(musLBL_i, 90, 280);
+		gfx.drawImage(voiLBL_i, 90, 355);
+		gfx.drawImage(partLBL_i, 326 ,205);
+		gfx.drawImage(fscLBL_i, 326, 280);
 	}
 	
 	private void renderSliders(Graphics gfx){
@@ -291,15 +285,15 @@ public class OptionMenuState extends BasicGameState{
 	 */
 	private void renderOnOffs(Graphics gfx) {
 		if(options.getParticleStatus()){
-			gfx.drawImage(onBTN_i, 410, 416);
+			gfx.drawImage(onBTN_i, 475, 222);
 		}else{
-			gfx.drawImage(offBTN_i, 410, 416);
+			gfx.drawImage(offBTN_i, 475, 222);
 		}
 		
 		if(options.getFullscreenStatus()){
-			gfx.drawImage(onBTN_i, 410, 491);
+			gfx.drawImage(onBTN_i, 475, 296);
 		}else{
-			gfx.drawImage(offBTN_i, 410, 491);
+			gfx.drawImage(offBTN_i, 475, 296);
 		}
 	}
 	

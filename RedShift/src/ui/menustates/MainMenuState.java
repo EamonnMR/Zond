@@ -38,10 +38,10 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		mouse_rec = new Rectangle(0,0,1,1);
 		
-		playBTN_rec = new Rectangle(25, 345,144,17);
-		scenBTN_rec = new Rectangle(25, 410, 144,17);	
-		optBTN_rec = new Rectangle(25, 485,132,17);
-		quitBTN_rec = new Rectangle(25, 545,96,17);
+		playBTN_rec = new Rectangle(90, 90,144,17);
+		scenBTN_rec = new Rectangle(90, 155, 144,17);	
+		optBTN_rec = new Rectangle(90, 220,132,17);
+		quitBTN_rec = new Rectangle(90, 285,96,17);
 		
 		i = arg0.getInput();
 		i.addPrimaryListener(this);
@@ -50,37 +50,39 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		gfx.drawImage(montrBKG, 0, 0);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
-		
+
 		gfx.setColor(Color.red);
-		gdb.getFont("gray").drawString(512-((16*12)/2), 10, "=["+title+"v1.0]=", new Color(255,39,64));
+		gfx.draw(mouse_rec);
+		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=["+title+"v1.0]=");
 		
-		gfx.drawImage(montrBKG, 20, 300);
+
 		
 		if(campBool==true){
-			gdb.getFont("green").drawString(25, 345, "[(Campaign)]");
+			gdb.getFont("green").drawString(90, 90, "[(Campaign)]");
 		}else{
-			gdb.getFont("green").drawString(25, 345, " (Campaign) ");
+			gdb.getFont("green").drawString(90, 90, " (Campaign) ");
 		}
 		
 		if(scenBool==true){
-			gdb.getFont("green").drawString(25, 410, "[(Scenario)]");
+			gdb.getFont("green").drawString(90, 155, "[(Scenario)]");
 		}else{
-			gdb.getFont("green").drawString(25, 410, " (Scenario) ");
+			gdb.getFont("green").drawString(90, 155, " (Scenario) ");
 		}
 		
 		if(optBool==true){
-			gdb.getFont("green").drawString(25, 485, "[(Options)]");
+			gdb.getFont("green").drawString(90, 220, "[(Options)]");
 		}else{
-			gdb.getFont("green").drawString(25, 485, " (Options) ");	
+			gdb.getFont("green").drawString(90, 220, " (Options) ");	
 		}
 		
 		if(quitBool==true){
-			gdb.getFont("green").drawString(25, 545, "[(Quit)]");
+			gdb.getFont("green").drawString(90, 285, "[(Quit)]");
 		}else{
-			gdb.getFont("green").drawString(25, 545, " (Quit) ");
+			gdb.getFont("green").drawString(90, 285, " (Quit) ");
 		}
 		
 		
