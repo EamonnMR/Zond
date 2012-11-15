@@ -66,12 +66,14 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}else{
 			gdb.getFont("green").drawString(90, 90, " (Campaign) ");
 		}
+		//TODO:stub: display load / save features
 		
 		if(scenBool==true){
 			gdb.getFont("green").drawString(90, 155, "[(Scenario)]");
 		}else{
 			gdb.getFont("green").drawString(90, 155, " (Scenario) ");
 		}
+		//TODO:stub: display scenario selection features
 		
 		if(optBool==true){
 			gdb.getFont("green").drawString(90, 220, "[(Options)]");
@@ -111,6 +113,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
 			arg0.reinit();
+			//XXX:change me to proper exit when released
 //			arg0.exit();
 		}
 	}

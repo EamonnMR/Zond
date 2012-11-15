@@ -34,7 +34,7 @@ public class HangarBayState extends BasicGameState {
 	private BasicGun displayGun;
 	private BasicEngine displayEngine;
 	private GameDatabase gdb;
-	private Image mainScn_i, wepScn_i, engScn_i, briefScn_i;
+	private Image mainScn_i;
 	private UILib ulib;
 	private Point center;
 	private EntityFactory entFac;
@@ -81,7 +81,7 @@ public class HangarBayState extends BasicGameState {
 	}
 	
 	private void renderMainDisplay(Graphics gfx) {
-		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, center);
+		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(0,0));
 		
 		gdb.getFont("green").drawString(center.x-(6*12/2), 278, "[SHIP]");
 				
@@ -122,11 +122,11 @@ public class HangarBayState extends BasicGameState {
 	
 
 	private void renderWeapons(Graphics gfx) {
-		ulib.drawImageNextToImage(gfx, mainScn_i, wepScn_i, center, 0, 0);
-		ulib.drawImageCenteredOnPoint(gfx, 
-				gdb.getIMG("wep_i"), 
-				new Point(center.x-((mainScn_i.getWidth()/2)+(wepScn_i.getWidth()/2))
-						,center.y-(mainScn_i.getHeight()/2-10)));
+//		ulib.drawImageNextToImage(gfx, mainScn_i, wepScn_i, center, 0, 0);
+//		ulib.drawImageCenteredOnPoint(gfx, 
+//				gdb.getIMG("wep_i"), 
+//				new Point(center.x-((mainScn_i.getWidth()/2)+(wepScn_i.getWidth()/2))
+//						,center.y-(mainScn_i.getHeight()/2-10)));
 		
 		int y = 308, x = 4;
 		for(UIButton u : listedButtons.values()){
@@ -157,11 +157,11 @@ public class HangarBayState extends BasicGameState {
 	}
 
 	private void renderEngines(Graphics gfx) {
-		ulib.drawImageNextToImage(gfx, mainScn_i, engScn_i, center, 1, 0);
-		ulib.drawImageCenteredOnPoint(gfx, 
-				gdb.getIMG("engine_i"), 
-				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
-						,center.y-(mainScn_i.getHeight()/2-10)));
+//		ulib.drawImageNextToImage(gfx, mainScn_i, engScn_i, center, 1, 0);
+//		ulib.drawImageCenteredOnPoint(gfx, 
+//				gdb.getIMG("engine_i"), 
+//				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
+//						,center.y-(mainScn_i.getHeight()/2-10)));
 		int y = 308;
 		for(UIButton u : listedButtons.values()){
 			if (u.getThing().getClass().equals(BasicEngine.class)) {
@@ -245,8 +245,8 @@ public class HangarBayState extends BasicGameState {
 		
 		//media stuffs
 		mainScn_i = gdb.getIMG("montrBKC");
-		wepScn_i = gdb.getIMG("small_scrn");
-		engScn_i = gdb.getIMG("small_scrn");
+//		wepScn_i = gdb.getIMG("small_scrn");
+//		engScn_i = gdb.getIMG("small_scrn");
 	}
 
 	/**
