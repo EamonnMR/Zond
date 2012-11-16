@@ -22,7 +22,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
-	private boolean campBool, scenBool, optBool, quitBool, ini;
+	private boolean campBool, scenBool, optBool, quitBool, ini, showScen, showCamp;
 	private Input i;
 	
 	public MainMenuState(int i){
@@ -63,20 +63,27 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		if(campBool==true){
 			gdb.getFont("green").drawString(90, 90, "[(Campaign)]");
+			gdb.getFont("green").drawString(90, 600, "Click here to play the Story mode.");
 		}else{
 			gdb.getFont("green").drawString(90, 90, " (Campaign) ");
 		}
 		//TODO:stub: display load / save features
+		if(showCamp){
+			renderCamp(gfx);
+		}
 		
 		if(scenBool==true){
 			gdb.getFont("green").drawString(90, 155, "[(Scenario)]");
+			gdb.getFont("green").drawString(90, 600, "Click here to choose a challenge mission.");
 		}else{
 			gdb.getFont("green").drawString(90, 155, " (Scenario) ");
 		}
 		//TODO:stub: display scenario selection features
 		
+		
 		if(optBool==true){
 			gdb.getFont("green").drawString(90, 220, "[(Options)]");
+			gdb.getFont("green").drawString(90, 600, "Click here to configure game options.");
 		}else{
 			gdb.getFont("green").drawString(90, 220, " (Options) ");	
 		}
@@ -110,6 +117,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		updateRollOvers();
 		updateCollisions( arg0,  arg1);
+		if(showCamp){
+//			up
+		}
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
 			arg0.reinit();
@@ -150,7 +160,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 
 	}
 	
-
 	private void updateRollOvers() {
 		if(playBTN_rec.intersects(mouse_rec)){
 			campBool=true;
@@ -171,6 +180,15 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 	}
 
+	private void renderScenarios(Graphics gfx){
+		
+	}
+	
+	private void renderCamp(Graphics gfx) {
+
+	}
+
+	
 	@Override
 	public int getID() {
 		return id;
