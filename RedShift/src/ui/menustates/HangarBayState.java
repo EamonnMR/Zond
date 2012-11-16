@@ -81,7 +81,8 @@ public class HangarBayState extends BasicGameState {
 	}
 	
 	private void renderMainDisplay(Graphics gfx) {
-		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(0,0));
+		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
+		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
 		
 		gdb.getFont("green").drawString(center.x-(6*12/2), 278, "[SHIP]");
 				

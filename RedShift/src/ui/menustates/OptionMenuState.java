@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.text.DecimalFormat;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -31,7 +32,7 @@ public class OptionMenuState extends BasicGameState{
 	private GameDatabase gdb;
 	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
-	private boolean backBool, cfgHudBool, ini;
+	private boolean backBool, cfgHudBool, ini, overFsc, overPart;
 	
 	public OptionMenuState(int i){
 		id = i;
@@ -69,14 +70,15 @@ public class OptionMenuState extends BasicGameState{
 		voiVol_sld.setCenterX(230);
 		
 		//On/off Button
-		onPart_rec = new Rectangle(326, 205, 84,20);
-		onFsc_rec = new Rectangle(326, 280, 84,20);
+		onPart_rec = new Rectangle(475, 222, 84,20);
+		onFsc_rec = new Rectangle(475, 296, 84,20);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.drawImage(bkIMG, 0, 0);
+		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
 		gfx.setColor(Color.green);
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
@@ -89,6 +91,7 @@ public class OptionMenuState extends BasicGameState{
 		renderLabels(gfx);
 		renderSliders(gfx);
 		renderOnOffs(gfx);
+		renderKeys(gfx);
 	}
 
 	@Override
@@ -220,6 +223,16 @@ public class OptionMenuState extends BasicGameState{
 			backBool = false;
 			cfgHudBool = false;
 		}
+		if(onFsc_rec.intersects(mouse_rec)){
+			overFsc=true;
+		}else{
+			overFsc=false;
+		}
+		if(onPart_rec.intersects(mouse_rec)){
+			overPart=true;
+		}else{
+			overPart=false;
+		}
 	}
 	
 	private void updateOptionsVals() {
@@ -248,6 +261,7 @@ public class OptionMenuState extends BasicGameState{
 		}
 		if(cfgHudBool==true){
 			gdb.getFont("green").drawString(326, 430, "[(Configure HUD)]");
+			gdb.getFont("green").drawString(90, 600, "Click here to arrange information on your heads up display.");
 		}else{
 			gdb.getFont("green").drawString(326, 430, " (Configure HUD) ");
 		}
@@ -295,6 +309,31 @@ public class OptionMenuState extends BasicGameState{
 		}else{
 			gfx.drawImage(offBTN_i, 475, 296);
 		}
+		
+		if(overFsc){
+			gdb.getFont("green").drawString(90, 600, "Click here to toggle Fullscreen. [Not Optimized]");
+		}
+		
+		if(overPart){
+			gdb.getFont("green").drawString(90, 600, "Click here to toggle Particle effects. [Not Implemented]");
+		}
+	}
+	
+	private void renderKeys(Graphics gfx) {
+		Font f = gdb.getFont("green");
+		f.drawString(710, 202, "+====+");
+		f.drawString(710, 219, "|KEYS|");				
+		f.drawString(710, 236, "+====+");
+		f.drawString(576, 260, "Up Arrow----------Forward");
+		f.drawString(576, 280, "Down Arrow--------Backward");
+		f.drawString(576, 300, "Left Arrow--------Turn Left");
+		f.drawString(576, 320, "Right Arrow-------Turn Right");
+		f.drawString(576, 340, "Key Z-------------Strafe Left");
+		f.drawString(576, 360, "Key X-------------Strafe Right");
+		f.drawString(576, 380, "Left Control------Fire");
+		f.drawString(576, 400, "Key C-------------Toggle Radar");
+		f.drawString(576, 420, "Key A-------------Toggle Navs");
+		f.drawString(576, 440, "Key Esc-----------Leave game");
 	}
 	
 	private String getFormattedValue(float val){
