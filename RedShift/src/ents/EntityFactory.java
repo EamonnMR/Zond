@@ -86,7 +86,7 @@ public class EntityFactory {
 		foe.getImg().rotate(0);
 		
 		foe.setWeapon(buildGun("20mm"));
-		foe.setEngine(buildEngine("GA-J79"));
+		foe.setEngine(buildEngine("smallEngine"));
 		
 		return foe;
 	}

@@ -12,7 +12,7 @@
 /
 
 [smallEngine]{
-	[name]	      (GA-J79)	
+	[name]	      (OAMS-15)	
 	[cost]        (1)
 	[weight]      (1500)
 	[turnrate]    (0.25)
@@ -25,7 +25,7 @@
 }
 
 [medEngine]{
-	[name]	      (WP-J57P25)
+	[name]	      (McDonnel RCS-25)
 	[cost]        (2)
 	[weight]      (1996)
 	[turnrate]    (0.25)
@@ -39,7 +39,7 @@
 
 
 [largeEngine]{
-	[name]	      (AJ10-137)
+	[name]	      (RocketDyne OCS-35/8)
 	[cost]        (3)
 	[weight]      (2300)
 	[turnrate]    (0.25)

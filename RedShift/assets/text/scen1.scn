@@ -1,0 +1,19 @@
+/Test Scenario File/
+
+[Scenario1]
+	[activeArea]{
+
+	}
+	[warnArea]{
+
+	}
+
+	
+
+	[triggers]{}
+
+	[actions]{}
+
+	[navpoints]{}
+
+	[objectives]{}
