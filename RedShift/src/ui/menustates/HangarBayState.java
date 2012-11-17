@@ -29,7 +29,7 @@ public class HangarBayState extends BasicGameState {
 
 	private int id;
 	private PlayerClient pc;
-	private Rectangle acceptBTN_rec, backBTN_rec, mouse;
+	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec, weapons_rec, ships_rec, engines_rec, rollover, current;
 	private BasicShip displayShip;
 	private BasicGun displayGun;
 	private BasicEngine displayEngine;
@@ -58,35 +58,50 @@ public class HangarBayState extends BasicGameState {
 		backBTN_rec = new Rectangle(270,697,96,17);
 		acceptBTN_rec = new Rectangle(630,697, 120,17);
 		
+		//container recs
+//		weapons_rec, ships_rec, engines_rec, rollover, current
+		weapons_rec = new Rectangle(70, 75, 227, 140);
+		ships_rec = new Rectangle(326, 75, 372, 500);
 		//mouse...maybe there should be a mouse class next go around?
-		mouse = new Rectangle(0,0,1,1);
+		mouse_rec = new Rectangle(0,0,1,1);
 		mx = arg0.getInput().getMouseX();
 		my = arg0.getInput().getMouseY();
-		mouse.setCenterX(mx);
-		mouse.setCenterY(my);
+		mouse_rec.setCenterX(mx);
+		mouse_rec.setCenterY(my);
 	}
 
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
+		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		
+		renderContainers(gfx);
 		
 		renderMainDisplay(gfx);
 		
 		renderEngines(gfx);
 		
 		renderWeapons(gfx);
+		
+		renderRollover(gfx);
+		
+		renderCurrent(gfx);
+	}
+
+	private void renderContainers(Graphics gfx){
+		gfx.draw(weapons_rec);
+		gfx.draw(ships_rec);
 	}
 	
-	private void renderMainDisplay(Graphics gfx) {
-		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
-		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+	private void renderMainDisplay(Graphics gfx) {	
+		gdb.getFont("green").drawString(182-(6*12/2), 280, "[SHIP]");
+		gfx.setColor(Color.green);
 		
-		gdb.getFont("green").drawString(center.x-(6*12/2), 278, "[SHIP]");
-				
-		int x = 290, y = 308;
+		int x = 72, y = 310;
 		for(UIButton u : listedButtons.values()){
 			if(u.getThing().getClass().equals(BasicShip.class)){
 				u.getRectangle().setX(x);
@@ -96,18 +111,17 @@ public class HangarBayState extends BasicGameState {
 				if(u.isState()){
 					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("green").drawString(x, y, " "+u.getName()+" ");
+					gdb.getFont("gray").drawString(x, y, " "+u.getName()+" ",Color.white);
 				}
 				
-				if(x>580){
-					y+=29;
-					x=290;
+				if(y>350){
+					x=190;
+					y=310;
 				}else{
-					x = x + u.getName().length()*12+32;
+					y+=20;
 				}
 			}
 		}
-//		gfx.draw(backBTN_rec);
 		
 		if(backBool==true){
 			gdb.getFont("green").drawString(270, 697, "[(Back)]");
@@ -121,15 +135,13 @@ public class HangarBayState extends BasicGameState {
 		}
 	}
 	
-
 	private void renderWeapons(Graphics gfx) {
 //		ulib.drawImageNextToImage(gfx, mainScn_i, wepScn_i, center, 0, 0);
-//		ulib.drawImageCenteredOnPoint(gfx, 
-//				gdb.getIMG("wep_i"), 
-//				new Point(center.x-((mainScn_i.getWidth()/2)+(wepScn_i.getWidth()/2))
-//						,center.y-(mainScn_i.getHeight()/2-10)));
+		ulib.drawImageCenteredOnPoint(gfx, 
+				gdb.getIMG("wep_i"), 
+				new Point(182,85));
 		
-		int y = 308, x = 4;
+		int y = 102, x = 70;
 		for(UIButton u : listedButtons.values()){
 			if(u.getThing().getClass().equals(BasicGun.class)){
 				u.getRectangle().setY(y);
@@ -139,7 +151,7 @@ public class HangarBayState extends BasicGameState {
 				if(u.isState()){
 					gdb.getFont("green").drawString(x, y, "[" + gdb.getGun(u.getName()).getUiName() + "]");
 				}else{
-					gdb.getFont("green").drawString(x, y, " "+gdb.getGun(u.getName()).getUiName()+" ");
+					gdb.getFont("gray").drawString(x, y, " "+gdb.getGun(u.getName()).getUiName()+" ", Color.white);
 				}
 				
 				if(y>408){
@@ -151,39 +163,48 @@ public class HangarBayState extends BasicGameState {
 			}
 		}
 		
-		gdb.getFont("green").drawString(4, 438, "Damage:  "+displayGun.getProj().getDamage()+"kt");
-		gdb.getFont("green").drawString(4, 457, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
-		gdb.getFont("green").drawString(4, 476, "Size:    "+displayGun.getCost());
+//		gdb.getFont("green").drawString(4, 438, "Damage:  "+displayGun.getProj().getDamage()+"kt");
+//		gdb.getFont("green").drawString(4, 457, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
+//		gdb.getFont("green").drawString(4, 476, "Size:    "+displayGun.getCost());
 		
 	}
 
 	private void renderEngines(Graphics gfx) {
 //		ulib.drawImageNextToImage(gfx, mainScn_i, engScn_i, center, 1, 0);
-//		ulib.drawImageCenteredOnPoint(gfx, 
-//				gdb.getIMG("engine_i"), 
-//				new Point(center.x+((mainScn_i.getWidth()/2)+(engScn_i.getWidth()/2))
-//						,center.y-(mainScn_i.getHeight()/2-10)));
-		int y = 308;
+		ulib.drawImageCenteredOnPoint(gfx, 
+				gdb.getIMG("engine_i"), 
+				new Point(182,440));
+		int y = 470, x=76;
 		for(UIButton u : listedButtons.values()){
 			if (u.getThing().getClass().equals(BasicEngine.class)) {
+				u.getRectangle().setX(x);
 				u.getRectangle().setY(y);
 //				gfx.draw(u.getRectangle());
 
 				if (u.isState()) {
-					gdb.getFont("green").drawString(760, y,
+					gdb.getFont("green").drawString(76, y,
 							"[" + gdb.getEngine(u.getName()).getUiName() + "]");
 				} else {
-					gdb.getFont("green").drawString(760, y, " "+gdb.getEngine(u.getName()).getUiName()+" ");
+					gdb.getFont("gray").drawString(76, y, " "+gdb.getEngine(u.getName()).getUiName()+" ", Color.white);
 				}
 				y += 17;
 			}
 		}
-		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayEngine.getThrustX());
-		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayEngine.getTurnrate());
-		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayEngine.getStrafeRate());
-		gdb.getFont("green").drawString(760, 419, "Size:  "+displayEngine.getCost());
+//		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayEngine.getThrustX());
+//		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayEngine.getTurnrate());
+//		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayEngine.getStrafeRate());
+//		gdb.getFont("green").drawString(760, 419, "Size:  "+displayEngine.getCost());
 	}
 
+	private void renderCurrent(Graphics gfx) {
+
+		
+	}
+
+	private void renderRollover(Graphics gfx) {
+		gdb.getFont("green").drawString(800, 75, "[INFO]");
+		
+	}
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException{
@@ -192,19 +213,19 @@ public class HangarBayState extends BasicGameState {
 			ini=false;
 		}
 		Input i = arg0.getInput();
-		mouse.setX(i.getMouseX());
-		mouse.setY(i.getMouseY());
+		mouse_rec.setX(i.getMouseX());
+		mouse_rec.setY(i.getMouseY());
 		
-		updateButtons(mouse, i);
+		updateButtons(mouse_rec, i);
 		
-		if(backBTN_rec.intersects(mouse)){
+		if(backBTN_rec.intersects(mouse_rec)){
 			backBool=true;
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
 				arg1.enterState(CoreStateManager.MAINMENUSTATE);
 			}
-		}else if(acceptBTN_rec.intersects(mouse)){
+		}else if(acceptBTN_rec.intersects(mouse_rec)){
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
@@ -363,8 +384,8 @@ public class HangarBayState extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame stbg){
-		mouse.setX(gc.getInput().getMouseX());
-		mouse.setY(gc.getInput().getMouseY());
+		mouse_rec.setX(gc.getInput().getMouseX());
+		mouse_rec.setY(gc.getInput().getMouseY());
 		this.inputStarted();
 	}
 
