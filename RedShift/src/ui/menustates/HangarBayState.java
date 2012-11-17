@@ -27,12 +27,12 @@ import ents.EntityFactory;
 
 public class HangarBayState extends BasicGameState {
 
-	private int id;
+	private int id, currentChoice, rolloverChoice;
 	private PlayerClient pc;
 	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec, weapons_rec, ships_rec, engines_rec, rollover, current;
-	private BasicShip displayShip;
-	private BasicGun displayGun;
-	private BasicEngine displayEngine;
+	private BasicShip displayShip, tempShip;
+	private BasicGun displayGun, tempGun;
+	private BasicEngine displayEngine, tempEng;
 	private GameDatabase gdb;
 	private Image mainScn_i;
 	private UILib ulib;
@@ -55,8 +55,8 @@ public class HangarBayState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		backBTN_rec = new Rectangle(270,697,96,17);
-		acceptBTN_rec = new Rectangle(630,697, 120,17);
+		backBTN_rec = new Rectangle(140,500,96,17);
+		acceptBTN_rec = new Rectangle(780,500, 120,17);
 		
 		//container recs
 //		weapons_rec, ships_rec, engines_rec, rollover, current
@@ -93,20 +93,19 @@ public class HangarBayState extends BasicGameState {
 	}
 
 	private void renderContainers(Graphics gfx){
-		gfx.draw(weapons_rec);
+//		gfx.draw(weapons_rec);
 		gfx.draw(ships_rec);
 	}
 	
 	private void renderMainDisplay(Graphics gfx) {	
-		gdb.getFont("green").drawString(182-(6*12/2), 280, "[SHIP]");
+		gdb.getFont("green").drawString(182-(6*12/2), 240, "[SHIP]");
 		gfx.setColor(Color.green);
 		
-		int x = 72, y = 310;
+		int x = 72, y = 270;
 		for(UIButton u : listedButtons.values()){
 			if(u.getThing().getClass().equals(BasicShip.class)){
 				u.getRectangle().setX(x);
 				u.getRectangle().setY(y);
-//				gfx.draw(u.getRectangle());
 				
 				if(u.isState()){
 					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
@@ -114,29 +113,29 @@ public class HangarBayState extends BasicGameState {
 					gdb.getFont("gray").drawString(x, y, " "+u.getName()+" ",Color.white);
 				}
 				
-				if(y>350){
+				if(y>320){
 					x=190;
-					y=310;
+					y=270;
 				}else{
 					y+=20;
 				}
 			}
 		}
-		
+
 		if(backBool==true){
-			gdb.getFont("green").drawString(270, 697, "[(Back)]");
+			gdb.getFont("green").drawString(140, 500, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(270, 697, " (Back) ");
+			gdb.getFont("green").drawString(140, 500, " (Back) ");
 		}
 		if(accptBool==true){
-			gdb.getFont("green").drawString(630, 697, "[(Accept)]");
+			gdb.getFont("green").drawString(780, 500, "[(Accept)]");
 		}else{
-			gdb.getFont("green").drawString(630, 697, " (Accept) ");
+			gdb.getFont("green").drawString(780, 500, " (Accept) ");
 		}
 	}
 	
+
 	private void renderWeapons(Graphics gfx) {
-//		ulib.drawImageNextToImage(gfx, mainScn_i, wepScn_i, center, 0, 0);
 		ulib.drawImageCenteredOnPoint(gfx, 
 				gdb.getIMG("wep_i"), 
 				new Point(182,85));
@@ -146,7 +145,6 @@ public class HangarBayState extends BasicGameState {
 			if(u.getThing().getClass().equals(BasicGun.class)){
 				u.getRectangle().setY(y);
 				u.getRectangle().setX(x);
-//				gfx.draw(u.getRectangle());
 				
 				if(u.isState()){
 					gdb.getFont("green").drawString(x, y, "[" + gdb.getGun(u.getName()).getUiName() + "]");
@@ -162,24 +160,17 @@ public class HangarBayState extends BasicGameState {
 				}
 			}
 		}
-		
-//		gdb.getFont("green").drawString(4, 438, "Damage:  "+displayGun.getProj().getDamage()+"kt");
-//		gdb.getFont("green").drawString(4, 457, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
-//		gdb.getFont("green").drawString(4, 476, "Size:    "+displayGun.getCost());
-		
 	}
 
 	private void renderEngines(Graphics gfx) {
-//		ulib.drawImageNextToImage(gfx, mainScn_i, engScn_i, center, 1, 0);
 		ulib.drawImageCenteredOnPoint(gfx, 
 				gdb.getIMG("engine_i"), 
-				new Point(182,440));
-		int y = 470, x=76;
+				new Point(182,380));
+		int y = 410, x=76;
 		for(UIButton u : listedButtons.values()){
 			if (u.getThing().getClass().equals(BasicEngine.class)) {
 				u.getRectangle().setX(x);
 				u.getRectangle().setY(y);
-//				gfx.draw(u.getRectangle());
 
 				if (u.isState()) {
 					gdb.getFont("green").drawString(76, y,
@@ -190,21 +181,52 @@ public class HangarBayState extends BasicGameState {
 				y += 17;
 			}
 		}
-//		gdb.getFont("green").drawString(760, 438, "Thrust:"+displayEngine.getThrustX());
-//		gdb.getFont("green").drawString(760, 457, "Turn:  "+displayEngine.getTurnrate());
-//		gdb.getFont("green").drawString(760 ,476, "Strafe:"+displayEngine.getStrafeRate());
-//		gdb.getFont("green").drawString(760, 419, "Size:  "+displayEngine.getCost());
 	}
 
 	private void renderCurrent(Graphics gfx) {
-
+		gdb.getFont("green").drawString(783, 360, "[CURRENT]");
+		
+		if(currentChoice==0){
+			gdb.getFont("green").drawString(725, 390, "Damage:  "+displayGun.getProj().getDamage()+"kt");
+			gdb.getFont("green").drawString(725, 410, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
+			gdb.getFont("green").drawString(725, 430, "Size:    "+displayGun.getCost());
+		}else if(currentChoice==1){
+			gdb.getFont("green").drawString(725, 390, "Name: "+displayShip.getName());
+			gdb.getFont("green").drawString(725, 410, "Health: "+displayShip.getHealth());
+			gdb.getFont("green").drawString(725, 430, "Weight: "+displayShip.getTotalWeight());
+		}else if(currentChoice==2){
+			gdb.getFont("green").drawString(725, 390, "Thrust:"+displayEngine.getThrustX());
+			gdb.getFont("green").drawString(725, 410, "Turn:  "+displayEngine.getTurnrate());
+			gdb.getFont("green").drawString(725 ,430, "Strafe:"+displayEngine.getStrafeRate());
+			gdb.getFont("green").drawString(725, 450, "Size:  "+displayEngine.getCost());
+		}
 		
 	}
 
 	private void renderRollover(Graphics gfx) {
 		gdb.getFont("green").drawString(800, 75, "[INFO]");
-		
+		if(rolloverChoice==0){
+			if(!(tempGun==null)){
+				gdb.getFont("green").drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");
+				gdb.getFont("green").drawString(725, 125, "Cooldown:"+(double)tempGun.getCoolDown()/1000+"sec");
+				gdb.getFont("green").drawString(725, 145, "Size:    "+tempGun.getCost());
+			}
+		}else if(rolloverChoice==1){
+			if(!(tempShip==null)){
+				gdb.getFont("green").drawString(725, 105, "Name: "+tempShip.getName());
+				gdb.getFont("green").drawString(725, 125, "Health: "+tempShip.getHealth());
+				gdb.getFont("green").drawString(725, 145, "Weight: "+tempShip.getTotalWeight());
+			}
+		}else if(rolloverChoice==2){
+			if(!(tempEng==null)){
+				gdb.getFont("green").drawString(725, 105, "Thrust:"+tempEng.getThrustX());
+				gdb.getFont("green").drawString(725, 125, "Turn:  "+tempEng.getTurnrate());
+				gdb.getFont("green").drawString(725 ,145, "Strafe:"+tempEng.getStrafeRate());
+				gdb.getFont("green").drawString(725, 165, "Size:  "+tempEng.getCost());
+			}
+		}
 	}
+	
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException{
@@ -281,14 +303,15 @@ public class HangarBayState extends BasicGameState {
 			if (u.getRectangle().intersects(m)) {
 				if (i.isMousePressed(0))
 					if (u.getThing().getClass().equals(BasicGun.class)) {
+						currentChoice=0;
 						if ((BasicGun) u.getThing() != displayGun) {
 							u.setState(true);
 							listedButtons.get(displayGun.getName()).setState(
 									false);
 						}
 						displayGun = (BasicGun) u.getThing();
-					} else if (u.getThing().getClass()
-							.equals(BasicEngine.class)) {
+					} else if (u.getThing().getClass().equals(BasicEngine.class)) {
+						currentChoice=2;
 						if ((BasicEngine) u.getThing() != displayEngine) {
 							u.setState(true);
 							listedButtons.get(displayEngine.getName())
@@ -296,6 +319,7 @@ public class HangarBayState extends BasicGameState {
 						}
 						displayEngine = (BasicEngine) u.getThing();
 					} else if (u.getThing().getClass().equals(BasicShip.class)) {
+						currentChoice=1;
 						if ((BasicShip) u.getThing() != displayShip) {
 							u.setState(true);
 							listedButtons.get(displayShip.getName()).setState(
@@ -305,6 +329,16 @@ public class HangarBayState extends BasicGameState {
 						displayShip.setEngine(displayEngine);
 						displayShip.setWeapon(displayGun);
 					}
+				if(u.getThing().getClass().equals(BasicGun.class)){
+					tempGun = (BasicGun)u.getThing();
+					rolloverChoice=0;
+				}else if(u.getThing().getClass().equals(BasicEngine.class)){
+					tempEng = (BasicEngine)u.getThing();
+					rolloverChoice=2;
+				}else if(u.getThing().getClass().equals(BasicShip.class)){
+					tempShip = (BasicShip)u.getThing();
+					rolloverChoice=1;
+				}
 			}
 		}
 	}

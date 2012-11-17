@@ -79,7 +79,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			gdb.getFont("green").drawString(90, 155, " (Scenario) ");
 		}
 		//TODO:stub: display scenario selection features
-		
+		if(showScen){
+			renderScenarios(gfx);
+		}
 		
 		if(optBool==true){
 			gdb.getFont("green").drawString(90, 220, "[(Options)]");
@@ -118,8 +120,12 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		updateRollOvers();
 		updateCollisions( arg0,  arg1);
 		if(showCamp){
-//			up
+			campRollovers();
 		}
+		if(showScen){
+			scenRollovers();
+		}
+		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
 			arg0.reinit();
@@ -127,7 +133,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 //			arg0.exit();
 		}
 	}
-
 	/**
 	 * custom resource load call as part of load restructuring
 	 */
@@ -180,10 +185,16 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 	}
 
-	private void renderScenarios(Graphics gfx){
+	private void scenRollovers(){
 		
 	}
 	
+	private void renderScenarios(Graphics gfx){
+		
+	}
+	private void campRollovers() {
+
+	}
 	private void renderCamp(Graphics gfx) {
 
 	}
