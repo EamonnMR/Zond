@@ -193,7 +193,13 @@ public class HangarBayState extends BasicGameState {
 		}else if(currentChoice==1){
 			gdb.getFont("green").drawString(725, 390, "Name: "+displayShip.getName());
 			gdb.getFont("green").drawString(725, 410, "Health: "+displayShip.getHealth());
-			gdb.getFont("green").drawString(725, 430, "Weight: "+displayShip.getTotalWeight());
+			if(displayShip.getFaction()==0){
+				gdb.getFont("green").drawString(725, 430, "Faction: USSR");
+			}else if(displayShip.getFaction()==1){
+				gdb.getFont("green").drawString(725, 430, "Faction: NATO");
+			}
+			gdb.getFont("green").drawString(725, 450, "Weight: "+displayShip.getTotalWeight());
+
 		}else if(currentChoice==2){
 			gdb.getFont("green").drawString(725, 390, "Thrust:"+displayEngine.getThrustX());
 			gdb.getFont("green").drawString(725, 410, "Turn:  "+displayEngine.getTurnrate());
@@ -210,12 +216,19 @@ public class HangarBayState extends BasicGameState {
 				gdb.getFont("green").drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");
 				gdb.getFont("green").drawString(725, 125, "Cooldown:"+(double)tempGun.getCoolDown()/1000+"sec");
 				gdb.getFont("green").drawString(725, 145, "Size:    "+tempGun.getCost());
+				gdb.getFont("green").drawString(72, 590, tempGun.getToolTip());
 			}
 		}else if(rolloverChoice==1){
 			if(!(tempShip==null)){
 				gdb.getFont("green").drawString(725, 105, "Name: "+tempShip.getName());
 				gdb.getFont("green").drawString(725, 125, "Health: "+tempShip.getHealth());
-				gdb.getFont("green").drawString(725, 145, "Weight: "+tempShip.getTotalWeight());
+				if(tempShip.getFaction()==0){
+					gdb.getFont("green").drawString(725, 145, "Faction: USSR");
+				}else if(tempShip.getFaction()==1){
+					gdb.getFont("green").drawString(725, 145, "Faction: NATO");
+				}
+				gdb.getFont("green").drawString(725, 165, "Weight: "+tempShip.getTotalWeight());
+				gdb.getFont("green").drawString(72, 590, tempShip.getToolTip());
 			}
 		}else if(rolloverChoice==2){
 			if(!(tempEng==null)){
@@ -223,6 +236,7 @@ public class HangarBayState extends BasicGameState {
 				gdb.getFont("green").drawString(725, 125, "Turn:  "+tempEng.getTurnrate());
 				gdb.getFont("green").drawString(725 ,145, "Strafe:"+tempEng.getStrafeRate());
 				gdb.getFont("green").drawString(725, 165, "Size:  "+tempEng.getCost());
+				gdb.getFont("green").drawString(72, 590, tempEng.getToolTip());
 			}
 		}
 	}

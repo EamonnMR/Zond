@@ -16,6 +16,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private static double HALFPI = 1.57079633;   //90 degrees in radians 
 	
 	private String name;						 //no idea why this wasn't done sooner
+	private String toolTip;						 //UI tooltip string
 	private int totalWeight;		             //maximum equipment
 	private double points;				         //points to award to killer
 	private double health;			             //base health of the ship
@@ -350,4 +351,14 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void setDeathFx(effects.Effect deathFx){
 		this.deathFx = deathFx;
 	}
+
+	public String getToolTip() {
+		return toolTip;
+	}
+
+	public void setToolTip(String toolTip) {
+		this.toolTip = toolTip;
+	}
+	
+	
 }

@@ -12,6 +12,7 @@ public class BasicEngine {
 
 	//vars
 	private String uiName;
+	private String toolTip;						 //UI tooltip string
 	private int weight;						//in-game weight of engine
 	private int cost;						//in-game cost of engine
 	private Image inGameImg, icon;			//images
@@ -117,6 +118,12 @@ public class BasicEngine {
 	public void setUiName(String uiName) {
 		this.uiName = uiName;
 	}
-	
-	
+
+	public String getToolTip() {
+		return toolTip;
+	}
+
+	public void setToolTip(String toolTip) {
+		this.toolTip = toolTip;
+	}
 }

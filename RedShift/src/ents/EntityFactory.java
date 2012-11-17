@@ -36,6 +36,7 @@ public class EntityFactory {
 	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer){
 		BasicShip build = new BasicShip();
 		build.setName(shipPointer);
+		build.setToolTip(gdb.getShip(shipPointer).getToolTip());
 		build.setImg(gdb.getShip(shipPointer).getImg().copy());
 		build.setHealth(gdb.getShip(shipPointer).getHealth());
 		build.setPoints(gdb.getShip(shipPointer).getPoints());
@@ -72,6 +73,7 @@ public class EntityFactory {
 		BasicShip data = buildShip(shipPointer, gunPointer, engPointer);
 		
 		foe.setName(data.getName());
+		foe.setToolTip(gdb.getShip(shipPointer).getToolTip());
 		foe.setImg(data.getImg().copy());
 		foe.setHealth(data.getHealth());
 		foe.setPoints(data.getPoints());
@@ -99,6 +101,7 @@ public class EntityFactory {
 	public BasicGun buildGun(String gunPointer){
 		BasicGun gun = new BasicGun();
 		gun.setName(gunPointer);
+		gun.setToolTip(gdb.getGun(gunPointer).getToolTip());
 		gun.setUiName(gdb.getGun(gunPointer).getUiName());
 		gun.setImg(gdb.getGun(gunPointer).getImg().copy());
 		gun.setCoolDown(gdb.getGun(gunPointer).getCoolDown());
@@ -117,6 +120,7 @@ public class EntityFactory {
 	public BasicEngine buildEngine(String engPointer){
 		BasicEngine engine = new BasicEngine();
 		engine.setName(engPointer);
+		engine.setToolTip(gdb.getEngine(engPointer).getToolTip());
 		engine.setUiName(gdb.getEngine(engPointer).getUiName());
 		engine.setCost(gdb.getEngine(engPointer).getCost());
 		engine.setWeight(gdb.getEngine(engPointer).getWeight());
