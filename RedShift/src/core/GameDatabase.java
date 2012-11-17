@@ -121,8 +121,8 @@ public class GameDatabase {
 		//populateArmor(); We have no armor types at this point
 		xpopulateShot();
 		//populateGun();    //Original method left to prevent freakouts
-		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateEngine();
+		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateShips();
 		populateFonts();
 	}
@@ -173,6 +173,7 @@ public class GameDatabase {
 			current.setProj(indexShot.get(s.getValue(child, "proj")));
 			current.setName(child);
 			current.setUiName(s.getValue(child,"name"));
+			current.setToolTip(s.getValue(child,"tltip"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			indexGuns.put(child, current);
 		}
@@ -221,6 +222,7 @@ public class GameDatabase {
 			m.setCollider(parseShape(s, child, "collider"));
 			m.setRadarRadius((Circle)parseShape(s, child, "radar"));
 			m.setName(child);
+			m.setToolTip(s.getValue(child,"tltip"));
 			m.setDeathSnd(indexSounds.get(s.getValue(child, "deadsnd")));
 			indexShip.put(child, m);
 		}
@@ -244,6 +246,7 @@ public class GameDatabase {
 			BasicEngine e = new BasicEngine();
 			e.setName(child);
 			e.setUiName(s.getValue(child,"name"));
+			e.setToolTip(s.getValue(child,"tltip"));
 			e.setCost(Integer.parseInt(s.getValue(child, "cost")));
 			e.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			e.setTurnrate(Float.parseFloat(s.getValue(child, "turnrate")));

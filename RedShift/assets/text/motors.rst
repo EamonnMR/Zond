@@ -12,7 +12,8 @@
 /
 
 [smallEngine]{
-	[name]	      (OAMS-15)	
+	[name]	      (OAMS-15)
+	[tltip]       (test)
 	[cost]        (1)
 	[weight]      (1500)
 	[turnrate]    (0.25)
@@ -26,6 +27,7 @@
 
 [medEngine]{
 	[name]	      (McDonnel RCS-25)
+	[tltip]       (test)
 	[cost]        (2)
 	[weight]      (1996)
 	[turnrate]    (0.25)
@@ -40,6 +42,7 @@
 
 [largeEngine]{
 	[name]	      (RocketDyne OCS-35/8)
+	[tltip]       (test)
 	[cost]        (3)
 	[weight]      (2300)
 	[turnrate]    (0.25)

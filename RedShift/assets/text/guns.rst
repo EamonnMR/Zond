@@ -12,6 +12,7 @@
 /20 mm cannon/
 [20mm]{
 	[name]	  (20mm Chaingun)
+	[tltip]   (low damage, rapid-fire, short range gun)
 	[cooldown](125)
 	[cost]    (1)
 	[img]     (gun1)
@@ -23,6 +24,7 @@
 /60 mm cannon/
 [60mm]{
 	[name]	  (60mm Rifle)
+	[tltip]   (medium range, average rate cannon)
 	[cooldown](150);
 	[cost]    (2)
 	[img]     (gun2)
@@ -34,6 +36,7 @@
 /105 mm cannon/
 [105mm]{
 	[name]	  (105mm Cannon)
+	[tltip]   (large/high damage cannon)
 	[cooldown](175);
 	[cost]    (3)
 	[img]     (gun3)
@@ -45,6 +48,7 @@
 /small plasma/
 [plas]{
 	[name]	  (Plasma Rifle)
+	[tltip]   (quick fire, medium range energy emitter.)
 	[cooldown](100);
 	[cost]    (0)
 	[img]     (gun1) / Why aren't we loading the images? /
@@ -56,6 +60,7 @@
 /small laser/
 [las]{
 	[name]	  (Laser)
+	[tltip]   (short range beam of light.)
 	[cooldown](25);
 	[cost]    (0)
 	[img]     (gun1)

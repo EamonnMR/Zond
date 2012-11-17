@@ -13,6 +13,7 @@ public class BasicGun {
 
 	//vars
 	private String uiName;	//Definitely don't know why this wasnt done sooner
+	private String toolTip;						 //UI tooltip string
 	private double timer;
 	private int weight;
 	private int cost;	
@@ -166,7 +167,12 @@ public class BasicGun {
 	public void setUiName(String uiName) {
 		this.uiName = uiName;
 	}
-	
-	
 
+	public String getToolTip() {
+		return toolTip;
+	}
+
+	public void setToolTip(String toolTip) {
+		this.toolTip = toolTip;
+	}
 }

@@ -1,5 +1,6 @@
 [mercury]{
 	[img](mercury)
+	[tltip]   (test)
 	[health](20)
 	[points](5)
 	[weight](5)
@@ -24,6 +25,7 @@
 
 [gemini]{
 	[img](gemini)
+	[tltip]       (test)
 	[health](35)
 	[points](5)
 	[weight](5)
@@ -47,6 +49,7 @@
 
 [lunar]{
 	[img](lunar)
+	[tltip]       (test)
 	[health](50)
 	[points](5)
 	[weight](5)
@@ -70,6 +73,7 @@
 
 [voskhod]{
 	[img](voskhod)
+	[tltip]       (test)
 	[health](28)
 	[points](5)
 	[weight](5)
@@ -93,6 +97,7 @@
 
 [vostok]{
 	[img](vostok)
+	[tltip]       (test)
 	[health](42)
 	[points](5)
 	[weight](5)
@@ -116,6 +121,7 @@
 
 [zond4]{
 	[img](zond4)
+	[tltip]       (test)
 	[health](60)
 	[points](5)
 	[weight](5)
@@ -140,6 +146,7 @@
 
 [skylab]{
 	[img](skypost)
+	[tltip]       (test)
 	[health](100)
 	[points](50)
 	[weight](0)
