@@ -1,15 +1,17 @@
 package core;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class ParallaxStarField{
 	private int extrasize;
 	private long randomizeDistanceFromBorder;
 	private int wideRangeX,wideRangeY,wideRangeZ;
-	private int numStars;
 	private Image img;
 	private int minX, maxX, minY, maxY, minZ;
 	float[] x,y,z;
+	boolean[] drawMe;
+	private int numStars;
 
 	public ParallaxStarField(int extrasize, long randomizeDistanceFromBorder,
 			int screenX, int screenY, int numStars, Image img, int minZ,
@@ -23,6 +25,10 @@ public class ParallaxStarField{
 		maxY = screenY + extrasize;
 		this.randomizeDistanceFromBorder = randomizeDistanceFromBorder;
 		this.numStars = numStars;
+		x = new float[numStars];
+		y = new float[numStars];
+		z = new float[numStars];
+		drawMe = new boolean[numStars];
 		this.img = img;
 		this.minZ = minZ;
 		wideRangeX = screenX + (2 * extrasize);
@@ -46,6 +52,14 @@ public class ParallaxStarField{
 		return (float) ((Math.random() * wideRangeZ) + minZ);
 	}
 
+	public void draw(Graphics g){
+		for(int i =0; i < numStars; i++){
+			if(drawMe[i]){
+				g.drawImage(img, x[i], y[i]);
+		   	   }
+		  }
+	 }
+	
 	public void update(int dCamX, int dCamY){
 		for(int i =0; i < numStars; i++){
 			x[i] += z[i] * dCamX; //Update the x position
@@ -54,23 +68,29 @@ public class ParallaxStarField{
 				x[i] = maxX - narrowRandom();
 				y[i] = wideRandomY();
 				z[i] = randomZ();
+				drawMe[i] = false;
 			} else if(x[i] < maxX){ //Falls off right of screen
 				x[i] = minX + narrowRandom();
 				y[i] = wideRandomY();
 				z[i] = randomZ();
+				drawMe[i] = false;
 			} else {
 				y[i] += z[i] * dCamY;//Update the y position (and check out the boundries.)
 				if(y[i] > minY){ //Falls off top of screen
 					x[i] = wideRandomX();
 					y[i] = maxY - narrowRandom();
 					z[i] = randomZ();
+					drawMe[i] = false;
 				} else if(y[i] < maxY){ //Falls off bottom of screen
 					x[i] = wideRandomX();
 					y[i] = minY + narrowRandom();
 					z[i] = randomZ();
+					drawMe[i] = false;
 				} else {
-					//We didn't need to wipe the star this time, so draw it.
-					img.draw(x[i],y[i]);
+					//We didn't need to wipe the star this time, so it's inside the screen
+					//(in the future, we should probably have inner checks to see if it's really on screen
+					//before we draw it, but that's for later.)
+					drawMe[i] = true;
 				}
 			}
 		}
