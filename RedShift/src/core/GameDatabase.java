@@ -1,10 +1,18 @@
 package core;
 
+import java.awt.Point;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import level.LevelDataModel;
+import level.NavPoint;
+import level.TriggerTypes;
+import level.triggers.BasicTrigger;
+import level.triggers.SpawnShip;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -53,6 +61,8 @@ public class GameDatabase {
 	private Map<String, BasicArmor> indexArmor;
 	private Map<String, Sound> indexSounds;
 	private Map<String, SpriteSheetFont> indexFonts;
+	private Map<String, File> indexLevelFiles;
+	private Map<String, LevelDataModel> indexLDMS;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
@@ -72,10 +82,12 @@ public class GameDatabase {
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
 		indexSounds = new HashMap<String, Sound>();
+//		indexLevelFiles = new HashMap<String, File>();
 		try {
 			try {
 				xloadImages();
 				loadSounds();
+				loadLevelFiles();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -91,6 +103,7 @@ public class GameDatabase {
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
 		indexFonts = new HashMap<String, SpriteSheetFont>();
+		indexLDMS = new HashMap<String, LevelDataModel>();
 		populateAll();
 	}
 	
@@ -124,6 +137,7 @@ public class GameDatabase {
 		xpopulateEngine();
 		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateShips();
+//		populateLevels();
 		populateFonts();
 	}
 
@@ -135,7 +149,6 @@ public class GameDatabase {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public Sound getSound(String s){
 		return indexSounds.get(s);
@@ -258,11 +271,6 @@ public class GameDatabase {
 			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
 			indexEng.put(child, e);
 		}
-		
-		//Medium Engine
-		
-		//Large Engine
-		
 	}
 	
 	
@@ -345,6 +353,91 @@ public class GameDatabase {
 	 */
 	public SpriteSheetFont getFont(String s){
 		return indexFonts.get(s);
+	}
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void populateLevels() throws FileNotFoundException, IOException {
+		for(File f : indexLevelFiles.values()){
+			StringTree s = loadRst(f.getAbsolutePath());
+			for(String child : s.childSet()){
+				LevelDataModel level = new LevelDataModel(s.getValue(child,"name" ));
+				level.setActiveArea(parseShape(s, child, "active"));
+				level.setActiveArea(parseShape(s, child, "margin"));
+				level.setSpawn(new Point(0,0));
+				
+				if(s.getValue(child, "class").equals("trig")){
+					level.addTrigger(getTriggerClass(s,child));
+				}else if(s.getValue(child, "class").equals("nav")){
+					NavPoint p = new NavPoint();
+					p.setName(s.getValue(child, "name"));
+					p.setX(Float.parseFloat(s.getValue(child, "x")));
+					p.setY(Float.parseFloat(s.getValue(child, "y")));
+					p.setActive(Boolean.parseBoolean(s.getValue(child, "state")));
+					level.addNavPoint(p);
+				}else if(s.getValue(child, "class").equals("obj")){
+					
+				}else if(s.getValue(child, "class").equals("act")){
+					
+				}
+			}
+		}
+	}
+	
+	private BasicTrigger getTriggerClass(StringTree s,String child) {
+		if(s.getValue(child, "subtype").equals("ini")){
+			BasicTrigger t = new BasicTrigger();
+			t.setName(s.getValue(child, "name"));
+			t.setTriggerType(getTriggerType(s.getValue(child, "trigtype")));
+			t.setX(Float.parseFloat(s.getValue(child, "x")));
+			t.setY(Float.parseFloat(s.getValue(child, "y")));
+			t.setCollider(parseShape(s, child, "collider"));
+			return t;
+		}else if(s.getValue(child, "subtype").equals("spawn")){
+			SpawnShip t = new SpawnShip();
+			t.setName(s.getValue(child, "name"));
+			t.setTriggerType(getTriggerType(s.getValue(child, "trigtype")));
+			t.setX(Float.parseFloat(s.getValue(child, "x")));
+			t.setY(Float.parseFloat(s.getValue(child, "y")));
+			t.setCollider(parseShape(s, child, "collider"));
+//			t.setShip(s)
+			return t;
+		}
+		return null;
+	}
+
+	private TriggerTypes getTriggerType(String value) {
+		if(value.equals(TriggerTypes.DOODAD.toString())){
+			return TriggerTypes.DOODAD;
+		}else if(value.equals(TriggerTypes.SHIP.toString())){
+			return TriggerTypes.SHIP;
+		}else if(value.equals(TriggerTypes.SHOT.toString())){
+			return TriggerTypes.SHOT;
+		}else if(value.equals(TriggerTypes.TRIGGER.toString())){
+			return TriggerTypes.TRIGGER;
+		}else if(value.equals(TriggerTypes.ALL.toString())){
+			return TriggerTypes.ALL;
+		}else{
+			return null;
+		}
+	}
+
+	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
+		StringTree s = loadRst("assets/text/levellist.rst");
+		for (String child : s.childSet()){
+			ldLevelFile(child, s.getValue(child));
+			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+		}
+	}
+	
+	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
+		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");	
+		File f = new File(location);
+		System.out.println(f.getName());
+		indexLevelFiles.put(name, f);
+		int i=1;
 	}
 	
 	/**

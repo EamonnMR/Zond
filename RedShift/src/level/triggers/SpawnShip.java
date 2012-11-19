@@ -13,11 +13,17 @@ public class SpawnShip extends BasicTrigger{
 		ship = s;
 	}
 	
+	public SpawnShip(){}
+	
 	@Override
 	public void go(GameplayState cgs){
 		ship.setX(getX());
 		ship.setY(getY());
 		cgs.addShip(ship);
+	}
+	
+	public void setShip(BasicShip s){
+		ship = s;
 	}
 	
 	public BasicShip getShip(){

@@ -27,6 +27,10 @@ public class BasicTrigger {
 		this.isTrigged=false;
 	}
 	
+	public BasicTrigger(){
+		
+	}
+	
 	public void trigger(boolean b){
 		isTrigged = b;
 	}

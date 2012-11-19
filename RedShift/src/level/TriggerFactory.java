@@ -1,6 +1,5 @@
 package level;
 
-import ents.BasicShip;
 import level.triggers.CompleteObjective;
 import level.triggers.CountTrigger;
 import level.triggers.DeathTrigger;
@@ -8,19 +7,39 @@ import level.triggers.ManyShipSpawner;
 import level.triggers.MultiTrigger;
 import level.triggers.SpawnShip;
 import level.triggers.ToggleNavPoint;
+import ents.BasicShip;
+import ents.EntityFactory;
 
 /**
  * Trigger Factory, per EMR's revelation we should have a factory much like the entFac
  * that allows us to build triggers on the fly!
+ * 
+ * *note: needs to only take primitives :\
  * @author Roohr
  *
  */
 public class TriggerFactory {
 
+	private EntityFactory entFac;
 	
-	public TriggerFactory(){
-		
+	public TriggerFactory(EntityFactory ef){
+		entFac = ef;
 	}
+	
+	
+	private TriggerTypes convertTrigType(String trigType) {
+		if(trigType.equals(TriggerTypes.SHIP.toString())){
+			return TriggerTypes.SHIP;
+		}else if(trigType.equals(TriggerTypes.DOODAD.toString())){
+			return TriggerTypes.DOODAD;
+		}else if(trigType.equals(TriggerTypes.SHOT.toString())){
+			return TriggerTypes.SHOT;
+		}else if(trigType.equals(TriggerTypes.TRIGGER.toString())){
+			return TriggerTypes.TRIGGER;
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * builds a new CompleteObjective Trigger
@@ -41,19 +60,19 @@ public class TriggerFactory {
 	 * @param name
 	 * @return
 	 */
-	public CountTrigger buildCountTrigger(TriggerTypes trig, int tot, String name){
-		CountTrigger cot = new CountTrigger(trig, tot, name);
+	public CountTrigger buildCountTrigger(String trigType, int tot, String name){
+		CountTrigger cot = new CountTrigger(convertTrigType(trigType), tot, name);
 		return cot;
 	}
-	
+
 	/**
 	 * builds a new Death Trigger
 	 * @param trig
 	 * @param name
 	 * @return
 	 */
-	public DeathTrigger buildDeathTrigger(TriggerTypes trig, String name){
-		DeathTrigger det = new DeathTrigger(trig, name);
+	public DeathTrigger buildDeathTrigger(String trigType, String name){
+		DeathTrigger det = new DeathTrigger(convertTrigType(trigType), name);
 		return det;
 	}
 	
@@ -84,8 +103,8 @@ public class TriggerFactory {
 	 * @param s
 	 * @return
 	 */
-	public SpawnShip buildSpawnShipTrigger(TriggerTypes trig, BasicShip s){
-		SpawnShip sp = new SpawnShip(trig, s);
+	public SpawnShip buildSpawnShipTrigger(String trigType, String shipPointer, String gunPointer, String engPointer){
+		SpawnShip sp = new SpawnShip(convertTrigType(trigType), entFac.buildShip(shipPointer, gunPointer, engPointer));
 		return sp;
 	}
 	
