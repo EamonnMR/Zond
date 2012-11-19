@@ -18,6 +18,10 @@ public class NavPoint {
 		this.name=name;	//make sure the names are unique! kinda obvious but just to be sure >.>
 		this.active=state;
 	}
+	
+	public NavPoint(){
+		
+	}
 
 	public float getX() {
 		return x;
