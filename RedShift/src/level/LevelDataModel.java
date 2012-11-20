@@ -25,6 +25,7 @@ public class LevelDataModel {
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
+	private String music;
 	
 	public LevelDataModel(String name){
 		this.name = name;
@@ -121,6 +122,14 @@ public class LevelDataModel {
 
 	public void setSpawn(Point spawn) {
 		this.spawn = spawn;
+	}
+
+	public String getMusic() {
+		return music;
+	}
+
+	public void setMusic(String music) {
+		this.music = music;
 	}
 
 	public static Shape offsetShape(Shape s, int dx, int dy){

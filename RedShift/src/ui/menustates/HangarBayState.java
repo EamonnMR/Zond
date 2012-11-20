@@ -121,7 +121,7 @@ public class HangarBayState extends BasicGameState {
 				}
 			}
 		}
-
+		ulib.drawImageCenteredOnPoint(gfx, displayShip.getWireframe(), new Point(509,310));
 		if(backBool==true){
 			gdb.getFont("green").drawString(140, 500, "[(Back)]");
 		}else{

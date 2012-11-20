@@ -82,12 +82,12 @@ public class GameDatabase {
 	public void iniGDB() throws IOException{
 		indexImages  = new HashMap<String, Image>();
 		indexSounds = new HashMap<String, Sound>();
-//		indexLevelFiles = new HashMap<String, File>();
+		indexLevelFiles = new HashMap<String, File>();
 		try {
 			try {
 				xloadImages();
 				loadSounds();
-				loadLevelFiles();
+//				loadLevelFiles();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -237,6 +237,7 @@ public class GameDatabase {
 			m.setName(child);
 			m.setToolTip(s.getValue(child,"tltip"));
 			m.setDeathSnd(indexSounds.get(s.getValue(child, "deadsnd")));
+			m.setWireframe(indexImages.get(s.getValue(child, "wire")));
 			indexShip.put(child, m);
 		}
 	}
@@ -363,65 +364,37 @@ public class GameDatabase {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
 			for(String child : s.childSet()){
-				LevelDataModel level = new LevelDataModel(s.getValue(child,"name" ));
-				level.setActiveArea(parseShape(s, child, "active"));
-				level.setActiveArea(parseShape(s, child, "margin"));
-				level.setSpawn(new Point(0,0));
 				
-				if(s.getValue(child, "class").equals("trig")){
-					level.addTrigger(getTriggerClass(s,child));
-				}else if(s.getValue(child, "class").equals("nav")){
-					NavPoint p = new NavPoint();
-					p.setName(s.getValue(child, "name"));
-					p.setX(Float.parseFloat(s.getValue(child, "x")));
-					p.setY(Float.parseFloat(s.getValue(child, "y")));
-					p.setActive(Boolean.parseBoolean(s.getValue(child, "state")));
-					level.addNavPoint(p);
-				}else if(s.getValue(child, "class").equals("obj")){
-					
-				}else if(s.getValue(child, "class").equals("act")){
-					
-				}
+				LevelDataModel level = new LevelDataModel(s.getValue(child,"name" ));
+				//set the play area
+				level.setActiveArea(parseShape(s, child, "active"));
+				//set the warning area
+				level.setActiveArea(parseShape(s, child, "margin"));
+				//set the spawn point
+				Point spawn = new Point(Integer.valueOf(s.getValue(child,"spawnX")),Integer.valueOf(s.getValue(child,"spawnY")));
+				level.setSpawn(spawn);
+				//set the music
+				level.setMusic(s.getValue(child, "music"));
+				
+				//set the nav points
+				level.setTriggerMap(parseTriggers(s, child, "triggers"));
+				//set the triggers
+
 			}
 		}
 	}
 	
-	private BasicTrigger getTriggerClass(StringTree s,String child) {
-		if(s.getValue(child, "subtype").equals("ini")){
-			BasicTrigger t = new BasicTrigger();
-			t.setName(s.getValue(child, "name"));
-			t.setTriggerType(getTriggerType(s.getValue(child, "trigtype")));
-			t.setX(Float.parseFloat(s.getValue(child, "x")));
-			t.setY(Float.parseFloat(s.getValue(child, "y")));
-			t.setCollider(parseShape(s, child, "collider"));
-			return t;
-		}else if(s.getValue(child, "subtype").equals("spawn")){
-			SpawnShip t = new SpawnShip();
-			t.setName(s.getValue(child, "name"));
-			t.setTriggerType(getTriggerType(s.getValue(child, "trigtype")));
-			t.setX(Float.parseFloat(s.getValue(child, "x")));
-			t.setY(Float.parseFloat(s.getValue(child, "y")));
-			t.setCollider(parseShape(s, child, "collider"));
-//			t.setShip(s)
-			return t;
+	private HashMap<String, BasicTrigger> parseTriggers(StringTree t,
+			String... name) {
+		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
+		String type = t.getValue(cat(name, "type"));	
+		if(t.equals("ini")){
+//			BasicTrigger trg = new BasicTrigger();
+//			trg.setName(t.getValue(child, "name"));
+		}else if (t.equals("spawn")){
+			
 		}
-		return null;
-	}
-
-	private TriggerTypes getTriggerType(String value) {
-		if(value.equals(TriggerTypes.DOODAD.toString())){
-			return TriggerTypes.DOODAD;
-		}else if(value.equals(TriggerTypes.SHIP.toString())){
-			return TriggerTypes.SHIP;
-		}else if(value.equals(TriggerTypes.SHOT.toString())){
-			return TriggerTypes.SHOT;
-		}else if(value.equals(TriggerTypes.TRIGGER.toString())){
-			return TriggerTypes.TRIGGER;
-		}else if(value.equals(TriggerTypes.ALL.toString())){
-			return TriggerTypes.ALL;
-		}else{
-			return null;
-		}
+		return trigs;
 	}
 
 	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
@@ -435,9 +408,7 @@ public class GameDatabase {
 	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
 		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");	
 		File f = new File(location);
-		System.out.println(f.getName());
 		indexLevelFiles.put(name, f);
-		int i=1;
 	}
 	
 	/**
@@ -454,35 +425,35 @@ public class GameDatabase {
 		String type = t.getValue(cat(name, "type"));
 		if( type.equals("rect")){
 			return new Rectangle(
-					fft(t,"x",name),
-					fft(t,"y",name),
-					fft(t,"w",name),
-					fft(t,"h",name));
+					getFloatFromTree(t,"x",name),
+					getFloatFromTree(t,"y",name),
+					getFloatFromTree(t,"w",name),
+					getFloatFromTree(t,"h",name));
 		} else if(type.equals("line")){
 			return new Rectangle(
-					fft(t,"x",name),
-					fft(t,"y",name),
-					fft(t,"w",name),
-					fft(t,"h",name));
+					getFloatFromTree(t,"x",name),
+					getFloatFromTree(t,"y",name),
+					getFloatFromTree(t,"w",name),
+					getFloatFromTree(t,"h",name));
 		} else if(type.equals("circle")){
 			if(t.childSet(name).contains("segments")){
 				return new Circle(
-						fft(t, "x", name),
-						fft(t, "y", name),
-						fft(t, "radius", name),
+						getFloatFromTree(t, "x", name),
+						getFloatFromTree(t, "y", name),
+						getFloatFromTree(t, "radius", name),
 						Integer.parseInt(t.getValue(cat(name, "segments"))));
 			} else {
 				return new Circle(
-						fft(t, "x", name),
-						fft(t, "y", name),
-						fft(t, "radius", name));
+						getFloatFromTree(t, "x", name),
+						getFloatFromTree(t, "y", name),
+						getFloatFromTree(t, "radius", name));
 			}
 		} else if(type.equals("poly")){
 			Polygon toSender = new Polygon();
 			String[] pointsList = cat(name, "points");
 			for(String i : t.childSet(pointsList)){
 				String[] current = cat(pointsList,i);
-				toSender.addPoint(fft(t, "0",current),fft(t, "1", current));
+				toSender.addPoint(getFloatFromTree(t, "0",current),getFloatFromTree(t, "1", current));
 			}
 			return toSender;
 		}
@@ -507,15 +478,15 @@ public class GameDatabase {
 	 * Gets a float from a value from a path that it cats together.
 	 * For brevity.
 	 */
-	private static float fft(StringTree t, String value, String... path){
-		return Float.parseFloat(gv(t, path, value));
+	private static float getFloatFromTree(StringTree t, String value, String... path){
+		return Float.parseFloat(getValue(t, path, value));
 	}
 	
 	/**
 	 * Abbreviated Get value from tree
 	 * Use when possible to make code readable.
 	 */
-	private static String gv(StringTree sourceTree, String[] sourcePath, String last){
+	private static String getValue(StringTree sourceTree, String[] sourcePath, String last){
 		return sourceTree.getValue(cat(sourcePath, last));
 	}
 	
@@ -530,7 +501,6 @@ public class GameDatabase {
 			toSender[i] = Double.parseDouble(numbers[i]);
 		}
 		return toSender;
-
 	}
 	
 	private static ShipDesc getShipDesc(StringTree t){
@@ -543,7 +513,7 @@ public class GameDatabase {
 				getEffect(t.getSubTree("deatheffects")));
 	}
 	
-	private static boolean gb(String value){
+	private static boolean getBoolean(String value){
 		if (value.equals("t")){
 			return true;
 		} else if (value.equals("f")){
@@ -571,16 +541,16 @@ public class GameDatabase {
 			return new effects.ModAction(t.getValue("target"),
 					flags.contains("ini"), 
 					flags.contains("fire"),
-					gb(t.getValue("done")));
+					getBoolean(t.getValue("done")));
 			
 		} else if(type.equals("navpoint")){
 			return new effects.ModNavPoint(t.getValue("target"),
-					gb(t.getValue("newstate")));
+					getBoolean(t.getValue("newstate")));
 			
 		} else if(type.equals("objective")){
 			return new effects.ModObjective(t.getValue("target"), 
-					gb(t.getValue("newstate")),
-					gb(t.getValue("newcompl")));
+					getBoolean(t.getValue("newstate")),
+					getBoolean(t.getValue("newcompl")));
 			
 		}else if(type.equals("modtrig")){
 			return new effects.ModTrig(t.getValue("target"));
