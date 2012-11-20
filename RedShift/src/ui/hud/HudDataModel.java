@@ -19,7 +19,7 @@ public class HudDataModel {
 		gunName_pt_def = new Point(596, 715);
 		engName_pt_def = new Point(628, 744);
 		radar_pt_def = new Point(394, 744);
-		minimap_pt_def = new Point(100,740);
+		minimap_pt_def = new Point(160,618);
 		
 		shipName_pt_mod = shipName_pt_def;
 		gunName_pt_mod = gunName_pt_def;

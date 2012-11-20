@@ -20,7 +20,7 @@ import core.GameDatabase;
 public class ModHudMenuState extends BasicGameState {
 
 	private int id;
-	private Rectangle mouse_rec, resetBTN_rec, backBTN_rec, rad_rec, hp_rec, wep_rec, eng_rec, sh_rec;
+	private Rectangle mouse_rec, resetBTN_rec, backBTN_rec, rad_rec, hp_rec, wep_rec, eng_rec, sh_rec, map_rec;
 	private HudDataModel hdm;
 	private UILib uil;
 	private GameDatabase gdb;
@@ -93,6 +93,13 @@ public class ModHudMenuState extends BasicGameState {
 		Point rP = uil.imageCenterAtShapeCenter(rad_rec, radar_i);
 		gfx.drawImage(radar_i, rP.x, rP.y);
 		
+		map_rec.setCenterX(hdm.getMinimap_point_mod().x);
+		map_rec.setCenterY(hdm.getMinimap_point_mod().y);
+		gfx.draw(map_rec);
+		gdb.getFont("green").drawString((float)hdm.getMinimap_point_mod().x-54, 
+										(float)hdm.getMinimap_point_mod().y-8.5f, 
+										"[MINIMAP]");
+		
 		if(onBack){
 			gdb.getFont("green").drawString(569,272, "[(Back)]");
 		}else{
@@ -152,12 +159,18 @@ public class ModHudMenuState extends BasicGameState {
 					eng_rec.setCenterY(hdm.getEngName_point_mod().y);
 				}
 			}
-//			if(hdm.getMinimap_rec().intersects(mouse_rec)){
-//				hdm.setMinimap_point_mod(new Point((int)mouse_rec.getCenterX(),(int)mouse_rec.getCenterY()));
-//			}
+			if(map_rec.intersects(mouse_rec)){
+				if (maus.isMouseButtonDown(0)) {
+					hdm.setMinimap_point_mod(new Point(maus.getMouseX(),maus.getMouseY()));
+					map_rec.setCenterX(hdm.getMinimap_point_mod().x);
+					map_rec.setCenterY(hdm.getMinimap_point_mod().y);
+				}
+			}
 			
 			if(resetBTN_rec.intersects(mouse_rec)){
 				if(maus.isMousePressed(0)){
+					maus.clearMousePressedRecord();
+					maus.clearKeyPressedRecord();
 					hdm.reset();
 				}
 				onReset = true;
@@ -178,22 +191,44 @@ public class ModHudMenuState extends BasicGameState {
 
 	private void loadResource() {
 		shp_nm_i = gdb.getIMG("shp_nm");
-		sh_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
-		
+		sh_rec = new Rectangle(hdm.getShipName_point_mod().x
+				- shp_nm_i.getWidth(), hdm.getShipName_point_mod().y
+				- shp_nm_i.getHeight(), shp_nm_i.getWidth(),
+				shp_nm_i.getHeight());
+
 		hp_i = gdb.getIMG("hp_i");
-		hp_rec = new Rectangle(hdm.getHp_point_mod().x-hp_i.getWidth(),hdm.getHp_point_mod().y-hp_i.getHeight(),hp_i.getWidth(),hp_i.getHeight());
-		
+		hp_rec = new Rectangle(hdm.getHp_point_mod().x - hp_i.getWidth(),
+				hdm.getHp_point_mod().y - hp_i.getHeight(), hp_i.getWidth(),
+				hp_i.getHeight());
+
 		radar_i = gdb.getIMG("radar_i");
-		rad_rec = new Rectangle(hdm.getRadar_point_mod().x-radar_i.getWidth(),hdm.getRadar_point_mod().y-radar_i.getHeight(),radar_i.getWidth(),radar_i.getHeight());
-		
+		rad_rec = new Rectangle(
+				hdm.getRadar_point_mod().x - radar_i.getWidth(),
+				hdm.getRadar_point_mod().y - radar_i.getHeight(),
+				radar_i.getWidth(), radar_i.getHeight());
+
 		wep_i = gdb.getIMG("wep_i");
-		wep_rec = new Rectangle(hdm.getGunName_point_mod().x-wep_i.getWidth(),hdm.getGunName_point_mod().y-wep_i.getHeight(),wep_i.getWidth(),wep_i.getHeight());
-		
+		wep_rec = new Rectangle(
+				hdm.getGunName_point_mod().x - wep_i.getWidth(),
+				hdm.getGunName_point_mod().y - wep_i.getHeight(),
+				wep_i.getWidth(), wep_i.getHeight());
+
 		eng_i = gdb.getIMG("engine_i");
-		eng_rec = new Rectangle(hdm.getEngName_point_mod().x-eng_i.getWidth(),hdm.getEngName_point_mod().y-eng_i.getHeight(),eng_i.getWidth(),eng_i.getHeight());
-		
+		eng_rec = new Rectangle(
+				hdm.getEngName_point_mod().x - eng_i.getWidth(),
+				hdm.getEngName_point_mod().y - eng_i.getHeight(),
+				eng_i.getWidth(), eng_i.getHeight());
+
 		shp_nm_i = gdb.getIMG("shp_nm");
-		sh_rec = new Rectangle(hdm.getShipName_point_mod().x-shp_nm_i.getWidth(),hdm.getShipName_point_mod().y-shp_nm_i.getHeight(),shp_nm_i.getWidth(),shp_nm_i.getHeight());
+		sh_rec = new Rectangle(hdm.getShipName_point_mod().x
+				- shp_nm_i.getWidth(), hdm.getShipName_point_mod().y
+				- shp_nm_i.getHeight(), shp_nm_i.getWidth(),
+				shp_nm_i.getHeight());
+
+		map_rec = new Rectangle(hdm.getMinimap_point_mod().x-150,
+								hdm.getMinimap_point_mod().y-150,
+								300,
+								300);
 		
 		ship = gdb.getIMG("mercury");
 		ship.rotate(-90);

@@ -53,8 +53,6 @@ public class Hud {
 	private SpriteSheetFont grnF;
 	private SpriteSheetFont graF;
 	private Color brightRed, brightBlue, brightYel;
-	private Rectangle miniMap;
-	private int mapW=300,mapH=300;
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
@@ -78,8 +76,6 @@ public class Hud {
 		brightRed = new Color(255,39,64);
 		brightBlue = new Color(28, 87, 255);
 		brightYel = new Color(242, 255, 28);
-		
-		miniMap = new Rectangle(10, 468, mapW, mapH);
 	}
 
 	public void update(PlayerClient cl, GameplayState cgs) {
@@ -157,9 +153,8 @@ public class Hud {
 	 * @param gfx
 	 */
 	private void renderMinimap(Graphics gfx, int camX, int camY) {
-		float ratio = 1.0f/35f;
-		int xOffset = 160, yOffset = 618;
-		gfx.draw(miniMap);
+		float ratio = 1.0f/100f;
+		int xOffset = hdm.getMinimap_point_mod().x, yOffset = hdm.getMinimap_point_mod().y;
 		Rectangle actArea, warnArea;
 		actArea = new Rectangle(cgs.getLevel().getActiveArea().getX()*ratio+xOffset,
 								cgs.getLevel().getActiveArea().getY()*ratio+yOffset,
