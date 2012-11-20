@@ -1,6 +1,6 @@
 [mercury]{
 	[img](mercury)
-	[tltip]   (test)
+	[tltip]   (smallest NATO fighter, very maneuverable)
 	[health](20)
 	[points](5)
 	[weight](5)
@@ -25,7 +25,7 @@
 
 [gemini]{
 	[img](gemini)
-	[tltip]       (test)
+	[tltip]       (medium-weight spacecraft, jack of all trades)
 	[health](35)
 	[points](5)
 	[weight](5)
@@ -50,7 +50,7 @@
 
 [lunar]{
 	[img](lunar)
-	[tltip]       (test)
+	[tltip]       (NATO assault platform, can carry the best weapons)
 	[health](50)
 	[points](5)
 	[weight](5)

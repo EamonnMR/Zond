@@ -136,6 +136,8 @@ public class GameplayState extends BasicGameState{
 
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
+			gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 25);
+			gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 25);
 		}
 	}
 
@@ -305,11 +307,18 @@ public class GameplayState extends BasicGameState{
 			}
 			pc.tryShot();
 		}
+		if(p.isKeyPressed(Input.KEY_W)){
+			if(playerHud.getShowMap()){
+				playerHud.setShowMap(false);
+			}else{
+				playerHud.setShowMap(true);
+			}
+		}
 		if (p.isKeyPressed(Input.KEY_Q)) {
-			if (playerHud.getDevGogState() == false) {
-				playerHud.setDevGog(true);
-			} else if (playerHud.getDevGogState() == true) {
+			if (playerHud.getDevGogState()) {
 				playerHud.setDevGog(false);
+			} else {
+				playerHud.setDevGog(true);
 			}
 		}
 		if (p.isKeyPressed(Input.KEY_C)) {
