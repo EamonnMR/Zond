@@ -64,3 +64,4 @@
 [engine_i]	(assets/images/gui/hud/engine_i.png)
 [hp_i]		(assets/images/gui/hud/hp_i.png)
 [wep_i]		(assets/images/gui/hud/weapon_i.png)
+[shp_nm]	(assets/images/gui/hud/shp_nm.png)

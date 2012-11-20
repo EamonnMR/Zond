@@ -183,7 +183,7 @@ public class LevelBuilder {
 	public LevelDataModel buildLevel(EntityFactory ef){
 		entFac = ef;
 		LevelDataModel ldm = new LevelDataModel("Alpha v4 Level");
-		ldm.setBounds(new Rectangle(-3200,-3200,6400,6400), new Rectangle(-4800,-4800,9600,9600));
+		ldm.setBounds(new Rectangle(-6400,-6400,12800,12800), new Rectangle(-7000,-7000,14000,14000));
 		ldm.setNeedUpdate(false);
 		
 		ldm.setNavMap(buildNavPoints());

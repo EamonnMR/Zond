@@ -333,7 +333,9 @@ public class OptionMenuState extends BasicGameState{
 		f.drawString(576, 380, "Left Control------Fire");
 		f.drawString(576, 400, "Key C-------------Toggle Radar");
 		f.drawString(576, 420, "Key A-------------Toggle Navs");
-		f.drawString(576, 440, "Key Esc-----------Leave game");
+		f.drawString(576, 440, "Key W-------------Toggle Map");
+		f.drawString(576, 460, "Key Esc-----------Leave game");
+
 	}
 	
 	private String getFormattedValue(float val){
