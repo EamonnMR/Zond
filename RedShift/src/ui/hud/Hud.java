@@ -47,11 +47,14 @@ public class Hud {
 	private boolean radarOn = false; // is radar active?
 	private boolean showPoints = false;		//display navpoints
 	private boolean showMission = false;	//show list of active objective
+	private boolean showMap = false;		//show minimap
 	private GameplayState cgs;
 	private PlayerClient pc;
 	private SpriteSheetFont grnF;
 	private SpriteSheetFont graF;
 	private Color brightRed, brightBlue, brightYel;
+	private Rectangle miniMap;
+	private int mapW=300,mapH=300;
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
 		uiLib = new UILib();
@@ -75,6 +78,8 @@ public class Hud {
 		brightRed = new Color(255,39,64);
 		brightBlue = new Color(28, 87, 255);
 		brightYel = new Color(242, 255, 28);
+		
+		miniMap = new Rectangle(10, 468, mapW, mapH);
 	}
 
 	public void update(PlayerClient cl, GameplayState cgs) {
@@ -122,6 +127,9 @@ public class Hud {
 			graF.drawString(400, 652, "<==!Leaving Mission Area!==>",brightRed);
 		}
 
+		if(showMap){
+			renderMinimap(gfx,camX, camY);
+		}
 		// sanity check to make sure color is reset
 		gfx.setColor(Color.white);
 	}
@@ -139,6 +147,64 @@ public class Hud {
 			if(!s.equals(pc.getPlayShip())){
 				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())||pc.getPlayShip().getRadarRadius().contains(s.getCollider())){
 					drawTargetBox(s, 0, gfx, camX, camY);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * draw the minimap
+	 * @param gfx
+	 */
+	private void renderMinimap(Graphics gfx, int camX, int camY) {
+		float ratio = 1.0f/35f;
+		int xOffset = 160, yOffset = 618;
+		gfx.draw(miniMap);
+		Rectangle actArea, warnArea;
+		actArea = new Rectangle(cgs.getLevel().getActiveArea().getX()*ratio+xOffset,
+								cgs.getLevel().getActiveArea().getY()*ratio+yOffset,
+								cgs.getLevel().getActiveArea().getWidth()*ratio,
+								cgs.getLevel().getActiveArea().getHeight()*ratio);
+		
+		warnArea = new Rectangle(cgs.getLevel().getWarnArea().getX()*ratio+xOffset,
+								cgs.getLevel().getWarnArea().getY()*ratio+yOffset,
+								cgs.getLevel().getWarnArea().getWidth()*ratio,
+								cgs.getLevel().getWarnArea().getHeight()*ratio);
+		
+		gfx.setColor(Color.red);
+		gfx.draw(warnArea);
+		gfx.setColor(Color.green);
+		gfx.draw(actArea);
+		
+		float x = (float)((pc.getPlayShip().getX()*ratio)+xOffset);
+		float y = (float)((pc.getPlayShip().getY()*ratio)+yOffset);
+		
+		gfx.draw(new Circle(x,y,2));
+		if(radarOn){
+			gfx.setColor(Color.blue);
+			Circle rad = new Circle((float)((pc.getPlayShip().getX()*ratio)+xOffset),
+									(float)((pc.getPlayShip().getY()*ratio)+yOffset),
+									pc.getPlayShip().getRadarRadius().getRadius()*ratio);
+			gfx.draw(rad);
+			for(BasicShip s : cgs.getShips().values()){
+				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())){
+					if(pc.getPlayShip().getFaction()==s.getFaction()){
+						gfx.setColor(Color.green);
+					}else{
+						gfx.setColor(Color.red);
+					}
+					Circle targ = new Circle((float)((s.getX()*ratio)+xOffset),
+							(float)((s.getY()*ratio)+yOffset),
+							2);
+					gfx.draw(targ);
+				}
+			}
+		}
+		if(showPoints){
+			for(NavPoint p : cgs.getLevel().getNavMap().values()){
+				if(p.isActive()){
+					gfx.setColor(brightYel);
+					gfx.draw(new Circle(p.getX()*ratio+xOffset, p.getY()*ratio+yOffset, 4));
 				}
 			}
 		}
@@ -257,6 +323,14 @@ public class Hud {
 	
 	public boolean getShowNav(){
 		return this.showPoints;
+	}
+
+	public boolean getShowMap() {
+		return showMap;
+	}
+
+	public void setShowMap(boolean showMap) {
+		this.showMap = showMap;
 	}
 
 	public void checkHP(double hp, Graphics gfx) {
