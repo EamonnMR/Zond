@@ -37,6 +37,7 @@ public class EntityFactory {
 		BasicShip build = new BasicShip();
 		build.setName(shipPointer);
 		build.setToolTip(gdb.getShip(shipPointer).getToolTip());
+		build.setWireframe(gdb.getShip(shipPointer).getWireframe().copy());
 		build.setImg(gdb.getShip(shipPointer).getImg().copy());
 		build.setHealth(gdb.getShip(shipPointer).getHealth());
 		build.setPoints(gdb.getShip(shipPointer).getPoints());

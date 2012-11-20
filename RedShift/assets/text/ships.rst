@@ -20,7 +20,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
-
+	[wire] (mercWire)
 }
 
 [gemini]{
@@ -45,6 +45,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (gemWire)
 }
 
 [lunar]{
@@ -69,6 +70,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (lunWire)
 }
 
 [voskhod]{
@@ -93,6 +95,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (mercWire)
 }
 
 [vostok]{
@@ -117,6 +120,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (mercWire)
 }
 
 [zond4]{
@@ -141,6 +145,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (mercWire)
 
 }
 
@@ -168,5 +173,6 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
+	[wire] (mercWire)
 }
 //

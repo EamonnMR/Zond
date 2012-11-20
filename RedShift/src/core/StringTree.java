@@ -229,7 +229,7 @@ public class StringTree{
 		
 		private String gv(){
 			if(value == null){
-				throw new ParserError(name + "is a branch node, attempted to get value");
+				throw new ParserError(name + " is a branch node, attempted to get value");
 			}
 			return value;
 		}

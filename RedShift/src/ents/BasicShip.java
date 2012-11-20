@@ -1,5 +1,6 @@
 package ents;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import core.GameplayState;
@@ -17,6 +18,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	private String name;						 //no idea why this wasn't done sooner
 	private String toolTip;						 //UI tooltip string
+	private Image wireframe;					 //UI wireframe image
 	private int totalWeight;		             //maximum equipment
 	private double points;				         //points to award to killer
 	private double health;			             //base health of the ship
@@ -359,6 +361,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
 	}
-	
-	
+
+	public Image getWireframe() {
+		return wireframe;
+	}
+
+	public void setWireframe(Image wireframe) {
+		this.wireframe = wireframe;
+	}
 }
