@@ -210,7 +210,7 @@ public class HangarBayState extends BasicGameState {
 	}
 
 	private void renderRollover(Graphics gfx) {
-		gdb.getFont("green").drawString(800, 75, "[INFO]");
+		gdb.getFont("green").drawString(782, 75, "[COMPARE]");
 		if(rolloverChoice==0){
 			if(!(tempGun==null)){
 				gdb.getFont("green").drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");

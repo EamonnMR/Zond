@@ -95,7 +95,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
-	[wire] (mercWire)
+	[wire] 	(vkdWire)
 }
 
 [vostok]{
@@ -120,7 +120,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
-	[wire] (mercWire)
+	[wire] 	(vksWire)
 }
 
 [zond4]{
@@ -145,7 +145,7 @@
 		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
-	[wire] (mercWire)
+	[wire] (zndWire)
 
 }
 
