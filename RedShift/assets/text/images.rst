@@ -58,6 +58,9 @@
 [gemWire]	(assets/images/gui/wireframes/gemWire.png)
 [mercWire]	(assets/images/gui/wireframes/mercWire.png)
 [lunWire]	(assets/images/gui/wireframes/lunWire.png)
+[vkdWire]	(assets/images/gui/wireframes/vkhdWire.png)
+[vksWire]	(assets/images/gui/wireframes/vstkWire.png)
+[zndWire]	(assets/images/gui/wireframes/zndWire.png)
 
 /HUD/
 [radar_i]	(assets/images/gui/hud/radar_i.png)
