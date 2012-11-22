@@ -3,7 +3,7 @@ package level;
 import core.PlayerClient;
 
 /**
- * scenario is an instance of BasicLevel, load these things from txt files
+ * scenario is an instance of LevelDataModel, load these things from txt files
  * @author proohr
  *
  */

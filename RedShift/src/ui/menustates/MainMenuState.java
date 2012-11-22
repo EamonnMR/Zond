@@ -1,5 +1,9 @@
 package ui.menustates;
 
+import java.util.HashMap;
+
+import level.Scenario;
+
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,22 +16,26 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ui.UIButton;
 import core.CoreStateManager;
 import core.GameDatabase;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
-	private int id;
+	private int id, natoX=750, natoY=195, warsX=450,warsY=195;
 	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
-	private boolean campBool, scenBool, optBool, quitBool, ini, showScen, showCamp;
+	private boolean campRollover, scenRollover, optRollover, quitRollover, ini, showScen, showCamp;
 	private Input i;
+	private boolean scenSelect;
+	private HashMap<String, UIButton> uiButtons;
 	
 	public MainMenuState(int i){
 		id = i;
 		ini=true;
+		uiButtons= new HashMap<String, UIButton>();
 	}
 	
 	@Override
@@ -61,7 +69,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 
 		
-		if(campBool==true){
+		if(campRollover){
 			gdb.getFont("green").drawString(90, 90, "[(Campaign)]");
 			gdb.getFont("green").drawString(90, 600, "Click here to play the Story mode.");
 		}else{
@@ -72,31 +80,29 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			renderCamp(gfx);
 		}
 		
-		if(scenBool==true){
+		if(scenRollover){
 			gdb.getFont("green").drawString(90, 155, "[(Scenario)]");
 			gdb.getFont("green").drawString(90, 600, "Click here to choose a challenge mission.");
 		}else{
 			gdb.getFont("green").drawString(90, 155, " (Scenario) ");
 		}
 		//TODO:stub: display scenario selection features
-		if(showScen){
+		if(scenSelect){
 			renderScenarios(gfx);
 		}
 		
-		if(optBool==true){
+		if(optRollover){
 			gdb.getFont("green").drawString(90, 220, "[(Options)]");
 			gdb.getFont("green").drawString(90, 600, "Click here to configure game options.");
 		}else{
 			gdb.getFont("green").drawString(90, 220, " (Options) ");	
 		}
 		
-		if(quitBool==true){
+		if(quitRollover){
 			gdb.getFont("green").drawString(90, 285, "[(Quit)]");
 		}else{
 			gdb.getFont("green").drawString(90, 285, " (Quit) ");
 		}
-		
-		
 		
 		//XXX:sanity stuff, remove when finalized
 //		gfx.draw(playBTN_rec);
@@ -148,7 +154,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 		if (scenBTN_rec.intersects(mouse_rec)) {
 			if (gc.getInput().isMousePressed(0)) {
-				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+//				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+				scenSelect=true;
+				
 			}
 		}
 		if (optBTN_rec.intersects(mouse_rec)) {
@@ -167,21 +175,21 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	
 	private void updateRollOvers() {
 		if(playBTN_rec.intersects(mouse_rec)){
-			campBool=true;
+			campRollover=true;
 		}else 
 		if(scenBTN_rec.intersects(mouse_rec)){
-			scenBool = true;
+			scenRollover = true;
 		}else 
 		if(optBTN_rec.intersects(mouse_rec)){
-			optBool = true;
+			optRollover = true;
 		}else 
 		if(quitBTN_rec.intersects(mouse_rec)){
-			quitBool = true;
+			quitRollover = true;
 		}else{
-			campBool = false;
-			scenBool = false;
-			optBool = false;
-			quitBool = false;
+			campRollover = false;
+			scenRollover = false;
+			optRollover = false;
+			quitRollover = false;
 		}
 	}
 
@@ -190,7 +198,41 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	}
 	
 	private void renderScenarios(Graphics gfx){
+		gdb.getFont("green").drawString(600, 155, "[SCENARIOS]");
+		gdb.getFont("green").drawString(450, 175, "-WarsawPact-");
+		gdb.getFont("green").drawString(750, 175, "-NATO-");
 		
+		//show missions
+		natoY = 195;
+		warsY = 195;
+		for(UIButton u : uiButtons.values()){
+			Scenario s = (Scenario) u.getThing();
+			if(s.getFaction()==0){
+				u.getRectangle().setX(warsX);
+				u.getRectangle().setY(warsY);
+				
+				gdb.getFont("green").drawString(warsX, warsY, s.getName());
+				warsY+=17;
+			}else if(s.getFaction()==1){
+				u.getRectangle().setX(natoX);
+				u.getRectangle().setY(natoY);
+				
+				gdb.getFont("green").drawString(natoX, natoY, s.getName());
+				natoY+=17;
+			}
+				
+
+		}
+//		for(Scenario s : uiButtons.keySet()){
+//			if(s.getFaction()==0){
+//				gdb.getFont("green").drawString(natoX, natoY, s.getName());
+//				natoY+=20;
+//				
+//			}else if (s.getFaction()==1){
+//				gdb.getFont("green").drawString(warsX, warsY, s.getName());
+//				warsY+=20;
+//			}
+//		}
 	}
 	private void campRollovers() {
 
@@ -207,5 +249,13 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	
 	public void customInit(GameDatabase g){
 		gdb = g;
+		if(!(gdb.getScenarios()==null)){
+			for(Scenario s : gdb.getScenarios().values()){
+//				uiButtons.put(s, new Rectangle(0,0,s.getName().length()*12,17));
+				UIButton b = new UIButton(s.getName(), false, s);
+				b.setRectangle(new Rectangle(0,0,s.getName().length()*12, 17));
+				uiButtons.put(s.getName(), b);
+			}
+		}
 	}
 }
