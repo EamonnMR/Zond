@@ -9,10 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import level.LevelDataModel;
-import level.NavPoint;
-import level.TriggerTypes;
+import level.Scenario;
 import level.triggers.BasicTrigger;
-import level.triggers.SpawnShip;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -62,7 +60,7 @@ public class GameDatabase {
 	private Map<String, Sound> indexSounds;
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
-	private Map<String, LevelDataModel> indexLDMS;
+	private Map<String, Scenario> indexScenarios;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
@@ -103,7 +101,7 @@ public class GameDatabase {
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
 		indexFonts = new HashMap<String, SpriteSheetFont>();
-		indexLDMS = new HashMap<String, LevelDataModel>();
+		indexScenarios = new HashMap<String, Scenario>();
 		populateAll();
 	}
 	
@@ -354,6 +352,14 @@ public class GameDatabase {
 	 */
 	public SpriteSheetFont getFont(String s){
 		return indexFonts.get(s);
+	}
+	
+	public LevelDataModel getScenario(String pointer){
+		return indexScenarios.get(pointer);
+	}
+	
+	public HashMap<String, Scenario> getScenarios(){
+		return (HashMap<String, Scenario>) indexScenarios;
 	}
 	/**
 	 * 
