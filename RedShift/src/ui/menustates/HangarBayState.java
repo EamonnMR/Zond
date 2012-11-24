@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -44,6 +45,8 @@ public class HangarBayState extends BasicGameState {
 	private HashMap<String, UIButton> listedButtons;
 	private boolean backBool, accptBool, ini;
 	private float mx,my;
+	private SpriteSheetFont greenFont;
+	private SpriteSheetFont grayFont;
 	
 	public HangarBayState(int i){
 		id = i;
@@ -75,7 +78,7 @@ public class HangarBayState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
-		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
@@ -98,7 +101,7 @@ public class HangarBayState extends BasicGameState {
 	}
 	
 	private void renderMainDisplay(Graphics gfx) {	
-		gdb.getFont("green").drawString(182-(6*12/2), 240, "[SHIP]");
+		greenFont.drawString(182-(6*12/2), 240, "[SHIP]");
 		gfx.setColor(Color.green);
 		
 		int x = 72, y = 270;
@@ -108,9 +111,9 @@ public class HangarBayState extends BasicGameState {
 				u.getRectangle().setY(y);
 				
 				if(u.isState()){
-					gdb.getFont("green").drawString(x, y, "[" + u.getName() + "]");
+					greenFont.drawString(x, y, "[" + u.getName() + "]");
 				}else{
-					gdb.getFont("gray").drawString(x, y, " "+u.getName()+" ",Color.white);
+					grayFont.drawString(x, y, " "+u.getName()+" ",Color.white);
 				}
 				
 				if(y>320){
@@ -123,14 +126,14 @@ public class HangarBayState extends BasicGameState {
 		}
 		ulib.drawImageCenteredOnPoint(gfx, displayShip.getWireframe(), new Point(509,310));
 		if(backBool==true){
-			gdb.getFont("green").drawString(140, 500, "[(Back)]");
+			greenFont.drawString(140, 500, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(140, 500, " (Back) ");
+			greenFont.drawString(140, 500, " (Back) ");
 		}
 		if(accptBool==true){
-			gdb.getFont("green").drawString(780, 500, "[(Accept)]");
+			greenFont.drawString(780, 500, "[(Accept)]");
 		}else{
-			gdb.getFont("green").drawString(780, 500, " (Accept) ");
+			greenFont.drawString(780, 500, " (Accept) ");
 		}
 	}
 	
@@ -147,9 +150,9 @@ public class HangarBayState extends BasicGameState {
 				u.getRectangle().setX(x);
 				
 				if(u.isState()){
-					gdb.getFont("green").drawString(x, y, "[" + gdb.getGun(u.getName()).getUiName() + "]");
+					greenFont.drawString(x, y, "[" + gdb.getGun(u.getName()).getUiName() + "]");
 				}else{
-					gdb.getFont("gray").drawString(x, y, " "+gdb.getGun(u.getName()).getUiName()+" ", Color.white);
+					grayFont.drawString(x, y, " "+gdb.getGun(u.getName()).getUiName()+" ", Color.white);
 				}
 				
 				if(y>408){
@@ -173,10 +176,10 @@ public class HangarBayState extends BasicGameState {
 				u.getRectangle().setY(y);
 
 				if (u.isState()) {
-					gdb.getFont("green").drawString(76, y,
+					greenFont.drawString(76, y,
 							"[" + gdb.getEngine(u.getName()).getUiName() + "]");
 				} else {
-					gdb.getFont("gray").drawString(76, y, " "+gdb.getEngine(u.getName()).getUiName()+" ", Color.white);
+					grayFont.drawString(76, y, " "+gdb.getEngine(u.getName()).getUiName()+" ", Color.white);
 				}
 				y += 17;
 			}
@@ -184,59 +187,59 @@ public class HangarBayState extends BasicGameState {
 	}
 
 	private void renderCurrent(Graphics gfx) {
-		gdb.getFont("green").drawString(783, 360, "[CURRENT]");
+		greenFont.drawString(783, 360, "[CURRENT]");
 		
 		if(currentChoice==0){
-			gdb.getFont("green").drawString(725, 390, "Damage:  "+displayGun.getProj().getDamage()+"kt");
-			gdb.getFont("green").drawString(725, 410, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
-			gdb.getFont("green").drawString(725, 430, "Size:    "+displayGun.getCost());
+			greenFont.drawString(725, 390, "Damage:  "+displayGun.getProj().getDamage()+"kt");
+			greenFont.drawString(725, 410, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
+			greenFont.drawString(725, 430, "Size:    "+displayGun.getCost());
 		}else if(currentChoice==1){
-			gdb.getFont("green").drawString(725, 390, "Name: "+displayShip.getName());
-			gdb.getFont("green").drawString(725, 410, "Health: "+displayShip.getHealth());
+			greenFont.drawString(725, 390, "Name: "+displayShip.getName());
+			greenFont.drawString(725, 410, "Health: "+displayShip.getHealth());
 			if(displayShip.getFaction()==0){
-				gdb.getFont("green").drawString(725, 430, "Faction: USSR");
+				greenFont.drawString(725, 430, "Faction: USSR");
 			}else if(displayShip.getFaction()==1){
-				gdb.getFont("green").drawString(725, 430, "Faction: NATO");
+				greenFont.drawString(725, 430, "Faction: NATO");
 			}
-			gdb.getFont("green").drawString(725, 450, "Weight: "+displayShip.getTotalWeight());
+			greenFont.drawString(725, 450, "Weight: "+displayShip.getTotalWeight());
 
 		}else if(currentChoice==2){
-			gdb.getFont("green").drawString(725, 390, "Thrust:"+displayEngine.getThrustX());
-			gdb.getFont("green").drawString(725, 410, "Turn:  "+displayEngine.getTurnrate());
-			gdb.getFont("green").drawString(725 ,430, "Strafe:"+displayEngine.getStrafeRate());
-			gdb.getFont("green").drawString(725, 450, "Size:  "+displayEngine.getCost());
+			greenFont.drawString(725, 390, "Thrust:"+displayEngine.getThrustX());
+			greenFont.drawString(725, 410, "Turn:  "+displayEngine.getTurnrate());
+			greenFont.drawString(725 ,430, "Strafe:"+displayEngine.getStrafeRate());
+			greenFont.drawString(725, 450, "Size:  "+displayEngine.getCost());
 		}
 		
 	}
 
 	private void renderRollover(Graphics gfx) {
-		gdb.getFont("green").drawString(782, 75, "[COMPARE]");
+		greenFont.drawString(782, 75, "[COMPARE]");
 		if(rolloverChoice==0){
 			if(!(tempGun==null)){
-				gdb.getFont("green").drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");
-				gdb.getFont("green").drawString(725, 125, "Cooldown:"+(double)tempGun.getCoolDown()/1000+"sec");
-				gdb.getFont("green").drawString(725, 145, "Size:    "+tempGun.getCost());
-				gdb.getFont("green").drawString(72, 590, tempGun.getToolTip());
+				greenFont.drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");
+				greenFont.drawString(725, 125, "Cooldown:"+(double)tempGun.getCoolDown()/1000+"sec");
+				greenFont.drawString(725, 145, "Size:    "+tempGun.getCost());
+				greenFont.drawString(72, 590, tempGun.getToolTip());
 			}
 		}else if(rolloverChoice==1){
 			if(!(tempShip==null)){
-				gdb.getFont("green").drawString(725, 105, "Name: "+tempShip.getName());
-				gdb.getFont("green").drawString(725, 125, "Health: "+tempShip.getHealth());
+				greenFont.drawString(725, 105, "Name: "+tempShip.getName());
+				greenFont.drawString(725, 125, "Health: "+tempShip.getHealth());
 				if(tempShip.getFaction()==0){
-					gdb.getFont("green").drawString(725, 145, "Faction: USSR");
+					greenFont.drawString(725, 145, "Faction: USSR");
 				}else if(tempShip.getFaction()==1){
-					gdb.getFont("green").drawString(725, 145, "Faction: NATO");
+					greenFont.drawString(725, 145, "Faction: NATO");
 				}
-				gdb.getFont("green").drawString(725, 165, "Weight: "+tempShip.getTotalWeight());
-				gdb.getFont("green").drawString(72, 590, tempShip.getToolTip());
+				greenFont.drawString(725, 165, "Weight: "+tempShip.getTotalWeight());
+				greenFont.drawString(72, 590, tempShip.getToolTip());
 			}
 		}else if(rolloverChoice==2){
 			if(!(tempEng==null)){
-				gdb.getFont("green").drawString(725, 105, "Thrust:"+tempEng.getThrustX());
-				gdb.getFont("green").drawString(725, 125, "Turn:  "+tempEng.getTurnrate());
-				gdb.getFont("green").drawString(725 ,145, "Strafe:"+tempEng.getStrafeRate());
-				gdb.getFont("green").drawString(725, 165, "Size:  "+tempEng.getCost());
-				gdb.getFont("green").drawString(72, 590, tempEng.getToolTip());
+				greenFont.drawString(725, 105, "Thrust:"+tempEng.getThrustX());
+				greenFont.drawString(725, 125, "Turn:  "+tempEng.getTurnrate());
+				greenFont.drawString(725 ,145, "Strafe:"+tempEng.getStrafeRate());
+				greenFont.drawString(725, 165, "Size:  "+tempEng.getCost());
+				greenFont.drawString(72, 590, tempEng.getToolTip());
 			}
 		}
 	}
@@ -303,8 +306,8 @@ public class HangarBayState extends BasicGameState {
 		
 		//media stuffs
 		mainScn_i = gdb.getIMG("montrBKC");
-//		wepScn_i = gdb.getIMG("small_scrn");
-//		engScn_i = gdb.getIMG("small_scrn");
+		greenFont = gdb.getFont("green");
+		grayFont = gdb.getFont("gray");
 	}
 
 	/**

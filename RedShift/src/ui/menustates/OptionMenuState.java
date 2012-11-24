@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -33,6 +34,7 @@ public class OptionMenuState extends BasicGameState{
 	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
 	private boolean backBool, cfgHudBool, ini, overFsc, overPart;
+	private SpriteSheetFont greenFont, grayFont;
 	
 	public OptionMenuState(int i){
 		id = i;
@@ -78,7 +80,7 @@ public class OptionMenuState extends BasicGameState{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.drawImage(bkIMG, 0, 0);
-		gdb.getFont("gray").drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
 		gfx.setColor(Color.green);
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());
@@ -129,6 +131,8 @@ public class OptionMenuState extends BasicGameState{
 		offBTN_i = gdb.getIMG("offBTN_n");
 		onBTN_i = gdb.getIMG("onBTN_n");
 		offBTN_i = gdb.getIMG("offBTN_n");
+		greenFont = gdb.getFont("green");
+		grayFont = gdb.getFont("gray");
 	}
 
 	/**
@@ -255,15 +259,15 @@ public class OptionMenuState extends BasicGameState{
 		gfx.setColor(Color.green);
 		
 		if(backBool==true){
-			gdb.getFont("green").drawString(90,430, "[(Back)]");
+			greenFont.drawString(90,430, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(90,430, " (Back) ");
+			greenFont.drawString(90,430, " (Back) ");
 		}
 		if(cfgHudBool==true){
-			gdb.getFont("green").drawString(326, 430, "[(Configure HUD)]");
-			gdb.getFont("green").drawString(90, 600, "Click here to arrange information on your heads up display.");
+			greenFont.drawString(326, 430, "[(Configure HUD)]");
+			greenFont.drawString(90, 600, "Click here to arrange information on your heads up display.");
 		}else{
-			gdb.getFont("green").drawString(326, 430, " (Configure HUD) ");
+			greenFont.drawString(326, 430, " (Configure HUD) ");
 		}
 		
 		uilib.drawImageCenteredOnPoint(gfx, optLBL_i, new Point(512,120));
@@ -311,30 +315,29 @@ public class OptionMenuState extends BasicGameState{
 		}
 		
 		if(overFsc){
-			gdb.getFont("green").drawString(90, 600, "Click here to toggle Fullscreen. [Not Optimized]");
+			greenFont.drawString(90, 600, "Click here to toggle Fullscreen. [Not Optimized]");
 		}
 		
 		if(overPart){
-			gdb.getFont("green").drawString(90, 600, "Click here to toggle Particle effects. [Not Implemented]");
+			greenFont.drawString(90, 600, "Click here to toggle Particle effects. [Not Implemented]");
 		}
 	}
 	
 	private void renderKeys(Graphics gfx) {
-		Font f = gdb.getFont("green");
-		f.drawString(710, 202, "+====+");
-		f.drawString(710, 219, "|KEYS|");				
-		f.drawString(710, 236, "+====+");
-		f.drawString(576, 260, "Up Arrow----------Forward");
-		f.drawString(576, 280, "Down Arrow--------Backward");
-		f.drawString(576, 300, "Left Arrow--------Turn Left");
-		f.drawString(576, 320, "Right Arrow-------Turn Right");
-		f.drawString(576, 340, "Key Z-------------Strafe Left");
-		f.drawString(576, 360, "Key X-------------Strafe Right");
-		f.drawString(576, 380, "Left Control------Fire");
-		f.drawString(576, 400, "Key C-------------Toggle Radar");
-		f.drawString(576, 420, "Key A-------------Toggle Navs");
-		f.drawString(576, 440, "Key W-------------Toggle Map");
-		f.drawString(576, 460, "Key Esc-----------Leave game");
+		greenFont.drawString(710, 202, "+====+");
+		greenFont.drawString(710, 219, "|KEYS|");				
+		greenFont.drawString(710, 236, "+====+");
+		greenFont.drawString(576, 260, "Up Arrow----------Forward");
+		greenFont.drawString(576, 280, "Down Arrow--------Backward");
+		greenFont.drawString(576, 300, "Left Arrow--------Turn Left");
+		greenFont.drawString(576, 320, "Right Arrow-------Turn Right");
+		greenFont.drawString(576, 340, "Key Z-------------Strafe Left");
+		greenFont.drawString(576, 360, "Key X-------------Strafe Right");
+		greenFont.drawString(576, 380, "Left Control------Fire");
+		greenFont.drawString(576, 400, "Key C-------------Toggle Radar");
+		greenFont.drawString(576, 420, "Key A-------------Toggle Navs");
+		greenFont.drawString(576, 440, "Key W-------------Toggle Map");
+		greenFont.drawString(576, 460, "Key Esc-----------Leave game");
 
 	}
 	

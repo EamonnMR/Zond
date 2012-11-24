@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -27,6 +28,7 @@ public class ModHudMenuState extends BasicGameState {
 	private Image hp_i, radar_i, wep_i, eng_i, shp_nm_i, ship;
 	private boolean ini, onReset, onBack;
 	private String inst1,inst2;
+	private SpriteSheetFont greenFont;
 	
 	public ModHudMenuState(int i){
 		id = i;
@@ -58,8 +60,8 @@ public class ModHudMenuState extends BasicGameState {
 		
 //		gfx.drawLine(0, 396, 1023, 396);
 //		gfx.drawLine(512, 0, 512, 766);
-		gdb.getFont("green").drawString(512-(inst1.length()*12/2), 235, inst1);
-		gdb.getFont("green").drawString(512-(inst2.length()*12/2), 252, inst2);
+		greenFont.drawString(512-(inst1.length()*12/2), 235, inst1);
+		greenFont.drawString(512-(inst2.length()*12/2), 252, inst2);
 		
 		uil.drawImageCenteredOnPoint(gfx, ship, new Point(512,384));
 		
@@ -101,15 +103,15 @@ public class ModHudMenuState extends BasicGameState {
 										"[MINIMAP]");
 		
 		if(onBack){
-			gdb.getFont("green").drawString(569,272, "[(Back)]");
+			greenFont.drawString(569,272, "[(Back)]");
 		}else{
-			gdb.getFont("green").drawString(569,272, " (Back) ");
+			greenFont.drawString(569,272, " (Back) ");
 		}
 		
 		if(onReset){
-			gdb.getFont("green").drawString(347, 272, "[(Reset)]");
+			greenFont.drawString(347, 272, "[(Reset)]");
 		}else{
-			gdb.getFont("green").drawString(347, 272, " (Reset) ");
+			greenFont.drawString(347, 272, " (Reset) ");
 		}
 	}
 
@@ -236,6 +238,8 @@ public class ModHudMenuState extends BasicGameState {
 		resetBTN_rec = new Rectangle(347,272,108,19);
 		
 		backBTN_rec = new Rectangle(569,272,96,19);
+		
+		greenFont = gdb.getFont("green");
 		
 	}
 
