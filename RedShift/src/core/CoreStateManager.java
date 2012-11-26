@@ -3,6 +3,8 @@ package core;
 
 import java.io.IOException;
 
+import level.TriggerFactory;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -47,6 +49,7 @@ public class CoreStateManager extends StateBasedGame {
 	private EntityFactory entFac;		//Entity Factory for the whole game
 	private LevelBuilder lvbr;
 	private HudDataModel hdm;
+	private TriggerFactory trigFac;
 	
 	//constructor
 	public CoreStateManager() {
@@ -83,6 +86,7 @@ public class CoreStateManager extends StateBasedGame {
 		player = new PlayerClient(1);
 		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
+		trigFac = new TriggerFactory();
 	}
 	
 	/**
@@ -92,7 +96,7 @@ public class CoreStateManager extends StateBasedGame {
 	 * In this case, we're setting up the references because java is pass by reference :)
 	 */
 	private void customIniStates() {
-		load.customInit(gDB, entFac, player);
+		load.customInit(gDB, entFac, trigFac,  player);
 		this.addState(load);
 		
 		mainMenu.customInit(gDB);

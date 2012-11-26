@@ -1,5 +1,6 @@
 package level;
 
+import level.triggers.BasicTrigger;
 import level.triggers.CompleteObjective;
 import level.triggers.CountTrigger;
 import level.triggers.DeathTrigger;
@@ -7,6 +8,11 @@ import level.triggers.ManyShipSpawner;
 import level.triggers.MultiTrigger;
 import level.triggers.SpawnShip;
 import level.triggers.ToggleNavPoint;
+
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+
 import ents.BasicShip;
 import ents.EntityFactory;
 
@@ -14,6 +20,7 @@ import ents.EntityFactory;
  * Trigger Factory, per EMR's revelation we should have a factory much like the entFac
  * that allows us to build triggers on the fly!
  * 
+ * note 11/26/12: this is using nothing but string...args, so be warned it assumes a certain order.
  * *note: needs to only take primitives :\
  * @author Roohr
  *
@@ -22,11 +29,47 @@ public class TriggerFactory {
 
 	private EntityFactory entFac;
 	
-	public TriggerFactory(EntityFactory ef){
+	public TriggerFactory(){}
+	
+	public void setEntFac(EntityFactory ef){
 		entFac = ef;
 	}
 	
-	
+	/**
+	 * builds any trigger, not comfortable with var args but we'll see how this goes.
+	 * right now I'm just going to test the triggers we're using. 
+	 * @param args
+	 * @return
+	 */
+	public BasicTrigger buildTrigger(String... args){
+		BasicTrigger trigger;
+		String classType = args[0];							//arg0 = trigger class type
+		if(classType.equals("ini")){
+			trigger = new BasicTrigger();
+			doBasicSetup(args, trigger);
+			return trigger;
+		}else if (classType.equals("spawn")){
+			trigger = new SpawnShip();
+			doBasicSetup(args,trigger);
+			buildSpawnShip((SpawnShip)trigger, args);		//mmmmm casting (:/)
+			return trigger;
+		}else if(classType.equals("togglenav")){
+			trigger = new ToggleNavPoint();
+			doBasicSetup(args, trigger);
+			buildToggleNavPoint((ToggleNavPoint)trigger, args);
+		}
+		return null;
+	}
+
+	private void doBasicSetup(String[] args, BasicTrigger t) {
+		t.setName(args[1]);								//arg1 = name
+		t.setTriggerType(convertTrigType(args[2]));		//arg2 = enumerated trigger type
+		t.setX(Integer.valueOf(args[3]));				//arg3 = trig's x
+		t.setY(Integer.valueOf(args[4]));				//arg4 = trig's y
+		t.setTargetName(args[5]);						//arg5 = trigs targetname
+		t.setCollider(buildShape(args));				//args6-10
+	}
+
 	private TriggerTypes convertTrigType(String trigType) {
 		if(trigType.equals(TriggerTypes.SHIP.toString())){
 			return TriggerTypes.SHIP;
@@ -36,6 +79,26 @@ public class TriggerFactory {
 			return TriggerTypes.SHOT;
 		}else if(trigType.equals(TriggerTypes.TRIGGER.toString())){
 			return TriggerTypes.TRIGGER;
+		}
+		return null;
+	}
+	
+	private Shape buildShape(String[] args) {
+		Shape b;
+		String shapeType = args[6];
+		if(shapeType.equals("circle")){
+			//this is starting to feel as arthritic as a WAD file, you know?
+			b = new Circle(Float.valueOf(args[7]),
+							Float.valueOf(args[8]),
+							Float.valueOf(args[9]));
+			//we may have to note to pad out arg[10] in the string[] to accound for rectangles-----V
+			return b;
+		}else if(shapeType.equals("rec")){
+			b = new Rectangle(Float.valueOf(args[7]),
+					Float.valueOf(args[8]),
+					Float.valueOf(args[9]),
+					Float.valueOf(args[10]));
+			return b;
 		}
 		return null;
 	}
@@ -103,9 +166,10 @@ public class TriggerFactory {
 	 * @param s
 	 * @return
 	 */
-	public SpawnShip buildSpawnShipTrigger(String trigType, String shipPointer, String gunPointer, String engPointer){
-		SpawnShip sp = new SpawnShip(convertTrigType(trigType), entFac.buildShip(shipPointer, gunPointer, engPointer));
-		return sp;
+	public void buildSpawnShip(SpawnShip t,String...args){
+		BasicShip s = entFac.buildAIShip(args[11], args[12], args[13]);
+		s.ini(Double.valueOf(args[14]), Double.valueOf(args[15]), Float.valueOf(16));
+		t.setShip(s);
 	}
 	
 	/**
@@ -115,8 +179,9 @@ public class TriggerFactory {
 	 * @param st
 	 * @return
 	 */
-	public ToggleNavPoint buildToggleNavPoint(TriggerTypes trig, NavPoint p, boolean st){
-		ToggleNavPoint tog = new ToggleNavPoint(trig, p, st);
-		return tog;
+	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
+		NavPoint p = new NavPoint(Float.valueOf(args[11]),Float.valueOf(args[12]),args[13],Boolean.valueOf(args[14]));
+		t.setNavPoint(p);
+		t.trigger(Boolean.valueOf(args[14]));
 	}
 }

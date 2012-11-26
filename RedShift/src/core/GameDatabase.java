@@ -10,6 +10,7 @@ import java.util.Map;
 
 import level.LevelDataModel;
 import level.Scenario;
+import level.TriggerFactory;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Image;
@@ -362,11 +363,12 @@ public class GameDatabase {
 		return (HashMap<String, Scenario>) indexScenarios;
 	}
 	/**
-	 * 
+	 * NOTE:: the trigFac references the entFac, which is out of load flow at this stage
+	 * so dont call this internally in gdb, loader state will call it
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void populateLevels() throws FileNotFoundException, IOException {
+	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
 			for(String child : s.childSet()){
@@ -395,8 +397,7 @@ public class GameDatabase {
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 		String type = t.getValue(cat(name, "type"));	
 		if(t.equals("ini")){
-//			BasicTrigger trg = new BasicTrigger();
-//			trg.setName(t.getValue(child, "name"));
+
 		}else if (t.equals("spawn")){
 			
 		}
