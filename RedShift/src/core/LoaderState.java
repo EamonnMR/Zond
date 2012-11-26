@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import level.TriggerFactory;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -20,6 +22,7 @@ public class LoaderState extends BasicGameState {
 	//member variables
 	private GameDatabase gdb;
 	private EntityFactory entFac;
+	private TriggerFactory trigFac;
 	private int id;
 	public PlayerClient player;			//PlayerClient for the whole game
 	public LevelBuilder lvbr;
@@ -51,6 +54,16 @@ public class LoaderState extends BasicGameState {
 			e.printStackTrace();
 		}
 		entFac.ini(gdb);
+		trigFac.setEntFac(entFac);
+		
+		//try loading levels here
+//		try {
+//			gdb.populateLevels(trigFac);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		createTestClientData(player);
 	}
@@ -67,10 +80,11 @@ public class LoaderState extends BasicGameState {
 		arg1.enterState(CoreStateManager.MAINMENUSTATE);
 	}
 	
-	public void customInit(GameDatabase g, EntityFactory e, PlayerClient p){
+	public void customInit(GameDatabase g, EntityFactory e, TriggerFactory t, PlayerClient p){
 		this.gdb = g;
 		this.entFac = e;
 		this.player = p;
+		this.trigFac = t;
 	}
 	
 	private void createTestClientData(PlayerClient client) {

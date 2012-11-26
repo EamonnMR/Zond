@@ -15,6 +15,12 @@ public class ToggleNavPoint extends BasicTrigger {
 		state = st;
 	}
 
+	public ToggleNavPoint(){}
+	
+	public void setNavPoint(NavPoint p){
+		point = p;
+	}
+	
 	@Override
 	public void go(GameplayState cgs){
 		point.setActive(state);

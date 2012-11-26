@@ -19,9 +19,7 @@ public class NavPoint {
 		this.active=state;
 	}
 	
-	public NavPoint(){
-		
-	}
+	public NavPoint(){}
 
 	public float getX() {
 		return x;
