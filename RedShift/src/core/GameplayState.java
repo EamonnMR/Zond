@@ -114,7 +114,7 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {	
 		//init state is kinda useless isnt it.
 		gfx = arg0.getGraphics();
-	stars = new ParallaxStarField(0, 0, 1024, 768, 50, null, 1, 1);
+	stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
 	}
 
 	/**
