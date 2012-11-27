@@ -65,7 +65,7 @@ public class ParallaxStarField{
 	
 	public float randomZ(){
 		//return (float) ((Math.random() * wideRangeZ) + minZ);
-		return 1; //Parallax elimonated because we can't even make X and Y work right
+		return 1; //Testing!
 	}
 
 	public void draw(Graphics g){
@@ -78,27 +78,34 @@ public class ParallaxStarField{
 	 }
 	
 	public void update(int dCamX, int dCamY, int camX, int camY){
+		
+		int leftBound, rightBound, topBound, bottomBound;
+		leftBound = minX + camX;
+		rightBound = maxX + camX;
+		topBound = maxY + camY;
+		bottomBound = maxY + camY;
+		
 		for(int i = 0; i < numStars; i++){
 			x[i] += z[i] * dCamX; //Update the x position
 			//Test to make sure the star hasn't fallen off-if it has, put a new one on the other side in a semi-random position
-			if(x[i] < minX - camX){ //Falls off left of screen
+			if(x[i] < leftBound){ //Falls off left of screen
 				x[i] = maxX - (narrowRandom() - camX);
-				y[i] = wideRandomY() - camY;
+				y[i] = wideRandomY() + camY;
 				z[i] = randomZ();
 				drawMe[i] = false;
-			} else if(x[i] > maxX + camX){ //Falls off right of screen
+			} else if(x[i] > rightBound){ //Falls off right of screen
 				x[i] = minX + narrowRandom() + camX;
 				y[i] = wideRandomY() + camY;
 				z[i] = randomZ();
 				drawMe[i] = false;
 			} else {
 				y[i] += z[i] * dCamY;//Update the y position (and check out the boundries.)
-				if(y[i] < minY - camY){ //Falls off top of screen
+				if(y[i] < bottomBound){ //Falls off top of screen
 					x[i] = wideRandomX() + camX;
 					y[i] = maxY - (narrowRandom() - camY);
 					z[i] = randomZ();
 					drawMe[i] = false;
-				} else if(y[i] > maxY + camY){ //Falls off bottom of screen
+				} else if(y[i] > topBound){ //Falls off bottom of screen
 					x[i] = wideRandomX() + camX;
 					y[i] = minY + narrowRandom() + camY;
 					z[i] = randomZ();
