@@ -72,6 +72,9 @@ public class GameplayState extends BasicGameState{
 	HashMap<String, BasicShip> incomingClientShips;
 	LevelHandler lh;
 	private effects.Stack fxStack;
+	
+	private ParallaxStarField stars;
+	private int lCamx, lCamy;
 	//====================================================================
 	
 	//EXTERNAL VARIABLES AND DATA=========================================
@@ -99,7 +102,7 @@ public class GameplayState extends BasicGameState{
 		
 		//I ARE SINGLETON NOW HURRRR
 		IAM = this; //live in destructible times?
-		
+
 	}
 	
 	//methods
@@ -111,6 +114,7 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {	
 		//init state is kinda useless isnt it.
 		gfx = arg0.getGraphics();
+	stars = new ParallaxStarField(50, 25, 50, 1024, 768, null, 5, 15);
 	}
 
 	/**
@@ -120,7 +124,20 @@ public class GameplayState extends BasicGameState{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		if(gamePlay){
-			level.render(arg2, 0, 0);
+			//Level render replaced by starfield?  Temporary measure?
+			//level.render(arg2, 0, 0);
+			
+			//Star render stuff
+			//This is 'cause it won't fit in the initializer
+			stars.FUCKsetImg(gdb.getIMG("shot1"));
+			
+			//Calculate the camera delta and render the stars
+			stars.update(lCamx - camX, lCamy - camY);
+			lCamx = camX;
+			lCamy = camY;
+			stars.draw(gfx);
+			
+			
 			// draw all shots
 			for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()) {
 				entry.getValue().render(camX, camY);

@@ -12,6 +12,14 @@ public class ParallaxStarField{
 	float[] x,y,z;
 	boolean[] drawMe;
 	private int numStars;
+	
+	public void FUCKsetImg(Image img){
+		//HURR CANT PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
+		if (this.img == null){
+			this.img = img;
+		}
+		//FIXME: Come on, there must be a way to *not* set this every frame.
+	}
 
 	public ParallaxStarField(int extrasize, long randomizeDistanceFromBorder,
 			int screenX, int screenY, int numStars, Image img, int minZ,
@@ -54,9 +62,10 @@ public class ParallaxStarField{
 
 	public void draw(Graphics g){
 		for(int i =0; i < numStars; i++){
-			if(drawMe[i]){
+			//if(drawMe[i]){ //The calculations are all glitched, so this is commented out to display the
+			                 //misplaced stars
 				g.drawImage(img, x[i], y[i]);
-		   	   }
+		   	//   }
 		  }
 	 }
 	
