@@ -41,9 +41,8 @@ public class TriggerFactory {
 	 * @param args
 	 * @return
 	 */
-	public BasicTrigger buildTrigger(String... args){
+	public BasicTrigger buildTrigger(String classType,String... args){
 		BasicTrigger trigger;
-		String classType = args[0];							//arg0 = trigger class type
 		if(classType.equals("ini")){
 			trigger = new BasicTrigger();
 			doBasicSetup(args, trigger);
@@ -62,12 +61,12 @@ public class TriggerFactory {
 	}
 
 	private void doBasicSetup(String[] args, BasicTrigger t) {
-		t.setName(args[1]);								//arg1 = name
-		t.setTriggerType(convertTrigType(args[2]));		//arg2 = enumerated trigger type
-		t.setX(Integer.valueOf(args[3]));				//arg3 = trig's x
-		t.setY(Integer.valueOf(args[4]));				//arg4 = trig's y
-		t.setTargetName(args[5]);						//arg5 = trigs targetname
-		t.setCollider(buildShape(args));				//args6-10
+		t.setName(args[0]);								//arg0 = name
+		t.setTriggerType(convertTrigType(args[1]));		//arg1 = enumerated trigger type
+		t.setX(Integer.valueOf(args[2]));				//arg2 = trig's x
+		t.setY(Integer.valueOf(args[3]));				//arg3 = trig's y
+		t.setTargetName(args[4]);						//arg4 = trigs targetname
+		t.setCollider(buildShape(args));				//args5-9
 	}
 
 	private TriggerTypes convertTrigType(String trigType) {
@@ -85,19 +84,19 @@ public class TriggerFactory {
 	
 	private Shape buildShape(String[] args) {
 		Shape b;
-		String shapeType = args[6];
+		String shapeType = args[5];
 		if(shapeType.equals("circle")){
 			//this is starting to feel as arthritic as a WAD file, you know?
-			b = new Circle(Float.valueOf(args[7]),
-							Float.valueOf(args[8]),
-							Float.valueOf(args[9]));
-			//we may have to note to pad out arg[10] in the string[] to accound for rectangles-----V
+			b = new Circle(Float.valueOf(args[6]),
+							Float.valueOf(args[7]),
+							Float.valueOf(args[8]));
+			//we may have to note to pad out arg[9] in the string[] to accound for rectangles-----V
 			return b;
 		}else if(shapeType.equals("rec")){
-			b = new Rectangle(Float.valueOf(args[7]),
+			b = new Rectangle(Float.valueOf(args[6]),
+					Float.valueOf(args[7]),
 					Float.valueOf(args[8]),
-					Float.valueOf(args[9]),
-					Float.valueOf(args[10]));
+					Float.valueOf(args[9]));
 			return b;
 		}
 		return null;
@@ -167,8 +166,8 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public void buildSpawnShip(SpawnShip t,String...args){
-		BasicShip s = entFac.buildAIShip(args[11], args[12], args[13]);
-		s.ini(Double.valueOf(args[14]), Double.valueOf(args[15]), Float.valueOf(16));
+		BasicShip s = entFac.buildAIShip(args[10], args[11], args[12]);
+		s.ini(Double.valueOf(args[13]), Double.valueOf(args[14]), Float.valueOf(15));
 		t.setShip(s);
 	}
 	
@@ -180,8 +179,8 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
-		NavPoint p = new NavPoint(Float.valueOf(args[11]),Float.valueOf(args[12]),args[13],Boolean.valueOf(args[14]));
+		NavPoint p = new NavPoint(Float.valueOf(args[10]),Float.valueOf(args[11]),args[12],Boolean.valueOf(args[13]));
 		t.setNavPoint(p);
-		t.trigger(Boolean.valueOf(args[14]));
+		t.trigger(Boolean.valueOf(args[13]));
 	}
 }
