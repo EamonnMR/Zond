@@ -114,7 +114,7 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {	
 		//init state is kinda useless isnt it.
 		gfx = arg0.getGraphics();
-	stars = new ParallaxStarField(50, 25, 50, 1024, 768, null, 5, 15);
+	stars = new ParallaxStarField(0, 0, 1024, 768, 50, null, 1, 1);
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class GameplayState extends BasicGameState{
 			stars.FUCKsetImg(gdb.getIMG("shot1"));
 			
 			//Calculate the camera delta and render the stars
-			stars.update(lCamx - camX, lCamy - camY);
-			lCamx = camX;
+			stars.update(camX - lCamx, camY - lCamy, camX, camY);
+			lCamx = camX; //Save the old camX and camY values
 			lCamy = camY;
 			stars.draw(gfx);
 			
