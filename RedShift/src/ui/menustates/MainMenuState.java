@@ -2,6 +2,7 @@ package ui.menustates;
 
 import java.util.HashMap;
 
+import level.LevelDataModel;
 import level.Scenario;
 
 import org.lwjgl.openal.AL;
@@ -149,7 +150,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		montrBKG = gdb.getIMG("montrBKC");
 		
 		if(!(gdb.getScenarios()==null)){
-			for(Scenario s : gdb.getScenarios().values()){
+			for(LevelDataModel s : gdb.getScenarios().values()){
 //				uiButtons.put(s, new Rectangle(0,0,s.getName().length()*12,17));
 				UIButton b = new UIButton(s.getName(), false, s);
 				b.setRectangle(new Rectangle(0,0,s.getName().length()*12, 17));

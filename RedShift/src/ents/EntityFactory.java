@@ -33,8 +33,8 @@ public class EntityFactory {
 	 * @param engPointer pointer to engine in indexEng from GDB
 	 * @return BasicShip
 	 */
-	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer){
-		BasicShip build = new BasicShip();
+	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer, boolean isAi){
+		BasicShip build = isAi ? new AIShip() : new BasicShip();
 		build.setName(shipPointer);
 		build.setToolTip(gdb.getShip(shipPointer).getToolTip());
 		build.setWireframe(gdb.getShip(shipPointer).getWireframe().copy());
@@ -70,23 +70,7 @@ public class EntityFactory {
 	 * @return
 	 */
 	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer){
-		AIShip foe = new AIShip();
-		BasicShip data = buildShip(shipPointer, gunPointer, engPointer);
-		
-		foe.setName(data.getName());
-		foe.setToolTip(gdb.getShip(shipPointer).getToolTip());
-		foe.setImg(data.getImg().copy());
-		foe.setHealth(data.getHealth());
-		foe.setPoints(data.getPoints());
-		foe.setTotalWeight(data.getTotalWeight());
-		foe.setGunPtLength(data.getGunPtLength());
-		foe.setEngPtLength(data.getEngPtLength());
-		foe.setCollider(data.getCollider());
-		
-		foe.setRadarRadius(data.getRadarRadius());
-		foe.setFaction(data.getFaction());
-		foe.setDeathSnd(data.getDeathSnd());
-		foe.getImg().rotate(0);
+		AIShip foe = (AIShip) buildShip(shipPointer, gunPointer, engPointer, true);
 		
 		foe.setWeapon(buildGun("20mm"));
 		foe.setEngine(buildEngine("smallEngine"));
@@ -157,7 +141,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockMercury(){
-		return buildShip("mercury","20mm","smallEngine");
+		return buildShip("mercury","20mm","smallEngine", false);
 	}
 	
 	/**
@@ -165,7 +149,7 @@ public class EntityFactory {
 	 *@return BasicShip
 	 */
 	public BasicShip stockGem(){
-		return buildShip("gemini","60mm","medEngine");
+		return buildShip("gemini","60mm","medEngine", false);
 	}
 	
 	/**
@@ -173,19 +157,19 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockLunar(){
-		return buildShip("lunar","105mm","largeEngine");
+		return buildShip("lunar","105mm","largeEngine", false);
 	}
 	
 	
 	public BasicShip stockSky(){
-		return buildShip("skylab", "105mm", "smallEngine");
+		return buildShip("skylab", "105mm", "smallEngine", false);
 	}
 	/**
 	 * Builds a basic Vostok class BasicShip
 	 * @return BasicShip
 	 */
 	public BasicShip stockVostok(){
-		return buildShip("vostok","20mm","smallEngine");
+		return buildShip("vostok","20mm","smallEngine", false);
 	}
 	
 	/**
@@ -193,7 +177,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockVoskhod(){
-		return buildShip("voskhod","20mm","smallEngine");
+		return buildShip("voskhod","20mm","smallEngine", false);
 	}
 
 	/**
@@ -201,7 +185,7 @@ public class EntityFactory {
 	 * @return BasicShip
 	 */
 	public BasicShip stockZond(){
-		return buildShip("zond4","20mm","smallEngine");
+		return buildShip("zond4","20mm","smallEngine", false);
 	}
 
 	//=====GUN BUILDER=====
@@ -242,7 +226,7 @@ public class EntityFactory {
 //	}
 	
 	public BasicShip shipFromDesc(ShipDesc desc){
-		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine);
+		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine, desc.isAi);
 		toSender.setDeathFx(desc.fx);
 		toSender.setX(desc.x);
 		toSender.setY(desc.y);

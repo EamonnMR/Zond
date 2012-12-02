@@ -182,7 +182,7 @@ public class GameplayState extends BasicGameState{
 			if(pc.getPlayShip()==null){
 				pc.setPlayShip(entFac.stockMercury());
 			}else{
-				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName()));
+				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false));
 			}
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			

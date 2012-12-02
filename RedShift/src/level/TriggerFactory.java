@@ -9,12 +9,11 @@ import level.triggers.MultiTrigger;
 import level.triggers.SpawnShip;
 import level.triggers.ToggleNavPoint;
 
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import ents.BasicShip;
 import ents.EntityFactory;
+import ents.ShipDesc;
 
 /**
  * Trigger Factory, per EMR's revelation we should have a factory much like the entFac
@@ -41,32 +40,32 @@ public class TriggerFactory {
 	 * @param args
 	 * @return
 	 */
-	public BasicTrigger buildTrigger(String classType,String... args){
+	public BasicTrigger buildTrigger(Shape cldr, ShipDesc d, String classType,String... args){
 		BasicTrigger trigger;
 		if(classType.equals("ini")){
 			trigger = new BasicTrigger();
-			doBasicSetup(args, trigger);
+			doBasicSetup(cldr, args, trigger);
 			return trigger;
 		}else if (classType.equals("spawn")){
 			trigger = new SpawnShip();
-			doBasicSetup(args,trigger);
-			buildSpawnShip((SpawnShip)trigger, args);		//mmmmm casting (:/)
+			doBasicSetup(cldr, args,trigger);
+			buildSpawnShip((SpawnShip)trigger, d);		//mmmmm casting (:/)
 			return trigger;
 		}else if(classType.equals("togglenav")){
 			trigger = new ToggleNavPoint();
-			doBasicSetup(args, trigger);
+			doBasicSetup(cldr, args, trigger);
 			buildToggleNavPoint((ToggleNavPoint)trigger, args);
 		}
 		return null;
 	}
 
-	private void doBasicSetup(String[] args, BasicTrigger t) {
+	private void doBasicSetup(Shape cldr, String[] args, BasicTrigger t) {
 		t.setName(args[0]);								//arg0 = name
 		t.setTriggerType(convertTrigType(args[1]));		//arg1 = enumerated trigger type
 		t.setX(Integer.valueOf(args[2]));				//arg2 = trig's x
 		t.setY(Integer.valueOf(args[3]));				//arg3 = trig's y
 		t.setTargetName(args[4]);						//arg4 = trigs targetname
-		t.setCollider(buildShape(args));				//args5-9
+		t.setCollider(cldr);
 	}
 
 	private TriggerTypes convertTrigType(String trigType) {
@@ -78,26 +77,6 @@ public class TriggerFactory {
 			return TriggerTypes.SHOT;
 		}else if(trigType.equals(TriggerTypes.TRIGGER.toString())){
 			return TriggerTypes.TRIGGER;
-		}
-		return null;
-	}
-	
-	private Shape buildShape(String[] args) {
-		Shape b;
-		String shapeType = args[5];
-		if(shapeType.equals("circle")){
-			//this is starting to feel as arthritic as a WAD file, you know?
-			b = new Circle(Float.valueOf(args[6]),
-							Float.valueOf(args[7]),
-							Float.valueOf(args[8]));
-			//we may have to note to pad out arg[9] in the string[] to accound for rectangles-----V
-			return b;
-		}else if(shapeType.equals("rec")){
-			b = new Rectangle(Float.valueOf(args[6]),
-					Float.valueOf(args[7]),
-					Float.valueOf(args[8]),
-					Float.valueOf(args[9]));
-			return b;
 		}
 		return null;
 	}
@@ -165,10 +144,8 @@ public class TriggerFactory {
 	 * @param s
 	 * @return
 	 */
-	public void buildSpawnShip(SpawnShip t,String...args){
-		BasicShip s = entFac.buildAIShip(args[10], args[11], args[12]);
-		s.ini(Double.valueOf(args[13]), Double.valueOf(args[14]), Float.valueOf(15));
-		t.setShip(s);
+	public void buildSpawnShip(SpawnShip t,ShipDesc d){
+		t.setShip(entFac.shipFromDesc(d));
 	}
 	
 	/**
@@ -179,8 +156,14 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
-		NavPoint p = new NavPoint(Float.valueOf(args[10]),Float.valueOf(args[11]),args[12],Boolean.valueOf(args[13]));
+		boolean boolVal = Boolean.valueOf(args[8]);
+		NavPoint p = new NavPoint(Float.valueOf(args[5]),Float.valueOf(args[6]),args[7], boolVal);
 		t.setNavPoint(p);
-		t.trigger(Boolean.valueOf(args[13]));
+		t.trigger(boolVal);
+	}
+
+	public EntityFactory getEntFac() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

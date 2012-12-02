@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import level.LevelDataModel;
-import level.Scenario;
 import level.TriggerFactory;
 import level.triggers.BasicTrigger;
 
@@ -61,7 +60,7 @@ public class GameDatabase {
 	private Map<String, Sound> indexSounds;
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
-	private Map<String, Scenario> indexScenarios;
+	private Map<String, LevelDataModel> indexScenarios;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
@@ -102,7 +101,7 @@ public class GameDatabase {
 		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
 		indexFonts = new HashMap<String, SpriteSheetFont>();
-		indexScenarios = new HashMap<String, Scenario>();
+		indexScenarios = new HashMap<String, LevelDataModel>();
 		populateAll();
 	}
 	
@@ -359,8 +358,8 @@ public class GameDatabase {
 		return indexScenarios.get(pointer);
 	}
 	
-	public HashMap<String, Scenario> getScenarios(){
-		return (HashMap<String, Scenario>) indexScenarios;
+	public HashMap<String, LevelDataModel> getScenarios(){
+		return (HashMap<String, LevelDataModel>) indexScenarios;
 	}
 	/**
 	 * NOTE:: the trigFac references the entFac, which is out of load flow at this stage
@@ -371,36 +370,58 @@ public class GameDatabase {
 	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
-			for(String child : s.childSet()){
-				
-				LevelDataModel level = new LevelDataModel(s.getValue(child,"name" ));
-				//set the play area
-				level.setActiveArea(parseShape(s, child, "active"));
-				//set the warning area
-				level.setActiveArea(parseShape(s, child, "margin"));
-				//set the spawn point
-				Point spawn = new Point(Integer.valueOf(s.getValue(child,"spawnX")),Integer.valueOf(s.getValue(child,"spawnY")));
-				level.setSpawn(spawn);
-				//set the music
-				level.setMusic(s.getValue(child, "music"));
-				
-				//set the nav points
-				level.setTriggerMap(parseTriggers(s, child, "triggers"));
-				//set the triggers
-
-			}
+			
+			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
+			//Create the ships
+			level.setShips(parseShipList(s.getSubTree("ships")));
+			
+			//Create the trigger set
+			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
+			//Get the name of the music to use
+			level.setMusic(s.getValue( "music"));
+			//set the play area
+			level.setActiveArea(parseShape(s, "active"));
+			//set the warning area
+			level.setActiveArea(parseShape(s, "margin"));
+			//set the spawn point
+			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+			
+			indexScenarios.put(level.getName(),level);
 		}
 	}
 	
-	private HashMap<String, BasicTrigger> parseTriggers(StringTree t,
-			String... name) {
-		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
-		String type = t.getValue(cat(name, "type"));	
-		if(t.equals("ini")){
-
-		}else if (t.equals("spawn")){
-			
+	private HashMap<String, ShipDesc> parseShipList(StringTree t) {
+		HashMap<String, ShipDesc> toSender = new HashMap<String, ShipDesc>();
+		for(String ch : t.childSet()){
+			toSender.put(ch, getShipDesc(t.getSubTree(ch)));
 		}
+		return toSender;
+	}
+
+	private HashMap<String, BasicTrigger> parseTriggers(TriggerFactory trigFac, StringTree t) {
+		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
+		ShipDesc d = null; //Won't be used unless it's actually needed-the null
+		//one is a placeholder that's sent to buildTrig.
+		
+		//To understand this properly, look at TriggerFactory
+		String typeClass = t.getValue("class");
+		String[] argList = Strings(t.getValue("enumType"),
+				t.getValue("name"),
+				t.getValue("xpos"),
+				t.getValue("ypos"),
+				t.getValue("targetName") );
+		if(typeClass.equals("spawn")){
+			d = getShipDesc(t.getSubTree("toSpawn"));
+		} else if(typeClass.equals("togglenav")){
+			catEnMasse(argList,t.getValue("x"),
+			t.getValue("y"),
+			t.getValue("name"),
+			t.getValue("initialState"));
+		}
+		
+		parseShape(t, "collider");
+		//FIXME: Dyke any refrences to the entity factory out of the trigger factory
+		trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
 		return trigs;
 	}
 
@@ -480,6 +501,17 @@ public class GameDatabase {
 		return toSender;
 	}
 	
+	public static void catIp(String[] train, String caboose){
+		train = cat(train, caboose);
+	}
+	
+	public static String[] catEnMasse(String[] train, String... caboose){
+		String[] toSender = new String[train.length + caboose.length];
+		System.arraycopy(train, 0, toSender,  0, train.length);
+		System.arraycopy(caboose, 0, toSender,  train.length - 1, caboose.length);
+		return toSender;
+	}
+	
 	/**
 	 * Float From Tree-
 	 * Gets a float from a value from a path that it cats together.
@@ -517,7 +549,9 @@ public class GameDatabase {
 				t.getValue("gun"),
 				t.getValue("engine"),
 				parsePoint(t.getValue("loc")),
-				getEffect(t.getSubTree("deatheffects")));
+				getEffect(t.getSubTree("deatheffects")),
+				getBoolean(t.getValue("isAi")));
+		
 	}
 	
 	private static boolean getBoolean(String value){
@@ -617,5 +651,11 @@ public class GameDatabase {
 		SemanticError(String s){
 			super(s + "\n");
 		}
+	}
+	
+	//A constructor for string arrays.
+	//I'm not proud of this...
+	public String[] Strings(String... listOfStrings){
+		return listOfStrings;
 	}
 }

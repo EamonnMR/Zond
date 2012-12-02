@@ -34,9 +34,15 @@
 		/ship descriptors here/
 	}
 
+	/Ships/
+	[ships]{
+		[NAME]{SHIPDESC}
+		}
+
+
 	/Triggers/
-	[triggers]{
-		[trig]{
+	[triggers]<
+		{
 			[type]		(ini)
 			[name]		(fireIni)
 			[trigtype]	(ALL)
@@ -44,20 +50,18 @@
 			[y]		(0)
 			[target]	(spawn1)
 		}
-		[trig]{
+		{
 			[type]		(spawn)
 			[name]		(spawn1)
 			[trigtype]	(ALL)
 			[x]		(0)
 			[y]		(0)
 			[target]	(trg1)
-			[shipDesc]{
-				/ship to spawn/
+			[toSpawn]{
+				SHIPDESC
 			}
 		}
-
-
-	}
+	>
 
 	/NavPoints/
 	[navpoints]{

@@ -9,6 +9,8 @@ import level.triggers.BasicTrigger;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
+import ents.ShipDesc;
+
 /**
  * vaunted version 2 of the level data/controller system. The actual processing logic has been moved to a class called LevelHandler.
  * that bad boy does the thinking. LevelDataModel now is a pure data class. 
@@ -22,6 +24,7 @@ public class LevelDataModel {
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
 	private HashMap<String, BasicObjective> objectives;
+	private HashMap<String, ShipDesc> ships;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
@@ -76,6 +79,10 @@ public class LevelDataModel {
 		this.triggerMap = triggerMap;
 	}
 
+	public void setShips(HashMap<String, ShipDesc> arg) {
+		this.ships = arg;
+	}
+	
 	public HashMap<String, BasicAction> getActionMap() {
 		return actionMap;
 	}
