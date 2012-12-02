@@ -82,7 +82,7 @@ public class LevelBuilder {
 		fireINI.setY(396);
 		fireINI.setCollider(new Rectangle(0,0, 1024,768));
 		
-		SpawnShip iniSkyLab = new SpawnShip(null, entFac.buildShip("skylab", null, null));
+		SpawnShip iniSkyLab = new SpawnShip(null, entFac.buildShip("skylab", null, null, false));
 		iniSkyLab.setName("iniSkyLab");
 		iniSkyLab.setX(0);
 		iniSkyLab.setY(0);
