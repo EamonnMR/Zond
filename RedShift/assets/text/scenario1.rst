@@ -38,23 +38,19 @@
 	/Triggers/
 	[triggers]<
 		{
-			[type]		(ini)
-			[name]		(fireIni)
-			[trigtype]	(ALL)
+			[type]		(?)
+			[name]		(NAME)
+			[trigtype]	(TYPE)
 			[x]		(0)
 			[y]		(0)
-			[target]	(spawn1)
-		}
-		{
-			[type]		(spawn)
-			[name]		(spawn1)
-			[trigtype]	(ALL)
-			[x]		(0)
-			[y]		(0)
+			[collider]{SHAPE}
 			[target]	(trg1)
-			[toSpawn]{
-				SHIPDESC
-			}
+			/Only if it's a "spawn" trigger/
+			[toSpawn]{SHIPDESC}
+			/Only if it's a togglenav/
+			[navPointName](NAME)
+			[initialState](INITIAL STATE)
+			
 		}
 	>
 

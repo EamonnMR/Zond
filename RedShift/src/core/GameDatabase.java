@@ -404,15 +404,15 @@ public class GameDatabase {
 		String typeClass = t.getValue("class");
 		String[] argList = Strings(t.getValue("enumType"),
 				t.getValue("name"),
-				t.getValue("xpos"),
-				t.getValue("ypos"),
+				t.getValue("x"),
+				t.getValue("y"),
 				t.getValue("targetName") );
 		if(typeClass.equals("spawn")){
 			d = getShipDesc(t.getSubTree("toSpawn"));
 		} else if(typeClass.equals("togglenav")){
 			catEnMasse(argList,t.getValue("x"),
 			t.getValue("y"),
-			t.getValue("name"),
+			t.getValue("navPointName"),
 			t.getValue("initialState"));
 		}
 		
