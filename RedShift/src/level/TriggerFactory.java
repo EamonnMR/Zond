@@ -77,6 +77,8 @@ public class TriggerFactory {
 			return TriggerTypes.SHOT;
 		}else if(trigType.equals(TriggerTypes.TRIGGER.toString())){
 			return TriggerTypes.TRIGGER;
+		}else if(trigType.equals("null")){
+			return null;
 		}
 		return null;
 	}

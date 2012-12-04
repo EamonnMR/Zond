@@ -37,20 +37,46 @@
 
 	/Triggers/
 	[triggers]<
-		{
-			[type]		(?)
-			[name]		(NAME)
-			[trigtype]	(TYPE)
-			[x]		(0)
-			[y]		(0)
-			[collider]{SHAPE}
-			[target]	(trg1)
+		/{/
+			/[type]		(?)/
+			/[name]		(NAME)/
+			/[trigtype]	(TYPE)/
+			/[x]		(0)/
+			/[y]		(0)/
+			/[collider]{SHAPE}/
+			/[target]	(trg1)/
 			/Only if it's a "spawn" trigger/
-			[toSpawn]{SHIPDESC}
+			/[toSpawn]{SHIPDESC}/
 			/Only if it's a togglenav/
-			[navPointName](NAME)
-			[initialState](INITIAL STATE)
+			/[navPointName](NAME)/
+			/[initialState](INITIAL STATE)/
 			
+		/}/
+		{
+			[type]		(ini)
+			[name]		(fireINI)
+			[trigtype]	(SHIP)
+			[x]		(512)
+			[y]		(396)
+			[collider]{
+				[type] (circle)
+				[x](512)[y](396)
+				[radius](1024)
+				/[segments](24)/
+			}	
+		}
+		{
+			[type]		(ini)
+			[name]		(iniSkylab)
+			[trigtype]	(null)
+			[x]		(512)
+			[y]		(396)
+			[collider]{
+				[type] (circle)
+				[x](512)[y](396)
+				[radius](1024)
+				/[segments](24)/
+			}	
 		}
 	>
 
