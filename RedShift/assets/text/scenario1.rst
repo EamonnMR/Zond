@@ -34,11 +34,6 @@
 		/ship descriptors here/
 	}
 
-	/Ships/
-	[ships]{
-		[NAME]{SHIPDESC}
-		}
-
 
 	/Triggers/
 	[triggers]<

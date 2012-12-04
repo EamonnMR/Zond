@@ -24,7 +24,6 @@ public class LevelDataModel {
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
 	private HashMap<String, BasicObjective> objectives;
-	private HashMap<String, ShipDesc> ships;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
@@ -77,10 +76,6 @@ public class LevelDataModel {
 
 	public void setTriggerMap(HashMap<String, BasicTrigger> triggerMap) {
 		this.triggerMap = triggerMap;
-	}
-
-	public void setShips(HashMap<String, ShipDesc> arg) {
-		this.ships = arg;
 	}
 	
 	public HashMap<String, BasicAction> getActionMap() {

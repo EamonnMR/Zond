@@ -372,9 +372,6 @@ public class GameDatabase {
 			StringTree s = loadRst(f.getAbsolutePath());
 			
 			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
-			//Create the ships
-			level.setShips(parseShipList(s.getSubTree("ships")));
-			
 			//Create the trigger set
 			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
 			//Get the name of the music to use
