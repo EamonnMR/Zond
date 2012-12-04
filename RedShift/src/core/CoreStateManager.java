@@ -116,6 +116,8 @@ public class CoreStateManager extends StateBasedGame {
 		
 		this.addState(gameWin);
 		
+		
+		//XXX:passing level builder as a temporary measure
 		gamePlay.customInit(player,gDB, entFac, lvbr, hdm );
 		this.addState(gamePlay);
 	}
