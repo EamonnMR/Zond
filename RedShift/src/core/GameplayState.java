@@ -59,7 +59,7 @@ public class GameplayState extends BasicGameState{
 	private int id, entCount, objCount, shotCount, clientCount, winLose;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
 	int camX, camY, boundsCheck, deathReason;
-	LevelDataModel levelData;
+	private LevelDataModel levelData;
 	private HudDataModel hdm;
 	
 	//Constants	        //play with these till the tags are centered
@@ -661,6 +661,7 @@ public class GameplayState extends BasicGameState{
 	}
 	
 	//AI TESTING
+	//XXX:REMOVE ME
 	private void buildAIShips() {
 		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
 		zond1.ini(200, 600, 0f);
