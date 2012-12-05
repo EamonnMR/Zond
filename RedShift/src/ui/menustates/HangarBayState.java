@@ -3,6 +3,8 @@ package ui.menustates;
 import java.awt.Point;
 import java.util.HashMap;
 
+import level.LevelDataModel;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -47,6 +49,7 @@ public class HangarBayState extends BasicGameState {
 	private float mx,my;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
+	private LevelDataModel levelToPlay;
 	
 	public HangarBayState(int i){
 		id = i;
@@ -273,6 +276,7 @@ public class HangarBayState extends BasicGameState {
 				pc.getPlayShip().setWeapon(displayGun);
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
+//				gamePlay.setLevel(levelToPlay);
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;
@@ -439,6 +443,12 @@ public class HangarBayState extends BasicGameState {
 		mouse_rec.setY(gc.getInput().getMouseY());
 		this.inputStarted();
 	}
+	
+	public LevelDataModel getLevelToPlay(){
+		return this.levelToPlay;
+	}
 
-
+	public void setLevelToPlay(LevelDataModel ldm){
+		this.levelToPlay = ldm;
+	}
 }

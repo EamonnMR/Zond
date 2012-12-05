@@ -18,8 +18,8 @@
 		/[segments](24)/
 	}
 	
-	[spawnX]	(0)
-	[spawnY]	(0)
+	[spawnX]	(512)
+	[spawnY]	(250)
 
 	[music]	(name)
 	

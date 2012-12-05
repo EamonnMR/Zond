@@ -627,6 +627,10 @@ public class GameplayState extends BasicGameState{
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + 512), (float)(Math.sin(angle+Math.PI) * rad + 384));
 	}
 	
+	public void setLevel(LevelDataModel ldm){
+		this.levelData = ldm;
+	}
+	
 	public LevelDataModel getLevel(){
 		return levelData;
 	}
