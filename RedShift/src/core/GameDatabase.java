@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +86,7 @@ public class GameDatabase {
 			try {
 				xloadImages();
 				loadSounds();
-//				loadLevelFiles();
+				loadLevelFiles();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -370,20 +371,22 @@ public class GameDatabase {
 	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
-			
 			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
-			//Create the trigger set
-			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
-			//Get the name of the music to use
-			level.setMusic(s.getValue( "music"));
 			//set the play area
 			level.setActiveArea(parseShape(s, "active"));
 			//set the warning area
 			level.setActiveArea(parseShape(s, "margin"));
 			//set the spawn point
 			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+			//Get the name of the music to use
+			level.setMusic(s.getValue( "music"));
+
+			//Create the trigger set
+			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
+
 			
 			indexScenarios.put(level.getName(),level);
+			System.out.println("Loaded ''" + f.getName() + "'' at location: ''" + f.getAbsolutePath() + "''.");
 		}
 	}
 	
@@ -401,8 +404,8 @@ public class GameDatabase {
 		//one is a placeholder that's sent to buildTrig.
 		
 		//To understand this properly, look at TriggerFactory
-		String typeClass = t.getValue("class");
-		String[] argList = Strings(t.getValue("enumType"),
+		String typeClass = t.getValue("type"); //XXX: was "class" but does not match rst file
+		String[] argList = Strings(t.getValue("trigtype"),
 				t.getValue("name"),
 				t.getValue("x"),
 				t.getValue("y"),
@@ -426,7 +429,7 @@ public class GameDatabase {
 		StringTree s = loadRst("assets/text/levellist.rst");
 		for (String child : s.childSet()){
 			ldLevelFile(child, s.getValue(child));
-			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
 		}
 	}
 	
