@@ -108,7 +108,7 @@
 				[kind]	(zond4)
 				[gun]	(las)
 				[engine](mediumEngine)
-				[loc]	(0)(256)
+				[loc]	(0 256)
 				[deatheffects](null)
 				[isAi]	(true)
 			}

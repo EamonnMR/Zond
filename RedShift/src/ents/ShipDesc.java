@@ -6,13 +6,12 @@ public class ShipDesc {
 	public effects.Effect fx;
 	public boolean isAi;
 	
-	public ShipDesc(String kind, String gun, String engine, double[] pt, effects.Effect fx, boolean isAi) {
+	public ShipDesc(String kind, String gun, String engine, double[] pt, boolean isAi) {
 		this.kind = kind;
 		this.gun = gun;
 		this.engine = engine;
 		this.x = pt[0];
 		this.y = pt[1];
-		this.fx = fx;
 		this.isAi = isAi;
 	}
 

@@ -398,30 +398,34 @@ public class GameDatabase {
 		return toSender;
 	}
 
-	private HashMap<String, BasicTrigger> parseTriggers(TriggerFactory trigFac, StringTree t) {
+	private HashMap<String, BasicTrigger> parseTriggers(TriggerFactory trigFac, StringTree tr) {
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 		ShipDesc d = null; //Won't be used unless it's actually needed-the null
 		//one is a placeholder that's sent to buildTrig.
 		
-		//To understand this properly, look at TriggerFactory
-		String typeClass = t.getValue("type"); //XXX: was "class" but does not match rst file
-		String[] argList = Strings(t.getValue("trigtype"),
-				t.getValue("name"),
-				t.getValue("x"),
+		for(String s : tr.childSet()){
+			//I'm a baaaaad person
+			StringTree t = tr.getSubTree(s);
+			//To understand this properly, look at TriggerFactory
+			String typeClass = t.getValue("type"); //XXX: was "class" but does not match rst file
+			String[] argList = Strings(t.getValue("trigtype"),
+					t.getValue("name"),
+					t.getValue("x"),
+					t.getValue("y"),
+					t.getValue("target") );
+			if(typeClass.equals("spawn")){
+				d = getShipDesc(t.getSubTree("toSpawn"));
+			} else if(typeClass.equals("togglenav")){
+				catEnMasse(argList,t.getValue("x"),
 				t.getValue("y"),
-				t.getValue("targetName") );
-		if(typeClass.equals("spawn")){
-			d = getShipDesc(t.getSubTree("toSpawn"));
-		} else if(typeClass.equals("togglenav")){
-			catEnMasse(argList,t.getValue("x"),
-			t.getValue("y"),
-			t.getValue("navPointName"),
-			t.getValue("initialState"));
+				t.getValue("navPointName"),
+				t.getValue("initialState"));
+			}
+			
+			parseShape(t, "collider");
+			//FIXME: Dyke any refrences to the entity factory out of the trigger factory
+			trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
 		}
-		
-		parseShape(t, "collider");
-		//FIXME: Dyke any refrences to the entity factory out of the trigger factory
-		trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
 		return trigs;
 	}
 
@@ -549,15 +553,15 @@ public class GameDatabase {
 				t.getValue("gun"),
 				t.getValue("engine"),
 				parsePoint(t.getValue("loc")),
-				getEffect(t.getSubTree("deatheffects")),
+				//getEffect(t.getSubTree("deatheffects")),
 				getBoolean(t.getValue("isAi")));
 		
 	}
 	
 	private static boolean getBoolean(String value){
-		if (value.equals("t")){
+		if (value.equals("t") || value.equals("true")){
 			return true;
-		} else if (value.equals("f")){
+		} else if (value.equals("f") || value.equals("false")){
 			return false;
 		} else {
 			throw new SemanticError("value ''" + value + "'' is not a boolean value.");
