@@ -79,7 +79,6 @@ public class GameplayState extends BasicGameState{
 	
 	//EXTERNAL VARIABLES AND DATA=========================================
 	PlayerClient pc;
-	private BaseLevel level; //soon to be deprecated
 	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
@@ -91,7 +90,7 @@ public class GameplayState extends BasicGameState{
 	public GameplayState(int i){
 		
 		this.id = i;
-//		this.levelData = lvl.buildLevel();	//keep this here for now.
+//		this.levelData = lvl.buildLevel();	//XXX:remove me soon, we seem to have level rsts loading
 		this.boundsCheck = 1;
 		this.gameOver = false;		
 		this.gameIni = true;		
@@ -165,7 +164,7 @@ public class GameplayState extends BasicGameState{
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
 		if(gameIni){
-			this.lb = new LevelBuilder();
+//			this.lb = new LevelBuilder();	XXX:remove me soon
 			lb.setEntFac(entFac);
 			//TODO: part of fixing level loading
 //			this.levelData = lb.buildLevel(entFac);
@@ -175,9 +174,6 @@ public class GameplayState extends BasicGameState{
 			this.doodads = new HashMap<Integer, BaseEnt>();
 			this.clients = new HashMap<Integer, PlayerClient>();
 			this.incomingClientShips = new HashMap<String, BasicShip>();
-
-			level = new BaseLevel("Scratch", new Rectangle(0,0,1600,1600));
-			level.setBkgIMG(new Image("assets/images/ScratchLevel.png"));
 		
 			//create the client ship
 			if(pc.getPlayShip()==null){

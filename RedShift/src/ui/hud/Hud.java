@@ -8,7 +8,6 @@ import level.NavPoint;
 import level.triggers.BasicTrigger;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -21,8 +20,8 @@ import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 import ui.UILib;
-import core.GameplayState;
 import core.GameDatabase;
+import core.GameplayState;
 import core.PlayerClient;
 import ents.BasicShip;
 
@@ -155,17 +154,18 @@ public class Hud {
 	private void renderMinimap(Graphics gfx, int camX, int camY) {
 		float ratio = 1.0f/100f;
 		int xOffset = hdm.getMinimap_point_mod().x, yOffset = hdm.getMinimap_point_mod().y;
-		Rectangle actArea, warnArea;
-		actArea = new Rectangle(cgs.getLevel().getActiveArea().getX()*ratio+xOffset,
-								cgs.getLevel().getActiveArea().getY()*ratio+yOffset,
-								cgs.getLevel().getActiveArea().getWidth()*ratio,
-								cgs.getLevel().getActiveArea().getHeight()*ratio);
-		
-		warnArea = new Rectangle(cgs.getLevel().getWarnArea().getX()*ratio+xOffset,
-								cgs.getLevel().getWarnArea().getY()*ratio+yOffset,
-								cgs.getLevel().getWarnArea().getWidth()*ratio,
-								cgs.getLevel().getWarnArea().getHeight()*ratio);
-		
+		Shape actArea, warnArea;
+		actArea = new Rectangle(cgs.getLevel().getActiveArea().getX() * ratio
+				+ xOffset, cgs.getLevel().getActiveArea().getY() * ratio
+				+ yOffset, cgs.getLevel().getActiveArea().getWidth() * ratio,
+				cgs.getLevel().getActiveArea().getHeight() * ratio);
+
+		warnArea = new Rectangle(cgs.getLevel().getWarnArea().getX() * ratio
+				+ xOffset, cgs.getLevel().getWarnArea().getY() * ratio
+				+ yOffset, cgs.getLevel().getWarnArea().getWidth() * ratio, cgs
+				.getLevel().getWarnArea().getHeight()
+				* ratio);
+
 		gfx.setColor(Color.red);
 		gfx.draw(warnArea);
 		gfx.setColor(Color.green);
