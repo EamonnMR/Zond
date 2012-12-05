@@ -372,6 +372,8 @@ public class GameDatabase {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
 			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
+			//set the faction
+			level.setFaction(Integer.valueOf(s.getValue("faction")));
 			//set the play area
 			level.setActiveArea(parseShape(s, "active"));
 			//set the warning area
@@ -549,9 +551,23 @@ public class GameDatabase {
 	private static ShipDesc getShipDesc(StringTree t){
 		//Extract each field from the RST
 		//This should make sense by now
+		String gun="", engine="";
+		if(t.getValue("gun").equals("")){
+			gun = null;
+		}else {
+			gun = t.getValue("gun");
+		}
+		
+		if(t.getValue("engine").equals("")){
+			engine = null;
+		}else {
+			engine = t.getValue("engine");
+		}
+		
+		
 		return new ShipDesc(t.getValue("kind"),
-				t.getValue("gun"),
-				t.getValue("engine"),
+				gun,
+				engine,
 				parsePoint(t.getValue("loc")),
 				//getEffect(t.getSubTree("deatheffects")),
 				getBoolean(t.getValue("isAi")));

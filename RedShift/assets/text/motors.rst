@@ -26,6 +26,7 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
+	[tltip]		(an engine)
 }
 
 [medEngine]{
@@ -40,6 +41,7 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
+	[tltip]		(an engine)
 }
 
 
@@ -55,4 +57,5 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
+	[tltip]		(an engine)
 }
