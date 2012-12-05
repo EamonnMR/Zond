@@ -167,7 +167,8 @@ public class GameplayState extends BasicGameState{
 		if(gameIni){
 			this.lb = new LevelBuilder();
 			lb.setEntFac(entFac);
-			this.levelData = lb.buildLevel(entFac);
+			//TODO: part of fixing level loading
+//			this.levelData = lb.buildLevel(entFac);
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
@@ -665,7 +666,7 @@ public class GameplayState extends BasicGameState{
 	}
 	
 	//AI TESTING
-	//XXX:REMOVE ME
+	//XXX:remove when ai works...perhaps
 	private void buildAIShips() {
 		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
 		zond1.ini(200, 600, 0f);

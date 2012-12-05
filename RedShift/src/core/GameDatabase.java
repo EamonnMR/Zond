@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
 
 import level.LevelDataModel;
+import level.NavPoint;
 import level.TriggerFactory;
 import level.triggers.BasicTrigger;
 
@@ -372,23 +372,29 @@ public class GameDatabase {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
 			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
+			
 			//set the faction
 			level.setFaction(Integer.valueOf(s.getValue("faction")));
+			
 			//set the play area
 			level.setActiveArea(parseShape(s, "active"));
+			
 			//set the warning area
-			level.setActiveArea(parseShape(s, "margin"));
+			level.setWarnArea(parseShape(s, "margin"));
+			
 			//set the spawn point
 			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+			
 			//Get the name of the music to use
 			level.setMusic(s.getValue( "music"));
-
+			
+			//create nav points
+			level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
+			
 			//Create the trigger set
 			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
 
-			//create nav points
-//			level.setNavMap(parseNavPoints());
-			
+
 			indexScenarios.put(level.getName(),level);
 			System.out.println("Loaded ''" + f.getName() + "'' at location: ''" + f.getAbsolutePath() + "''.");
 		}
@@ -411,17 +417,17 @@ public class GameDatabase {
 			//I'm a baaaaad person
 			StringTree t = tr.getSubTree(s);
 			//To understand this properly, look at TriggerFactory
-			String typeClass = t.getValue("type"); //XXX: was "class" but does not match rst file
+			String typeClass = t.getValue("type");
 			String[] argList = Strings(t.getValue("trigtype"),
 					t.getValue("name"),
 					t.getValue("x"),
 					t.getValue("y"),
-					t.getValue("target") );
+					t.getValue("target"),
+					t.getValue("trigstate"));
 			if(typeClass.equals("spawn")){
 				d = getShipDesc(t.getSubTree("toSpawn"));
 			} else if(typeClass.equals("togglenav")){
-				catEnMasse(argList,t.getValue("x"),
-				t.getValue("y"),
+				argList = catEnMasse(argList,
 				t.getValue("navPointName"),
 				t.getValue("initialState"));
 			}
@@ -429,10 +435,24 @@ public class GameDatabase {
 			parseShape(t, "collider");
 			//FIXME: Dyke any refrences to the entity factory out of the trigger factory
 			trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
+			int i = 0;
 		}
 		return trigs;
 	}
 
+	private HashMap<String, NavPoint> parseNavPoints(StringTree topLevel){
+		HashMap<String, NavPoint> points = new HashMap<String, NavPoint>();
+		for(String s : topLevel.childSet()){
+			//I, PWR, am also a baaaad person for copying the above bad person
+			StringTree node = topLevel.getSubTree(s);
+			points.put(node.getValue("name"), new NavPoint(Integer.valueOf(node.getValue("x")),
+															Integer.valueOf(node.getValue("y")),
+															node.getValue("name"),
+															getBoolean(node.getValue("state"))));
+		}
+		return points;
+	}
+	
 	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
 		StringTree s = loadRst("assets/text/levellist.rst");
 		for (String child : s.childSet()){
@@ -500,7 +520,7 @@ public class GameDatabase {
 	 * Add a single String to the end of an array of strings-
 	 * complex enough to stuff into it's own method.
 	 * 
-	 * Named cat after the catenate command (and since it's so short)
+	 * Named cat after the concatenate command (and since it's so short)
 	 */
 	public static String[] cat(String[] train, String caboose){
 		String[] toSender = new String[train.length + 1];
@@ -509,14 +529,26 @@ public class GameDatabase {
 		return toSender;
 	}
 	
+	/**
+	 * takes a string array and a string, and places the string at the end of the array
+	 * @param train
+	 * @param caboose
+	 */
 	public static void catIp(String[] train, String caboose){
 		train = cat(train, caboose);
 	}
 	
+	/**
+	 * takes two string arrays can puts them together sequentially
+	 * @param train
+	 * @param caboose
+	 * @return
+	 */
 	public static String[] catEnMasse(String[] train, String... caboose){
 		String[] toSender = new String[train.length + caboose.length];
 		System.arraycopy(train, 0, toSender,  0, train.length);
-		System.arraycopy(caboose, 0, toSender,  train.length - 1, caboose.length);
+//		System.arraycopy(caboose, 0, toSender,  train.length - 1, caboose.length);	//i get hung up on array positions too sometimes, but i dont think its len-1
+		System.arraycopy(caboose, 0, toSender,  train.length, caboose.length);
 		return toSender;
 	}
 	
@@ -537,7 +569,11 @@ public class GameDatabase {
 		return sourceTree.getValue(cat(sourcePath, last));
 	}
 	
-	
+	/**
+	 * creates a <link>java.awt.Point</link> from a strings
+	 * @param str
+	 * @return
+	 */
 	private static double[] parsePoint(String str){
 		String[] numbers =  str.split(" ");
 		double[] toSender = new double[ numbers.length ];
@@ -553,23 +589,22 @@ public class GameDatabase {
 	private static ShipDesc getShipDesc(StringTree t){
 		//Extract each field from the RST
 		//This should make sense by now
-		String gun="", engine="";
-		if(t.getValue("gun").equals("")){
-			gun = null;
-		}else {
-			gun = t.getValue("gun");
-		}
-		
-		if(t.getValue("engine").equals("")){
-			engine = null;
-		}else {
-			engine = t.getValue("engine");
-		}
-		
+//		String gun="", engine="";
+//		if(.equals("")){
+//			gun = null;
+//		}else {
+//			gun = t.getValue("gun");
+//		}
+//		
+//		if(t.getValue("engine").equals("")){
+//			engine = null;
+//		}else {
+//			engine = t.getValue("engine");
+//		}
 		
 		return new ShipDesc(t.getValue("kind"),
-				gun,
-				engine,
+				checkStringNull(t.getValue("gun")),
+				checkStringNull(t.getValue("engine")),
 				parsePoint(t.getValue("loc")),
 				//getEffect(t.getSubTree("deatheffects")),
 				getBoolean(t.getValue("isAi")));
@@ -585,6 +620,14 @@ public class GameDatabase {
 			throw new SemanticError("value ''" + value + "'' is not a boolean value.");
 		}
 		
+	}
+	
+	private static String checkStringNull(String toCheck){
+		if(toCheck.equals("")){
+			return null;
+		}else{
+			return toCheck;
+		}
 	}
 	
 	/**

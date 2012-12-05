@@ -55,16 +55,18 @@ public class TriggerFactory {
 			trigger = new ToggleNavPoint();
 			doBasicSetup(cldr, args, trigger);
 			buildToggleNavPoint((ToggleNavPoint)trigger, args);
+			return trigger;
 		}
 		return null;
 	}
 
 	private void doBasicSetup(Shape cldr, String[] args, BasicTrigger t) {
-		t.setName(args[0]);								//arg0 = name
-		t.setTriggerType(convertTrigType(args[1]));		//arg1 = enumerated trigger type
+		t.setTriggerType(convertTrigType(args[0]));		//arg0 = enumerated trigger type
+		t.setName(args[1]);								//arg1 = name
 		t.setX(Integer.valueOf(args[2]));				//arg2 = trig's x
 		t.setY(Integer.valueOf(args[3]));				//arg3 = trig's y
 		t.setTargetName(args[4]);						//arg4 = trigs targetname
+		t.trigger(Boolean.valueOf(args[5]));			//arg5 = trig's starting boolean
 		t.setCollider(cldr);
 	}
 
@@ -158,14 +160,17 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
-		boolean boolVal = Boolean.valueOf(args[8]);
-		NavPoint p = new NavPoint(Float.valueOf(args[5]),Float.valueOf(args[6]),args[7], boolVal);
-		t.setNavPoint(p);
-		t.trigger(boolVal);
+		boolean boolVal = Boolean.valueOf(args[7]);
+//		NavPoint p = new NavPoint(Float.valueOf(args[6]),Float.valueOf(args[7]),args[8], boolVal);
+		t.setNavPointer(args[6]);
+		t.setNavState(boolVal);
+//		t.setNavPoint(p);
+//		t.trigger(boolVal);
+		
+		
 	}
 
 	public EntityFactory getEntFac() {
-		// TODO Auto-generated method stub
-		return null;
+		return entFac;
 	}
 }

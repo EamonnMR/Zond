@@ -276,7 +276,8 @@ public class HangarBayState extends BasicGameState {
 				pc.getPlayShip().setWeapon(displayGun);
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-//				gamePlay.setLevel(levelToPlay);
+				//TODO: part of level loading
+				gamePlay.setLevel(levelToPlay);
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;
