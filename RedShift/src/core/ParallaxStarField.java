@@ -13,7 +13,7 @@ public class ParallaxStarField{
 	boolean[] drawMe;
 	private int numStars;
 	
-	
+	//XXX:oi! clean up this language, you fuck nugget
 	public void FUCKsetImg(Image img){
 		//HURR CANT PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
 		if (this.img == null){

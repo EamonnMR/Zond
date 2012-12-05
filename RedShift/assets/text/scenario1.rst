@@ -43,6 +43,30 @@
 		[y]		(2088)
 		[state]		(t)
 	}
+	{
+		[name]		(beta)
+		[x]		(-2336)
+		[y]		(5670)
+		[state]		(t)
+	}
+	{
+		[name]		(cappa)
+		[x]		(-2816)
+		[y]		(-2104)
+		[state]		(t)
+	}
+	{
+		[name]		(delta)
+		[x]		(1928)
+		[y]		(-2104)
+		[state]		(t)
+	}
+	{
+		[name]		(epsilon)
+		[x]		(0)
+		[y]		(0)
+		[state]		(t)
+	}
 >
 
 /Triggers/
@@ -126,6 +150,39 @@
 	}
 	/Level Triggers/
 	/---Alpha Objective/
+	/------Alpha Counter
+	{
+		[type]		(count)
+		[name]		(killatalpha)
+		[trigtype]	(TRIGGER)
+		[x]		(0)
+		[y]		(0)
+		[collider]{
+			[type] (circle)
+			[x](0)[y](0)
+			[radius](1)
+		}
+		[target]	(alphaoff)
+		[trigstate]	(f)
+		[total]		(3)
+	}
+	/------shut off alpha
+	{
+		[type]		(togglenav)
+		[name]		(alphaoff)
+		[trigtype]	(TRIGGER)
+		[x]		(0)
+		[y]		(0)
+		[collider]{
+			[type] (circle)
+			[x](0)[y](0)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[navPointName]	(alpha)
+		[setstate]	(false)
+	}
 	/------nav point trigger/
 	{
 		[type]		(togglenav)
@@ -141,7 +198,7 @@
 		[target]	(spawnAlphaVosk1)
 		[trigstate]	(f)
 		[navPointName]	(alpha)
-		[initialState]	(true)
+		[setstate]	(true)
 	}
 	/------spawn voskhod1/
 	{
@@ -166,6 +223,8 @@
 			[isAi]	(f)		
 		}
 	}
+	/-------voskhod1 dies/
+
 	/------spawn voskhod2/
 	{
 		[type]		(spawn)
@@ -189,6 +248,7 @@
 			[isAi]	(f)			
 		}
 	}
+	/-------voskhod2 dies/
 	/------spawn vostok1/
 	{
 		[type]		(spawn)
@@ -211,5 +271,6 @@
 			[deatheffects](null)
 			[isAi]	(f)			
 		}
-	}		
+	}
+	/-------vostok1 dies/		
 >
