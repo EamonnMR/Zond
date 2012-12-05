@@ -56,6 +56,11 @@ public class TriggerFactory {
 			doBasicSetup(cldr, args, trigger);
 			buildToggleNavPoint((ToggleNavPoint)trigger, args);
 			return trigger;
+		}else if(classType.equals("count")){
+			trigger = new CountTrigger();
+			doBasicSetup(cldr, args, trigger);
+			buildCountTrigger((CountTrigger)trigger, args);
+			return trigger;
 		}
 		return null;
 	}
@@ -70,6 +75,11 @@ public class TriggerFactory {
 		t.setCollider(cldr);
 	}
 
+	/**
+	 * parses a string to get the enum equivalent, trigType is essentially masking 
+	 * @param trigType
+	 * @return
+	 */
 	private TriggerTypes convertTrigType(String trigType) {
 		if(trigType.equals(TriggerTypes.SHIP.toString())){
 			return TriggerTypes.SHIP;
@@ -105,9 +115,9 @@ public class TriggerFactory {
 	 * @param name
 	 * @return
 	 */
-	public CountTrigger buildCountTrigger(String trigType, int tot, String name){
-		CountTrigger cot = new CountTrigger(convertTrigType(trigType), tot, name);
-		return cot;
+	public CountTrigger buildCountTrigger(CountTrigger c, String...args){
+		c.setTotal(Integer.valueOf(args[6]));
+		return c;
 	}
 
 	/**
@@ -161,13 +171,8 @@ public class TriggerFactory {
 	 */
 	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
 		boolean boolVal = Boolean.valueOf(args[7]);
-//		NavPoint p = new NavPoint(Float.valueOf(args[6]),Float.valueOf(args[7]),args[8], boolVal);
 		t.setNavPointer(args[6]);
 		t.setNavState(boolVal);
-//		t.setNavPoint(p);
-//		t.trigger(boolVal);
-		
-		
 	}
 
 	public EntityFactory getEntFac() {

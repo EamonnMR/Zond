@@ -428,8 +428,11 @@ public class GameDatabase {
 				d = getShipDesc(t.getSubTree("toSpawn"));
 			} else if(typeClass.equals("togglenav")){
 				argList = catEnMasse(argList,
-				t.getValue("navPointName"),
-				t.getValue("initialState"));
+							t.getValue("navPointName"),
+							t.getValue("setstate"));
+			}else if(typeClass.equals("count")){
+				argList = cat(argList,
+							t.getValue("total"));
 			}
 			
 			parseShape(t, "collider");

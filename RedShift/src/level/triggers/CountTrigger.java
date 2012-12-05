@@ -16,9 +16,17 @@ public class CountTrigger extends BasicTrigger {
 		this.total = tot;
 	}
 	
+	public CountTrigger(){
+		
+	}
+	
 	public void add(){
 		count++;
 		System.out.println(count);
+	}
+	
+	public void setTotal(int i){
+		total = i;
 	}
 	
 	public int getTotal(){
