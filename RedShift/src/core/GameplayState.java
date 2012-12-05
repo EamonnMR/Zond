@@ -45,6 +45,10 @@ import ents.EntityFactory;
 public class GameplayState extends BasicGameState{
 	private static GameplayState IAM;
 	
+	public static GameplayState getME(){
+		return IAM;
+	}
+	
 	public static boolean shipExists(int ship){
 		return IAM.ships.containsKey(ship);
 	}
@@ -667,7 +671,7 @@ public class GameplayState extends BasicGameState{
 		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
 		zond1.ini(200, 600, 0f);
 		addShip(zond1);
-		zond1.setState(new PursueState(zond1, pc.getPlayShip(),this, gfx));
+		zond1.setState(new PursueState(zond1, pc.getPlayShip()));
 	}
 	
 	public Graphics getGfx(){
