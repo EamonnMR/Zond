@@ -77,13 +77,13 @@
 			[x](512)[y](396)
 			[radius](1024)
 		}
-		[target]	(iniSkyLab)
+		[target]	(iniskylab)
 		[trigstate]	(f)
 	}
 	{
 		[type]		(spawn)
-		[name]		(iniSkylab)
-		[trigtype]	(null)
+		[name]		(iniskylab)
+		[trigtype]	(TRIGGER)
 		[x]		(0)
 		[y]		(0)
 		[collider]{
@@ -105,7 +105,7 @@
 	{
 		[type]		(spawn)
 		[name]		(iniAIShipTest)
-		[trigtype]	(SHIP)
+		[trigtype]	(TRIGGER)
 		[x]		(0)
 		[y]		(256)
 		[collider]{
@@ -147,7 +147,7 @@
 	{
 		[type]		(spawn)
 		[name]		(spawnAlphaVosk1)
-		[trigtype]	(ALL)
+		[trigtype]	(TRIGGER)
 		[x]		(2000)
 		[y]		(2088)
 		[collider]{
@@ -170,7 +170,7 @@
 	{
 		[type]		(spawn)
 		[name]		(spawnAlphaVosk2)
-		[trigtype]	(ALL)
+		[trigtype]	(TRIGGER)
 		[x]		(2584)
 		[y]		(1500)
 		[collider]{
@@ -193,7 +193,7 @@
 	{
 		[type]		(spawn)
 		[name]		(spawnAlphaVstk1)
-		[trigtype]	(ALL)
+		[trigtype]	(TRIGGER)
 		[x]		(3000)
 		[y]		(2088)
 		[collider]{

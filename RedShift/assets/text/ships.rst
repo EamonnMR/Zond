@@ -11,13 +11,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](4)
-		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](1000)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] (mercWire)
@@ -36,13 +34,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](8)
-		/[segments](28)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](1400)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] (gemWire)
@@ -61,13 +57,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](10)
-		/[segments](28)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](1800)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] (lunWire)
@@ -86,13 +80,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](8)
-		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](800)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] 	(vkdWire)
@@ -111,13 +103,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](8)
-		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](1200)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] 	(vksWire)
@@ -136,13 +126,11 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](9)
-		/[segments](24)/
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](1600)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] (zndWire)
@@ -159,18 +147,14 @@
 	[engPtLen](0)
 	[faction](1)
 	[collider]{
-		[type] (poly)
-		[points]<
-			<(-64)(42)> /x1, y1/
-			<(64)(42)> /x2, y2/
-			<(64)(-42)> /x3, y3/
-		>
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](24)
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](100)
-		/[segments](24)/
 	}
 	[deadsnd](shipexplode)
 	[wire] (mercWire)
