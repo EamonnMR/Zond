@@ -386,6 +386,8 @@ public class GameDatabase {
 			//Create the trigger set
 			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
 
+			//create nav points
+//			level.setNavMap(parseNavPoints());
 			
 			indexScenarios.put(level.getName(),level);
 			System.out.println("Loaded ''" + f.getName() + "'' at location: ''" + f.getAbsolutePath() + "''.");

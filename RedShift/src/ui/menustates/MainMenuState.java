@@ -16,10 +16,12 @@ import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.UIButton;
 import core.CoreStateManager;
 import core.GameDatabase;
+import core.GameplayState;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
@@ -169,7 +171,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 		if (scenBTN_rec.intersects(mouse_rec)) {
 			if (gc.getInput().isMousePressed(0)) {
-				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+//				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 				scenSelect=true;
 				
 			}
@@ -183,6 +185,16 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			if (gc.getInput().isMousePressed(0)) {
 				AL.destroy();
 				System.exit(0);
+			}
+		}
+		
+		for(UIButton u : uiButtons.values()){
+			if(u.getRectangle().intersects(mouse_rec)){
+				if(gc.getInput().isMouseButtonDown(0)){
+					HangarBayState hangar = (HangarBayState)stbg.getState(CoreStateManager.HANGARBAYSTATE);
+					hangar.setLevelToPlay((LevelDataModel)u.getThing());
+					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+				}
 			}
 		}
 
