@@ -2,6 +2,8 @@
 /[scenario1]{/
 	[name] (scenario1)	
 
+	[faction]	(1)
+
 	[active]{
 		[type] (circle)
 		[x](0)[y](0)
@@ -84,9 +86,9 @@
 			[target]	(iniAIShipTest)
 			[toSpawn]{
 				[kind]	(skylab)
-				[gun]	(null)
-				[engine](null)
-				[loc]	(0)(0)
+				[gun]	()
+				[engine]()
+				[loc]	(0 0)
 				[deatheffects](null)
 				[isAi]	(false)
 			}
@@ -107,7 +109,7 @@
 			[toSpawn]{
 				[kind]	(zond4)
 				[gun]	(las)
-				[engine](mediumEngine)
+				[engine](medEngine)
 				[loc]	(0 256)
 				[deatheffects](null)
 				[isAi]	(true)
@@ -150,7 +152,7 @@
 				[kind]	(voskhod)
 				[gun]	(plas)
 				[engine](smallEngine)
-				[loc]	(2000)(2088)
+				[loc]	(2000 2088)
 				[deatheffects](null)
 				[isAi]	(true)		
 			}
@@ -173,7 +175,7 @@
 				[kind]	(voskhod)
 				[gun]	(plas)
 				[engine](smallEngine)
-				[loc]	(2584)(1500)
+				[loc]	(2584 1500)
 				[deatheffects](null)
 				[isAi]	(true)			
 			}
@@ -195,8 +197,8 @@
 			[toSpawn]{
 				[kind]	(vostok)
 				[gun]	(60mm)
-				[engine](mediumEngine)
-				[loc]	(3000)(2088)
+				[engine](medEngine)
+				[loc]	(3000 2088)
 				[deatheffects](null)
 				[isAi]	(true)			
 			}

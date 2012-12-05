@@ -3,7 +3,6 @@ package ui.menustates;
 import java.util.HashMap;
 
 import level.LevelDataModel;
-import level.Scenario;
 
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.Color;
@@ -222,7 +221,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		natoY = 195;
 		warsY = 195;
 		for(UIButton u : uiButtons.values()){
-			Scenario s = (Scenario) u.getThing();
+			LevelDataModel s = (LevelDataModel) u.getThing();
 			if(s.getFaction()==0){
 				u.getRectangle().setX(warsX);
 				u.getRectangle().setY(warsY);

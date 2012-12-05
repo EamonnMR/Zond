@@ -28,6 +28,7 @@ public class LevelDataModel {
 	private boolean needUpdate;
 	private Point spawn;
 	private String music;
+	private int faction;
 	
 	public LevelDataModel(String name){
 		this.name = name;
@@ -165,4 +166,11 @@ public class LevelDataModel {
 		this.objectives = objectives;
 	}
 	
+	public void setFaction(int f){
+		this.faction = f;
+	}
+	
+	public int getFaction(){
+		return this.faction;
+	}
 }
