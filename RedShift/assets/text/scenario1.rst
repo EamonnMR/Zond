@@ -1,4 +1,4 @@
-/dummy scenario for testing purposes/
+/Scenario File alpha format/
 
 [name] (scenario1)	
 
@@ -79,20 +79,20 @@
 		/[y]		(0)/
 		/[collider]{SHAPE}/
 		/[target]	(trg1)/
-		/[trigstate]	(true/false)/
+		/[trigstate]	(true-false)/
 			
 		/for spawn type/
 		/[toSpawn]{SHIPDESC}/
 			
 		/for togglenav type/
 		/[navPointName]	(NAME)/
-		/[setstate]	(INITIAL STATE)/
+		/[setstate]	(t-f)/
 		
 		/for count type/
-		[total]		()
+		/[total]	(number)/
 	
 		/for multrig type/
-		[target]	(string) /for every trig name
+		/[target]	(string) for every trig name/
 			
 	/}/
 	/INI triggers - fired at level start/
@@ -156,7 +156,7 @@
 	}
 	/Level Triggers/
 	/---Alpha Objective/
-	/------Alpha Counter
+	/------Alpha Counter/
 	{
 		[type]		(count)
 		[name]		(killatalpha)
@@ -172,7 +172,7 @@
 		[trigstate]	(f)
 		[total]		(3)
 	}
-	/------shut off alpha
+	/------shut off alpha/
 	{
 		[type]		(togglenav)
 		[name]		(alphaoff)
