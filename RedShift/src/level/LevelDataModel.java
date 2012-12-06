@@ -19,7 +19,7 @@ import ents.ShipDesc;
  */
 public class LevelDataModel {
 
-	private String name;
+	private String name, toolTip, blurb;
 	private HashMap<String, BasicTrigger> triggerMap;
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
@@ -172,5 +172,21 @@ public class LevelDataModel {
 	
 	public int getFaction(){
 		return this.faction;
+	}
+
+	public String getToolTip() {
+		return toolTip;
+	}
+
+	public void setToolTip(String toolTip) {
+		this.toolTip = toolTip;
+	}
+
+	public String getUIDesc() {
+		return blurb;
+	}
+
+	public void setUIDesc(String blurb) {
+		this.blurb = blurb;
 	}
 }

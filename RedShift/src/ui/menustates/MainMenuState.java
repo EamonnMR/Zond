@@ -26,7 +26,7 @@ import core.GameplayState;
 public class MainMenuState extends BasicGameState implements MouseListener {
 
 	private int id, natoX=750, natoY=195, warsX=450,warsY=195;
-	private String title;
+	private String title, button="";
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
@@ -36,6 +36,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private HashMap<String, UIButton> uiButtons;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
+	private boolean rolloverScen;
 	
 	public MainMenuState(int i){
 		id = i;
@@ -133,9 +134,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		if(showCamp){
 			campRollovers();
 		}
-		if(showScen){
-			scenRollovers();
-		}
+//		if(showScen){
+//			scenRollovers();
+//		}
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
@@ -152,9 +153,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		if(!(gdb.getScenarios()==null)){
 			for(LevelDataModel s : gdb.getScenarios().values()){
-//				uiButtons.put(s, new Rectangle(0,0,s.getName().length()*12,17));
 				UIButton b = new UIButton(s.getName(), false, s);
-				b.setRectangle(new Rectangle(0,0,s.getName().length()*12, 17));
+				b.setRectangle(new Rectangle(0,0,(s.getName().length()+2)*12, 17));
 				uiButtons.put(s.getName(), b);
 			}
 		}
@@ -173,7 +173,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			if (gc.getInput().isMousePressed(0)) {
 //				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 				scenSelect=true;
-				
 			}
 		}
 		if (optBTN_rec.intersects(mouse_rec)) {
@@ -195,6 +194,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 					hangar.setLevelToPlay((LevelDataModel)u.getThing());
 					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 				}
+				rolloverScen = true;
+			}else{
+				rolloverScen = false;
 			}
 		}
 
@@ -219,16 +221,12 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			quitRollover = false;
 		}
 	}
-
-	private void scenRollovers(){
-		
-	}
 	
 	private void renderScenarios(Graphics gfx){
-		gdb.getFont("green").drawString(600, 155, "[SCENARIOS]");
-		gdb.getFont("green").drawString(450, 175, "-WarsawPact-");
-		gdb.getFont("green").drawString(750, 175, "-NATO-");
-		
+		greenFont.drawString(600, 155, "[SCENARIOS]");
+		greenFont.drawString(450, 175, "-WarsawPact-");
+		greenFont.drawString(750, 175, "-NATO-");
+
 		//show missions
 		natoY = 195;
 		warsY = 195;
@@ -237,19 +235,26 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			if(s.getFaction()==0){
 				u.getRectangle().setX(warsX);
 				u.getRectangle().setY(warsY);
-				
-				gdb.getFont("green").drawString(warsX, warsY, s.getName());
-				warsY+=17;
+				if(rolloverScen){
+					greenFont.drawString(warsX, warsY, "["+s.getName()+"]");
+					greenFont.drawString(90, 600, s.getToolTip());
+				}else{
+					greenFont.drawString(warsX, warsY, " "+s.getName()+" ");
+				}
+				warsY+=20;
 			}else if(s.getFaction()==1){
 				u.getRectangle().setX(natoX);
-				u.getRectangle().setY(natoY);
-				
-				gdb.getFont("green").drawString(natoX, natoY, s.getName());
-				natoY+=17;
+				u.getRectangle().setY(natoY);			
+				if(rolloverScen){
+					greenFont.drawString(natoX, natoY, "["+s.getName()+"]");
+					greenFont.drawString(90, 600, s.getToolTip());
+				}else{
+					greenFont.drawString(natoX, natoY, " "+s.getName()+" ");
+				}
+				natoY+=20;
 			}
-				
-
 		}
+
 	}
 	private void campRollovers() {
 

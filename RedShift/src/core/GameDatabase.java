@@ -376,17 +376,23 @@ public class GameDatabase {
 			//set the faction
 			level.setFaction(Integer.valueOf(s.getValue("faction")));
 			
+			//set the tooltip for the ui
+			level.setToolTip(s.getValue("tltip"));
+			
+			//short description for briefing
+			level.setUIDesc(s.getValue("desc"));
+			
+			//Get the name of the music to use
+			level.setMusic(s.getValue( "music"));
+			
+			//set the spawn point
+			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+			
 			//set the play area
 			level.setActiveArea(parseShape(s, "active"));
 			
 			//set the warning area
 			level.setWarnArea(parseShape(s, "margin"));
-			
-			//set the spawn point
-			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
-			
-			//Get the name of the music to use
-			level.setMusic(s.getValue( "music"));
 			
 			//create nav points
 			level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
