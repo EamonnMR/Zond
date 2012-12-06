@@ -79,14 +79,20 @@
 		/[y]		(0)/
 		/[collider]{SHAPE}/
 		/[target]	(trg1)/
-		/[trigstate]	()/
+		/[trigstate]	(true/false)/
 			
-		/Only if it's a "spawn" trigger/
+		/for spawn type/
 		/[toSpawn]{SHIPDESC}/
 			
-		/Only if it's a togglenav/
-		/[navPointName](NAME)/
-		/[initialState](INITIAL STATE)/
+		/for togglenav type/
+		/[navPointName]	(NAME)/
+		/[setstate]	(INITIAL STATE)/
+		
+		/for count type/
+		[total]		()
+	
+		/for multrig type/
+		[target]	(string) /for every trig name
 			
 	/}/
 	/INI triggers - fired at level start/

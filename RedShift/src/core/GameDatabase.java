@@ -433,12 +433,16 @@ public class GameDatabase {
 			}else if(typeClass.equals("count")){
 				argList = cat(argList,
 							t.getValue("total"));
+			}else if(typeClass.equals("multrig")){
+				//subtree this
+//				argList = cat(argList,
+//						t.getValue("total"));
 			}
 			
 			parseShape(t, "collider");
 			//FIXME: Dyke any refrences to the entity factory out of the trigger factory
 			trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
-			int i = 0;
+			int i = 0;	//XXX:simple breakpoint for debugging
 		}
 		return trigs;
 	}

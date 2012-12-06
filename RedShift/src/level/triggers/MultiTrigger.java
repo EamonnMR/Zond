@@ -15,6 +15,17 @@ public class MultiTrigger extends BasicTrigger{
 		this.targetNames = targets;
 	}
 	
+	public MultiTrigger(){
+		
+	}
+	
+	public void addTargetName(String s){
+//		use cat method here
+	}
+	
+	public void setTargetNames(String[] s){
+		targetNames = s;
+	}
 	public String[] getTargetNames(){
 		return targetNames;
 	}

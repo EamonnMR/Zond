@@ -16,7 +16,7 @@ public class BaseEnt {
 	private Image img;
 	private float turnrate;
 	private Shape collider;
-	private String trigger;
+	private String deathTrigger;
 	private Sound deathSnd;
 	
 	//constructors
@@ -83,12 +83,12 @@ public class BaseEnt {
 		this.collider = collider;
 	}
 
-	public void setTriggerTargetName(String trigger) {
-		this.trigger = trigger;
+	public void setOnDeathTriggerName(String trigger) {
+		this.deathTrigger = trigger;
 	}
 
-	public String getTriggerTargetName() {
-		return trigger;
+	public String getOnDeathTriggerName() {
+		return deathTrigger;
 	}
 
 	public Sound getDeathSnd() {

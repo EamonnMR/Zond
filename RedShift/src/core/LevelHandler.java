@@ -9,6 +9,7 @@ import level.LevelDataModel;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
 import level.triggers.CountTrigger;
+import level.triggers.MultiTrigger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -72,6 +73,12 @@ public class LevelHandler {
 					counter.trigger(false);
 					if(counter.getCount()>=counter.getTotal()){
 						executeTriggers.add(trig);
+					}
+				}else if(trig.getClass().equals(MultiTrigger.class)){
+					MultiTrigger m = (MultiTrigger)trig;
+					Dbg.line(m.getName()+" firing its list.");
+					for(String s : m.getTargetNames()){
+						executeTriggers.add(level.getTrigger(s));
 					}
 				}else{
 					// put these triggers into a queue, the whole trigger rather

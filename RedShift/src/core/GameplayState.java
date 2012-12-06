@@ -13,10 +13,8 @@ import level.triggers.DeathTrigger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
@@ -29,7 +27,6 @@ import ui.hud.HudDataModel;
 import ai.PursueState;
 import ents.AIShip;
 import ents.BaseEnt;
-import ents.BaseLevel;
 import ents.BasicShip;
 import ents.BasicShot;
 import ents.EntityFactory;
@@ -371,9 +368,9 @@ public class GameplayState extends BasicGameState{
 			if(ship.isDead()){
 				removeShips.add(entry.getKey());
 				ship.onDie(this);
-				if(ship.getTriggerTargetName()!=null){
-					if(levelData.getTrigger(ship.getTriggerTargetName()).getClass().equals(DeathTrigger.class)){
-						levelData.getTrigger(ship.getTriggerTargetName()).trigger(true);
+				if(ship.getOnDeathTriggerName()!=null){
+					if(levelData.getTrigger(ship.getOnDeathTriggerName()).getClass().equals(DeathTrigger.class)){
+						levelData.getTrigger(ship.getOnDeathTriggerName()).trigger(true);
 						levelData.setNeedUpdate(true);
 					}
 				}

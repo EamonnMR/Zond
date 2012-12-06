@@ -61,6 +61,10 @@ public class TriggerFactory {
 			doBasicSetup(cldr, args, trigger);
 			buildCountTrigger((CountTrigger)trigger, args);
 			return trigger;
+		}else if(classType.equals("multrig")){
+			trigger = new MultiTrigger();
+			doBasicSetup(cldr, args, trigger);
+			buildMultiTrigger((MultiTrigger)trigger, args);
 		}
 		return null;
 	}
@@ -147,9 +151,11 @@ public class TriggerFactory {
 	 * @param targets
 	 * @return
 	 */
-	public MultiTrigger buildMultiTrigger(TriggerTypes trig, String[] targets){
-		MultiTrigger mul = new MultiTrigger(trig, targets);
-		return mul;
+	public MultiTrigger buildMultiTrigger(MultiTrigger t, String...args){
+		String[] train = new String[args.length-6];
+		System.arraycopy(args, 6, train, 0, train.length);
+		t.setTargetNames(train);
+		return t;
 	}
 	
 	/**

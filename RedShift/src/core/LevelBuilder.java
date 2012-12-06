@@ -139,15 +139,15 @@ public class LevelBuilder {
 		//alpha death triggers
 		DeathTrigger ship1Death = new DeathTrigger(null, "ship1Death");
 		ship1Death.setTargetName(killAllatAlpha.getName());
-		makeShip1.getShip().setTriggerTargetName(ship1Death.getName());
+		makeShip1.getShip().setOnDeathTriggerName(ship1Death.getName());
 		
 		DeathTrigger ship2Death = new DeathTrigger(null, "ship2Death");
 		ship2Death.setTargetName(killAllatAlpha.getName());
-		makeShip2.getShip().setTriggerTargetName(ship2Death.getName());
+		makeShip2.getShip().setOnDeathTriggerName(ship2Death.getName());
 		
 		DeathTrigger ship3Death = new DeathTrigger(null, "ship3Death");
 		ship3Death.setTargetName(killAllatAlpha.getName());
-		makeShip3.getShip().setTriggerTargetName(ship3Death.getName());
+		makeShip3.getShip().setOnDeathTriggerName(ship3Death.getName());
 		
 		//complete alpha objective
 		ToggleNavPoint togAlpha = new ToggleNavPoint(null, navAlpha, false);
