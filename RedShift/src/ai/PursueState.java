@@ -1,6 +1,5 @@
 package ai;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -27,10 +26,9 @@ public class PursueState extends AIState{
 		GameplayState g;
 		static double TWOPI = Math.PI * 2;
 		
-	public PursueState(AIShip p, BasicShip target, GameplayState gs, Graphics gfx){
+	public PursueState(AIShip p, BasicShip target){
 		ship = p;
 		targ =target;
-		g = gs;
 	}
 	
 	public void onUpdate(int delta){
@@ -71,7 +69,7 @@ public class PursueState extends AIState{
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
 					if(ship.tryShot()){
-						g.addShot(ship.getWeapon().makeShot());
+						GameplayState.getME().addShot(ship.getWeapon().makeShot());
 					}
 				}
 			}
