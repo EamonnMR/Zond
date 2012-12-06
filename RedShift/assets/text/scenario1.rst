@@ -4,23 +4,10 @@
 
 [faction]	(1)
 
-[active]{
-	[type] (circle)
-	[x](0)[y](0)
-	[radius](64000)
-}
+[tltip]		(A short test scnenario)
 
-[margin]{
-	[type] (circle)
-	[x](0)[y](0)
-	[radius](96000)
-}
-	
-[spawnX]	(512)
-[spawnY]	(250)
+[desc]		(Patrol each way point, kill things)
 
-[music]	(name)
-	
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
 	
@@ -34,6 +21,23 @@
 	/ship descriptors here/
 }
 
+[music]	(name)
+
+[spawnX]	(512)
+[spawnY]	(250)
+
+[active]{
+	[type] (circle)
+	[x](0)[y](0)
+	[radius](64000)
+}
+
+[margin]{
+	[type] (circle)
+	[x](0)[y](0)
+	[radius](96000)
+}
+	
 /NavPoints must be before trigs :P/
 /waitta minute...buildNavPointTrigger creates a new nav point..../
 [navpoints]<
