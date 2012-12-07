@@ -8,7 +8,6 @@ import level.LevelDataModel;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
-import level.triggers.DeathTrigger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

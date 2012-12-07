@@ -77,6 +77,7 @@ public class LevelHandler {
 				}else if(trig.getClass().equals(MultiTrigger.class)){
 					MultiTrigger m = (MultiTrigger)trig;
 					Dbg.line(m.getName()+" firing its list.");
+					executeTriggers.add(m);
 					for(String s : m.getTargetNames()){
 						executeTriggers.add(level.getTrigger(s));
 					}
@@ -95,7 +96,7 @@ public class LevelHandler {
 		//8/10/2012 new functionality
 			//scan all triggers, see if they have a target trigger or target action to fire
 		for(BasicTrigger trig : executeTriggers){
-			trig.go(cgs);
+				trig.go(cgs);
 			if(trig.getTargetName()!=null){
 				for(String trigName : level.getTriggerMap().keySet()){
 					if(trigName.equals(trig.getTargetName())){

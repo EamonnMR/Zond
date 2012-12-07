@@ -63,6 +63,7 @@ public class TriggerFactory {
 			trigger = new MultiTrigger();
 			doBasicSetup(cldr, args, trigger);
 			buildMultiTrigger((MultiTrigger)trigger, args);
+			return trigger;
 		}
 		return null;
 	}
