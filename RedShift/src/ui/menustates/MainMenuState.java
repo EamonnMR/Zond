@@ -16,27 +16,24 @@ import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.UIButton;
 import core.CoreStateManager;
 import core.GameDatabase;
-import core.GameplayState;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
 	private int id, natoX=750, natoY=195, warsX=450,warsY=195;
-	private String title, button="";
+	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
-	private boolean campRollover, scenRollover, optRollover, quitRollover, ini, showScen, showCamp;
+	private boolean campRollover, scenRollover, optRollover, quitRollover, ini, showCamp;
 	private Input i;
 	private boolean scenSelect;
 	private HashMap<String, UIButton> uiButtons;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
-	private boolean rolloverScen;
 	
 	public MainMenuState(int i){
 		id = i;
@@ -92,7 +89,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}else{
 			greenFont.drawString(90, 155, " (Scenario) ");
 		}
-		//TODO:stub: display scenario selection features
+		
 		if(scenSelect){
 			renderScenarios(gfx);
 		}
@@ -194,9 +191,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 					hangar.setLevelToPlay((LevelDataModel)u.getThing());
 					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 				}
-				rolloverScen = true;
+				u.setState(true);
 			}else{
-				rolloverScen = false;
+				u.setState(false);
 			}
 		}
 
@@ -235,23 +232,25 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 			if(s.getFaction()==0){
 				u.getRectangle().setX(warsX);
 				u.getRectangle().setY(warsY);
-				if(rolloverScen){
+				if(u.isState()){
 					greenFont.drawString(warsX, warsY, "["+s.getName()+"]");
 					greenFont.drawString(90, 600, s.getToolTip());
 				}else{
 					greenFont.drawString(warsX, warsY, " "+s.getName()+" ");
 				}
 				warsY+=20;
+				gfx.draw(u.getRectangle());
 			}else if(s.getFaction()==1){
 				u.getRectangle().setX(natoX);
 				u.getRectangle().setY(natoY);			
-				if(rolloverScen){
+				if(u.isState()){
 					greenFont.drawString(natoX, natoY, "["+s.getName()+"]");
 					greenFont.drawString(90, 600, s.getToolTip());
 				}else{
 					greenFont.drawString(natoX, natoY, " "+s.getName()+" ");
 				}
 				natoY+=20;
+				gfx.draw(u.getRectangle());
 			}
 		}
 
