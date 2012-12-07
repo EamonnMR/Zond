@@ -373,10 +373,8 @@ public class GameplayState extends BasicGameState{
 				removeShips.add(entry.getKey());
 				ship.onDie(this);
 				if(ship.getOnDeathTriggerName()!=null){
-					if(levelData.getTrigger(ship.getOnDeathTriggerName()).getClass().equals(DeathTrigger.class)){
-						levelData.getTrigger(ship.getOnDeathTriggerName()).trigger(true);
-						levelData.setNeedUpdate(true);
-					}
+					levelData.getTrigger(ship.getOnDeathTriggerName()).trigger(true);
+					levelData.setNeedUpdate(true);
 				}
 				if(ship.equals(pc.getPlayShip())){
 					gameOver = true;

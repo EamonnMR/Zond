@@ -3,7 +3,6 @@ package level;
 import level.triggers.BasicTrigger;
 import level.triggers.CompleteObjective;
 import level.triggers.CountTrigger;
-import level.triggers.DeathTrigger;
 import level.triggers.ManyShipSpawner;
 import level.triggers.MultiTrigger;
 import level.triggers.SpawnShip;
@@ -11,7 +10,6 @@ import level.triggers.ToggleNavPoint;
 
 import org.newdawn.slick.geom.Shape;
 
-import ents.BasicShip;
 import ents.EntityFactory;
 import ents.ShipDesc;
 
@@ -122,17 +120,6 @@ public class TriggerFactory {
 	public CountTrigger buildCountTrigger(CountTrigger c, String...args){
 		c.setTotal(Integer.valueOf(args[6]));
 		return c;
-	}
-
-	/**
-	 * builds a new Death Trigger
-	 * @param trig
-	 * @param name
-	 * @return
-	 */
-	public DeathTrigger buildDeathTrigger(String trigType, String name){
-		DeathTrigger det = new DeathTrigger(convertTrigType(trigType), name);
-		return det;
 	}
 	
 	/**

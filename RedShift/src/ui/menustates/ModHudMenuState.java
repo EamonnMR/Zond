@@ -103,15 +103,15 @@ public class ModHudMenuState extends BasicGameState {
 										"[MINIMAP]");
 		
 		if(onBack){
-			greenFont.drawString(569,272, "[(Back)]");
+			greenFont.drawString(569,282, "[(Back)]");
 		}else{
-			greenFont.drawString(569,272, " (Back) ");
+			greenFont.drawString(569,282, " (Back) ");
 		}
 		
 		if(onReset){
-			greenFont.drawString(347, 272, "[(Reset)]");
+			greenFont.drawString(347, 282, "[(Reset)]");
 		}else{
-			greenFont.drawString(347, 272, " (Reset) ");
+			greenFont.drawString(347, 282, " (Reset) ");
 		}
 	}
 
@@ -235,9 +235,9 @@ public class ModHudMenuState extends BasicGameState {
 		ship = gdb.getIMG("mercury");
 		ship.rotate(-90);
 		
-		resetBTN_rec = new Rectangle(347,272,108,19);
+		resetBTN_rec = new Rectangle(347,282,108,19);
 		
-		backBTN_rec = new Rectangle(569,272,96,19);
+		backBTN_rec = new Rectangle(569,282,96,19);
 		
 		greenFont = gdb.getFont("green");
 		
