@@ -441,8 +441,8 @@ public class GameDatabase {
 							t.getValue("total"));
 			}else if(typeClass.equals("multrig")){
 				//subtree this
-//				argList = cat(argList,
-//						t.getValue("total"));
+				argList = catEnMasse(argList, 
+							parseTrigTargs(t.getSubTree("targets")));
 			}
 			
 			parseShape(t, "collider");
@@ -607,27 +607,13 @@ public class GameDatabase {
 	private static ShipDesc getShipDesc(StringTree t){
 		//Extract each field from the RST
 		//This should make sense by now
-//		String gun="", engine="";
-//		if(.equals("")){
-//			gun = null;
-//		}else {
-//			gun = t.getValue("gun");
-//		}
-//		
-//		if(t.getValue("engine").equals("")){
-//			engine = null;
-//		}else {
-//			engine = t.getValue("engine");
-//		}
-		
 		return new ShipDesc(t.getValue("kind"),
 				checkStringNull(t.getValue("gun")),
 				checkStringNull(t.getValue("engine")),
 				parsePoint(t.getValue("loc")),
 				//getEffect(t.getSubTree("deatheffects")),
 				getBoolean(t.getValue("isAi")),
-				t.getValue("deathtrig"));
-		
+				checkStringNull(t.getValue("deathtrig")));
 	}
 	
 	/**
@@ -657,6 +643,19 @@ public class GameDatabase {
 		}else{
 			return toCheck;
 		}
+	}
+	
+	/**
+	 * a one-off method that populates a multitrigger's targetname list with targets
+	 * @param t
+	 * @return
+	 */
+	private static String[] parseTrigTargs(StringTree t) {
+		String[] toSender = new String[t.childSet().size()];
+		for(int i=0; i< toSender.length; i++){
+				toSender[i] = t.getValue("targ"+i);
+		}
+		return toSender;
 	}
 	
 	/**
