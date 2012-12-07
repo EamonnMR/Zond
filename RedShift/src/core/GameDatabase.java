@@ -599,6 +599,11 @@ public class GameDatabase {
 		return toSender;
 	}
 	
+	/**
+	 * builds a ship desc
+	 * @param t
+	 * @return
+	 */
 	private static ShipDesc getShipDesc(StringTree t){
 		//Extract each field from the RST
 		//This should make sense by now
@@ -620,10 +625,16 @@ public class GameDatabase {
 				checkStringNull(t.getValue("engine")),
 				parsePoint(t.getValue("loc")),
 				//getEffect(t.getSubTree("deatheffects")),
-				getBoolean(t.getValue("isAi")));
+				getBoolean(t.getValue("isAi")),
+				t.getValue("deathtrig"));
 		
 	}
 	
+	/**
+	 * returns a bool primitive based on incoming string
+	 * @param value
+	 * @return
+	 */
 	private static boolean getBoolean(String value){
 		if (value.equals("t") || value.equals("true")){
 			return true;
@@ -635,6 +646,11 @@ public class GameDatabase {
 		
 	}
 	
+	/**
+	 * creates a null if a blank string is found
+	 * @param toCheck
+	 * @return
+	 */
 	private static String checkStringNull(String toCheck){
 		if(toCheck.equals("")){
 			return null;

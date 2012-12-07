@@ -47,7 +47,7 @@ public class CoreStateManager extends StateBasedGame {
 	private GameDatabase gDB;			//GameDataBase instance for whole game
 	private PlayerClient player;			//PlayerClient for the whole game
 	private EntityFactory entFac;		//Entity Factory for the whole game
-	private LevelBuilder lvbr;
+//	private LevelBuilder lvbr;
 	private HudDataModel hdm;
 	private TriggerFactory trigFac;
 	
@@ -84,7 +84,7 @@ public class CoreStateManager extends StateBasedGame {
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
 		player = new PlayerClient(1);
-		lvbr = new LevelBuilder();
+//		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
 		trigFac = new TriggerFactory();
 	}
@@ -118,7 +118,7 @@ public class CoreStateManager extends StateBasedGame {
 		
 		
 		//XXX:passing level builder as a temporary measure
-		gamePlay.customInit(player,gDB, entFac, lvbr, hdm );
+		gamePlay.customInit(player,gDB, entFac, hdm );
 		this.addState(gamePlay);
 	}
 

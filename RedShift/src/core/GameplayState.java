@@ -83,7 +83,7 @@ public class GameplayState extends BasicGameState{
 	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
-	private LevelBuilder lb; //Soon to be deprecated
+//	private LevelBuilder lb; //Soon to be deprecated
 	private Graphics gfx;
 	//====================================================================
 	
@@ -166,7 +166,7 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {
 		if(gameIni){
 //			this.lb = new LevelBuilder();	XXX:remove me soon
-			lb.setEntFac(entFac);
+//			lb.setEntFac(entFac);
 			//TODO: part of fixing level loading
 //			this.levelData = lb.buildLevel(entFac);
 			this.lh = new LevelHandler(levelData);
@@ -178,9 +178,9 @@ public class GameplayState extends BasicGameState{
 		
 			//create the client ship
 			if(pc.getPlayShip()==null){
-				pc.setPlayShip(entFac.stockMercury());
+				pc.setPlayShip(entFac.buildShip("mercury", "20mm", "smallEngine", false, null));
 			}else{
-				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false));
+				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
 			}
 			pc.getPlayShip().ini(512, 250, 0.0f);
 			
@@ -665,7 +665,7 @@ public class GameplayState extends BasicGameState{
 	//AI TESTING
 	//XXX:remove when ai works...perhaps
 	private void buildAIShips() {
-		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine");
+		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine", null);
 		zond1.ini(200, 600, 0f);
 		addShip(zond1);
 		zond1.setState(new PursueState(zond1, pc.getPlayShip()));
@@ -675,11 +675,11 @@ public class GameplayState extends BasicGameState{
 		return gfx;
 	}
 	
-	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, LevelBuilder lvl, HudDataModel h){
+	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, HudDataModel h){
 		this.hdm = h;
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-		this.lb = lvl;
+//		this.lb = lvl;
 	}
 }

@@ -25,7 +25,7 @@ public class LoaderState extends BasicGameState {
 	private TriggerFactory trigFac;
 	private int id;
 	public PlayerClient player;			//PlayerClient for the whole game
-	public LevelBuilder lvbr;
+//	public LevelBuilder lvbr;
 	
 	//constructor
 	public LoaderState(int i){
@@ -114,17 +114,17 @@ public class LoaderState extends BasicGameState {
 		
 		//get some ships
 		HashMap<String, BasicShip> testShips = new HashMap<String, BasicShip>();
-		BasicShip s1 = entFac.stockMercury();
+		BasicShip s1 = entFac.buildShip("mercury", null, null, false, null);
 		testShips.put(s1.getName(), s1);
-		BasicShip s2 = entFac.stockGem();
+		BasicShip s2 =  entFac.buildShip("gemini", null, null, false, null);
 		testShips.put(s2.getName(), s2);
-		BasicShip s3 = entFac.stockLunar();
+		BasicShip s3 =  entFac.buildShip("lunar", null, null, false, null);
 		testShips.put(s3.getName(), s3);
-		BasicShip s4 = entFac.stockVoskhod();
+		BasicShip s4 =  entFac.buildShip("voskhod", null, null, false, null);
 		testShips.put(s4.getName(), s4);
-		BasicShip s5 = entFac.stockVostok();
+		BasicShip s5 =  entFac.buildShip("vostok", null, null, false, null);
 		testShips.put(s5.getName(), s5);
-		BasicShip s6 = entFac.stockZond();
+		BasicShip s6 =  entFac.buildShip("zond4", null, null, false, null);
 		testShips.put(s6.getName(), s6);
 		player.setClientShips(testShips);
 	}

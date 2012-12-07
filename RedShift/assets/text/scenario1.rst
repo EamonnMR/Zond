@@ -134,6 +134,7 @@
 			[loc]	(0 0)
 			[deatheffects](null)
 			[isAi]	(f)
+			[deathtrig]()
 		}
 	}
 	{
@@ -156,6 +157,7 @@
 			[loc]	(0 256)
 			[deatheffects](null)
 			[isAi]	(f)
+			[deathtrig]()
 		}
 	}
 	/Level Triggers/
@@ -230,11 +232,10 @@
 			[engine](smallEngine)
 			[loc]	(2000 2088)
 			[deatheffects](null)
-			[isAi]	(f)		
+			[isAi]	(f)
+			[deathtrig](killatalpha)
 		}
 	}
-	/-------voskhod1 dies/
-
 	/------spawn voskhod2/
 	{
 		[type]		(spawn)
@@ -255,10 +256,10 @@
 			[engine](smallEngine)
 			[loc]	(2584 1500)
 			[deatheffects](null)
-			[isAi]	(f)			
+			[isAi]	(f)	
+			[deathtrig](killatalpha)		
 		}
 	}
-	/-------voskhod2 dies/
 	/------spawn vostok1/
 	{
 		[type]		(spawn)
@@ -279,8 +280,8 @@
 			[engine](medEngine)
 			[loc]	(3000 2088)
 			[deatheffects](null)
-			[isAi]	(f)			
+			[isAi]	(f)
+			[deathtrig](killatalpha)			
 		}
-	}
-	/-------vostok1 dies/		
+	}	
 >

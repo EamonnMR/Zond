@@ -33,7 +33,7 @@ public class EntityFactory {
 	 * @param engPointer pointer to engine in indexEng from GDB
 	 * @return BasicShip
 	 */
-	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer, boolean isAi){
+	public BasicShip buildShip(String shipPointer, String gunPointer, String engPointer, boolean isAi, String trig){
 		BasicShip build = isAi ? new AIShip() : new BasicShip();
 		build.setName(shipPointer);
 		build.setToolTip(gdb.getShip(shipPointer).getToolTip());
@@ -51,6 +51,7 @@ public class EntityFactory {
 		build.setDeathSnd(gdb.getShip(shipPointer).getDeathSnd());
 		build.getImg().setRotation(0);
 
+		build.setOnDeathTriggerName(trig);
 		if(gunPointer!=null){
 			BasicGun g = buildGun(gunPointer);
 			build.setWeapon(g);
@@ -69,12 +70,10 @@ public class EntityFactory {
 	 * @param engPointer
 	 * @return
 	 */
-	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer){
-		AIShip foe = (AIShip) buildShip(shipPointer, gunPointer, engPointer, true);
-		
-		foe.setWeapon(buildGun("20mm"));
-		foe.setEngine(buildEngine("smallEngine"));
-		
+	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer, String trig){
+		AIShip foe = (AIShip) buildShip(shipPointer, gunPointer, engPointer, true, trig);		
+//		foe.setWeapon(buildGun("20mm"));
+//		foe.setEngine(buildEngine("smallEngine"));	
 		return foe;
 	}
 	
@@ -136,57 +135,57 @@ public class EntityFactory {
 	}
 	
 	//=====SHIP BUILDERS=====
-	/**
-	 * Builds a basic Mercury class BasicShip
-	 * @return BasicShip
-	 */
-	public BasicShip stockMercury(){
-		return buildShip("mercury","20mm","smallEngine", false);
-	}
-	
-	/**
-	 * Builds a basic Gemini class BasicShip
-	 *@return BasicShip
-	 */
-	public BasicShip stockGem(){
-		return buildShip("gemini","60mm","medEngine", false);
-	}
-	
-	/**
-	 * Builds a basic Lunar Orbiter class BasicShip
-	 * @return BasicShip
-	 */
-	public BasicShip stockLunar(){
-		return buildShip("lunar","105mm","largeEngine", false);
-	}
-	
-	
-	public BasicShip stockSky(){
-		return buildShip("skylab", "105mm", "smallEngine", false);
-	}
-	/**
-	 * Builds a basic Vostok class BasicShip
-	 * @return BasicShip
-	 */
-	public BasicShip stockVostok(){
-		return buildShip("vostok","20mm","smallEngine", false);
-	}
-	
-	/**
-	 * Builds a basic Voskhod class BasicShip
-	 * @return BasicShip
-	 */
-	public BasicShip stockVoskhod(){
-		return buildShip("voskhod","20mm","smallEngine", false);
-	}
-
-	/**
-	 * Builds a basic Zond4 class BasicShip
-	 * @return BasicShip
-	 */
-	public BasicShip stockZond(){
-		return buildShip("zond4","20mm","smallEngine", false);
-	}
+//	/**
+//	 * Builds a basic Mercury class BasicShip
+//	 * @return BasicShip
+//	 */
+//	public BasicShip stockMercury(){
+//		return buildShip("mercury","20mm","smallEngine", false);
+//	}
+//	
+//	/**
+//	 * Builds a basic Gemini class BasicShip
+//	 *@return BasicShip
+//	 */
+//	public BasicShip stockGem(){
+//		return buildShip("gemini","60mm","medEngine", false);
+//	}
+//	
+//	/**
+//	 * Builds a basic Lunar Orbiter class BasicShip
+//	 * @return BasicShip
+//	 */
+//	public BasicShip stockLunar(){
+//		return buildShip("lunar","105mm","largeEngine", false);
+//	}
+//	
+//	
+//	public BasicShip stockSky(){
+//		return buildShip("skylab", "105mm", "smallEngine", false);
+//	}
+//	/**
+//	 * Builds a basic Vostok class BasicShip
+//	 * @return BasicShip
+//	 */
+//	public BasicShip stockVostok(){
+//		return buildShip("vostok","20mm","smallEngine", false);
+//	}
+//	
+//	/**
+//	 * Builds a basic Voskhod class BasicShip
+//	 * @return BasicShip
+//	 */
+//	public BasicShip stockVoskhod(){
+//		return buildShip("voskhod","20mm","smallEngine", false);
+//	}
+//
+//	/**
+//	 * Builds a basic Zond4 class BasicShip
+//	 * @return BasicShip
+//	 */
+//	public BasicShip stockZond(){
+//		return buildShip("zond4","20mm","smallEngine", false);
+//	}
 
 	//=====GUN BUILDER=====
 
@@ -226,7 +225,7 @@ public class EntityFactory {
 //	}
 	
 	public BasicShip shipFromDesc(ShipDesc desc){
-		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine, desc.isAi);
+		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine, desc.isAi, desc.trigtarg);
 		toSender.setDeathFx(desc.fx);
 		toSender.setX(desc.x);
 		toSender.setY(desc.y);
