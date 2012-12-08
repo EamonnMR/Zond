@@ -29,6 +29,7 @@ import ents.BaseEnt;
 import ents.BasicShip;
 import ents.BasicShot;
 import ents.EntityFactory;
+import ents.OptionsEnt;
 
 
 
@@ -84,6 +85,7 @@ public class GameplayState extends BasicGameState{
 	private Hud playerHud;
 //	private LevelBuilder lb; //Soon to be deprecated
 	private Graphics gfx;
+	private OptionsEnt ops;
 	//====================================================================
 	
 	//constructor
@@ -182,9 +184,9 @@ public class GameplayState extends BasicGameState{
 				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
 			}
 			pc.getPlayShip().ini(512, 250, 0.0f);
-			
+			ops = pc.getOptions();
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
-		
+			
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());
 
@@ -317,7 +319,7 @@ public class GameplayState extends BasicGameState{
 		}
 		if (p.isKeyDown(Input.KEY_LCONTROL)) {
 			if (pc.tryShot()) {
-				addShot(pc.getPlayShip().getWeapon().makeShot());
+				addShot(pc.getPlayShip().getWeapon().makeShot(pc.getOptions()));
 			}
 			pc.tryShot();
 		}
@@ -407,7 +409,7 @@ public class GameplayState extends BasicGameState{
 					double tempHP =ship.getValue().getHealth();
 					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
 					removeShots.add(shot.getKey());
-					shot.getValue().onHit();
+					shot.getValue().onHit(pc.getOptions());
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
 						deathReason = 1;

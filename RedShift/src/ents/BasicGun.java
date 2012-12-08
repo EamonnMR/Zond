@@ -43,7 +43,7 @@ public class BasicGun {
 	 * creates a shot at the gunpoint and moves in direction of gun at shot time
 	 * @return BasicShot
 	 */
-	public BasicShot makeShot(){
+	public BasicShot makeShot(OptionsEnt e){
 			BasicShot shot = new BasicShot();
 			shot.setImg(proj.getImg().copy());
 			shot.getImg().setRotation(img.getRotation());  //+0.001f
@@ -60,7 +60,7 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			shot.setSnd(proj.getSnd());
-			getFireSnd().playAt(0.6f, 0.2f, (float)shot.getX(), (float)shot.getY(), 0.0f);
+			getFireSnd().playAt(0.6f, e.getFxvol(), (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
 	

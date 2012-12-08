@@ -44,8 +44,8 @@ public class BasicShot extends BaseEnt {
 		}
 	}
 	
-	public void onHit() {
-		impactSnd.playAt(0.6f, 0.5f, (float)getX(), (float)getY(), 0.0f);
+	public void onHit(OptionsEnt e) {
+		impactSnd.playAt(0.6f, e.getFxvol(), (float)getX(), (float)getY(), 0.0f);
 	}
 	
 	public void render(int xOffset, int yOffset){
