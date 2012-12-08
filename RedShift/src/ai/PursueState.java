@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Vector2f;
 import core.GameplayState;
 import ents.AIShip;
 import ents.BasicShip;
+import ents.OptionsEnt;
 
 public class PursueState extends AIState{
 
@@ -31,7 +32,7 @@ public class PursueState extends AIState{
 		targ =target;
 	}
 	
-	public void onUpdate(int delta){
+	public void onUpdate(int delta, OptionsEnt e){
 //		System.out.println(ship.getName()+"::Pursuing");
 		
 		//algo
@@ -69,7 +70,7 @@ public class PursueState extends AIState{
 					ship.moveForward(delta);
 				}else if(distToTarg <=engageRange){
 					if(ship.tryShot()){
-						GameplayState.getME().addShot(ship.getWeapon().makeShot());
+						GameplayState.getME().addShot(ship.getWeapon().makeShot(e));
 					}
 				}
 			}
