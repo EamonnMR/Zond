@@ -134,9 +134,9 @@ public class HangarBayState extends BasicGameState {
 			greenFont.drawString(140, 500, " (Back) ");
 		}
 		if(accptBool==true){
-			greenFont.drawString(780, 500, "[(Accept)]");
+			greenFont.drawString(780, 500, "[(Launch)]");
 		}else{
-			greenFont.drawString(780, 500, " (Accept) ");
+			greenFont.drawString(780, 500, " (Launch) ");
 		}
 	}
 	
