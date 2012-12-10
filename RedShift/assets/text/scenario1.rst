@@ -76,13 +76,19 @@
 /objectives/
 [objectives]<
 	{
-		[name]	(CleanAlpha)
-		[tltip]	(kill all enemy ships at Nav Alpha)
+		[name]	(PatrolAlpha)
+		[tltip]	(Patrol Nav Alpha)
 		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)
 		[target]()
 		[state]	(false)
 	}
-
+	{
+		[name]	(SweepBeta)
+		[tltip]	(Remove 5 asteroids from Nav Beta)
+		[desc]	(We're installing a new listening post at Nav Beta, we need you to clear asteroids around Beta. Careful large asteroids will damage your hull.)
+		[target]()
+		[state]	(false)
+	}
 >
 
 /Triggers/

@@ -107,7 +107,7 @@ public class CoreStateManager extends StateBasedGame {
 		optionsMenu.customInit(player.getOptions(), gDB);
 		this.addState(optionsMenu);
 		
-		hangarBay.customInit(gDB, player, entFac);
+		hangarBay.customInit(gDB, player);
 		this.addState(hangarBay);
 		
 		modHud.customInit(hdm, gDB);

@@ -32,15 +32,13 @@ public class HangarBayState extends BasicGameState {
 
 	private int id, currentChoice, rolloverChoice;
 	private PlayerClient pc;
-	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec, weapons_rec, ships_rec, engines_rec, rollover, current;
+	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec, ships_rec ;
 	private BasicShip displayShip, tempShip;
 	private BasicGun displayGun, tempGun;
 	private BasicEngine displayEngine, tempEng;
 	private GameDatabase gdb;
 	private Image mainScn_i;
 	private UILib ulib;
-	private Point center;
-	private EntityFactory entFac;
 	private HashMap<Integer, BasicGun> guns;
 	private HashMap<Integer, BasicEngine> engines;
 	private HashMap<Integer, BasicShip> ships;
@@ -54,7 +52,6 @@ public class HangarBayState extends BasicGameState {
 	public HangarBayState(int i){
 		id = i;
 		ulib = new UILib();
-		center = new Point(512,500);
 		ini = true;
 	}
 	
@@ -65,8 +62,6 @@ public class HangarBayState extends BasicGameState {
 		acceptBTN_rec = new Rectangle(780,500, 120,17);
 		
 		//container recs
-//		weapons_rec, ships_rec, engines_rec, rollover, current
-		weapons_rec = new Rectangle(70, 75, 227, 140);
 		ships_rec = new Rectangle(326, 75, 372, 500);
 		//mouse...maybe there should be a mouse class next go around?
 		mouse_rec = new Rectangle(0,0,1,1);
@@ -99,7 +94,6 @@ public class HangarBayState extends BasicGameState {
 	}
 
 	private void renderContainers(Graphics gfx){
-//		gfx.draw(weapons_rec);
 		gfx.draw(ships_rec);
 	}
 	
@@ -265,7 +259,7 @@ public class HangarBayState extends BasicGameState {
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
-				arg1.enterState(CoreStateManager.MAINMENUSTATE);
+				arg1.enterState(CoreStateManager.BRIEFING);
 			}
 		}else if(acceptBTN_rec.intersects(mouse_rec)){
 			if(i.isMousePressed(0)){
@@ -276,7 +270,6 @@ public class HangarBayState extends BasicGameState {
 				pc.getPlayShip().setWeapon(displayGun);
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-				//TODO: part of level loading
 				gamePlay.setLevel(levelToPlay);
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
@@ -432,10 +425,9 @@ public class HangarBayState extends BasicGameState {
 		}
 	}
 
-	public void customInit(GameDatabase g, PlayerClient p, EntityFactory ef){
+	public void customInit(GameDatabase g, PlayerClient p){
 		gdb = g;
 		pc = p;
-		entFac = ef;
 	}
 	
 	@Override

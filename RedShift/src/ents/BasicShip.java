@@ -32,7 +32,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 	private Circle radar;					     //new functionality! radar! 
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
-	private effects.Effect deathFx;              //Effect that fires off when the ship dies
 	//(to replace death trigs)
 	
 	
@@ -222,9 +221,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void onDie(GameplayState c){
 		//Play sound
 		getDeathSnd().playAt(0.6f, 1.0f, (float)getX(), (float)getY(), 0.0f);
-		if (deathFx != null) {
-			c.pushEffect(deathFx);
-		}
+
 	}
 	
 	public int getTotalWeight() {
@@ -350,10 +347,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		return this.faction;
 	}
 	
-	public void setDeathFx(effects.Effect deathFx){
-		this.deathFx = deathFx;
-	}
-
 	public String getToolTip() {
 		return toolTip;
 	}

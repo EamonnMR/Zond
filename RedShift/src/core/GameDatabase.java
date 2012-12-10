@@ -533,7 +533,6 @@ public class GameDatabase {
 			parseShape(t, "collider");
 			//FIXME: Dyke any refrences to the entity factory out of the trigger factory
 			trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
-			int i = 0;	//XXX:simple breakpoint for debugging
 		}
 		return trigs;
 	}
@@ -714,83 +713,6 @@ public class GameDatabase {
 				toSender[i] = t.getValue("targ"+i);
 		}
 		return toSender;
-	}
-	
-	/**
-	 *  This class is only public because it's being tested.
-	 *  It won't do you any good to use it.
-	 */
-	public static effects.Effect getEffect(StringTree t){
-		//We need to upgrade to Java 7
-		//It can do a switch(string)
-		//Which would make this code much less ugly.
-		String type = t.getValue("type");
-		if(type.equals("defeat")){
-			return new effects.Defeat();
-			
-		} else if (type.equals("action")){
-			String flags = t.getValue("flags"); //These are tested in the below "contains" calls
-			return new effects.ModAction(t.getValue("target"),
-					flags.contains("ini"), 
-					flags.contains("fire"),
-					parseBool(t.getValue("done")));
-			
-		} else if(type.equals("navpoint")){
-			return new effects.ModNavPoint(t.getValue("target"),
-					parseBool(t.getValue("newstate")));
-			
-		} else if(type.equals("objective")){
-			return new effects.ModObjective(t.getValue("target"), 
-					parseBool(t.getValue("newstate")),
-					parseBool(t.getValue("newcompl")));
-			
-		}else if(type.equals("modtrig")){
-			return new effects.ModTrig(t.getValue("target"));
-			
-		} else if(type.equals("multi")){
-			//This one is clearly the most fun
-			int numberOfFx = t.childSet("effects").size();
-			//Get the highest number
-			if( numberOfFx == 0){
-				throw new SemanticError("Please don't use empty multi triggers.  It's counterproductive.");
-			}
-			effects.Effect[] fx = new effects.Effect[numberOfFx];
-			
-			for(int j = 0; j != numberOfFx; j++){
-				//This relies on the fact that an anon list's names are 0, 1, 2, etc.
-				fx[j] = getEffect(t.getSubTree("effects", Integer.toString(j)));
-				//Note that the args to getSubTree are parsed from (a, b, c) to {a, b, c}
-			}
-			return new effects.Multi(fx);
-			
-		} else if(type.equals("noop")){
-			return new effects.NoOp();
-			
-		} else if(type.equals("spawn")){
-			return new effects.Spawn(getShipDesc(t.getSubTree("ship")));
-			
-		} else if(type.equals("victory")){
-			return new effects.Victory();
-			
-		}
-		throw new SemanticError("Effect at has type ''" + type
-				+"'' which is not recognized and probably an error.");
-	}
-	
-	public static cond.Condition parseCond(StringTree t){
-		String type = t.getValue("type");
-		String target = t.getValue("target");
-		if (type.equals("counter")){
-			return new cond.Counter(Integer.parseInt(t.getValue("total")), target);
-		} else if (type.equals("timer")){
-			return new cond.Timer(Integer.parseInt(t.getValue("max")), target);
-		} else if (type.equals("ship")){
-			return new cond.ShipTouch(parseShape(t, "shape"), target);
-		} else if (type.equals("shot")){
-			return new cond.ShotTouch(parseShape(t, "shape"), target);
-		} else {
-			throw new SemanticError("Could not recognize condition type ''" + type + "''.");
-		}
 	}
 	
 	public static class SemanticError extends RuntimeException{

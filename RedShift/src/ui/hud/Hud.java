@@ -384,13 +384,8 @@ public class Hud {
 			
 		int half = (s.getName().length()*8)/2;
 		graF.drawString((x-half)+camX, (y+(h/2)+4)+camY, s.getName(), col); 
-		//XXX:new thing; draw only the ships health, we dont need position
 		graF.drawString((x-(w/2)-5)+camX, (y+(h/2)+20)+camY, "hp:", col);
 		graF.drawString((x+(w/2)-5)+camX, (y+(h/2)+20)+camY, String.valueOf(s.getHealth()), col);
-//		int shipX = (int)s.getX();
-//		graF.drawString((x-(w/2)-5)+camX, (y+(h/2)+20)+camY, String.valueOf(shipX), col);
-//		shipX = (int)s.getY();
-//		graF.drawString((x+(w/2)-5)+camX, (y+(h/2)+20)+camY,String.valueOf(shipX), col);
 	}
 	
 	/**

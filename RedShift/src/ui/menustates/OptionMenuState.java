@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.text.DecimalFormat;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -23,13 +22,12 @@ import ents.OptionsEnt;
 
 public class OptionMenuState extends BasicGameState{
 
-	private int id, mX, mY;
+	private int id;
 	private OptionsEnt options;
 	private Rectangle mouse_rec, sfxDisplay_rec, musDisplay_rec, voiDisplay_rec, backBTN_rec, modBTN_rec;
 	private Rectangle sfxVol_sld, musVol_sld, voiVol_sld, onPart_rec, onFsc_rec;
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private UILib uilib;
-	private float sfxBnd_x;
 	private GameDatabase gdb;
 	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
@@ -87,8 +85,6 @@ public class OptionMenuState extends BasicGameState{
 		gfx.drawString(x, 100, 10);
 		x = String.valueOf(arg0.getInput().getMouseY());
 		gfx.drawString(x, 150, 10);
-//		gfx.drawString(String.valueOf(sfxVol_sld.getCenterX()), 200, 10);
-//		gfx.drawString(String.valueOf(fx_prvX), 250, 10);
 		
 		renderLabels(gfx);
 		renderSliders(gfx);

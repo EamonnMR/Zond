@@ -1,10 +1,7 @@
 package ui.menustates;
 
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.jws.Oneway;
 
 import level.LevelDataModel;
 import level.LevelObjective;
@@ -25,7 +22,7 @@ import core.GameDatabase;
 
 public class BriefingMenuState extends BasicGameState {
 
-	private int id, numObjs, rowLimiter = 50;
+	private int id, rowLimiter = 50;
 	private UILib ulib;
 	private GameDatabase gdb;
 	private boolean ini, backBool, accptBool;
@@ -33,7 +30,6 @@ public class BriefingMenuState extends BasicGameState {
 	private Image backdrop;
 	private LevelDataModel ldm;
 	private Rectangle mouse_rec, back_rec, accpt_rec;
-	private HashMap<Integer, String> objs;	
 	
 	public BriefingMenuState(int i){
 		id = i;
@@ -80,9 +76,11 @@ public class BriefingMenuState extends BasicGameState {
 			greenFont.drawString(x, y, i+": "+o.getTltip());
 			if(o.getDesc()!=null && o.getDesc().length() > rowLimiter){
 				y=prepareTextRow(o.getDesc(), y);
+				y+=40;
 			}else {
-				y=+20;
+				y=+40;
 			}
+			i++;
 		}
 	}
 
@@ -121,9 +119,10 @@ public class BriefingMenuState extends BasicGameState {
 	
 	private int prepareTextRow(String desc, int y) {
 		int len = desc.length();
-		int numOfRows = len/rowLimiter;
+		double t = len/rowLimiter;
+		int numOfRows = (int)Math.ceil(t);
 		y=y+20;
-		if(numOfRows< 2){
+		if(numOfRows<=1){
 			numOfRows++;
 		}
 		String[] lines = new String[numOfRows];
@@ -136,7 +135,8 @@ public class BriefingMenuState extends BasicGameState {
 		}
 		
 		for(int i=0; i<lines.length; i++){
-			greenFont.drawString(138, y+(i*20), lines[i]);	
+			y=y+(i*20);
+			greenFont.drawString(138, y, lines[i]);
 		}
 		return y;
 	}
@@ -150,7 +150,6 @@ public class BriefingMenuState extends BasicGameState {
 		back_rec = new Rectangle(140, 500,96,20);
 		accpt_rec = new Rectangle(780, 500,108,20);
 		ulib = new UILib();
-		numObjs = ldm.getObjectives().size();
 	}
 
 	@Override

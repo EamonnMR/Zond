@@ -72,7 +72,6 @@ public class GameplayState extends BasicGameState{
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
 	LevelHandler lh;
-	private effects.Stack fxStack;
 	
 	private ParallaxStarField stars;
 	private int lCamx, lCamy;
@@ -99,7 +98,6 @@ public class GameplayState extends BasicGameState{
 		this.gamePlay = false;
 //		this.lh = new LevelHandler();
 		this.winLose = 0;
-		this.fxStack = new effects.Stack();
 		
 		//I ARE SINGLETON NOW HURRRR
 		IAM = this; //live in destructible times?
@@ -250,8 +248,6 @@ public class GameplayState extends BasicGameState{
 				deathReason = 0;
 			}
 			pc.updateCamera(this);
-
-			fxStack.unwind(this); //Unwind the effects stack.
 			
 			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
 			// Check for win conditions
@@ -645,11 +641,7 @@ public class GameplayState extends BasicGameState{
 	public BasicShip getPlayerShip(){
 		return pc.getPlayShip();
 	}
-	
-	public void pushEffect(effects.Effect e){
-		fxStack.push(e);
-	}
-	
+
 	public void tripTrigger(String trigName){
 		Dbg.line("Trigger ''" + trigName + "'' fired off.");
 		levelData.getTrigger(trigName).trigger(true);
