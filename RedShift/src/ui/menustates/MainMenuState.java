@@ -187,9 +187,14 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		for(UIButton u : uiButtons.values()){
 			if(u.getRectangle().intersects(mouse_rec)){
 				if(gc.getInput().isMouseButtonDown(0)){
-					HangarBayState hangar = (HangarBayState)stbg.getState(CoreStateManager.HANGARBAYSTATE);
-					hangar.setLevelToPlay((LevelDataModel)u.getThing());
-					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+					
+//					HangarBayState hangar = (HangarBayState)stbg.getState(CoreStateManager.HANGARBAYSTATE);
+//					hangar.setLevelToPlay((LevelDataModel)u.getThing());
+//					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
+					BriefingMenuState brief = (BriefingMenuState)stbg.getState(CoreStateManager.BRIEFING);
+					brief.setLevel((LevelDataModel)u.getThing());
+//					hangar.setLevelToPlay((LevelDataModel)u.getThing());
+					stbg.enterState(CoreStateManager.BRIEFING);
 				}
 				u.setState(true);
 			}else{
@@ -239,7 +244,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 					greenFont.drawString(warsX, warsY, " "+s.getName()+" ");
 				}
 				warsY+=20;
-				gfx.draw(u.getRectangle());
 			}else if(s.getFaction()==1){
 				u.getRectangle().setX(natoX);
 				u.getRectangle().setY(natoY);			
@@ -250,7 +254,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 					greenFont.drawString(natoX, natoY, " "+s.getName()+" ");
 				}
 				natoY+=20;
-				gfx.draw(u.getRectangle());
 			}
 		}
 

@@ -1,8 +1,13 @@
 package ui.menustates;
 
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.jws.Oneway;
 
 import level.LevelDataModel;
+import level.LevelObjective;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,19 +20,20 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ui.UILib;
+import core.CoreStateManager;
 import core.GameDatabase;
 
 public class BriefingMenuState extends BasicGameState {
 
-	private int id;
+	private int id, numObjs, rowLimiter = 50;
 	private UILib ulib;
 	private GameDatabase gdb;
-	private boolean ini;
-	private SpriteSheetFont greenF, grayF;
+	private boolean ini, backBool, accptBool;
+	private SpriteSheetFont greenFont, grayFont;
 	private Image backdrop;
-	private String hangar, back;
 	private LevelDataModel ldm;
-	private Rectangle mouse_rec;
+	private Rectangle mouse_rec, back_rec, accpt_rec;
+	private HashMap<Integer, String> objs;	
 	
 	public BriefingMenuState(int i){
 		id = i;
@@ -37,16 +43,47 @@ public class BriefingMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		mouse_rec = new Rectangle(0, 0, 1, 1);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, backdrop, new Point(512,384));
-		grayF.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+		
+		
+		greenFont.drawString(90, 90, "Mission Briefing:");
+		greenFont.drawString(138, 110, ldm.getUIDesc());
+		
+		if(backBool==true){
+			greenFont.drawString(140, 500, "[(Back)]");
+		}else{
+			greenFont.drawString(140, 500, " (Back) ");
+		}
+		if(accptBool==true){
+			greenFont.drawString(780, 500, "[(Hangar)]");
+		}else{
+			greenFont.drawString(780, 500, " (Hangar) ");
+		}
+		
+		renderObjectives(gfx);
+	}
+
+	private void renderObjectives(Graphics gfx) {
+		int x=90,y=195, i=1;
+		//nuts, strings instead of ints
+		for(Map.Entry<String, LevelObjective> obj : ldm.getObjectives().entrySet()){
+			LevelObjective o = obj.getValue();
+			greenFont.drawString(x, y, i+": "+o.getTltip());
+			if(o.getDesc()!=null && o.getDesc().length() > rowLimiter){
+				y=prepareTextRow(o.getDesc(), y);
+			}else {
+				y=+20;
+			}
+		}
 	}
 
 	@Override
@@ -59,12 +96,61 @@ public class BriefingMenuState extends BasicGameState {
 		Input i = arg0.getInput();
 		mouse_rec.setCenterX(i.getMouseX());
 		mouse_rec.setCenterY(i.getMouseY());
+		
+		if(back_rec.intersects(mouse_rec)){
+			if(i.isMousePressed(0)){
+				arg1.enterState(CoreStateManager.MAINMENUSTATE);
+			}
+			backBool=true;
+		}else{
+			backBool=false;
+		}
+		if(accpt_rec.intersects(mouse_rec)){
+			if(i.isMousePressed(0)){
+				i.clearMousePressedRecord();
+				i.clearKeyPressedRecord();
+				HangarBayState hang = (HangarBayState)arg1.getState(CoreStateManager.HANGARBAYSTATE);
+				hang.setLevelToPlay(ldm);
+				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
+			}
+			accptBool=true;
+		}else{
+			accptBool=false;
+		}
+	}
+	
+	private int prepareTextRow(String desc, int y) {
+		int len = desc.length();
+		int numOfRows = len/rowLimiter;
+		y=y+20;
+		if(numOfRows< 2){
+			numOfRows++;
+		}
+		String[] lines = new String[numOfRows];
+		for(int b=0; b<lines.length;b++){
+			if(b==0){
+				lines[b] = desc.substring(b*rowLimiter, rowLimiter);
+			}else{
+				lines[b] = desc.substring(b*rowLimiter);
+			}
+		}
+		
+		for(int i=0; i<lines.length; i++){
+			greenFont.drawString(138, y+(i*20), lines[i]);	
+		}
+		return y;
 	}
 
+
 	private void loadResources() {
-		greenF = gdb.getFont("green");
-		grayF = gdb.getFont("gray");
+		greenFont = gdb.getFont("green");
+		grayFont = gdb.getFont("gray");
 		backdrop = gdb.getIMG("montrBKC");
+		mouse_rec = new Rectangle(0, 0, 1, 1);
+		back_rec = new Rectangle(140, 500,96,20);
+		accpt_rec = new Rectangle(780, 500,108,20);
+		ulib = new UILib();
+		numObjs = ldm.getObjectives().size();
 	}
 
 	@Override
@@ -72,6 +158,9 @@ public class BriefingMenuState extends BasicGameState {
 		return id;
 	}
 
+	public void setLevel(LevelDataModel ldm){
+		this.ldm = ldm;
+	}
 	public void customInit(GameDatabase g){
 		gdb = g;
 	}

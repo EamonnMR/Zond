@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ui.hud.HudDataModel;
+import ui.menustates.BriefingMenuState;
 import ui.menustates.HangarBayState;
 import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
@@ -41,6 +42,8 @@ public class CoreStateManager extends StateBasedGame {
 	private HangarBayState hangarBay;
 	public static int HUDMODSTATE = 6;
 	private ModHudMenuState modHud;
+	public static int BRIEFING = 7;
+	private BriefingMenuState brief;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -73,6 +76,7 @@ public class CoreStateManager extends StateBasedGame {
 		gameOver = new GameOverState(GAMEOVERSTATE);
 		gameWin = new GameSuccessState(GAMEWINSTATE);
 		gamePlay = new GameplayState(GAMEPLAYSTATE);
+		brief = new BriefingMenuState(BRIEFING);
 	}
 	
 	/**
@@ -80,11 +84,9 @@ public class CoreStateManager extends StateBasedGame {
 	 * @throws IOException 
 	 */
 	private void loadResources(){
-		//two very important things
 		gDB = new GameDatabase();
 		entFac = new EntityFactory();
 		player = new PlayerClient(1);
-//		lvbr = new LevelBuilder();
 		hdm = new HudDataModel();
 		trigFac = new TriggerFactory();
 	}
@@ -116,6 +118,8 @@ public class CoreStateManager extends StateBasedGame {
 		
 		this.addState(gameWin);
 		
+		brief.customInit(gDB);
+		this.addState(brief);
 		
 		//XXX:passing level builder as a temporary measure
 		gamePlay.customInit(player,gDB, entFac, hdm );
