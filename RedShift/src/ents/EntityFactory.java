@@ -226,7 +226,6 @@ public class EntityFactory {
 	
 	public BasicShip shipFromDesc(ShipDesc desc){
 		BasicShip toSender = buildShip(desc.kind, desc.gun, desc.engine, desc.isAi, desc.trigtarg);
-		toSender.setDeathFx(desc.fx);
 		toSender.setX(desc.x);
 		toSender.setY(desc.y);
 		return toSender;
