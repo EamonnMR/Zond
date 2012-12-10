@@ -1,22 +1,25 @@
 package level.triggers;
 
-import level.BasicObjective;
-import level.TriggerTypes;
 import core.GameplayState;
 
 public class CompleteObjective extends BasicTrigger{
 
-	private BasicObjective obj;
+	private String obj;
 	
-	public CompleteObjective(TriggerTypes trig, BasicObjective o, String name) {
-		super(trig);
-		this.setName(name);
-		obj = o;
+	public CompleteObjective() {}
+	
+	public void setObectiveTarget(String s){
+		this.obj = s;
+	}
+	
+	public String getObjectiveTarget(){
+		return obj;
 	}
 	
 	@Override
-	public void go(GameplayState cgs){
-		obj.setComplete(true);
+	public void go(GameplayState gs){
+		gs.getLevel().getObjective(obj).setComplete(true);
+		gs.getLevel().getObjective(obj).setActive(false);
 	}
 
 }

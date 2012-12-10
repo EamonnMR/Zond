@@ -44,7 +44,7 @@ public class BasicLevel {
 	private Queue<BasicAction> executeActions;				//queue of actions to execute
 	private boolean needsUpdate;							//does the level need to update?
 	private HashMap<String, NavPoint> navPoints;			//collection of points
-	private HashMap<Integer, BasicObjective> listObjectives;		//current list of objectives
+	private HashMap<Integer, LevelObjective> listObjectives;		//current list of objectives
 	private int totalObjectives;
 
 	public BasicLevel(String name){
@@ -54,7 +54,7 @@ public class BasicLevel {
 		this.executeTriggers = new LinkedList<BasicTrigger>();
 		this.executeActions = new LinkedList<BasicAction>();
 		this.navPoints = new HashMap<String, NavPoint>();
-		this.listObjectives = new HashMap<Integer, BasicObjective>();
+		this.listObjectives = new HashMap<Integer, LevelObjective>();
 		this.totalObjectives = 0;
 		this.setNeedsUpdate(false);
 	}
@@ -235,19 +235,19 @@ public class BasicLevel {
 		}
 	}
 	
-	public void setObjectivesList(HashMap<Integer, BasicObjective> objects){
+	public void setObjectivesList(HashMap<Integer, LevelObjective> objects){
 		this.listObjectives = objects;
 	}
 	
-	public void addObjective(BasicObjective o){
+	public void addObjective(LevelObjective o){
 		totalObjectives ++;
 		this.listObjectives.put(totalObjectives, o);
 	}
-	public HashMap<Integer, BasicObjective> getObjectiveList(){
+	public HashMap<Integer, LevelObjective> getObjectiveList(){
 		return this.listObjectives;
 	}
 
-	public BasicObjective getObjective(String objName){
+	public LevelObjective getObjective(String objName){
 		return listObjectives.get(objName);
 	}
 	

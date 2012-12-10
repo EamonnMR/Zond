@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import level.LevelDataModel;
+import level.LevelObjective;
 import level.NavPoint;
 import level.TriggerFactory;
 import level.triggers.BasicTrigger;
@@ -362,6 +363,35 @@ public class GameDatabase {
 	public HashMap<String, LevelDataModel> getScenarios(){
 		return (HashMap<String, LevelDataModel>) indexScenarios;
 	}
+	
+	/**
+	 * loads the listed level rust files from the levellist file
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws SlickException
+	 */
+	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
+		StringTree s = loadRst("assets/text/levellist.rst");
+		for (String child : s.childSet()){
+			ldLevelFile(child, s.getValue(child));
+			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+		}
+	}
+	
+	/**
+	 * one-off method that loads a single level rust file into the level index
+	 * @param name
+	 * @param location
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws SlickException
+	 */
+	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
+		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");	
+		File f = new File(location);
+		indexLevelFiles.put(name, f);
+	}
+	
 	/**
 	 * NOTE:: the trigFac references the entFac, which is out of load flow at this stage
 	 * so dont call this internally in gdb, loader state will call it
@@ -397,6 +427,9 @@ public class GameDatabase {
 			//create nav points
 			level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
 			
+			//create objectives
+			level.setObjectives(parseObjectives(s.getSubTree("objectives")));
+			
 			//Create the trigger set
 			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
 
@@ -406,6 +439,44 @@ public class GameDatabase {
 		}
 	}
 	
+	/**
+	 * parses the listed nav points in the rust file into NavPoint objects
+	 * @param topLevel
+	 * @return HashMap String, NavPoint
+	 */
+	private HashMap<String, NavPoint> parseNavPoints(StringTree topLevel){
+		HashMap<String, NavPoint> points = new HashMap<String, NavPoint>();
+		for(String s : topLevel.childSet()){
+			StringTree node = topLevel.getSubTree(s);
+			points.put(node.getValue("name"), new NavPoint(Integer.valueOf(node.getValue("x")),
+															Integer.valueOf(node.getValue("y")),
+															node.getValue("name"),
+															parseBool(node.getValue("state"))));
+		}
+		return points;
+	}
+	
+	/**
+	 * parses the listed objectives in the level rust file into actual LevelObjective objects
+	 * @param tr
+	 * @return HashMap String, LevelObjective
+	 */
+	private HashMap<String, LevelObjective> parseObjectives(StringTree tr) {
+		HashMap<String, LevelObjective> objs = new HashMap<String, LevelObjective>();
+		
+		for(String s : tr.childSet()){
+			StringTree sub = tr.getSubTree(s);
+			LevelObjective lo = new LevelObjective(sub.getValue("name"), 
+													sub.getValue("tltip"), 
+													sub.getValue("desc"),
+													checkStringNull(sub.getValue("target")),
+													parseBool(sub.getValue("state")));
+			objs.put(lo.getName(), lo);
+		}
+		
+		return objs;
+	}
+
 	private HashMap<String, ShipDesc> parseShipList(StringTree t) {
 		HashMap<String, ShipDesc> toSender = new HashMap<String, ShipDesc>();
 		for(String ch : t.childSet()){
@@ -414,6 +485,12 @@ public class GameDatabase {
 		return toSender;
 	}
 
+	/**
+	 * parses the listed triggers into actual trigger objects
+	 * @param trigFac
+	 * @param tr
+	 * @return HashMap String, BasicTrigger
+	 */
 	private HashMap<String, BasicTrigger> parseTriggers(TriggerFactory trigFac, StringTree tr) {
 		HashMap<String, BasicTrigger> trigs = new HashMap<String, BasicTrigger>();
 		ShipDesc d = null; //Won't be used unless it's actually needed-the null
@@ -443,6 +520,14 @@ public class GameDatabase {
 				//subtree this
 				argList = catEnMasse(argList, 
 							parseTrigTargs(t.getSubTree("targets")));
+			}else if(typeClass.equals("endobj")){
+				argList = cat(argList, t.getValue("target"));
+			}else if(typeClass.equals("togobj")){
+				argList = catEnMasse(argList, 
+									t.getValue("objective"),
+									t.getValue("state"));
+			}else if(typeClass.equals("iwin")){
+				argList = cat(argList, t.getValue("state"));
 			}
 			
 			parseShape(t, "collider");
@@ -451,33 +536,6 @@ public class GameDatabase {
 			int i = 0;	//XXX:simple breakpoint for debugging
 		}
 		return trigs;
-	}
-
-	private HashMap<String, NavPoint> parseNavPoints(StringTree topLevel){
-		HashMap<String, NavPoint> points = new HashMap<String, NavPoint>();
-		for(String s : topLevel.childSet()){
-			//I, PWR, am also a baaaad person for copying the above bad person
-			StringTree node = topLevel.getSubTree(s);
-			points.put(node.getValue("name"), new NavPoint(Integer.valueOf(node.getValue("x")),
-															Integer.valueOf(node.getValue("y")),
-															node.getValue("name"),
-															getBoolean(node.getValue("state"))));
-		}
-		return points;
-	}
-	
-	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
-		StringTree s = loadRst("assets/text/levellist.rst");
-		for (String child : s.childSet()){
-			ldLevelFile(child, s.getValue(child));
-			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
-		}
-	}
-	
-	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
-		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");	
-		File f = new File(location);
-		indexLevelFiles.put(name, f);
 	}
 	
 	/**
@@ -612,7 +670,7 @@ public class GameDatabase {
 				checkStringNull(t.getValue("engine")),
 				parsePoint(t.getValue("loc")),
 				//getEffect(t.getSubTree("deatheffects")),
-				getBoolean(t.getValue("isAi")),
+				parseBool(t.getValue("isAi")),
 				checkStringNull(t.getValue("deathtrig")));
 	}
 	
@@ -621,7 +679,7 @@ public class GameDatabase {
 	 * @param value
 	 * @return
 	 */
-	private static boolean getBoolean(String value){
+	private static boolean parseBool(String value){
 		if (value.equals("t") || value.equals("true")){
 			return true;
 		} else if (value.equals("f") || value.equals("false")){
@@ -675,16 +733,16 @@ public class GameDatabase {
 			return new effects.ModAction(t.getValue("target"),
 					flags.contains("ini"), 
 					flags.contains("fire"),
-					getBoolean(t.getValue("done")));
+					parseBool(t.getValue("done")));
 			
 		} else if(type.equals("navpoint")){
 			return new effects.ModNavPoint(t.getValue("target"),
-					getBoolean(t.getValue("newstate")));
+					parseBool(t.getValue("newstate")));
 			
 		} else if(type.equals("objective")){
 			return new effects.ModObjective(t.getValue("target"), 
-					getBoolean(t.getValue("newstate")),
-					getBoolean(t.getValue("newcompl")));
+					parseBool(t.getValue("newstate")),
+					parseBool(t.getValue("newcompl")));
 			
 		}else if(type.equals("modtrig")){
 			return new effects.ModTrig(t.getValue("target"));

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import level.BasicObjective;
+import level.LevelObjective;
 import level.LevelDataModel;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
