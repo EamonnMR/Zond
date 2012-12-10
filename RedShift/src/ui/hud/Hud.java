@@ -2,7 +2,7 @@ package ui.hud;
 
 import java.util.HashMap;
 
-import level.BasicObjective;
+import level.LevelObjective;
 import level.LevelDataModel;
 import level.NavPoint;
 import level.triggers.BasicTrigger;
@@ -502,9 +502,9 @@ public class Hud {
 	 * @param gfx
 	 */
 	private void renderObjectivesList(Graphics gfx) {
-		HashMap<String, BasicObjective> objs = cgs.getLevel().getObjectives();
+		HashMap<String, LevelObjective> objs = cgs.getLevel().getObjectives();
 //		int x = 0, y = 0;
-		for(BasicObjective obj : objs.values()){
+		for(LevelObjective obj : objs.values()){
 //			String msg = obj.getBlurb();
 			if(!obj.getComplete()){
 				gfx.setColor(Color.green);

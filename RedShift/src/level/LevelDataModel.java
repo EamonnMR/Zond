@@ -9,8 +9,6 @@ import level.triggers.BasicTrigger;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
-import ents.ShipDesc;
-
 /**
  * vaunted version 2 of the level data/controller system. The actual processing logic has been moved to a class called LevelHandler.
  * that bad boy does the thinking. LevelDataModel now is a pure data class. 
@@ -19,11 +17,11 @@ import ents.ShipDesc;
  */
 public class LevelDataModel {
 
-	private String name, toolTip, blurb;
+	private String name, toolTip, desc;
 	private HashMap<String, BasicTrigger> triggerMap;
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
-	private HashMap<String, BasicObjective> objectives;
+	private HashMap<String, LevelObjective> objectives;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
@@ -35,7 +33,7 @@ public class LevelDataModel {
 		this.triggerMap = new HashMap<String, BasicTrigger>();
 		this.actionMap = new HashMap<String, BasicAction>();
 		this.navMap = new HashMap<String, NavPoint>();
-		this.objectives = new HashMap<String, BasicObjective>();
+		this.objectives = new HashMap<String, LevelObjective>();
 		this.needUpdate = false;
 	}
 
@@ -154,15 +152,12 @@ public class LevelDataModel {
 		this.activeArea = a;
 		this.warnArea = b;
 	}
-
-	public void addObjective(BasicObjective obj){
-		objectives.put(obj.getName(), obj);
-	}
-	public HashMap<String, BasicObjective> getObjectives() {
+	
+	public HashMap<String, LevelObjective> getObjectives() {
 		return objectives;
 	}
 
-	public void setObjectives(HashMap<String, BasicObjective> objectives) {
+	public void setObjectives(HashMap<String, LevelObjective> objectives) {
 		this.objectives = objectives;
 	}
 	
@@ -183,10 +178,18 @@ public class LevelDataModel {
 	}
 
 	public String getUIDesc() {
-		return blurb;
+		return desc;
 	}
 
 	public void setUIDesc(String blurb) {
-		this.blurb = blurb;
+		this.desc = blurb;
+	}
+	
+	public void addObjective(LevelObjective lo){
+		this.objectives.put(lo.getName(), lo);
+	}
+	
+	public LevelObjective getObjective(String s){
+		return this.objectives.get(s);
 	}
 }

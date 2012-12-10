@@ -73,6 +73,18 @@
 	}
 >
 
+/objectives/
+[objectives]<
+	{
+		[name]	(CleanAlpha)
+		[tltip]	(kill all enemy ships at Nav Alpha)
+		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)
+		[target]()
+		[state]	(false)
+	}
+
+>
+
 /Triggers/
 [triggers]<
 	/{/

@@ -115,7 +115,7 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {	
 		//init state is kinda useless isnt it.
 		gfx = arg0.getGraphics();
-	stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
+		stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
 	}
 
 	/**
@@ -281,7 +281,6 @@ public class GameplayState extends BasicGameState{
 			levelData = null;
 			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 			gameO.setReason(deathReason);
-//			gameO.init(arg0, arg1);
 			arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
 		}
 		if(winLose== 1 ){
@@ -672,6 +671,18 @@ public class GameplayState extends BasicGameState{
 	
 	public Graphics getGfx(){
 		return gfx;
+	}
+	
+	public void setGameDataBase(GameDatabase g){
+		this.gdb = g;
+	}
+	
+	public GameDatabase getGameDataBase(){
+		return this.gdb;
+	}
+	
+	public Float getSFXVol(){
+		return pc.getOptions().getFxvol();
 	}
 	
 	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, HudDataModel h){

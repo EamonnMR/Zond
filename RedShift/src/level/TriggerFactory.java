@@ -6,7 +6,9 @@ import level.triggers.CountTrigger;
 import level.triggers.ManyShipSpawner;
 import level.triggers.MultiTrigger;
 import level.triggers.SpawnShip;
+import level.triggers.TheWinTrigger;
 import level.triggers.ToggleNavPoint;
+import level.triggers.ToggleObjective;
 
 import org.newdawn.slick.geom.Shape;
 
@@ -64,6 +66,21 @@ public class TriggerFactory {
 			doBasicSetup(cldr, args, trigger);
 			buildMultiTrigger((MultiTrigger)trigger, args);
 			return trigger;
+		}else if(classType.equals("endobj")){
+			trigger = new CompleteObjective();
+			doBasicSetup(cldr, args, trigger);
+			buildCompleteObjective((CompleteObjective)trigger, args);
+			return trigger;
+		}else if(classType.equals("togobj")){
+			trigger = new ToggleObjective();
+			doBasicSetup(cldr, args, trigger);
+			buildToggleObjective((ToggleObjective)trigger, args);
+			return trigger;
+		}else if(classType.equals("iwin")){
+			trigger = new TheWinTrigger();
+			doBasicSetup(cldr, args, trigger);
+			buildToggleObjective((ToggleObjective)trigger, args);
+			return trigger;
 		}
 		return null;
 	}
@@ -106,9 +123,9 @@ public class TriggerFactory {
 	 * @param name
 	 * @return
 	 */
-	public CompleteObjective buildCompleteObjective(TriggerTypes trig, BasicObjective o, String name){
-		CompleteObjective cob = new CompleteObjective(trig, o, name);
-		return cob;
+	public CompleteObjective buildCompleteObjective(CompleteObjective trig, String...args){
+		trig.setObectiveTarget(args[7]);
+		return trig;
 	}
 	
 	/**
@@ -122,6 +139,13 @@ public class TriggerFactory {
 		c.setTotal(Integer.valueOf(args[6]));
 		return c;
 	}
+	
+	
+	public TheWinTrigger buildWinning(TheWinTrigger win, String...args){
+		win.setWinLose(Integer.valueOf(args[7]));
+		return win;
+	}
+	
 	
 	/**
 	 * builds a new ManyShipSpawn Trigger
@@ -163,12 +187,25 @@ public class TriggerFactory {
 	 * @param st
 	 * @return
 	 */
-	public void buildToggleNavPoint(ToggleNavPoint t, String...args){
+	public ToggleNavPoint buildToggleNavPoint(ToggleNavPoint t, String...args){
 		boolean boolVal = Boolean.valueOf(args[7]);
 		t.setNavPointer(args[6]);
 		t.setNavState(boolVal);
+		return t;
 	}
 
+	/**
+	 * Toggles if the objective is active or not
+	 * @param trigger
+	 * @param args
+	 * @return
+	 */
+	public ToggleObjective buildToggleObjective(ToggleObjective trigger, String[] args) {
+		trigger.setState(Boolean.valueOf(args[7]));
+		trigger.setTarget(args[8]);
+		return trigger;
+	}
+	
 	public EntityFactory getEntFac() {
 		return entFac;
 	}
