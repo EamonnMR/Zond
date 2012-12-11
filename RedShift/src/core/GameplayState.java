@@ -331,6 +331,13 @@ public class GameplayState extends BasicGameState{
 				playerHud.setShowNav(false);
 			}
 		}
+		if(p.isKeyPressed(Input.KEY_TAB)){
+			if(playerHud.getShowObjs()){
+				playerHud.setShowObjs(false);
+			}else{
+				playerHud.setShowObjs(true);
+			}
+		}
 		if(p.isKeyPressed(Input.KEY_ESCAPE)){
 			gameIni = true;
 			gamePlay= false;

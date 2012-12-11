@@ -6,7 +6,7 @@
 
 [tltip]		(A short test scnenario)/this is displayed on the MAINMENU when the user goes to select a level/
 
-[desc]		(Patrol each way point, kill things)/this is used on the BREIFING menu as the mission overview /
+[desc]		(We're having problems around the Neptune Transit.\\n I need you to run a patrol this morning.)
 
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
@@ -21,24 +21,24 @@
 	/ship descriptors here/
 }
 
-[music]	(name)				/what kickass track to throw down/
+[music]	(name)
 
-[spawnX]	(512)			/what x coord the player spawns at/
-[spawnY]	(250)			/what y coord the player spawns at/
+[spawnX]	(512)
+[spawnY]	(250)
 
-[active]{				/active playable area/
+[active]{
 	[type] (circle)
 	[x](0)[y](0)
 	[radius](64000)
 }
 
 [margin]{
-	[type] (circle)			/space between active area and out of bounds/
+	[type] (circle)
 	[x](0)[y](0)
 	[radius](96000)
 }
 	
-/NavPoints must be before trigs :P/
+/NavPoints/
 [navpoints]<
 	{
 		[name]		(alpha)
@@ -78,8 +78,8 @@
 		[name]	(PatrolAlpha)			/name in the index system/
 		[tltip]	(Patrol Nav Alpha)		/displayed on BRIEFING and HUD, should be 1 line/
 		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)	/displayed on the BRIEFING menu/
-		[target]()				/trigger target to fire on completion/
-		[state]	(false)				/initial 'active' state/
+		[target]()
+		[state]	(false)	
 	}
 	{
 		[name]	(SweepBeta)

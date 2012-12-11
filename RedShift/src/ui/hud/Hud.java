@@ -41,16 +41,16 @@ public class Hud {
 	private Image hp_i,radar_i,engine_i,wep_i, on_i, off_i;
 	float x, y;
 	double hp, totalHP;
-	private boolean googles = false; // bool for developer view mode
-	private boolean boundsWarning = false; // warn the player they are leaving
-	private boolean radarOn = false; // is radar active?
+	private boolean googles = false; 		// bool for developer view mode
+	private boolean boundsWarning = false; 	// warn the player they are leaving
+	private boolean radarOn = false; 		// is radar active?
 	private boolean showPoints = false;		//display navpoints
-	private boolean showMission = false;	//show list of active objective
 	private boolean showMap = false;		//show minimap
+	private boolean showObjs = false;		//show objectives
 	private GameplayState cgs;
 	private PlayerClient pc;
-	private SpriteSheetFont grnF;
-	private SpriteSheetFont graF;
+	private SpriteSheetFont greenFont;
+	private SpriteSheetFont grayFont;
 	private Color brightRed, brightBlue, brightYel;
 
 	public Hud(PlayerClient cl, int camBoundsW, int camBoundsH, HudDataModel h, GameDatabase gdb) {
@@ -70,8 +70,8 @@ public class Hud {
 		on_i=gdb.getIMG("onBTN_n");
 		off_i=gdb.getIMG("offBTN_n");
 		
-		grnF = gdb.getFont("green");
-		graF = gdb.getFont("gray");
+		greenFont = gdb.getFont("green");
+		grayFont = gdb.getFont("gray");
 		brightRed = new Color(255,39,64);
 		brightBlue = new Color(28, 87, 255);
 		brightYel = new Color(242, 255, 28);
@@ -105,12 +105,15 @@ public class Hud {
 		
 		renderPoints(ldm, gfx, camX,camY);
 		
-		if(showMission){
-			renderObjectivesList(gfx);
-		}
-		
 		if(showPoints){
 			renderNavTags(ldm, gfx, camX, camY);
+		}
+		if(showMap){
+			renderMinimap(gfx,camX, camY);
+		}
+		
+		if(showObjs){
+			renderObjectives(ldm, gfx);
 		}
 		
 		if (googles) {
@@ -118,13 +121,11 @@ public class Hud {
 			devGoggles(gfx, gc, ldm, camX, camY);
 		}
 		if (boundsWarning) {
-			graF.drawString(458, 627, "<==!WARNING!==>",brightRed);
-			graF.drawString(400, 652, "<==!Leaving Mission Area!==>",brightRed);
+			grayFont.drawString(458, 627, "<==!WARNING!==>",brightRed);
+			grayFont.drawString(400, 652, "<==!Leaving Mission Area!==>",brightRed);
 		}
 
-		if(showMap){
-			renderMinimap(gfx,camX, camY);
-		}
+
 		// sanity check to make sure color is reset
 		gfx.setColor(Color.white);
 	}
@@ -328,13 +329,21 @@ public class Hud {
 		this.showMap = showMap;
 	}
 
+	public boolean getShowObjs() {
+		return showObjs;
+	}
+
+	public void setShowObjs(boolean showObjs) {
+		this.showObjs = showObjs;
+	}
+
 	public void checkHP(double hp, Graphics gfx) {
 		if (hp <= totalHP / 2 && hp > totalHP/4) {
-			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightYel);
+			grayFont.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightYel);
 		} else if (hp <= totalHP / 4) {
-			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightRed);
+			grayFont.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), brightRed);
 		}else {
-			graF.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), Color.green);
+			grayFont.drawString(hdm.getHp_point_mod().x+hp_i.getWidth()/2+4, hdm.getHp_point_mod().y-8.5f, String.valueOf(hp), Color.green);
 		}
 
 	}
@@ -383,9 +392,9 @@ public class Hud {
 		
 			
 		int half = (s.getName().length()*8)/2;
-		graF.drawString((x-half)+camX, (y+(h/2)+4)+camY, s.getName(), col); 
-		graF.drawString((x-(w/2)-5)+camX, (y+(h/2)+20)+camY, "hp:", col);
-		graF.drawString((x+(w/2)-5)+camX, (y+(h/2)+20)+camY, String.valueOf(s.getHealth()), col);
+		grayFont.drawString((x-half)+camX, (y+(h/2)+4)+camY, s.getName(), col); 
+		grayFont.drawString((x-(w/2)-5)+camX, (y+(h/2)+20)+camY, "hp:", col);
+		grayFont.drawString((x+(w/2)-5)+camX, (y+(h/2)+20)+camY, String.valueOf(s.getHealth()), col);
 	}
 	
 	/**
@@ -401,7 +410,7 @@ public class Hud {
 			if(p.isActive()){
 				int len = p.getName().length();
 				int tenlen = len*8;
-				grnF.drawString((p.getX()-(tenlen/2))+camX,  p.getY()+camY-5, p.getName(),brightYel);
+				greenFont.drawString((p.getX()-(tenlen/2))+camX,  p.getY()+camY-5, p.getName(),brightYel);
 				gfx.draw(new Circle(p.getX()+camX, p.getY()+camY, tenlen));
 			}
 		}
@@ -425,8 +434,8 @@ public class Hud {
 				if (len > 600) {
 					double angle = Math.atan2((ship.getY() - pLoc.getY()),(ship.getX() - pLoc.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 350);;
-					graF.drawString(point.getX(), point.getY(), p.getName(),brightYel);
-					graF.drawString(point.getX(), point.getY() + 25,String.valueOf(len),brightYel);
+					grayFont.drawString(point.getX(), point.getY(), p.getName(),brightYel);
+					grayFont.drawString(point.getX(), point.getY() + 25,String.valueOf(len),brightYel);
 				}
 			}
 		}
@@ -443,11 +452,11 @@ public class Hud {
 					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 150);
 					if(ship.getFaction()==0){
-						graF.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", brightRed);
-						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightRed);
+						grayFont.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", brightRed);
+						grayFont.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightRed);
 					}else if(ship.getFaction()==1){
-						graF.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", brightBlue);
-						graF.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightBlue);
+						grayFont.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", brightBlue);
+						grayFont.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightBlue);
 					}
 				}
 			}	
@@ -464,16 +473,16 @@ public class Hud {
 		
 		//name
 		int nameW = pc.getPlayShip().getEngine().getName().length()*12;
-		grnF.drawString(hdm.getShipName_point_mod().x-nameW/2, hdm.getShipName_point_mod().y-8.5f, pc.getPlayShip().getName());
+		greenFont.drawString(hdm.getShipName_point_mod().x-nameW/2, hdm.getShipName_point_mod().y-8.5f, pc.getPlayShip().getName());
 		
 		//weapon
 		uiLib.drawImageCenteredOnPoint(gfx, wep_i, hdm.getGunName_point_mod());
 		
-		grnF.drawString(hdm.getGunName_point_mod().x+wep_i.getWidth()/2+4, hdm.getGunName_point_mod().y-8.5f, pc.getPlayShip().getWeapon().getName());
+		greenFont.drawString(hdm.getGunName_point_mod().x+wep_i.getWidth()/2+4, hdm.getGunName_point_mod().y-8.5f, pc.getPlayShip().getWeapon().getName());
 		
 		//engine
 		uiLib.drawImageCenteredOnPoint(gfx, engine_i, hdm.getEngName_point_mod());
-		grnF.drawString(hdm.getEngName_point_mod().x+engine_i.getWidth()/2+4, hdm.getEngName_point_mod().y-8.5f, pc.getPlayShip().getEngine().getName());
+		greenFont.drawString(hdm.getEngName_point_mod().x+engine_i.getWidth()/2+4, hdm.getEngName_point_mod().y-8.5f, pc.getPlayShip().getEngine().getName());
 		
 		//health
 		uiLib.drawImageCenteredOnPoint(gfx, hp_i, hdm.getHp_point_mod());
@@ -491,25 +500,26 @@ public class Hud {
 
 	}
 	
-	
 	/**
 	 * draw objectives list on-screen
 	 * @param gfx
+	 * @param ldm
 	 */
-	private void renderObjectivesList(Graphics gfx) {
-		HashMap<String, LevelObjective> objs = cgs.getLevel().getObjectives();
-//		int x = 0, y = 0;
-		for(LevelObjective obj : objs.values()){
-//			String msg = obj.getBlurb();
-			if(!obj.getComplete()){
-				gfx.setColor(Color.green);
-//				gfx.drawString(msg, x, y)
-			}else if(obj.getComplete()){
-				gfx.setColor(Color.gray);
+	private void renderObjectives(LevelDataModel ldm, Graphics gfx) {
+		int x = 575, y=20;
+		for(LevelObjective lo : ldm.getObjectives().values()){
+			if(!(lo.getComplete()) && lo.getActive()){
+				greenFont.drawString(x,y, lo.getTltip());
+			}else if(!(lo.getComplete()) && !(lo.getActive())){
+				grayFont.drawString(x,y, lo.getTltip());
 			}
-			
+			y+=20;
 		}
+			
+		
 	}
+	
+
 	
 	
 }
