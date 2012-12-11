@@ -32,9 +32,6 @@ import ents.BaseEnt;
 import ents.BasicShip;
 import ents.BasicShot;
 import ents.EntityFactory;
-import ents.OptionsEnt;
-
-
 
 /**
  * 
@@ -65,6 +62,7 @@ public class GameplayState extends BasicGameState{
 	int camX, camY, boundsCheck, deathReason;
 	private LevelDataModel levelData;
 	private HudDataModel hdm;
+	private String lvlPointer;
 	
 	//Constants	        //play with these till the tags are centered
 	float radius = 350,xoffset,yoffset; //Distance to draw tags from player
@@ -86,7 +84,6 @@ public class GameplayState extends BasicGameState{
 	private EntityFactory entFac;
 	private Hud playerHud;
 	private Graphics gfx;
-	private OptionsEnt ops;
 	//====================================================================
 	
 	//constructor
@@ -148,6 +145,8 @@ public class GameplayState extends BasicGameState{
 			lh.render(arg2, camX, camY);
 			gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 25);
 			gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 25);
+			gfx.drawString(String.valueOf(arg0.getInput().getMouseX()+camX), 300, 10);
+			gfx.drawString(String.valueOf(arg0.getInput().getMouseY()+camY), 400, 10);
 		}
 	}
 
@@ -158,6 +157,7 @@ public class GameplayState extends BasicGameState{
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
 		if(gameIni){
+			this.levelData = buildGamePlayLevel();
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
@@ -171,8 +171,7 @@ public class GameplayState extends BasicGameState{
 			}else{
 				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
 			}
-			pc.getPlayShip().ini(512, 250, 0.0f);
-			ops = pc.getOptions();
+			pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
 			
 			//add both ships to the Ship hashmap
@@ -610,11 +609,25 @@ public class GameplayState extends BasicGameState{
 	public Vector2f circularFunction(float angle, int rad){
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + 512), (float)(Math.sin(angle+Math.PI) * rad + 384));
 	}
-	
-	public void setLevel(String s) throws FileNotFoundException, IOException{
+
+	private LevelDataModel buildGamePlayLevel() {
 		TriggerFactory tf = new TriggerFactory();
-		tf.setEntFac(entFac);
-		levelData = gdb.buildLevel(tf, s);
+		try {
+			levelData = gdb.buildLevel(tf, lvlPointer);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return levelData;
+	}
+	
+	public void setLevelPointer(String s) throws FileNotFoundException, IOException{
+		this.lvlPointer = s;
+	}
+	
+	public String getLevelPointer(){
+		return this.lvlPointer;
 	}
 	
 	public LevelDataModel getLevel(){
@@ -649,10 +662,9 @@ public class GameplayState extends BasicGameState{
 	//AI TESTING
 	//XXX:remove when ai works...perhaps
 	private void buildAIShips() {
-		AIShip zond1 = entFac.buildAIShip("zond4", "105mm", "smallEngine", null);
-		zond1.ini(200, 600, 0f);
-		addShip(zond1);
-		zond1.setState(new PursueState(zond1, pc.getPlayShip()));
+//		BasicShip zond1 = entFac.buildShip("vostok", "laz", "medEngine", true, null);
+//		zond1.ini(200, 600, 0f);
+//		addShip(zond1);
 	}
 	
 	public Graphics getGfx(){
@@ -669,6 +681,14 @@ public class GameplayState extends BasicGameState{
 	
 	public Float getSFXVol(){
 		return pc.getOptions().getFxvol();
+	}
+	
+	public Float getMusicVol(){
+		return pc.getOptions().getMusevol();
+	}
+	
+	public Float getVoiceVol(){
+		return pc.getOptions().getVoicevol();
 	}
 	
 	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, HudDataModel h){

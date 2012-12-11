@@ -32,6 +32,8 @@ public class PursueState extends AIState{
 		targ =target;
 	}
 	
+	public PursueState(){}
+	
 	public void onUpdate(int delta, OptionsEnt e){
 //		System.out.println(ship.getName()+"::Pursuing");
 		

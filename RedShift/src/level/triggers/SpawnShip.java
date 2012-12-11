@@ -3,30 +3,29 @@ package level.triggers;
 import level.TriggerTypes;
 import core.GameplayState;
 import ents.BasicShip;
+import ents.ShipDesc;
 
 public class SpawnShip extends BasicTrigger{
 
-	private BasicShip ship;
+	private ShipDesc ship;
 	
 	public SpawnShip(TriggerTypes trig, BasicShip s) {
 		super(trig);
-		ship = s;
+//		ship = s;
 	}
 	
 	public SpawnShip(){}
 	
 	@Override
 	public void go(GameplayState cgs){
-		ship.setX(getX());
-		ship.setY(getY());
-		cgs.addShip(ship);
+		cgs.addShip(cgs.getEntFac().shipFromDesc(ship));
 	}
 	
-	public void setShip(BasicShip s){
+	public void setShip(ShipDesc s){
 		ship = s;
 	}
 	
-	public BasicShip getShip(){
+	public ShipDesc getShip(){
 		return ship;
 	}
 

@@ -404,7 +404,10 @@ public class GameDatabase {
 	 */
 	public LevelDataModel buildLevel(TriggerFactory trigFac, String name) throws FileNotFoundException, IOException{
 		StringTree s = loadRst(indexLevelFiles.get(name).getAbsolutePath());
-		LevelDataModel level = new LevelDataModel(name);
+		LevelDataModel level = new LevelDataModel(s.getValue("filename"));
+		
+		//set the file name
+		level.setName(s.getValue("uiname"));
 		
 		//set the faction
 		level.setFaction(Integer.valueOf(s.getValue("faction")));
@@ -451,7 +454,13 @@ public class GameDatabase {
 	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
-			LevelDataModel level = new LevelDataModel(s.getValue("name" ));
+			LevelDataModel level = new LevelDataModel(s.getValue("filename"));
+			
+			//set the uiname
+			level.setName(s.getValue("uiname"));
+			
+			//set the filename
+			level.setFilename(s.getValue("filename"));
 			
 			//set the faction
 			level.setFaction(Integer.valueOf(s.getValue("faction")));
@@ -700,7 +709,7 @@ public class GameDatabase {
 		if(numbers.length < 2){
 			throw new SemanticError("Point ''" + str + "'' is mal-formed; not enough numbers.");
 		}
-		for (int i = 0; i == numbers.length - 1; i++){
+		for (int i = 0; i < numbers.length; i++){
 			toSender[i] = Double.parseDouble(numbers[i]);
 		}
 		return toSender;

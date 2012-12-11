@@ -1,9 +1,7 @@
 package ui.hud;
 
-import java.util.HashMap;
-
-import level.LevelObjective;
 import level.LevelDataModel;
+import level.LevelObjective;
 import level.NavPoint;
 import level.triggers.BasicTrigger;
 
@@ -37,7 +35,6 @@ public class Hud {
 	private HudDataModel hdm;
 	private UILib uiLib;
 	Rectangle camBounds;
-	private GameDatabase gdb;
 	private Image hp_i,radar_i,engine_i,wep_i, on_i, off_i;
 	float x, y;
 	double hp, totalHP;
@@ -60,8 +57,6 @@ public class Hud {
 		pc = cl;
 		hp = pc.getPlayShip().getHealth();
 		totalHP = hp;
-		configHud(pc.getPlayShip());
-		this.gdb=gdb;
 		
 		hp_i = gdb.getIMG("hp_i");
 		radar_i = gdb.getIMG("radar_i");
@@ -242,55 +237,6 @@ public class Hud {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 		}
 
-	}
-
-	/**
-	 * a one time run thingie at CGS startup
-	 * @param s
-	 */
-	public void configHud(BasicShip s) {
-//		hdm.setShipName(pc.getPlayShip().getName());
-//		int padding = 4;
-//		
-//		Rectangle r = new Rectangle(0,
-//									0,
-//									uiLib.getStringPixelWidth(hdm.getShipName())+padding,
-//									25);
-//		hdm.setShipName_rec(r);
-//		hdm.getShipName_rec().setCenterX(hdm.getShipName_point_mod().x);
-//		hdm.getShipName_rec().setCenterY(hdm.getShipName_point_mod().y);
-//		
-//		Rectangle q = new Rectangle(0, 
-//									0, 
-//									uiLib.getStringPixelWidth(hdm.getGunName())+padding,
-//									25);
-//		hdm.setGunName_rec(q);
-//		hdm.getGunName_rec().setCenterX(hdm.getGunName_point_mod().x);
-//		hdm.getGunName_rec().setCenterY(hdm.getGunName_point_mod().y);
-//		
-//		Rectangle t = new Rectangle(0, 
-//				  					0, 
-//				  					uiLib.getStringPixelWidth(hdm.getHealth())+padding,
-//				  					25);
-//		hdm.setHp_rec(t);
-//		hdm.getHp_rec().setCenterX(hdm.getHp_point_mod().x);
-//		hdm.getHp_rec().setCenterY(hdm.getHp_point_mod().y);
-//		
-//		Rectangle u = new Rectangle(0, 
-//				  					0, 
-//				  					uiLib.getStringPixelWidth(hdm.getEngName())+padding,
-//				  					25);
-//		hdm.setEngName_rec(u);
-//		hdm.getEngName_rec().setCenterX(hdm.getEngName_point_mod().x);
-//		hdm.getEngName_rec().setCenterY(hdm.getEngName_point_mod().y);
-//		
-//		Rectangle v = new Rectangle(0, 
-//				  					0, 
-//				  					uiLib.getStringPixelWidth(hdm.getRadar())+padding,
-//				  					25);
-//		hdm.setRadar_rec(v);
-//		hdm.getRadar_rec().setCenterX(hdm.getRadar_point_mod().x);
-//		hdm.getRadar_rec().setCenterY(hdm.getRadar_point_mod().y);
 	}
 	
 	public void setDevGog(boolean b) {

@@ -1,6 +1,8 @@
 /Scenario File alpha format/
 
-[name]		(multitest)	
+[filename]	(trigtest)
+
+[uiname]		(multitest)
 
 [faction]	(0)
 

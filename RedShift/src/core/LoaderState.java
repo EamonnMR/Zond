@@ -54,7 +54,6 @@ public class LoaderState extends BasicGameState {
 			e.printStackTrace();
 		}
 		entFac.ini(gdb);
-		trigFac.setEntFac(entFac);
 		
 		//try loading levels here
 		try {

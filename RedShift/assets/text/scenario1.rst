@@ -1,12 +1,14 @@
 /Scenario File alpha format/
 
-[name] (scenario1)			/name of the scenario, used as the name in the storage system/	
+[filename]	(scenario1)		
+
+[uiname] 	(scenario1)		/name of the scenario, used as the name in the storage system/	
 
 [faction]	(1)			/USSR or NATO?/
 
-[tltip]		(A short test scnenario)/this is displayed on the MAINMENU when the user goes to select a level/
+[tltip]		(A short test scnenario)
 
-[desc]		(We're having problems around the Neptune Transit.\\n I need you to run a patrol this morning.)
+[desc]		(We're having problems around the Neptune Transit. I need you to run a patrol this morning.)
 
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
@@ -23,8 +25,8 @@
 
 [music]	(name)
 
-[spawnX]	(512)
-[spawnY]	(250)
+[spawnX]	(0)
+[spawnY]	(0)
 
 [active]{
 	[type] (circle)
@@ -75,9 +77,9 @@
 /objectives/
 [objectives]<
 	{
-		[name]	(PatrolAlpha)			/name in the index system/
-		[tltip]	(Patrol Nav Alpha)		/displayed on BRIEFING and HUD, should be 1 line/
-		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)	/displayed on the BRIEFING menu/
+		[name]	(PatrolAlpha)
+		[tltip]	(Patrol Nav Alpha)
+		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)
 		[target]()
 		[state]	(false)	
 	}
@@ -121,8 +123,8 @@
 		[type]		(ini)
 		[name]		(fireINI)
 		[trigtype]	(SHIP)
-		[x]		(512)
-		[y]		(396)
+		[x]		(0)
+		[y]		(0)
 		[collider]{
 			[type] (circle)
 			[x](512)[y](396)
@@ -135,8 +137,8 @@
 		[type]		(spawn)
 		[name]		(iniskylab)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
-		[y]		(0)
+		[x]		(96000)
+		[y]		(96000)
 		[collider]{
 			[type] (circle)
 			[x](96000)[y](96000)
@@ -148,7 +150,7 @@
 			[kind]	(skylab)
 			[gun]	()
 			[engine]()
-			[loc]	(0 0)
+			[loc]	(768 0)
 			[deatheffects](null)
 			[isAi]	(f)
 			[deathtrig]()
@@ -158,8 +160,8 @@
 		[type]		(spawn)
 		[name]		(iniAIShipTest)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
-		[y]		(256)
+		[x]		(96000)
+		[y]		(96000)
 		[collider]{
 			[type] (circle)
 			[x](96000)[y](96000)
@@ -171,7 +173,7 @@
 			[kind]	(zond4)
 			[gun]	(las)
 			[engine](medEngine)
-			[loc]	(0 256)
+			[loc]	(256 256)
 			[deatheffects](null)
 			[isAi]	(f)
 			[deathtrig]()
@@ -184,11 +186,11 @@
 		[type]		(iwin)
 		[name]		(thewin)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
-		[y]		(0)
+		[x]		(96000)
+		[y]		(96000)
 		[collider]{
 			[type] (circle)
-			[x](0)[y](0)
+			[x](96000)[y](96000)
 			[radius](1)
 		}
 		[target]	()
@@ -200,11 +202,11 @@
 		[type]		(count)
 		[name]		(killatalpha)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
-		[y]		(0)
+		[x]		(96000)
+		[y]		(96000)
 		[collider]{
 			[type] (circle)
-			[x](0)[y](0)
+			[x](96000)[y](96000)
 			[radius](1)
 		}
 		[target]	(alphaoff)
@@ -216,11 +218,11 @@
 		[type]		(togglenav)
 		[name]		(alphaoff)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
-		[y]		(0)
+		[x]		(96000)
+		[y]		(96000)
 		[collider]{
 			[type] (circle)
-			[x](0)[y](0)
+			[x](96000)[y](96000)
 			[radius](1)
 		}
 		[target]	(thewin)

@@ -272,7 +272,7 @@ public class HangarBayState extends BasicGameState {
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
 				try {
-					gamePlay.setLevel(levelToPlay.getName());
+					gamePlay.setLevelPointer(levelToPlay.getName());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

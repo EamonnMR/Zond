@@ -149,7 +149,7 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](24)
+		[radius](32)
 	}
 	[radar]{
 		[type] (circle)
