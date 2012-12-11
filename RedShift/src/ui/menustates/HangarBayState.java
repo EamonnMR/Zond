@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import level.LevelDataModel;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -48,7 +46,7 @@ public class HangarBayState extends BasicGameState {
 	private float mx,my;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
-	private LevelDataModel levelToPlay;
+	private String levelToPlay;
 	
 	public HangarBayState(int i){
 		id = i;
@@ -272,7 +270,7 @@ public class HangarBayState extends BasicGameState {
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
 				try {
-					gamePlay.setLevelPointer(levelToPlay.getName());
+					gamePlay.setLevelPointer(levelToPlay);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -444,11 +442,11 @@ public class HangarBayState extends BasicGameState {
 		this.inputStarted();
 	}
 	
-	public LevelDataModel getLevelToPlay(){
+	public String getLevelToPlay(){
 		return this.levelToPlay;
 	}
 
-	public void setLevelToPlay(LevelDataModel ldm){
-		this.levelToPlay = ldm;
+	public void setLevelToPlay(String levelName){
+		this.levelToPlay = levelName;
 	}
 }

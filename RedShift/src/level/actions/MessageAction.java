@@ -56,4 +56,34 @@ public class MessageAction extends BasicAction {
 	public String getMessage(){
 		return this.message;
 	}
+
+	public int getTimer() {
+		return timer;
+	}
+
+	public void setTimer(int timer) {
+		this.timer = timer;
+	}
+
+	public int getLifetime() {
+		return lifetime;
+	}
+
+	public void setLifetime(int lifetime) {
+		this.lifetime = lifetime;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+	
+	
 }

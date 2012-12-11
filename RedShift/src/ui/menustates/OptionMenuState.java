@@ -9,7 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -29,7 +28,6 @@ public class OptionMenuState extends BasicGameState{
 	private Rectangle sfxBnd_rec, musBnd_rec, voiBnd_rec;
 	private UILib uilib;
 	private GameDatabase gdb;
-	private Sound s;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
 	private boolean backBool, cfgHudBool, ini, overFsc, overPart;
 	private SpriteSheetFont greenFont, grayFont;
