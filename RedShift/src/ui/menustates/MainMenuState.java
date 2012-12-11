@@ -73,10 +73,10 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 
 		
 		if(campRollover){
-			greenFont.drawString(90, 90, "[(Campaign)]");
-			greenFont.drawString(90, 600, "Click here to play the Story mode.");
+			grayFont.drawString(90, 90, "[(Campaign)]");
+			grayFont.drawString(90, 600, "<ERROR> Pilot Data unavailable.");
 		}else{
-			greenFont.drawString(90, 90, " (Campaign) ");
+			grayFont.drawString(90, 90, " (Campaign) ");
 		}
 		//TODO:stub: display load / save features
 		if(showCamp){
@@ -163,7 +163,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
 		if (playBTN_rec.intersects(mouse_rec)) {
 			if (i.isMousePressed(0)) {
-				stbg.enterState(CoreStateManager.GAMEPLAYSTATE);
+//				stbg.enterState(CoreStateManager.GAMEPLAYSTATE);
 			}
 		}
 		if (scenBTN_rec.intersects(mouse_rec)) {
@@ -187,13 +187,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		for(UIButton u : uiButtons.values()){
 			if(u.getRectangle().intersects(mouse_rec)){
 				if(gc.getInput().isMouseButtonDown(0)){
-					
-//					HangarBayState hangar = (HangarBayState)stbg.getState(CoreStateManager.HANGARBAYSTATE);
-//					hangar.setLevelToPlay((LevelDataModel)u.getThing());
-//					stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 					BriefingMenuState brief = (BriefingMenuState)stbg.getState(CoreStateManager.BRIEFING);
 					brief.setLevel((LevelDataModel)u.getThing());
-//					hangar.setLevelToPlay((LevelDataModel)u.getThing());
 					stbg.enterState(CoreStateManager.BRIEFING);
 				}
 				u.setState(true);
