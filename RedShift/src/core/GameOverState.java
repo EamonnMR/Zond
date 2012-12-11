@@ -51,6 +51,9 @@ public class GameOverState extends BasicGameState {
 		}else if(reason==2){
 			pilotDead = "[Status] Pilot Deceased.";
 			cause="[Cause] Ship collided with object.";
+		}else if(reason==3){
+			pilotDead = "[Status] Pilot Grounded.";
+			cause="[Cause] Failure to fulfill mission parameters";
 		}
 		action = "[Action] ==Press ESC==";
 		

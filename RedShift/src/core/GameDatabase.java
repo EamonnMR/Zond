@@ -393,6 +393,56 @@ public class GameDatabase {
 	}
 	
 	/**
+	 * here's the problem, because of pass by reference gameplay is not resetting the levels properly
+	 * i found that if we just call a single BuildLevel every time we reset the gameplay state, then
+	 * we're good to go. This results however in loading level data twice, essentially.
+	 * @param trigFac
+	 * @param name
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public LevelDataModel buildLevel(TriggerFactory trigFac, String name) throws FileNotFoundException, IOException{
+		StringTree s = loadRst(indexLevelFiles.get(name).getAbsolutePath());
+		LevelDataModel level = new LevelDataModel(name);
+		
+		//set the faction
+		level.setFaction(Integer.valueOf(s.getValue("faction")));
+		
+		//set the tooltip for the ui
+		level.setToolTip(s.getValue("tltip"));
+		
+		//short description for briefing
+		level.setUIDesc(s.getValue("desc"));
+		
+		//Get the name of the music to use
+		level.setMusic(s.getValue( "music"));
+		
+		//set the spawn point
+		level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+		
+		//set the play area
+		level.setActiveArea(parseShape(s, "active"));
+		
+		//set the warning area
+		level.setWarnArea(parseShape(s, "margin"));
+		
+		//create nav points
+		level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
+		
+		//create objectives
+		level.setObjectives(parseObjectives(s.getSubTree("objectives")));
+		
+		//Create the trigger set
+		level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
+
+
+		indexScenarios.put(level.getName(),level);
+		System.out.println("Loaded ''" + indexLevelFiles.get(name).getName() + "'' at location: ''" + indexLevelFiles.get(name).getAbsolutePath() + "''.");
+		return level;
+	}
+	
+	/**
 	 * NOTE:: the trigFac references the entFac, which is out of load flow at this stage
 	 * so dont call this internally in gdb, loader state will call it
 	 * @throws FileNotFoundException
@@ -521,7 +571,7 @@ public class GameDatabase {
 				argList = catEnMasse(argList, 
 							parseTrigTargs(t.getSubTree("targets")));
 			}else if(typeClass.equals("endobj")){
-				argList = cat(argList, t.getValue("target"));
+				argList = cat(argList, t.getValue("objective"));
 			}else if(typeClass.equals("togobj")){
 				argList = catEnMasse(argList, 
 									t.getValue("objective"),

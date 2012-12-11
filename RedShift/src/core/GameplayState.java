@@ -1,10 +1,13 @@
 package core;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import level.LevelDataModel;
+import level.TriggerFactory;
 import level.TriggerTypes;
 import level.actions.BasicAction;
 import level.triggers.BasicTrigger;
@@ -82,7 +85,6 @@ public class GameplayState extends BasicGameState{
 	private GameDatabase gdb;
 	private EntityFactory entFac;
 	private Hud playerHud;
-//	private LevelBuilder lb; //Soon to be deprecated
 	private Graphics gfx;
 	private OptionsEnt ops;
 	//====================================================================
@@ -91,27 +93,19 @@ public class GameplayState extends BasicGameState{
 	public GameplayState(int i){
 		
 		this.id = i;
-//		this.levelData = lvl.buildLevel();	//XXX:remove me soon, we seem to have level rsts loading
 		this.boundsCheck = 1;
 		this.gameOver = false;		
 		this.gameIni = true;		
 		this.gamePlay = false;
-//		this.lh = new LevelHandler();
 		this.winLose = 0;
 		
 		//I ARE SINGLETON NOW HURRRR
 		IAM = this; //live in destructible times?
-
 	}
-	
-	//methods
-	/**
-	 * init method, instantiates everything needed for a gameplay instance.
-	 */
+
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
-		//init state is kinda useless isnt it.
 		gfx = arg0.getGraphics();
 		stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
 	}
@@ -164,10 +158,6 @@ public class GameplayState extends BasicGameState{
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
 		if(gameIni){
-//			this.lb = new LevelBuilder();	XXX:remove me soon
-//			lb.setEntFac(entFac);
-			//TODO: part of fixing level loading
-//			this.levelData = lb.buildLevel(entFac);
 			this.lh = new LevelHandler(levelData);
 			this.ships = new HashMap<Integer, BasicShip>();
 			this.shots = new HashMap<Integer, BasicShot>();
@@ -210,7 +200,6 @@ public class GameplayState extends BasicGameState{
 
 			// ======Begin updates!
 			// update ships
-			updateAITEST();
 			
 			updateEntities(delta, removeShots, removeShips, removeObjective);
 
@@ -244,30 +233,17 @@ public class GameplayState extends BasicGameState{
 			}
 			if (boundsCheck == -1) {
 				gameOver = true;
-				winLose = -1;
+				winLose = -2;
 				deathReason = 0;
 			}
 			pc.updateCamera(this);
-			
-			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
 			// Check for win conditions
-			
+			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
 		}
-	}
-	
-	/**
-	 * new functioning! 
-	 */
-	private void updateAITEST() {
-//		for(int i =0; i < msgs.length; i++){
-//		       if      (msgs[i] == 0) a.move();
-//		         else if (msgs[i] == 1) a.pivot();
-//		         else if (msgs[i] == 2) a.attack();
-//		}
 	}
 
 	private void checkForWin(StateBasedGame arg1,ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeDoodads, ArrayList<Integer> removeObjective) {
-		if (winLose== -1 ) {
+		if (winLose < 0) {
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
 			gameOver = false;
@@ -277,8 +253,16 @@ public class GameplayState extends BasicGameState{
 			levelData = null;
 			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 			gameO.setReason(deathReason);
-			arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
+			if(winLose == -1){
+				arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.red) , null);
+			}else if(winLose == -2){
+				arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.black) , null);
+			}else if(winLose == -3){
+				arg1.enterState(CoreStateManager.GAMEOVERSTATE, new FadeOutTransition(Color.black) , null);
+			}
 		}
+		
+		
 		if(winLose== 1 ){
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
@@ -350,7 +334,8 @@ public class GameplayState extends BasicGameState{
 		if(p.isKeyPressed(Input.KEY_ESCAPE)){
 			gameIni = true;
 			gamePlay= false;
-			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
+			
+			arg1.enterState(CoreStateManager.BRIEFING);
 		}
 	}
 
@@ -619,8 +604,10 @@ public class GameplayState extends BasicGameState{
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + 512), (float)(Math.sin(angle+Math.PI) * rad + 384));
 	}
 	
-	public void setLevel(LevelDataModel ldm){
-		this.levelData = ldm;
+	public void setLevel(String s) throws FileNotFoundException, IOException{
+		TriggerFactory tf = new TriggerFactory();
+		tf.setEntFac(entFac);
+		levelData = gdb.buildLevel(tf, s);
 	}
 	
 	public LevelDataModel getLevel(){
@@ -682,6 +669,5 @@ public class GameplayState extends BasicGameState{
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
-//		this.lb = lvl;
 	}
 }
