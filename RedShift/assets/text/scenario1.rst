@@ -1,12 +1,12 @@
 /Scenario File alpha format/
 
-[name] (scenario1)	
+[name] (scenario1)			/name of the scenario, used as the name in the storage system/	
 
-[faction]	(1)
+[faction]	(1)			/USSR or NATO?/
 
-[tltip]		(A short test scnenario)
+[tltip]		(A short test scnenario)/this is displayed on the MAINMENU when the user goes to select a level/
 
-[desc]		(Patrol each way point, kill things)
+[desc]		(Patrol each way point, kill things)/this is used on the BREIFING menu as the mission overview /
 
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
@@ -21,25 +21,24 @@
 	/ship descriptors here/
 }
 
-[music]	(name)
+[music]	(name)				/what kickass track to throw down/
 
-[spawnX]	(512)
-[spawnY]	(250)
+[spawnX]	(512)			/what x coord the player spawns at/
+[spawnY]	(250)			/what y coord the player spawns at/
 
-[active]{
+[active]{				/active playable area/
 	[type] (circle)
 	[x](0)[y](0)
 	[radius](64000)
 }
 
 [margin]{
-	[type] (circle)
+	[type] (circle)			/space between active area and out of bounds/
 	[x](0)[y](0)
 	[radius](96000)
 }
 	
 /NavPoints must be before trigs :P/
-/waitta minute...buildNavPointTrigger creates a new nav point..../
 [navpoints]<
 	{
 		[name]		(alpha)
@@ -76,11 +75,11 @@
 /objectives/
 [objectives]<
 	{
-		[name]	(PatrolAlpha)
-		[tltip]	(Patrol Nav Alpha)
-		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)
-		[target]()
-		[state]	(false)
+		[name]	(PatrolAlpha)			/name in the index system/
+		[tltip]	(Patrol Nav Alpha)		/displayed on BRIEFING and HUD, should be 1 line/
+		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)	/displayed on the BRIEFING menu/
+		[target]()				/trigger target to fire on completion/
+		[state]	(false)				/initial 'active' state/
 	}
 	{
 		[name]	(SweepBeta)
@@ -180,6 +179,22 @@
 	}
 	/Level Triggers/
 	/---Alpha Objective/
+	/---Win the level/
+	{
+		[type]		(iwin)
+		[name]		(thewin)
+		[trigtype]	(TRIGGER)
+		[x]		(0)
+		[y]		(0)
+		[collider]{
+			[type] (circle)
+			[x](0)[y](0)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[state]		(1)
+	}
 	/------Alpha Counter/
 	{
 		[type]		(count)
@@ -208,7 +223,7 @@
 			[x](0)[y](0)
 			[radius](1)
 		}
-		[target]	()
+		[target]	(thewin)
 		[trigstate]	(f)
 		[navPointName]	(alpha)
 		[setstate]	(false)

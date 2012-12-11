@@ -1,6 +1,8 @@
 package ui.menustates;
 
 import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 import level.LevelDataModel;
@@ -26,7 +28,6 @@ import core.PlayerClient;
 import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
-import ents.EntityFactory;
 
 public class HangarBayState extends BasicGameState {
 
@@ -270,7 +271,13 @@ public class HangarBayState extends BasicGameState {
 				pc.getPlayShip().setWeapon(displayGun);
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-				gamePlay.setLevel(levelToPlay);
+				try {
+					gamePlay.setLevel(levelToPlay.getName());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;

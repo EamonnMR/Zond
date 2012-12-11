@@ -79,7 +79,7 @@ public class TriggerFactory {
 		}else if(classType.equals("iwin")){
 			trigger = new TheWinTrigger();
 			doBasicSetup(cldr, args, trigger);
-			buildToggleObjective((ToggleObjective)trigger, args);
+			buildWinning((TheWinTrigger)trigger, args);
 			return trigger;
 		}
 		return null;
@@ -124,7 +124,7 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public CompleteObjective buildCompleteObjective(CompleteObjective trig, String...args){
-		trig.setObectiveTarget(args[7]);
+		trig.setObectiveTarget(args[6]);
 		return trig;
 	}
 	
@@ -142,7 +142,7 @@ public class TriggerFactory {
 	
 	
 	public TheWinTrigger buildWinning(TheWinTrigger win, String...args){
-		win.setWinLose(Integer.valueOf(args[7]));
+		win.setWinLose(Integer.valueOf(args[6]));
 		return win;
 	}
 	
@@ -201,7 +201,7 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public ToggleObjective buildToggleObjective(ToggleObjective trigger, String[] args) {
-		trigger.setState(Boolean.valueOf(args[7]));
+		trigger.setState(Boolean.valueOf(args[6]));
 		trigger.setTarget(args[8]);
 		return trigger;
 	}
