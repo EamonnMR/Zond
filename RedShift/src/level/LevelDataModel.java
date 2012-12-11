@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Transform;
  */
 public class LevelDataModel {
 
-	private String name, toolTip, desc;
+	private String name, toolTip, desc, filename;
 	private HashMap<String, BasicTrigger> triggerMap;
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
@@ -29,7 +29,7 @@ public class LevelDataModel {
 	private int faction;
 	
 	public LevelDataModel(String name){
-		this.name = name;
+		this.filename = name;
 		this.triggerMap = new HashMap<String, BasicTrigger>();
 		this.actionMap = new HashMap<String, BasicAction>();
 		this.navMap = new HashMap<String, NavPoint>();
@@ -191,5 +191,13 @@ public class LevelDataModel {
 	
 	public LevelObjective getObjective(String s){
 		return this.objectives.get(s);
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }

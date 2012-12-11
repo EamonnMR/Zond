@@ -24,7 +24,8 @@ public class BaseEnt {
 	
 	//methods
 	public void render(int xOffset, int yOffset){
-		getImg().drawCentered((float)getX(),(float) getY());
+//		getImg().drawCentered((float)getX(),(float) getY());
+		getImg().drawCentered((float)getX()+xOffset,(float) getY()+yOffset);
 	}
 	
 	public void update(int delta){

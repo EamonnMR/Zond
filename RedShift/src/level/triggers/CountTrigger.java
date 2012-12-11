@@ -24,6 +24,17 @@ public class CountTrigger extends BasicTrigger {
 		count++;
 		System.out.println(count);
 	}
+
+	//TODO: look into putting count trigger's logic inside it's go() method
+//	@Override
+//	public void go(GameplayState gs){
+//		if(count<total){
+//			count++;
+//			this.trigger(false);
+//		}else if(count==total){
+//			this.trigger(true);
+//		}
+//	}
 	
 	public void setTotal(int i){
 		total = i;

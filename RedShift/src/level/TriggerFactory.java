@@ -12,7 +12,6 @@ import level.triggers.ToggleObjective;
 
 import org.newdawn.slick.geom.Shape;
 
-import ents.EntityFactory;
 import ents.ShipDesc;
 
 /**
@@ -26,13 +25,8 @@ import ents.ShipDesc;
  */
 public class TriggerFactory {
 
-	private EntityFactory entFac;
-	
 	public TriggerFactory(){}
 	
-	public void setEntFac(EntityFactory ef){
-		entFac = ef;
-	}
 	
 	/**
 	 * builds any trigger, not comfortable with var args but we'll see how this goes.
@@ -177,7 +171,7 @@ public class TriggerFactory {
 	 * @return
 	 */
 	public void buildSpawnShip(SpawnShip t,ShipDesc d){
-		t.setShip(entFac.shipFromDesc(d));
+		t.setShip(d);
 	}
 	
 	/**
@@ -204,9 +198,5 @@ public class TriggerFactory {
 		trigger.setState(Boolean.valueOf(args[6]));
 		trigger.setTarget(args[8]);
 		return trigger;
-	}
-	
-	public EntityFactory getEntFac() {
-		return entFac;
 	}
 }
