@@ -1,6 +1,9 @@
 /Scenario File alpha format/
 
-[name] (STRING)			/name of the scenario, used as the name in the storage system/	
+MULTILINE               /A string where line breaks are actually used as placed in the text file./
+NAME                    /An internal identifier that needs to match up with names specified elsewhere./
+
+[name] (NAME)			/name of the scenario, used as the name in the storage system/	
 
 [faction]	(INT)			/USSR(0) or NATO?(1)/
 
@@ -21,7 +24,7 @@
 	/ship descriptors here/
 }
 
-[music]	(STRING)			/what kickass track to throw down/
+[music]	(NAME)			/what kickass track to throw down/
 
 [spawnX]	(INT)			/what x coord the player spawns at/
 [spawnY]	(INT)			/what y coord the player spawns at/
@@ -51,9 +54,9 @@
 /objectives/
 [objectives]<
 	{
-		[name]	(STRING)		/name in the index system/
-		[tltip]	(STRING)		/displayed on BRIEFING and HUD, should be 1 line/
-		[desc]	(STRING)		/displayed on the BRIEFING menu/
+		[name]	(NAME)		/name in the index system/
+		[tltip]	(MULTILINE)		/displayed on BRIEFING and HUD, should be 1 line/
+		[desc]	(MULTILINE)		/displayed on the BRIEFING menu/
 		[target](STRING)		/trigger target to fire on completion/
 		[state]	(false)			/initial 'active' state/
 	}
@@ -63,7 +66,7 @@
 [triggers]<
 	{
 		[type]		(STRING)	/see types /
-		[name]		(STRING)	/name for the index system/
+		[name]		(NAME)	/name for the index system/
 		[trigtype]	(STRING)	/enum mask for what trips the trigger - SHIP, SHOT, ALL, TRIGGER, DOODAD/
 		[x]		(INT)		/trig's x/
 		[y]		(INT)		/trig's y/
@@ -72,17 +75,17 @@
 			[x](INT)[y](INT)
 			[radius](INT)
 		}
-		[target]	(STRING)	/trigger name to fire when done/
+		[target]	(NAME)	/trigger name to fire when done/
 		[trigstate]	(true || false)/starting state/
 			
 		TYPE = spawn
 		[toSpawn]{
-			[kind]	(STRING)	/ship name/
-			[gun]	(STRING)	/gun name/
-			[engine](STRING)	/engine name/
+			[kind]	(NAME)	/ship name/
+			[gun]	(NAME)	/gun name/
+			[engine](NAME)	/engine name/
 			[loc]	(INT INT)	/spawn location/
 			[isAi]	(t || f)	/give ship AI/
-			[deathtrig](STRING)	/trigger to fire on death/
+			[deathtrig](NAME)	/trigger to fire on death/
 		}
 			
 		TYPE = togglenav
@@ -94,11 +97,12 @@
 	
 		TYPE = multrig
 		[targets]<
-			[targ1]	(STRING)	/trigger names to fire/
+			[targ1]	(NAME)	/trigger names to fire/
+			...
 		>
 
 		TYPE = endobj
-		[objective]	(STRING)	/objective's name/
+		[objective]	(NAME)	/objective's name/
 
 		TYPE = togobj
 		[objective]	(STRING)	/objective's name/

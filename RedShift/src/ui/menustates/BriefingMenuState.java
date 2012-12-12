@@ -2,6 +2,7 @@ package ui.menustates;
 
 import java.awt.Point;
 import java.util.Map;
+import java.util.Scanner;
 
 import level.LevelDataModel;
 import level.LevelObjective;
@@ -52,7 +53,16 @@ public class BriefingMenuState extends BasicGameState {
 		
 		
 		greenFont.drawString(90, 90, "Mission Briefing:");
-		greenFont.drawString(138, 110, ldm.getUIDesc());
+		//int yOffset = 110;
+		//int lineSpacing = 20; 
+		//Scanner multiLineString = new Scanner(ldm.getUIDesc());
+		//while(multiLineString.hasNextLine()){
+		//	yOffset += lineSpacing;
+		//	greenFont.drawString(138, yOffset, multiLineString.nextLine());
+		//}
+		//greenFont.drawString(138, 110, ldm.getUIDesc());
+		int y = drawMultilineString(greenFont, ldm.getUIDesc(), 138, 110, 20);
+		
 		
 		if(backBool==true){
 			greenFont.drawString(140, 500, "[(Back)]");
@@ -65,7 +75,18 @@ public class BriefingMenuState extends BasicGameState {
 			greenFont.drawString(780, 500, " (Hangar) ");
 		}
 		
-		renderObjectives(gfx);
+		//renderObjectives(gfx);
+		renderObjectivesAlt(gfx, y);
+	}
+
+	private void renderObjectivesAlt(Graphics gfx, int y) {
+		int i = 1;
+		for(LevelObjective o : ldm.getObjectives().values()){
+			y = drawMultilineString(greenFont, i+": " + o.getTltip(), 90, y, 20);
+			y = drawMultilineString(greenFont, o.getDesc(), 90, y, 20);
+			y += 20;
+			i++;
+		}
 	}
 
 	private void renderObjectives(Graphics gfx) {
@@ -169,4 +190,17 @@ public class BriefingMenuState extends BasicGameState {
 	public void customInit(GameDatabase g){
 		gdb = g;
 	}
+	
+	/**
+	 * Returns the new Y position so you can add more lines after it without messing them up.
+	 */
+	private int drawMultilineString(SpriteSheetFont font, String mlString, int x, int y, int dy){
+		Scanner multiLineString = new Scanner(mlString);
+		while(multiLineString.hasNextLine()){
+			y += dy;
+			font.drawString(x, y, multiLineString.nextLine().replace('\n', ' '));
+		}
+		return y;
+	}
+	
 }
