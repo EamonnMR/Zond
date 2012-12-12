@@ -8,7 +8,8 @@
 
 [tltip]		(A short test scnenario)
 
-[desc]		(We're having problems around the Neptune Transit. I need you to run a patrol this morning.)
+[desc]		(We're having problems around the Neptune Transit.
+ I need you to run a patrol this morning.)
 
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
@@ -86,7 +87,8 @@
 	{
 		[name]	(SweepBeta)
 		[tltip]	(Remove 5 asteroids from Nav Beta)
-		[desc]	(We're installing a new listening post at Nav Beta, we need you to clear asteroids around Beta. Careful large asteroids will damage your hull.)
+		[desc]	(We're installing a new listening post at Nav Beta, we need you to clear 
+asteroids around Beta. Careful large asteroids will damage your hull.)
 		[target]()
 		[state]	(false)
 	}
