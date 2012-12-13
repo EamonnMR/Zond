@@ -70,6 +70,7 @@ public class Hud {
 		brightRed = new Color(255,39,64);
 		brightBlue = new Color(28, 87, 255);
 		brightYel = new Color(242, 255, 28);
+		
 	}
 
 	public void update(PlayerClient cl, GameplayState cgs) {
@@ -150,18 +151,30 @@ public class Hud {
 	private void renderMinimap(Graphics gfx, int camX, int camY) {
 		float ratio = 1.0f/100f;
 		int xOffset = hdm.getMinimap_point_mod().x, yOffset = hdm.getMinimap_point_mod().y;
-		Shape actArea, warnArea;
-		actArea = new Rectangle(cgs.getLevel().getActiveArea().getX() * ratio
-				+ xOffset, cgs.getLevel().getActiveArea().getY() * ratio
-				+ yOffset, cgs.getLevel().getActiveArea().getWidth() * ratio,
-				cgs.getLevel().getActiveArea().getHeight() * ratio);
+		Shape actArea=null, warnArea=null;
+		if(cgs.getLevel().getActiveArea().getClass().equals(Circle.class)){
+			Circle aa = (Circle) cgs.getLevel().getActiveArea();
+			actArea = new Circle(aa.getCenterX()+xOffset,
+								aa.getCenterY()+yOffset,
+								aa.getRadius()*ratio);
+			
+			Circle aw = (Circle) cgs.getLevel().getWarnArea();
+			warnArea = new Circle(aw.getCenterX() + xOffset,
+								aw.getCenterY()+ yOffset,
+								aw.getRadius()*ratio) ;
+			
+		}else if (cgs.getLevel().getActiveArea().getClass().equals(Rectangle.class)){
+			actArea = new Rectangle(cgs.getLevel().getActiveArea().getX()
+					+ xOffset, cgs.getLevel().getActiveArea().getY()
+					+ yOffset, cgs.getLevel().getActiveArea().getWidth() * ratio,
+					cgs.getLevel().getActiveArea().getHeight() * ratio);
 
-		warnArea = new Rectangle(cgs.getLevel().getWarnArea().getX() * ratio
-				+ xOffset, cgs.getLevel().getWarnArea().getY() * ratio
-				+ yOffset, cgs.getLevel().getWarnArea().getWidth() * ratio, cgs
-				.getLevel().getWarnArea().getHeight()
-				* ratio);
-
+			warnArea = new Rectangle(cgs.getLevel().getWarnArea().getX()
+					+ xOffset, cgs.getLevel().getWarnArea().getY() * ratio
+					+ yOffset, cgs.getLevel().getWarnArea().getWidth() * ratio, cgs
+					.getLevel().getWarnArea().getHeight()
+					* ratio);
+		}
 		gfx.setColor(Color.red);
 		gfx.draw(warnArea);
 		gfx.setColor(Color.green);
@@ -238,50 +251,7 @@ public class Hud {
 		}
 
 	}
-	
-	public void setDevGog(boolean b) {
-		googles = b;
-	}
 
-	public boolean getDevGogState() {
-		return googles;
-	}
-
-	public void setWarn(boolean b) {
-		boundsWarning = b;
-	}
-
-	public boolean getRadarOn() {
-		return radarOn;
-	}
-
-	public void setRadarOn(boolean radarOn) {
-		this.radarOn = radarOn;
-	}
-	
-	public void setShowNav(boolean p){
-		this.showPoints = p;
-	}
-	
-	public boolean getShowNav(){
-		return this.showPoints;
-	}
-
-	public boolean getShowMap() {
-		return showMap;
-	}
-
-	public void setShowMap(boolean showMap) {
-		this.showMap = showMap;
-	}
-
-	public boolean getShowObjs() {
-		return showObjs;
-	}
-
-	public void setShowObjs(boolean showObjs) {
-		this.showObjs = showObjs;
-	}
 
 	public void checkHP(double hp, Graphics gfx) {
 		if (hp <= totalHP / 2 && hp > totalHP/4) {
@@ -461,11 +431,50 @@ public class Hud {
 			}
 			y+=20;
 		}
-			
-		
 	}
 	
+	
+	public void setDevGog(boolean b) {
+		googles = b;
+	}
 
+	public boolean getDevGogState() {
+		return googles;
+	}
+
+	public void setWarn(boolean b) {
+		boundsWarning = b;
+	}
+
+	public boolean getRadarOn() {
+		return radarOn;
+	}
+
+	public void setRadarOn(boolean radarOn) {
+		this.radarOn = radarOn;
+	}
 	
+	public void setShowNav(boolean p){
+		this.showPoints = p;
+	}
 	
+	public boolean getShowNav(){
+		return this.showPoints;
+	}
+
+	public boolean getShowMap() {
+		return showMap;
+	}
+
+	public void setShowMap(boolean showMap) {
+		this.showMap = showMap;
+	}
+
+	public boolean getShowObjs() {
+		return showObjs;
+	}
+
+	public void setShowObjs(boolean showObjs) {
+		this.showObjs = showObjs;
+	}
 }
