@@ -1,7 +1,7 @@
 package core;
 
 public class Dbg {
-	public static boolean WALL = false;
+	public static boolean WALL = true;
 	public static void line(String s){
 		if(WALL){
 			System.out.println(s);

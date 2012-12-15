@@ -96,9 +96,7 @@ public class Hud {
 		if(radarOn){
 			shipRadarCheck(cgs, gfx, camX, camY);
 			renderShipTags(cgs, gfx, camX, camY);
-		}else{
 		}
-		
 		renderPoints(ldm, gfx, camX,camY);
 		
 		if(showPoints){
@@ -191,16 +189,18 @@ public class Hud {
 									pc.getPlayShip().getRadarRadius().getRadius()*ratio);
 			gfx.draw(rad);
 			for(BasicShip s : cgs.getShips().values()){
-				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())){
-					if(pc.getPlayShip().getFaction()==s.getFaction()){
-						gfx.setColor(Color.green);
-					}else{
-						gfx.setColor(Color.red);
+				if(pc.getPlayShip().getRadarRadius().intersects(s.getRadarRadius())){
+					if(!(pc.getPlayShip().equals(s))){
+						if(pc.getPlayShip().getFaction()==s.getFaction()){
+							gfx.setColor(Color.green);
+						}else{
+							gfx.setColor(Color.red);
+						}
+						Circle targ = new Circle((float)((s.getX()*ratio)+xOffset),
+												(float)((s.getY()*ratio)+yOffset),
+												s.getRadarRadius().radius*ratio);
+						gfx.draw(targ);
 					}
-					Circle targ = new Circle((float)((s.getX()*ratio)+xOffset),
-							(float)((s.getY()*ratio)+yOffset),
-							2);
-					gfx.draw(targ);
 				}
 			}
 		}
@@ -224,10 +224,6 @@ public class Hud {
 	 */
 	public void devGoggles(Graphics gfx, GameContainer gc, LevelDataModel ldm,
 			int camX, int camY) {
-		String x = String.valueOf(gc.getInput().getMouseX());
-		gfx.drawString(x, 100, 10);
-		x = String.valueOf(gc.getInput().getMouseY());
-		gfx.drawString(x, 150, 10);
 		
 		if(radarOn){
 			gfx.setColor(Color.blue);
@@ -248,6 +244,9 @@ public class Hud {
 		gfx.setColor(Color.yellow);
 		for (BasicShip s : cgs.getShips().values()) {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
+			gfx.draw(offsetShape(s.getRadarRadius(), camX, camY));
+			gfx.drawString(String.valueOf(s.getX()), (float)s.getX()-100+camX, (float)s.getY()+100+camY);
+			gfx.drawString(String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()-100+camY);
 		}
 
 	}

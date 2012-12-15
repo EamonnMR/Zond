@@ -15,7 +15,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](1000)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (mercWire)
@@ -38,7 +38,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](1400)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (gemWire)
@@ -61,7 +61,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](1800)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (lunWire)
@@ -79,12 +79,12 @@
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](8)
+		[radius](9)
 	}
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](800)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] 	(vkdWire)
@@ -107,7 +107,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](1200)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] 	(vksWire)
@@ -130,7 +130,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](1600)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (zndWire)
@@ -154,7 +154,7 @@
 	[radar]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](100)
+		[radius](2000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (mercWire)

@@ -26,7 +26,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.hud.Hud;
 import ui.hud.HudDataModel;
-import ai.PursueState;
+import ai.ScanState;
 import ents.AIShip;
 import ents.BaseEnt;
 import ents.BasicShip;
@@ -143,10 +143,10 @@ public class GameplayState extends BasicGameState{
 
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
-			gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 25);
-			gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 25);
-			gfx.drawString(String.valueOf(arg0.getInput().getMouseX()+camX), 300, 10);
-			gfx.drawString(String.valueOf(arg0.getInput().getMouseY()+camY), 400, 10);
+			gfx.drawString("Screen Mouse X:"+String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+			gfx.drawString("Screen Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()), 400, 10);
+			gfx.drawString("Cam Mouse X:"+String.valueOf(arg0.getInput().getMouseX()+camX), 100, 25);
+			gfx.drawString("Cam Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()+camY), 400, 25);
 		}
 	}
 
@@ -297,7 +297,7 @@ public class GameplayState extends BasicGameState{
 		}
 		if (p.isKeyDown(Input.KEY_LCONTROL)) {
 			if (pc.tryShot()) {
-				addShot(pc.getPlayShip().getWeapon().makeShot(pc.getOptions()));
+				addShot(pc.getPlayShip().getWeapon().makeShot(getSFXVol()));
 			}
 			pc.tryShot();
 		}
@@ -316,12 +316,12 @@ public class GameplayState extends BasicGameState{
 			}
 		}
 		if (p.isKeyPressed(Input.KEY_C)) {
-			if (pc.getRadarState() == true) {
-				pc.setRadarState(false);
+			if (pc.getPlayShip().isRadarState()) {
+				pc.getPlayShip().setRadarState(false);
 			} else {
-				pc.setRadarState(true);
+				pc.getPlayShip().setRadarState(true);
 			}
-			playerHud.setRadarOn(pc.getRadarState());
+			playerHud.setRadarOn(pc.getPlayShip().isRadarState());
 		}
 		if(p.isKeyPressed(Input.KEY_A)){
 			if(playerHud.getShowNav()==false){
@@ -355,7 +355,7 @@ public class GameplayState extends BasicGameState{
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
 			BasicShip ship = entry.getValue();
-			ship.update(delta);
+			ship.update(delta, this);
 			if(ship.isDead()){
 				removeShips.add(entry.getKey());
 				ship.onDie(this);
@@ -494,7 +494,13 @@ public class GameplayState extends BasicGameState{
 	
 	public int addShip(BasicShip baseEnt){
 		entCount++;
-		ships.put(entCount, baseEnt);
+		if(baseEnt.getClass().equals(AIShip.class)){
+			AIShip s = (AIShip) baseEnt;
+			s.setState(new ScanState((AIShip)baseEnt), this);
+			ships.put(entCount, baseEnt);
+		}else{
+			ships.put(entCount, baseEnt);
+		}
 		return entCount;
 	}
 	

@@ -1,12 +1,13 @@
 package ai;
 
+import java.awt.Point;
+
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Vector2f;
 
 import core.GameplayState;
 import ents.AIShip;
 import ents.BasicShip;
-import ents.OptionsEnt;
 
 public class PursueState extends AIState{
 
@@ -19,6 +20,7 @@ public class PursueState extends AIState{
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 		double engageRange  = 400;
+		double sightRange = 800; 
 //		How far from a perfect shot: miss
 		float miss = 0.1f;
 //		How wide is the definition of "pointing towards": pointing
@@ -32,21 +34,17 @@ public class PursueState extends AIState{
 		targ =target;
 	}
 	
+	public PursueState(AIShip p){
+		ship = p;
+	}
 	public PursueState(){}
 	
-	public void onUpdate(int delta, OptionsEnt e){
+	public void onUpdate(int delta, GameplayState gs){
 //		System.out.println(ship.getName()+"::Pursuing");
 		
 		//algo
-			
 			//draw line from ship to target
-			//s = ship t = target
-			Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
-			Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
-			
-			
-			Line dist = new Line(s, t);
-			distToTarg = dist.length();
+			distToTarg = distToTarget(ship, targ);
 
 			//see if line is in ships angle
 			double targetAngle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
@@ -67,23 +65,29 @@ public class PursueState extends AIState{
 			}
 
 			//if angle is good, but out of range, get into range
-			if(Math.abs(diff) < miss){
-				if(distToTarg > engageRange){
-					ship.moveForward(delta);
-				}else if(distToTarg <=engageRange){
-					if(ship.tryShot()){
-						GameplayState.getME().addShot(ship.getWeapon().makeShot(e));
+			if(!(targ.isDead())){
+				if(Math.abs(diff) < miss){
+					if(distToTarg > engageRange){
+						ship.moveForward(delta);
+					}else if(distToTarg <=engageRange){
+						if(ship.tryShot()){
+							GameplayState.getME().addShot(ship.getWeapon().makeShot(gs.getSFXVol()));
+						}
+					}else if(!(ship.getRadarRadius().intersects(targ.getCollider()))){
+						ship.setState(new ScanState(ship), gs);
 					}
 				}
+			}else{
+				ship.setState(new ScanState(ship), gs);
 			}
 	}
-	
-	public void onEnter(){
-		System.out.println(ship.getName()+"::Entering Pursue");
+	public void onEnter(int delta, GameplayState gs){
+		System.out.println(ship.getName()+":: targetting "+targ.getName());
 	}
 	
-	public void onLeave(){
-		System.out.println(ship.getName()+"::Leaving Pursue");
+	public void onLeave(int delta, GameplayState gs){
+		System.out.println(ship.getName()+"::Leaving Pursue, "+targ.getName()+" must be dead...");
+		targ = null;
 	}
 	
 	public void onMessage(){
@@ -103,5 +107,14 @@ public class PursueState extends AIState{
 	private Vector2f circularFunction(float angle, double rad){
 //	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
 	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
-	} 
+	}
+	
+	private double distToTarget(BasicShip ship, BasicShip targ){
+		double distToTarg = 0.0;
+		Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
+		Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
+		Line dist = new Line(s, t);
+		distToTarg = dist.length();
+		return distToTarg;
+	}
 }

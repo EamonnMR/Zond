@@ -32,13 +32,13 @@
 [active]{
 	[type] (circle)
 	[x](0)[y](0)
-	[radius](64000)
+	[radius](10000)
 }
 
 [margin]{
 	[type] (circle)
 	[x](0)[y](0)
-	[radius](96000)
+	[radius](10000)
 }
 	
 /NavPoints/
@@ -173,11 +173,11 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 		[trigstate]	(f)
 		[toSpawn]{
 			[kind]	(zond4)
-			[gun]	(las)
+			[gun]	(plas)
 			[engine](medEngine)
-			[loc]	(256 256)
+			[loc]	(-256 -256)
 			[deatheffects](null)
-			[isAi]	(f)
+			[isAi]	(t)
 			[deathtrig]()
 		}
 	}
@@ -232,9 +232,9 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 		[navPointName]	(alpha)
 		[setstate]	(false)
 	}
-	/------nav point trigger/
+	/------nav point trigger---ambush!/
 	{
-		[type]		(togglenav)
+		[type]		(multrig)
 		[name]		(NavAlpha)
 		[trigtype]	(SHIP)
 		[x]		(2584)
@@ -244,10 +244,13 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 			[x](2584)[y](2088)
 			[radius](64)
 		}
-		[target]	(spawnAlphaVosk1)
+		[target]	()
 		[trigstate]	(f)
-		[navPointName]	(alpha)
-		[setstate]	(true)
+		[targets]{
+			[targ0](spawnAlphaVosk1)
+			[targ1](spawnAlphaVosk2)
+			[targ2](spawnAlphaVstk1)
+		}
 	}
 	/------spawn voskhod1/
 	{
@@ -261,15 +264,14 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 			[x](96000)[y](96000)
 			[radius](1)
 		}
-		[target]	(spawnAlphaVosk2)
+		[target]	()
 		[trigstate]	(f)
 		[toSpawn]{
 			[kind]	(voskhod)
 			[gun]	(plas)
 			[engine](smallEngine)
 			[loc]	(2000 2088)
-			[deatheffects](null)
-			[isAi]	(f)
+			[isAi]	(t)
 			[deathtrig](killatalpha)
 		}
 	}
@@ -285,15 +287,14 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 			[x](96000)[y](96000)
 			[radius](1)
 		}
-		[target]	(spawnAlphaVstk1)
+		[target]	()
 		[trigstate]	(f)
 		[toSpawn]{
 			[kind]	(voskhod)
 			[gun]	(plas)
 			[engine](smallEngine)
 			[loc]	(2584 1500)
-			[deatheffects](null)
-			[isAi]	(f)	
+			[isAi]	(t)	
 			[deathtrig](killatalpha)		
 		}
 	}
@@ -316,8 +317,7 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 			[gun]	(60mm)
 			[engine](medEngine)
 			[loc]	(3000 2088)
-			[deatheffects](null)
-			[isAi]	(f)
+			[isAi]	(t)
 			[deathtrig](killatalpha)			
 		}
 	}	
