@@ -45,13 +45,13 @@ public class EntityFactory {
 		build.setGunPtLength(gdb.getShip(shipPointer).getGunPtLength());
 		build.setEngPtLength(gdb.getShip(shipPointer).getEngPtLength());
 		build.setCollider(new Circle(gdb.getShip(shipPointer).getCollider().getX(),gdb.getShip(shipPointer).getCollider().getY(),gdb.getShip(shipPointer).getCollider().getHeight(),24));
-		
+		build.setRadarState(false);
 		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
 		build.setFaction(gdb.getShip(shipPointer).getFaction());
 		build.setDeathSnd(gdb.getShip(shipPointer).getDeathSnd());
 		build.getImg().setRotation(0);
-
 		build.setOnDeathTriggerName(trig);
+		
 		if(gunPointer!=null){
 			BasicGun g = buildGun(gunPointer);
 			build.setWeapon(g);
@@ -71,8 +71,8 @@ public class EntityFactory {
 	 * @return
 	 */
 	public AIShip buildAIShip(String shipPointer, String gunPointer, String engPointer, String trig){
-		AIShip foe = (AIShip) buildShip(shipPointer, gunPointer, engPointer, true, trig);		
-//		foe.setWeapon(buildGun("20mm"));
+		AIShip foe = (AIShip) buildShip(shipPointer, gunPointer, engPointer, true, trig);
+//		foe.setWeapon(buildGun("20mm"));	why were these here? heh
 //		foe.setEngine(buildEngine("smallEngine"));	
 		return foe;
 	}

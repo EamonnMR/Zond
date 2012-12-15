@@ -1,26 +1,28 @@
 package ai;
 
-import ents.BasicShip;
+import core.GameplayState;
+import ents.AIShip;
 
 public class IdleState extends AIState {
 
-	public IdleState(BasicShip p){
+	public IdleState(AIShip p){
 		ship = p;
 	}
 	
-	public void onUpdate(int delta){
-
-	}
-	
-	public void onEnter(){
+	public void onUpdate(int delta, GameplayState gs){
 		
 	}
 	
-	public void onLeave(){
+	public void onEnter(int delta, GameplayState gs){
+		System.out.println(ship.getName()+":: Entering Idle");
+	}
+	
+	public void onLeave(int delta, GameplayState gs){
+		System.out.println(ship.getName()+":: Leaving Idle");
 		
 	}
 	
-	public void onMessage(){
+	public void onMessage(int delta, GameplayState gs){
 		
 	}
 }

@@ -32,6 +32,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private PhysMod physAnchor;                  //Physics Module to keep it flying with physics.
 	private Circle radar;					     //new functionality! radar! 
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
+	private boolean radarState;					//i've got the derp, for some reason radar was in player client...<facepalm>
 	//(to replace death trigs)
 	
 	
@@ -82,7 +83,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		getImg().drawCentered(xOffset + (float)getX(), yOffset + (float)getY());	
 	}
 
-	public void update(int delta){
+	public void update(int delta, GameplayState gs){
 		//update ship
 			physAnchor.update(delta);
 			
@@ -361,5 +362,13 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public void setWireframe(Image wireframe) {
 		this.wireframe = wireframe;
+	}
+
+	public boolean isRadarState() {
+		return radarState;
+	}
+
+	public void setRadarState(boolean radarState) {
+		this.radarState = radarState;
 	}
 }

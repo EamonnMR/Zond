@@ -11,7 +11,6 @@ public class SpawnShip extends BasicTrigger{
 	
 	public SpawnShip(TriggerTypes trig, BasicShip s) {
 		super(trig);
-//		ship = s;
 	}
 	
 	public SpawnShip(){}
