@@ -1,7 +1,5 @@
 package ai;
 
-import java.awt.Point;
-
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -40,7 +38,26 @@ public class PursueState extends AIState{
 	public PursueState(){}
 	
 	public void onUpdate(int delta, GameplayState gs){
-//		System.out.println(ship.getName()+"::Pursuing");
+
+		
+		//try again, brag!
+		Vector2f shipVec = new Vector2f((float)ship.getX(),(float)ship.getY());
+		Vector2f targVec = new Vector2f((float)targ.getX(),(float)targ.getY());
+		Vector2f currentVec = circularFunction((float)ship.getRot(), 10.0);
+		
+//		double angleOfTarg = getAngleInRads(shipVec.getX(),shipVec.getY(),targVec.getX(),targVec.getY());
+		Line lineToTarg = new Line(shipVec,targVec);
+		double distToTarg = lineToTarg.length();
+
+		if(distToTarg<=ship.getAttackRange()){
+			
+			
+			
+		}
+		
+		
+
+		
 		
 		//algo
 			//draw line from ship to target
@@ -81,6 +98,8 @@ public class PursueState extends AIState{
 				ship.setState(new ScanState(ship), gs);
 			}
 	}
+
+
 	public void onEnter(int delta, GameplayState gs){
 		System.out.println(ship.getName()+":: targetting "+targ.getName());
 	}
@@ -92,6 +111,65 @@ public class PursueState extends AIState{
 	
 	public void onMessage(){
 		
+	}
+	
+	
+	/*
+	 * double get_angle(int x1,int y1,int x2, int y2)
+59	{
+60	 double opp;
+61	 double adj;
+62	 double ang1;
+63	 
+64	 //calculate vector differences
+65	 opp=y1-y2;
+66	 adj=x1-x2;
+67	 
+68	 if(x1==x2 && y1==y2) return(-1);
+69	 
+70	 //trig function to calculate angle
+71	 if(adj==0) // to catch vertical co-ord to prevent division by 0
+72	 {
+73	  if(opp>=0) 
+74	  {
+75	   return(0);
+76	  }
+77	  else 
+78	  {
+79	   return(180);
+80	  }
+81	 }
+82	 else 
+83	 {
+84	  ang1=(atan(opp/adj))*180/PI;
+85	 //the angle calculated will range from +90 degrees to -90 degrees
+86	 //so the angle needs to be adjusted if point x1 is less or greater then x2
+87	  if(x1>=x2)
+88	  {
+89	   ang1=90-ang1;
+90	  }
+91	  else
+92	  {
+93	   ang1=270-ang1;
+94	  }
+95	 } 
+96	 return(ang1);
+97	}
+
+	 * 
+	 * 
+	 */
+	private float angle_between_vectors(Vector2f o, Vector2f a, Vector2f b)
+	{
+//	 Vector2f t1 = VECTOR_DIFF(a, o), t2 = VECTOR_DIFF(b, o);
+	 float result;
+
+//	 result = (Math.atan2(t1.y, t1.x) - Math.atan2(t2.y, t2.x)) * 180.0 * M_1_PI;
+//
+//	 if(result < 0)
+//	  result += 360.0;
+
+	 return 0;
 	}
 	
 	private double calcDiff(double sAngle, double targAngle) {
