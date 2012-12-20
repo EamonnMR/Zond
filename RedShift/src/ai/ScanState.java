@@ -24,7 +24,7 @@ public class ScanState extends AIState {
 					if(!(s.getFaction()==ship.getFaction())){			//is this ship on my side?
 						double range = distToTarget(ship, s);
 						//check closest available target
-						if(range <= sightRange && range > engageRange){
+						if(range <= ship.getSightRange()){
 							targ = s;
 							ship.setState(new PursueState(ship, targ), gs);
 						}

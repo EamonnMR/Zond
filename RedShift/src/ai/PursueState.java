@@ -12,13 +12,11 @@ public class PursueState extends AIState{
 //	Params:
 //		Distance from target: dP
 //	Angle towards target: dA
-		double distToTarg, angleOfTarg;
+		public double distToTarg, targetAngle, angleDifference, shipAngle;
 //		Tuneable constants:
 //		Arc within which the ship consideres itself "pointed at" its target (and needs no correction): noise
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
-		double engageRange  = 400;
-		double sightRange = 800; 
 //		How far from a perfect shot: miss
 		float miss = 0.1f;
 //		How wide is the definition of "pointing towards": pointing
@@ -39,64 +37,69 @@ public class PursueState extends AIState{
 	
 	public void onUpdate(int delta, GameplayState gs){
 
-		
-		//try again, brag!
+		//try again, bragg!
 		Vector2f shipVec = new Vector2f((float)ship.getX(),(float)ship.getY());
 		Vector2f targVec = new Vector2f((float)targ.getX(),(float)targ.getY());
-		Vector2f currentVec = circularFunction((float)ship.getRot(), 10.0);
 		
-//		double angleOfTarg = getAngleInRads(shipVec.getX(),shipVec.getY(),targVec.getX(),targVec.getY());
 		Line lineToTarg = new Line(shipVec,targVec);
-		double distToTarg = lineToTarg.length();
-
-		if(distToTarg<=ship.getAttackRange()){
-			
-			
-			
-		}
+		distToTarg = lineToTarg.length();
+		targetAngle = getAngle((double)shipVec.getX(), 
+				(double)shipVec.getY(), 
+				(double)targVec.getX(), 
+				(double)targVec.getY());
+		shipAngle = ship.getRot();
+		//checks
+		//--targ not dead
+		//--targ in range
+			//yes->check angle
+			//no->get in range
 		
+		//--targ in angle
+			//yes->make shot
+			//no->change angle
 		
-
-		
-		
-		//algo
-			//draw line from ship to target
-			distToTarg = distToTarget(ship, targ);
-
-			//see if line is in ships angle
-			double targetAngle = Math.atan2((ship.getY() - targ.getY()),(ship.getX() - targ.getX()));
-			//Ungodly hack to reverse direction of pointing:
-			//It subs 180 (PI) from the angle to make it point the other way.
-
-			double shipAngle = ship.getRot();
-			
-			//ASS
-			//We *really* need to refactor this, just to make sure *we* know what it does.
-			double diff = calcDiff(shipAngle, targetAngle);
-			
-			//if not bring angle to line
-			if (diff < margin) {
-				ship.rotateRight(delta);
-			} else if (diff > -margin) {
-				ship.rotateLeft(delta);
-			}
-
-			//if angle is good, but out of range, get into range
-			if(!(targ.isDead())){
-				if(Math.abs(diff) < miss){
-					if(distToTarg > engageRange){
-						ship.moveForward(delta);
-					}else if(distToTarg <=engageRange){
-						if(ship.tryShot()){
-							GameplayState.getME().addShot(ship.getWeapon().makeShot(gs.getSFXVol()));
-						}
-					}else if(!(ship.getRadarRadius().intersects(targ.getCollider()))){
-						ship.setState(new ScanState(ship), gs);
+		if(!(targ.isDead())){
+			//if out of range, maneuver to attack range
+			if(distToTarg > ship.getAttackRange()){
+				
+				if (shipAngle < targetAngle) {
+					ship.rotateRight(delta);
+				} else if (shipAngle > targetAngle) {
+					ship.rotateLeft(delta);
+				}
+				ship.moveForward(delta);
+				
+			}else if(distToTarg <= ship.getAttackRange()){
+				if (shipAngle < targetAngle) {
+					ship.rotateRight(delta);
+				} else if (shipAngle > targetAngle) {
+					ship.rotateLeft(delta);
+				}
+			//target in range
+				if((shipAngle >= targetAngle+margin)&&(shipAngle <= targetAngle-margin)){
+					if (ship.tryShot()) {
+						GameplayState.getME().addShot(
+								ship.getWeapon().makeShot(gs.getSFXVol()));
 					}
 				}
-			}else{
-				ship.setState(new ScanState(ship), gs);
+			}else if(distToTarg <= 100){
+				if (shipAngle < targetAngle) {
+					ship.rotateRight(delta);
+				} else if (shipAngle > targetAngle) {
+					ship.rotateLeft(delta);
+				}
+				ship.moveBackward(delta);
+			//target in range
+				if((shipAngle >= targetAngle+miss)&&(shipAngle <= targetAngle-miss)){
+					if (ship.tryShot()) {
+						GameplayState.getME().addShot(
+								ship.getWeapon().makeShot(gs.getSFXVol()));
+					}
+				}
 			}
+		}else{
+			ship.setState(new ScanState(ship), gs);
+		}
 	}
 
 
@@ -113,86 +116,29 @@ public class PursueState extends AIState{
 		
 	}
 	
-	
 	/*
-	 * double get_angle(int x1,int y1,int x2, int y2)
-59	{
-60	 double opp;
-61	 double adj;
-62	 double ang1;
-63	 
-64	 //calculate vector differences
-65	 opp=y1-y2;
-66	 adj=x1-x2;
-67	 
-68	 if(x1==x2 && y1==y2) return(-1);
-69	 
-70	 //trig function to calculate angle
-71	 if(adj==0) // to catch vertical co-ord to prevent division by 0
-72	 {
-73	  if(opp>=0) 
-74	  {
-75	   return(0);
-76	  }
-77	  else 
-78	  {
-79	   return(180);
-80	  }
-81	 }
-82	 else 
-83	 {
-84	  ang1=(atan(opp/adj))*180/PI;
-85	 //the angle calculated will range from +90 degrees to -90 degrees
-86	 //so the angle needs to be adjusted if point x1 is less or greater then x2
-87	  if(x1>=x2)
-88	  {
-89	   ang1=90-ang1;
-90	  }
-91	  else
-92	  {
-93	   ang1=270-ang1;
-94	  }
-95	 } 
-96	 return(ang1);
-97	}
-
-	 * 
-	 * 
+	 * gets the angle to the target
 	 */
-	private float angle_between_vectors(Vector2f o, Vector2f a, Vector2f b)
-	{
-//	 Vector2f t1 = VECTOR_DIFF(a, o), t2 = VECTOR_DIFF(b, o);
-	 float result;
-
-//	 result = (Math.atan2(t1.y, t1.x) - Math.atan2(t2.y, t2.x)) * 180.0 * M_1_PI;
-//
-//	 if(result < 0)
-//	  result += 360.0;
-
-	 return 0;
+	public float getAngle(double x1,double y1,double x2, double y2){
+		float angle = (float)Math.atan2((y2-y1), 
+								(x2-x1));
+		return angle;
 	}
 	
 	private double calcDiff(double sAngle, double targAngle) {
-		double diff = targAngle - sAngle;
-		return Math.signum(diff) * (TWOPI % Math.abs(diff));
+		
+		if(targAngle > sAngle){
+			double diff = targAngle - sAngle;
+			return Math.signum(diff) * (TWOPI % Math.abs(diff));
+		}else if(targAngle < sAngle){
+			double diff = sAngle-  targAngle;
+			return Math.signum(diff) * (TWOPI % Math.abs(diff));
+		}
+		
+		return 0.0;
 	}
 
-	
 	private boolean arc(double width, double difference){
 		 return (-1 * width) > difference && difference > width;
-	}
-	
-	private Vector2f circularFunction(float angle, double rad){
-//	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
-	       return new Vector2f((float) (Math.cos(angle+Math.PI) * rad + ship.getX()), (float)(Math.sin(angle+Math.PI) * rad + ship.getY()));
-	}
-	
-	private double distToTarget(BasicShip ship, BasicShip targ){
-		double distToTarg = 0.0;
-		Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
-		Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
-		Line dist = new Line(s, t);
-		distToTarg = dist.length();
-		return distToTarg;
 	}
 }
