@@ -17,10 +17,13 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
+import ai.PursueState;
+
 import ui.UILib;
 import core.GameDatabase;
 import core.GameplayState;
 import core.PlayerClient;
+import ents.AIShip;
 import ents.BasicShip;
 
 /**
@@ -246,7 +249,17 @@ public class Hud {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 			gfx.draw(offsetShape(s.getRadarRadius(), camX, camY));
 			gfx.drawString(String.valueOf(s.getX()), (float)s.getX()-100+camX, (float)s.getY()+100+camY);
-			gfx.drawString(String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()-100+camY);
+			gfx.drawString(String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()+75+camY);
+			gfx.drawString(String.valueOf("Angle:"+s.getRot()), (float)s.getX()-100+camX, (float)s.getY()+50+camY);
+			if(s.getClass().equals(AIShip.class)){
+				AIShip p = (AIShip) s;
+				if(p.getBrains().getClass().equals(PursueState.class)){
+					PursueState b = (PursueState) p.getBrains();
+					gfx.drawString(String.valueOf("TargetAngle:"+b.targetAngle), (float)s.getX()-100+camX, (float)s.getY()+25+camY);
+					gfx.drawString(String.valueOf("TargetDist:"+b.distToTarg), (float)s.getX()-100+camX, (float)s.getY()+125+camY);
+				}
+
+			}
 		}
 
 	}

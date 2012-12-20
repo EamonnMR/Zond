@@ -9,7 +9,7 @@ public class AIShip extends BasicShip {
 
 	private AIState brains;
 	private Polygon sight;
-	private double attackRange = 400;
+	private double attackRange = 600;
 	private double sightRange = 800;
 	private double accuracy = 100;
 	
