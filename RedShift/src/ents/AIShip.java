@@ -7,11 +7,10 @@ import core.GameplayState;
 
 public class AIShip extends BasicShip {
 
-	private AIState brains;
-	private Polygon sight;
-	private double attackRange = 600;
-	private double sightRange = 800;
-	private double accuracy = 100;
+	private AIState brains;					//the ai state 
+	private Polygon sight;					
+	private double attackRange = 600;		//range bracket to shoot in
+	private double sightRange = 800;		//range bracket to pursue in
 	
 	public void setState(AIState p, GameplayState g){
 		if(!(brains==null)){
@@ -57,13 +56,5 @@ public class AIShip extends BasicShip {
 
 	public void setSightRange(double sightRange) {
 		this.sightRange = sightRange;
-	}
-
-	public double getAccuracy() {
-		return accuracy;
-	}
-
-	public void setAccuracy(double accuracy) {
-		this.accuracy = accuracy;
 	}
 }

@@ -10,9 +10,10 @@ import ents.BasicShip;
 public class PursueState extends AIState{
 
 //	Params:
-//		Distance from target: dP
-//	Angle towards target: dA
-		public double distToTarg, targetAngle, angleDifference, shipAngle;
+		public double distToTarg, 				//distance between the aiship and its target
+						targetAngle, 			//the angle of the target relative to the aiship's X/Y
+						angleDifference, 		//the difference between the two angles
+						shipAngle;				//the angle of the aiship
 //		Tuneable constants:
 //		Arc within which the ship consideres itself "pointed at" its target (and needs no correction): noise
 		double margin = 0.1f;
@@ -82,7 +83,8 @@ public class PursueState extends AIState{
 								ship.getWeapon().makeShot(gs.getSFXVol()));
 					}
 				}
-			}else if(distToTarg <= 100){
+			//TARGET TOO CLOSE! D:
+			}else if(distToTarg <= 200){
 				if (shipAngle < targetAngle) {
 					ship.rotateRight(delta);
 				} else if (shipAngle > targetAngle) {

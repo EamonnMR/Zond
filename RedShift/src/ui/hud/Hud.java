@@ -248,8 +248,8 @@ public class Hud {
 		for (BasicShip s : cgs.getShips().values()) {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 			gfx.draw(offsetShape(s.getRadarRadius(), camX, camY));
-			gfx.drawString(String.valueOf(s.getX()), (float)s.getX()-100+camX, (float)s.getY()+100+camY);
-			gfx.drawString(String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()+75+camY);
+			gfx.drawString("X:"+String.valueOf(s.getX()), (float)s.getX()-100+camX, (float)s.getY()+100+camY);
+			gfx.drawString("Y:"+String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()+75+camY);
 			gfx.drawString(String.valueOf("Angle:"+s.getRot()), (float)s.getX()-100+camX, (float)s.getY()+50+camY);
 			if(s.getClass().equals(AIShip.class)){
 				AIShip p = (AIShip) s;
