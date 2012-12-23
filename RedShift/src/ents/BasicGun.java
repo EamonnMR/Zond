@@ -3,6 +3,7 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.openal.Audio;
 
 /**
  * 
@@ -60,7 +61,8 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()/2));
 			shot.setSnd(proj.getSnd());
-			getFireSnd().playAt(0.6f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
+//			getFireSnd().playAt(0.6f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
+			getFireSnd().playAt(1.0f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
 	

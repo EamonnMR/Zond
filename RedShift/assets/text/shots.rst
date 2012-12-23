@@ -67,7 +67,7 @@
 	[dmg]  (1)
 	[speed](1.0)
 	[life] (325)
-	[snd]  (twentyh)
+	[snd]  (smlHt)
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)

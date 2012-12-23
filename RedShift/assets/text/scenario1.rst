@@ -24,7 +24,7 @@
 	/ship descriptors here/
 }
 
-[music]	(name)
+[music]	(loneRecon)
 
 [spawnX]	(0)
 [spawnY]	(0)

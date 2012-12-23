@@ -164,7 +164,7 @@ public class GameplayState extends BasicGameState{
 			this.doodads = new HashMap<Integer, BaseEnt>();
 			this.clients = new HashMap<Integer, PlayerClient>();
 			this.incomingClientShips = new HashMap<String, BasicShip>();
-		
+			this.winLose=0;
 			//create the client ship
 			if(pc.getPlayShip()==null){
 				pc.setPlayShip(entFac.buildShip("mercury", "20mm", "smallEngine", false, null));
@@ -177,7 +177,6 @@ public class GameplayState extends BasicGameState{
 			//add both ships to the Ship hashmap
 			addShip(pc.getPlayShip());
 
-			buildAIShips();
 			//camera test
 			setCamX(0);
 			setCamY(0);
@@ -185,6 +184,7 @@ public class GameplayState extends BasicGameState{
 //			taskCount = levelToUse.getTotalObjectives();
 			gameIni = false;
 			gamePlay = true;
+			gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
 		}
 		
 		if (gamePlay) {
@@ -245,10 +245,9 @@ public class GameplayState extends BasicGameState{
 		if (winLose < 0) {
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
-			gameOver = false;
 			gamePlay = false;
 			gameIni = true;
-			winLose = 0;
+			gdb.getSound(levelData.getMusic()).stop();
 			levelData = null;
 			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 			gameO.setReason(deathReason);
@@ -265,11 +264,10 @@ public class GameplayState extends BasicGameState{
 		if(winLose== 1 ){
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
-			gameOver = false;
 			gamePlay = false;
 			gameIni = true;
+			gdb.getSound(levelData.getMusic()).stop();
 			levelData = null;
-			winLose = 0;
 			arg1.enterState(CoreStateManager.GAMEWINSTATE, new FadeOutTransition(Color.white) , null);
 		}
 	}
@@ -364,7 +362,6 @@ public class GameplayState extends BasicGameState{
 					levelData.setNeedUpdate(true);
 				}
 				if(ship.equals(pc.getPlayShip())){
-					gameOver = true;
 					winLose = -1;
 				}
 			}
@@ -642,9 +639,9 @@ public class GameplayState extends BasicGameState{
 	
 	public void setWinLose(int i){
 		this.winLose = i;
-		if (i == -1){
-			gameOver = true; //It might make out lives easier if we get rid of gameOver...
-		}
+//		if (i == -1){
+//			gameOver = true; //It might make out lives easier if we get rid of gameOver...
+//		}
 	}
 	
 	public int getWinLose(){
@@ -663,14 +660,6 @@ public class GameplayState extends BasicGameState{
 	
 	public void spawnShip(ents.ShipDesc s){
 		addShip(entFac.shipFromDesc(s));
-	}
-	
-	//AI TESTING
-	//XXX:remove when ai works...perhaps
-	private void buildAIShips() {
-//		BasicShip zond1 = entFac.buildShip("vostok", "laz", "medEngine", true, null);
-//		zond1.ini(200, 600, 0f);
-//		addShip(zond1);
 	}
 	
 	public Graphics getGfx(){
