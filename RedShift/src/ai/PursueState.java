@@ -19,7 +19,7 @@ public class PursueState extends AIState{
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 //		How far from a perfect shot: miss
-		float miss = 0.1f;
+		float miss = 0.5f;
 //		How wide is the definition of "pointing towards": pointing
 		float pointing = 0.50f;
 		BasicShip targ;
@@ -61,7 +61,7 @@ public class PursueState extends AIState{
 		
 		if(!(targ.isDead())){
 			//if out of range, maneuver to attack range
-			if(distToTarg > ship.getAttackRange()){
+			if((distToTarg > ship.getAttackRange()) && (distToTarg > 200)){
 				
 				if (shipAngle < targetAngle) {
 					ship.rotateRight(delta);
@@ -77,7 +77,7 @@ public class PursueState extends AIState{
 					ship.rotateLeft(delta);
 				}
 			//target in range
-				if((shipAngle >= targetAngle+margin)&&(shipAngle <= targetAngle-margin)){
+				if((shipAngle > targetAngle-miss)&&(shipAngle < targetAngle+miss)){
 					if (ship.tryShot()) {
 						GameplayState.getME().addShot(
 								ship.getWeapon().makeShot(gs.getSFXVol()));
@@ -92,13 +92,41 @@ public class PursueState extends AIState{
 				}
 				ship.moveBackward(delta);
 			//target in range
-				if((shipAngle >= targetAngle+miss)&&(shipAngle <= targetAngle-miss)){
+				if((shipAngle > targetAngle-miss)&&(shipAngle < targetAngle+miss)){
 					if (ship.tryShot()) {
 						GameplayState.getME().addShot(
 								ship.getWeapon().makeShot(gs.getSFXVol()));
 					}
 				}
 			}
+		}else if (ship.getHealth()<=ship.getHealth()/4){
+//			for (BasicShip s : gs.getShips().values()) {
+//				if (!(s.equals(ship))) {
+//					if (s.getFaction() == ship.getFaction()) {
+//						Vector2f sVec = new Vector2f((float) targ.getX(),
+//								(float) targ.getY());
+//						Vector2f fVec = new Vector2f((float) s.getX(),
+//								(float) s.getY());
+//
+//						Line lineToFriend = new Line(sVec, fVec);
+//						double distToF = lineToFriend.length();
+//						if (distToF >= 1000) {
+//							double fAngle = getAngle((double) sVec.getX(),
+//									(double) sVec.getY(),
+//									(double) fVec.getX(),
+//									(double) fVec.getY());
+//							if (shipAngle < fAngle) {
+//								ship.rotateRight(delta);
+//							} else if (shipAngle > fAngle) {
+//								ship.rotateLeft(delta);
+//							}
+//							ship.moveForward(delta);
+//						}
+//
+//					}
+//				}
+//
+//			}
 		}else{
 			ship.setState(new ScanState(ship), gs);
 		}

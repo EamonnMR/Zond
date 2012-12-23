@@ -66,5 +66,5 @@
 	[img]     (gun1)
 	[weight]  (984)
 	[proj]    (lazShot) /No projectile type yet/
-	[fireSnd] (twentys)
+	[fireSnd] (smlFre)
 }

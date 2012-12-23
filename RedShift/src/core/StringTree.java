@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Eamonn
  */
 public class StringTree{
-	private static final boolean WALL = true;
+	private static final boolean WALL = false;
 	//That turns the massive walls of debugging text on and off
 	private Node root;
 	
