@@ -55,12 +55,12 @@
 
 /HangarBay/
 [small_scrn]	(assets/images/gui/small_screen.png)
-[gemWire]	(assets/images/gui/wireframes/gemWire.png)
-[mercWire]	(assets/images/gui/wireframes/mercWire.png)
-[lunWire]	(assets/images/gui/wireframes/lunWire.png)
-[vkdWire]	(assets/images/gui/wireframes/vkhdWire.png)
-[vksWire]	(assets/images/gui/wireframes/vstkWire.png)
-[zndWire]	(assets/images/gui/wireframes/zndWire.png)
+[gemWire]	(assets/images/gui/wireframes/ship/gemWire.png)
+[mercWire]	(assets/images/gui/wireframes/ship/mercWire.png)
+[lunWire]	(assets/images/gui/wireframes/ship/lunWire.png)
+[vkdWire]	(assets/images/gui/wireframes/ship/vkhdWire.png)
+[vksWire]	(assets/images/gui/wireframes/ship/vstkWire.png)
+[zndWire]	(assets/images/gui/wireframes/ship/zndWire.png)
 
 /HUD/
 [radar_i]	(assets/images/gui/hud/radar_i.png)
