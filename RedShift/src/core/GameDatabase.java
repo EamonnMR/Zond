@@ -188,6 +188,7 @@ public class GameDatabase {
 			current.setUiName(s.getValue(child,"name"));
 			current.setToolTip(s.getValue(child,"tltip"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
+			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
 			indexGuns.put(child, current);
 		}
 	}

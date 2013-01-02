@@ -184,7 +184,10 @@ public class GameplayState extends BasicGameState{
 //			taskCount = levelToUse.getTotalObjectives();
 			gameIni = false;
 			gamePlay = true;
-			gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
+			if(!(gdb.getSound(levelData.getMusic())==null)){
+				gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
+			}
+			
 		}
 		
 		if (gamePlay) {

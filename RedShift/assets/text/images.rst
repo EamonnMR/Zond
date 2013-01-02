@@ -55,12 +55,20 @@
 
 /HangarBay/
 [small_scrn]	(assets/images/gui/small_screen.png)
+
+/Hangar Wire Frame Ships/
 [gemWire]	(assets/images/gui/wireframes/ship/gemWire.png)
 [mercWire]	(assets/images/gui/wireframes/ship/mercWire.png)
 [lunWire]	(assets/images/gui/wireframes/ship/lunWire.png)
 [vkdWire]	(assets/images/gui/wireframes/ship/vkhdWire.png)
 [vksWire]	(assets/images/gui/wireframes/ship/vstkWire.png)
 [zndWire]	(assets/images/gui/wireframes/ship/zndWire.png)
+
+/Hangar Wire Frame Guns/
+[20wire]	(assets/images/gui/wireframes/guns/20mmWire.png)
+[60wire]	(assets/images/gui/wireframes/guns/60mmWire.png)
+[105wire]	(assets/images/gui/wireframes/guns/105mmWire.png)
+
 
 /HUD/
 [radar_i]	(assets/images/gui/hud/radar_i.png)

@@ -93,6 +93,7 @@ public class EntityFactory {
 		gun.setWeight(gdb.getGun(gunPointer).getWeight());
 		gun.setProj(gdb.getGun(gunPointer).getProj());
 		gun.setFireSnd(gdb.getGun(gunPointer).getFireSnd());
+		gun.setWireframe(gdb.getGun(gunPointer).getWireframe().copy());
 		return gun;
 	}
 	
