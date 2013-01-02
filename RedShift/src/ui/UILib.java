@@ -64,7 +64,7 @@ public class UILib {
 			x=(p.x+w/2)+dist;
 			y=p.y-h/2;
 		}else if(dir==2){
-			x=p.x;
+			x=p.x-prox.getWidth()/2;
 			y=(p.y-h/2)-(prox.getHeight()+dist);
 		}else if(dir==3){
 			x=p.x;

@@ -19,6 +19,7 @@ public class BasicGun {
 	private int weight;
 	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
+	private Image wireframe;
 	private double x,y;
 	private double speedX, speedY;
 	private double angle;
@@ -176,5 +177,13 @@ public class BasicGun {
 
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
+	}
+
+	public Image getWireframe() {
+		return wireframe;
+	}
+
+	public void setWireframe(Image wireframe) {
+		this.wireframe = wireframe;
 	}
 }

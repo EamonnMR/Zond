@@ -19,6 +19,7 @@
 	[weight]  (119)
 	[proj]    (twentyShot)
 	[fireSnd] (twentys)
+	[wire]    (20wire)
 }
 
 /60 mm cannon/
@@ -31,6 +32,7 @@
 	[weight]  (540)
 	[proj]    (sixtyShot)
 	[fireSnd] (twentys)
+	[wire]    (60wire)
 }
 
 /105 mm cannon/
@@ -43,6 +45,7 @@
 	[weight]  (983)
 	[proj]    (oneFiveShot)
 	[fireSnd] (twentys)
+	[wire]	  (105wire)
 }
 
 /small plasma/
@@ -55,6 +58,7 @@
 	[weight]  (0)
 	[proj]    (plasShot) /No projectile type yet/
 	[fireSnd] (twentys)
+	[wire]	  (105wire)
 }
 
 /small laser/
@@ -67,4 +71,5 @@
 	[weight]  (984)
 	[proj]    (lazShot) /No projectile type yet/
 	[fireSnd] (smlFre)
+	[wire]	  (105wire)
 }

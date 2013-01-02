@@ -79,8 +79,6 @@ public class HangarBayState extends BasicGameState {
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
-		renderContainers(gfx);
-		
 		renderMainDisplay(gfx);
 		
 		renderEngines(gfx);
@@ -90,10 +88,6 @@ public class HangarBayState extends BasicGameState {
 		renderRollover(gfx);
 		
 		renderCurrent(gfx);
-	}
-
-	private void renderContainers(Graphics gfx){
-		gfx.draw(ships_rec);
 	}
 	
 	private void renderMainDisplay(Graphics gfx) {	
@@ -121,6 +115,7 @@ public class HangarBayState extends BasicGameState {
 			}
 		}
 		ulib.drawImageCenteredOnPoint(gfx, displayShip.getWireframe(), new Point(509,310));
+		ulib.drawImageNextToImage(gfx, displayShip.getWireframe(), displayGun.getWireframe(), new Point(509,310), 2, 10);
 		if(backBool==true){
 			greenFont.drawString(140, 500, "[(Back)]");
 		}else{

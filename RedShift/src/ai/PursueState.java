@@ -98,35 +98,34 @@ public class PursueState extends AIState{
 								ship.getWeapon().makeShot(gs.getSFXVol()));
 					}
 				}
+			}else if (ship.getHealth()<=ship.getHealth()/4){
+			for (BasicShip s : gs.getShips().values()) {
+				if (!(s.equals(ship))) {
+					if (s.getFaction() == ship.getFaction()) {
+						Vector2f sVec = new Vector2f((float) targ.getX(),
+								(float) targ.getY());
+						Vector2f fVec = new Vector2f((float) s.getX(),
+								(float) s.getY());
+
+						Line lineToFriend = new Line(sVec, fVec);
+						double distToF = lineToFriend.length();
+						if (distToF >= 1000) {
+							double fAngle = getAngle((double) sVec.getX(),
+									(double) sVec.getY(),
+									(double) fVec.getX(),
+									(double) fVec.getY());
+							if (shipAngle < fAngle) {
+								ship.rotateRight(delta);
+							} else if (shipAngle > fAngle) {
+								ship.rotateLeft(delta);
+							}
+							ship.moveForward(delta);
+						}
+					}
+				}
+
 			}
-		}else if (ship.getHealth()<=ship.getHealth()/4){
-//			for (BasicShip s : gs.getShips().values()) {
-//				if (!(s.equals(ship))) {
-//					if (s.getFaction() == ship.getFaction()) {
-//						Vector2f sVec = new Vector2f((float) targ.getX(),
-//								(float) targ.getY());
-//						Vector2f fVec = new Vector2f((float) s.getX(),
-//								(float) s.getY());
-//
-//						Line lineToFriend = new Line(sVec, fVec);
-//						double distToF = lineToFriend.length();
-//						if (distToF >= 1000) {
-//							double fAngle = getAngle((double) sVec.getX(),
-//									(double) sVec.getY(),
-//									(double) fVec.getX(),
-//									(double) fVec.getY());
-//							if (shipAngle < fAngle) {
-//								ship.rotateRight(delta);
-//							} else if (shipAngle > fAngle) {
-//								ship.rotateLeft(delta);
-//							}
-//							ship.moveForward(delta);
-//						}
-//
-//					}
-//				}
-//
-//			}
+		}
 		}else{
 			ship.setState(new ScanState(ship), gs);
 		}
