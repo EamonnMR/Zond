@@ -9,6 +9,10 @@ import level.triggers.BasicTrigger;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
+import ents.BasicEngine;
+import ents.BasicGun;
+import ents.BasicShip;
+
 /**
  * vaunted version 2 of the level data/controller system. The actual processing logic has been moved to a class called LevelHandler.
  * that bad boy does the thinking. LevelDataModel now is a pure data class. 
@@ -22,6 +26,7 @@ public class LevelDataModel {
 	private HashMap<String, BasicAction> actionMap;
 	private HashMap<String, NavPoint> navMap;
 	private HashMap<String, LevelObjective> objectives;
+	private String[] clientShips, clientGuns, clientEngs;
 	private Shape activeArea, warnArea;
 	private boolean needUpdate;
 	private Point spawn;
@@ -34,6 +39,9 @@ public class LevelDataModel {
 		this.actionMap = new HashMap<String, BasicAction>();
 		this.navMap = new HashMap<String, NavPoint>();
 		this.objectives = new HashMap<String, LevelObjective>();
+		this.clientEngs = new String[0];
+		this.clientGuns = new String[0];
+		this.clientShips = new String[0];
 		this.needUpdate = false;
 	}
 
@@ -199,5 +207,29 @@ public class LevelDataModel {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public String[] getClientShips() {
+		return clientShips;
+	}
+
+	public void setClientShips(String[] clientShips) {
+		this.clientShips = clientShips;
+	}
+
+	public String[] getClientGuns() {
+		return clientGuns;
+	}
+
+	public void setClientGuns(String[] clientGuns) {
+		this.clientGuns = clientGuns;
+	}
+
+	public String[] getClientEngs() {
+		return clientEngs;
+	}
+
+	public void setClientEngs(String[] clientEngs) {
+		this.clientEngs = clientEngs;
 	}
 }

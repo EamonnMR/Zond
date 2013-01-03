@@ -58,7 +58,6 @@ public class GameDatabase {
 	private Map<String, BasicGun> indexGuns;
 	private Map<String, BasicEngine> indexEng;
 	private Map<String, BasicShot> indexShot;
-	private Map<String, BasicArmor> indexArmor;
 	private Map<String, Sound> indexSounds;
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
@@ -100,7 +99,6 @@ public class GameDatabase {
 		indexShot = new HashMap<String, BasicShot>();
 		indexGuns = new HashMap<String, BasicGun>();
 		indexEng = new HashMap<String, BasicEngine>();
-		indexArmor = new HashMap<String, BasicArmor>();
 		indexShip = new HashMap<String, BasicShip>();
 		indexFonts = new HashMap<String, SpriteSheetFont>();
 		indexScenarios = new HashMap<String, LevelDataModel>();
@@ -131,13 +129,10 @@ public class GameDatabase {
 	 * 
 	 */
 	public void populateAll() throws FileNotFoundException, IOException{
-		//populateArmor(); We have no armor types at this point
 		xpopulateShot();
-		//populateGun();    //Original method left to prevent freakouts
 		xpopulateEngine();
 		xpopulateGun(); //Now you're cooking with external data!
 		xpopulateShips();
-//		populateLevels();
 		populateFonts();
 	}
 
@@ -318,24 +313,6 @@ public class GameDatabase {
 	}
 	
 	/**
-	 * build all armors 
-	 * populate map with instances
-	 */
-	public void populateArmor(){
-		//TODO: armor types are phase 2
-		//XXX: more like, is armor every going to be in here?
-	}
-	
-	/**
-	 * simple get armor method
-	 * @return BasicArmor
-	 */
-	public BasicArmor getArmor(String index){
-		return indexArmor.get(index);
-	}
-	
-	
-	/**
 	 * creates the fonts out of sprite sheets
 	 */
 	public void populateFonts(){
@@ -472,6 +449,11 @@ public class GameDatabase {
 			//short description for briefing
 			level.setUIDesc(s.getValue("desc"));
 			
+			//get client info
+			level.setClientGuns(parseClientInfo(s.getSubTree("plrGuns")));
+			level.setClientShips(parseClientInfo(s.getSubTree("plrShips")));
+			level.setClientEngs(parseClientInfo(s.getSubTree("plrMotors")));
+			
 			//Get the name of the music to use
 			level.setMusic(s.getValue( "music"));
 			
@@ -499,6 +481,14 @@ public class GameDatabase {
 		}
 	}
 	
+	private String[] parseClientInfo(StringTree t) {
+		String[] toSender = new String[t.childSet().size()];
+		for(int i=0; i< toSender.length; i++){
+				toSender[i] = t.getValue("item"+i);
+		}
+		return toSender;
+	}
+
 	/**
 	 * parses the listed nav points in the rust file into NavPoint objects
 	 * @param topLevel
@@ -591,7 +581,6 @@ public class GameDatabase {
 			}
 			
 			parseShape(t, "collider");
-			//FIXME: Dyke any refrences to the entity factory out of the trigger factory
 			trigs.put(argList[1], trigFac.buildTrigger(parseShape(t, "collider"), d, typeClass, argList));
 		}
 		return trigs;

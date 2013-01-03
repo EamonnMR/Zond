@@ -101,7 +101,7 @@ public class CoreStateManager extends StateBasedGame {
 		load.customInit(gDB, entFac, trigFac,  player);
 		this.addState(load);
 		
-		mainMenu.customInit(gDB);
+		mainMenu.customInit(gDB, entFac, player);
 		this.addState(mainMenu);
 		
 		optionsMenu.customInit(player.getOptions(), gDB);
