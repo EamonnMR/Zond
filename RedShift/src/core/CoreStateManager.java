@@ -16,6 +16,7 @@ import ui.menustates.HangarBayState;
 import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
+import ui.menustates.PauseMenuState;
 import ents.EntityFactory;
 
 /**
@@ -44,6 +45,8 @@ public class CoreStateManager extends StateBasedGame {
 	private ModHudMenuState modHud;
 	public static int BRIEFING = 7;
 	private BriefingMenuState brief;
+	public static int PAUSE = 8;
+	private PauseMenuState pause;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -77,6 +80,7 @@ public class CoreStateManager extends StateBasedGame {
 		gameWin = new GameSuccessState(GAMEWINSTATE);
 		gamePlay = new GameplayState(GAMEPLAYSTATE);
 		brief = new BriefingMenuState(BRIEFING);
+		pause = new PauseMenuState(PAUSE);
 	}
 	
 	/**
@@ -122,7 +126,9 @@ public class CoreStateManager extends StateBasedGame {
 		brief.customInit(gDB);
 		this.addState(brief);
 		
-		//XXX:passing level builder as a temporary measure
+		pause.customInit(gDB);
+		this.addState(pause);
+		
 		gamePlay.customInit(player,gDB, entFac, hdm );
 		this.addState(gamePlay);
 	}

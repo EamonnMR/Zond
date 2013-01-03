@@ -180,6 +180,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 		if (optBTN_rec.intersects(mouse_rec)) {
 			if (gc.getInput().isMousePressed(0)) {
+				OptionMenuState ops = (OptionMenuState) stbg.getState(CoreStateManager.OPTIONSMENUSTATE);
+				ops.setPause(false);
 				stbg.enterState(CoreStateManager.OPTIONSMENUSTATE);
 			}
 		}
