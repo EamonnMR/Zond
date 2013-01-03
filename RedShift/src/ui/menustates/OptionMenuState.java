@@ -17,6 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import ui.UILib;
 import core.CoreStateManager;
 import core.GameDatabase;
+import core.GameplayState;
 import ents.OptionsEnt;
 
 public class OptionMenuState extends BasicGameState{
@@ -29,7 +30,7 @@ public class OptionMenuState extends BasicGameState{
 	private UILib uilib;
 	private GameDatabase gdb;
 	private Image bkIMG, optLBL_i, sfxLBL_i, musLBL_i, voiLBL_i, fscLBL_i, partLBL_i, onBTN_i, offBTN_i;
-	private boolean backBool, cfgHudBool, ini, overFsc, overPart;
+	private boolean backBool, cfgHudBool, ini, overFsc, overPart, pause;
 	private SpriteSheetFont greenFont, grayFont;
 	
 	public OptionMenuState(int i){
@@ -109,7 +110,12 @@ public class OptionMenuState extends BasicGameState{
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			in.clearMousePressedRecord();
 			in.clearKeyPressedRecord();
-			arg1.enterState(CoreStateManager.MAINMENUSTATE);
+			if(pause){
+				GameplayState gs = (GameplayState) arg1.getState(CoreStateManager.GAMEPLAYSTATE);
+				arg1.enterState(CoreStateManager.PAUSE);
+			}else{
+				arg1.enterState(CoreStateManager.MAINMENUSTATE);
+			}
 		}
 	}
 
@@ -203,9 +209,12 @@ public class OptionMenuState extends BasicGameState{
 		}
 		if (backBTN_rec.intersects(mouse_rec)) {
 			if (in.isMousePressed(0)) {
-				in.clearMousePressedRecord();
-				in.clearKeyPressedRecord();
-				stg.enterState(CoreStateManager.MAINMENUSTATE);
+				if(pause){
+					GameplayState gs = (GameplayState) stg.getState(CoreStateManager.GAMEPLAYSTATE);
+					stg.enterState(CoreStateManager.PAUSE);
+				}else{
+					stg.enterState(CoreStateManager.MAINMENUSTATE);
+				}
 			}
 		}
 		
@@ -318,21 +327,22 @@ public class OptionMenuState extends BasicGameState{
 	}
 	
 	private void renderKeys(Graphics gfx) {
-		greenFont.drawString(710, 202, "+====+");
-		greenFont.drawString(710, 219, "|KEYS|");				
-		greenFont.drawString(710, 236, "+====+");
-		greenFont.drawString(576, 260, "Up Arrow----------Forward");
-		greenFont.drawString(576, 280, "Down Arrow--------Backward");
-		greenFont.drawString(576, 300, "Left Arrow--------Turn Left");
-		greenFont.drawString(576, 320, "Right Arrow-------Turn Right");
-		greenFont.drawString(576, 340, "Key Z-------------Strafe Left");
-		greenFont.drawString(576, 360, "Key X-------------Strafe Right");
-		greenFont.drawString(576, 380, "Left Control------Fire");
-		greenFont.drawString(576, 400, "Key C-------------Toggle Radar");
-		greenFont.drawString(576, 420, "Key A-------------Toggle Navs");
-		greenFont.drawString(576, 440, "Key W-------------Toggle Map");
-		greenFont.drawString(576, 460, "Key Esc-----------Leave game");
-
+		if(!pause){
+			greenFont.drawString(710, 202, "+====+");
+			greenFont.drawString(710, 219, "|KEYS|");				
+			greenFont.drawString(710, 236, "+====+");
+			greenFont.drawString(576, 260, "Up Arrow----------Forward");
+			greenFont.drawString(576, 280, "Down Arrow--------Backward");
+			greenFont.drawString(576, 300, "Left Arrow--------Turn Left");
+			greenFont.drawString(576, 320, "Right Arrow-------Turn Right");
+			greenFont.drawString(576, 340, "Key Z-------------Strafe Left");
+			greenFont.drawString(576, 360, "Key X-------------Strafe Right");
+			greenFont.drawString(576, 380, "Left Control------Fire");
+			greenFont.drawString(576, 400, "Key C-------------Toggle Radar");
+			greenFont.drawString(576, 420, "Key A-------------Toggle Navs");
+			greenFont.drawString(576, 440, "Key W-------------Toggle Map");
+			greenFont.drawString(576, 460, "Key Esc-----------Leave game");
+		}
 	}
 	
 	private String getFormattedValue(float val){
@@ -351,5 +361,15 @@ public class OptionMenuState extends BasicGameState{
 	public int getID() {
 		return id;
 	}
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
+	}
+	
+	
 	
 }

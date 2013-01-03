@@ -339,10 +339,12 @@ public class GameplayState extends BasicGameState{
 			}
 		}
 		if(p.isKeyPressed(Input.KEY_ESCAPE)){
-			gameIni = true;
-			gamePlay= false;
-			
-			arg1.enterState(CoreStateManager.BRIEFING);
+//			gameIni = true;
+//			gamePlay= false;
+//			gdb.getSound(levelData.getMusic()).stop();
+//			levelData = null;
+//			arg1.enterState(CoreStateManager.BRIEFING);
+			arg1.enterState(CoreStateManager.PAUSE);
 		}
 	}
 
