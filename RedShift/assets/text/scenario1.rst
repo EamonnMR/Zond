@@ -13,15 +13,26 @@
 
 /scenario-specific things/
 [levelType]	(scen) /as opposed to camp for campaign/
-	
+
+/gun descriptors here/	
 [plrGuns]{
-	/gun descriptors here/
+	[item0]	(20mm)
+	[item1]	(60mm)
+	[item2]	(las)
 }
+
+/motor descriptors here/
 [plrMotors]{
-	/motor descriptors here/
+	[item0]	(smallEngine)
+	[item1]	(medEngine)
+	[item2]	(largeEngine)
 }
+
+/ship descriptors here/
 [plrShips]{
-	/ship descriptors here/
+	[item0]	(mercury)
+	[item1]	(gemini)
+	[item2]	(lunar)
 }
 
 [music]	(loneRecon)

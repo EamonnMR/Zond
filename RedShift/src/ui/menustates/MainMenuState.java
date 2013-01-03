@@ -20,6 +20,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import ui.UIButton;
 import core.CoreStateManager;
 import core.GameDatabase;
+import core.PlayerClient;
+import ents.BasicEngine;
+import ents.BasicGun;
+import ents.BasicShip;
+import ents.EntityFactory;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
@@ -34,6 +39,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private HashMap<String, UIButton> uiButtons;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
+	private EntityFactory entFac;
+	private PlayerClient pc;
 	
 	public MainMenuState(int i){
 		id = i;
@@ -187,8 +194,11 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		for(UIButton u : uiButtons.values()){
 			if(u.getRectangle().intersects(mouse_rec)){
 				if(gc.getInput().isMouseButtonDown(0)){
+					spoolClient((LevelDataModel)u.getThing());
+					
 					BriefingMenuState brief = (BriefingMenuState)stbg.getState(CoreStateManager.BRIEFING);
 					brief.setLevel((LevelDataModel)u.getThing());
+					
 					stbg.enterState(CoreStateManager.BRIEFING);
 				}
 				u.setState(true);
@@ -260,13 +270,36 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 
 	}
 
+	//I realy apologize putting this here, but I had really no idea where else to put it
+	//method simply converts level client info to tangible items
+	private void spoolClient(LevelDataModel ldm) {
+		HashMap<String, BasicShip> ships = new HashMap<String, BasicShip>();
+		for(String s: ldm.getClientShips() ){
+			ships.put(s, entFac.buildShip(s, null, null, false, ""));
+		}
+		pc.setClientShips(ships);
+		
+		HashMap<String, BasicGun> gunz = new HashMap<String, BasicGun>();
+		for(String s: ldm.getClientGuns() ){
+			gunz.put(s, entFac.buildGun(s));
+		}
+		pc.setClientGuns(gunz);
+		
+		HashMap<String, BasicEngine> engs = new HashMap<String, BasicEngine>();
+		for(String s: ldm.getClientEngs()){
+			engs.put(s, entFac.buildEngine(s));
+		}
+		pc.setClientEngines(engs);
+	}
 	
 	@Override
 	public int getID() {
 		return id;
 	}
 	
-	public void customInit(GameDatabase g){
+	public void customInit(GameDatabase g, EntityFactory ef, PlayerClient p){
 		gdb = g;
+		entFac = ef;
+		pc = p;
 	}
 }
