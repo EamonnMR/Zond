@@ -28,7 +28,7 @@ import ents.EntityFactory;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
-	private int id, natoX=750, natoY=195, warsX=450,warsY=195;
+	private int id, natoX=700, natoY=195, warsX=400,warsY=195;
 	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
@@ -175,7 +175,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 		if (scenBTN_rec.intersects(mouse_rec)) {
 			if (gc.getInput().isMousePressed(0)) {
-//				stbg.enterState(CoreStateManager.HANGARBAYSTATE);
 				scenSelect=true;
 			}
 		}
@@ -230,9 +229,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	}
 	
 	private void renderScenarios(Graphics gfx){
-		greenFont.drawString(600, 155, "[SCENARIOS]");
-		greenFont.drawString(450, 175, "-WarsawPact-");
-		greenFont.drawString(750, 175, "-NATO-");
+		greenFont.drawString(550, 155, "[Scenarios]");
+		greenFont.drawString(400, 175, "-WarsawPact-");
+		greenFont.drawString(700, 175, "-NATO-");
 
 		//show missions
 		natoY = 195;
@@ -270,8 +269,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 
 	}
 
-	//I realy apologize putting this here, but I had really no idea where else to put it
-	//method simply converts level client info to tangible items
+	//I really apologize putting this here, but I had no idea where else to put it
+	//method simply converts level client info to tangible info in the player client
 	private void spoolClient(LevelDataModel ldm) {
 		HashMap<String, BasicShip> ships = new HashMap<String, BasicShip>();
 		for(String s: ldm.getClientShips() ){
