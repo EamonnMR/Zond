@@ -1,0 +1,190 @@
+/Scenario File alpha format/
+
+[filename]	(sovwpchk)
+
+[uiname]	(Soviet Weapons Check)
+
+[faction]	(0)
+
+[tltip]		(test soviet weapons and equipment)
+
+[desc]		(Access granted, I'll open the rare stock. Enjoy, Commander.
+You will be provided with some targets to test things on.)
+
+/scenario-specific things/
+[levelType]	(scen)
+	
+[plrGuns]{
+	[item0]	(60mm)
+	[item1]	(plas)
+}
+[plrMotors]{
+	[item0]	(medEngine)
+}
+[plrShips]{
+	[item0]	(zond4)
+	[item1]	(voskhod)
+	[item2]	(vostok)
+}
+
+[music]	(loneRecon)
+
+[spawnX]	(0)
+[spawnY]	(0)
+
+[active]{
+	[type] (circle)
+	[x](0)[y](0)
+	[radius](64000)
+}
+
+[margin]{
+	[type] (circle)
+	[x](0)[y](0)
+	[radius](96000)
+}
+[navpoints]<
+	{
+		[name]	(alpha)
+		[x]	(0)
+		[y]	(0)
+		[state]	(t)
+	}
+>
+
+[objectives]<
+	{
+		[name]	(TestWeps)
+		[tltip]	(test Soviet equipment)
+		[desc]	(You will be given access to all Soviet items.
+Mission ends when all targets are destroyed.)
+		[target]()
+		[state]	(false)	
+	}
+>
+
+[triggers]<
+	/trigger the target spawning/
+	{
+		[type]	(multrig)
+		[name]	(fireini)
+		[trigtype](SHIP)
+		[x]	(0)
+		[y]	(0)
+		[collider]{
+			[type] (circle)
+			[x](0)[y](0)
+			[radius](64)		
+		}
+		[target]()
+		[trigstate](f)
+		[targets]{
+			[targ0](spawnMerc)
+			[targ1](spawnGem)
+			[targ2](spawnLoon)
+		}	
+	}
+
+	/---Win the level/
+	{
+		[type]		(iwin)
+		[name]		(thewin)
+		[trigtype]	(TRIGGER)
+		[x]		(96000)
+		[y]		(96000)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[state]		(1)
+	}
+	/------Counter/
+	{
+		[type]		(count)
+		[name]		(targetscleared)
+		[trigtype]	(TRIGGER)
+		[x]		(96000)
+		[y]		(96000)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	(thewin)
+		[trigstate]	(f)
+		[total]		(3)
+	}
+
+	/make a mercury/
+	{
+		[type]		(spawn)
+		[name]		(spawnMerc)
+		[trigtype]	(TRIGGER)
+		[x]		(-400)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(mercury)
+			[gun]	(60mm)
+			[engine](smallEngine)
+			[loc]	(-400 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+	/make a gemini/
+	{
+		[type]		(spawn)
+		[name]		(spawnGem)
+		[trigtype]	(TRIGGER)
+		[x]		(0)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(gemini)
+			[gun]	(60mm)
+			[engine](medEngine)
+			[loc]	(0 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+	/make a lunar/
+	{
+		[type]		(spawn)
+		[name]		(spawnLoon)
+		[trigtype]	(TRIGGER)
+		[x]		(400)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(lunar)
+			[gun]	(105mm)
+			[engine](largeEngine)
+			[loc]	(400 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+>

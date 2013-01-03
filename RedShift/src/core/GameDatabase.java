@@ -24,7 +24,6 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import ents.BasicArmor;
 import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
@@ -171,7 +170,7 @@ public class GameDatabase {
 	 * @throws IOException
 	 */
 	public void xpopulateGun() throws FileNotFoundException, IOException{
-		StringTree s = loadRst("assets/text/guns.rst");
+		StringTree s = loadRst("assets/text/items/guns.rst");
 		for (String child : s.childSet()){
 			BasicGun current = new BasicGun();
 			current.setCoolDown(Integer.parseInt(s.getValue(child, "cooldown")));
@@ -218,7 +217,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateShips() throws FileNotFoundException, IOException{
-		StringTree s = loadRst("assets/text/ships.rst");
+		StringTree s = loadRst("assets/text/items/ships.rst");
 		for (String child : s.childSet()){
 			BasicShip m = new BasicShip();
 			m.setImg(indexImages.get(s.getValue(child, "img")).copy());
@@ -251,7 +250,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateEngine() throws FileNotFoundException, IOException{
-		StringTree s = loadRst("assets/text/motors.rst");
+		StringTree s = loadRst("assets/text/items/motors.rst");
 		for (String child : s.childSet()){
 			BasicEngine e = new BasicEngine();
 			e.setName(child);
@@ -284,7 +283,7 @@ public class GameDatabase {
 	 * populate map with instances
 	 */
 	public void xpopulateShot() throws FileNotFoundException, IOException{
-		StringTree s = loadRst("assets/text/shots.rst");
+		StringTree s = loadRst("assets/text/items/shots.rst");
 		for (String child : s.childSet()){
 			BasicShot h = new BasicShot();
 			h.setImg(indexImages.get(s.getValue(child, "img")).copy());
