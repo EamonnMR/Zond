@@ -1,7 +1,6 @@
 package ui.menustates;
 
 import java.awt.Point;
-import java.util.Map;
 import java.util.Scanner;
 
 import level.LevelDataModel;
@@ -23,7 +22,7 @@ import core.GameDatabase;
 
 public class BriefingMenuState extends BasicGameState {
 
-	private int id, rowLimiter = 50;
+	private int id;
 	private UILib ulib;
 	private GameDatabase gdb;
 	private boolean ini, backBool, accptBool;
@@ -89,21 +88,21 @@ public class BriefingMenuState extends BasicGameState {
 		}
 	}
 
-	private void renderObjectives(Graphics gfx) {
-		int x=90,y=195, i=1;
-		//nuts, strings instead of ints
-		for(Map.Entry<String, LevelObjective> obj : ldm.getObjectives().entrySet()){
-			LevelObjective o = obj.getValue();
-			greenFont.drawString(x, y, i+": "+o.getTltip());
-			if(o.getDesc()!=null && o.getDesc().length() > rowLimiter){
-				y=prepareTextRow(o.getDesc(), y);
-				y+=40;
-			}else {
-				y=+40;
-			}
-			i++;
-		}
-	}
+//	private void renderObjectives(Graphics gfx) {
+//		int x=90,y=195, i=1;
+//		//nuts, strings instead of ints
+//		for(Map.Entry<String, LevelObjective> obj : ldm.getObjectives().entrySet()){
+//			LevelObjective o = obj.getValue();
+//			greenFont.drawString(x, y, i+": "+o.getTltip());
+//			if(o.getDesc()!=null && o.getDesc().length() > rowLimiter){
+//				y=prepareTextRow(o.getDesc(), y);
+//				y+=40;
+//			}else {
+//				y=+40;
+//			}
+//			i++;
+//		}
+//	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
@@ -143,31 +142,6 @@ public class BriefingMenuState extends BasicGameState {
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
-	
-	private int prepareTextRow(String desc, int y) {
-		int len = desc.length();
-		double t = len/rowLimiter;
-		int numOfRows = (int)Math.ceil(t);
-		y=y+20;
-		if(numOfRows<=1){
-			numOfRows++;
-		}
-		String[] lines = new String[numOfRows];
-		for(int b=0; b<lines.length;b++){
-			if(b==0){
-				lines[b] = desc.substring(b*rowLimiter, rowLimiter);
-			}else{
-				lines[b] = desc.substring(b*rowLimiter);
-			}
-		}
-		
-		for(int i=0; i<lines.length; i++){
-			y=y+(i*20);
-			greenFont.drawString(138, y, lines[i]);
-		}
-		return y;
-	}
-
 
 	private void loadResources() {
 		greenFont = gdb.getFont("green");

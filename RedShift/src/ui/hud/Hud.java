@@ -73,7 +73,9 @@ public class Hud {
 		brightRed = new Color(255,39,64);
 		brightBlue = new Color(28, 87, 255);
 		brightYel = new Color(242, 255, 28);
-		
+		showMap = true;
+		showPoints = true;
+		showObjs = true;
 	}
 
 	public void update(PlayerClient cl, GameplayState cgs) {

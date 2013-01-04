@@ -249,7 +249,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 				}else{
 					greenFont.drawString(warsX, warsY, " "+s.getName()+" ");
 				}
-				warsY+=20;
+				warsY+=30;
 			}else if(s.getFaction()==1){
 				u.getRectangle().setX(natoX);
 				u.getRectangle().setY(natoY);			
@@ -259,7 +259,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 				}else{
 					greenFont.drawString(natoX, natoY, " "+s.getName()+" ");
 				}
-				natoY+=20;
+				natoY+=30;
 			}
 		}
 

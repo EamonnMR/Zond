@@ -17,7 +17,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import ui.UILib;
 import core.CoreStateManager;
 import core.GameDatabase;
-import core.GameplayState;
 import ents.OptionsEnt;
 
 public class OptionMenuState extends BasicGameState{
@@ -111,7 +110,6 @@ public class OptionMenuState extends BasicGameState{
 			in.clearMousePressedRecord();
 			in.clearKeyPressedRecord();
 			if(pause){
-				GameplayState gs = (GameplayState) arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				arg1.enterState(CoreStateManager.PAUSE);
 			}else{
 				arg1.enterState(CoreStateManager.MAINMENUSTATE);
@@ -210,7 +208,6 @@ public class OptionMenuState extends BasicGameState{
 		if (backBTN_rec.intersects(mouse_rec)) {
 			if (in.isMousePressed(0)) {
 				if(pause){
-					GameplayState gs = (GameplayState) stg.getState(CoreStateManager.GAMEPLAYSTATE);
 					stg.enterState(CoreStateManager.PAUSE);
 				}else{
 					stg.enterState(CoreStateManager.MAINMENUSTATE);
@@ -338,10 +335,11 @@ public class OptionMenuState extends BasicGameState{
 			greenFont.drawString(576, 340, "Key Z-------------Strafe Left");
 			greenFont.drawString(576, 360, "Key X-------------Strafe Right");
 			greenFont.drawString(576, 380, "Left Control------Fire");
-			greenFont.drawString(576, 400, "Key C-------------Toggle Radar");
-			greenFont.drawString(576, 420, "Key A-------------Toggle Navs");
-			greenFont.drawString(576, 440, "Key W-------------Toggle Map");
-			greenFont.drawString(576, 460, "Key Esc-----------Leave game");
+			greenFont.drawString(576, 400, "Key C-------------Show Radar");
+			greenFont.drawString(576, 420, "Key A-------------Show Navs");
+			greenFont.drawString(576, 440, "Key W-------------Show Map");
+			greenFont.drawString(576, 460, "Tab---------------Show Tasks");
+			greenFont.drawString(576, 480, "Key Esc-----------Pause game");
 		}
 	}
 	

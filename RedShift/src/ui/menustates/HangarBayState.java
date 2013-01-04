@@ -31,7 +31,7 @@ public class HangarBayState extends BasicGameState {
 
 	private int id, currentChoice, rolloverChoice;
 	private PlayerClient pc;
-	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec, ships_rec ;
+	private Rectangle acceptBTN_rec, backBTN_rec, mouse_rec;
 	private BasicShip displayShip, tempShip;
 	private BasicGun displayGun, tempGun;
 	private BasicEngine displayEngine, tempEng;
@@ -60,8 +60,6 @@ public class HangarBayState extends BasicGameState {
 		backBTN_rec = new Rectangle(140,500,96,17);
 		acceptBTN_rec = new Rectangle(780,500, 120,17);
 		
-		//container recs
-		ships_rec = new Rectangle(326, 75, 372, 500);
 		//mouse...maybe there should be a mouse class next go around?
 		mouse_rec = new Rectangle(0,0,1,1);
 		mx = arg0.getInput().getMouseX();
