@@ -1,7 +1,5 @@
 package ui.menustates;
 
-import level.LevelDataModel;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -12,56 +10,55 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ui.UIButton;
-
 import core.CoreStateManager;
 import core.GameDatabase;
+import core.GameplayState;
 
 public class PauseMenuState extends BasicGameState {
 
 	private int id;
 	private GameDatabase gdb;
-	private boolean ini, opt, hang, res;
+	private boolean ini, opt, quit, res;
 	private SpriteSheetFont greenFont;
 	private Shape mouse_rec;
-	private Rectangle unpause, options, hangar;
+	private Rectangle unpause, options, leave;
 	
 	public PauseMenuState(int i){
 		id= i;
 		ini = true;
 		opt = false;
 		res = false;
-		hang = false;
+		quit = false;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		mouse_rec = new Rectangle(0,0,1,1);
-		options = new Rectangle(380, 381, 132, 20);
-		hangar = new Rectangle(380, 411, 120, 20);
-		unpause = new Rectangle(380, 441, 120, 20);
+		options = new Rectangle(380, 414, 132, 20);
+		leave = new Rectangle(380, 444, 120, 20);
+		unpause = new Rectangle(380, 384, 120, 20);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		if(opt){
-			greenFont.drawString(380, 384, "[(Options)]");
+			greenFont.drawString(380, 414, "[(Options)]");
 		}else{
-			greenFont.drawString(380, 384, " (Options) ");
+			greenFont.drawString(380, 414, " (Options) ");
 		}
 		
-//		if(hang){
-//			greenFont.drawString(380, 414, "[(Hangar)]");
-//		}else{
-//			greenFont.drawString(380, 414, " (Hangar) ");
-//		}
+		if(quit){
+			greenFont.drawString(380, 444, "[(Leave)]");
+		}else{
+			greenFont.drawString(380, 444, " (Leave) ");
+		}
 		
 		if(res){
-			greenFont.drawString(380, 444, "[(Resume)]");
+			greenFont.drawString(380, 384, "[(Resume)]");
 		}else{
-			greenFont.drawString(380, 444, " (Resume) ");
+			greenFont.drawString(380, 384, " (Resume) ");
 		}
 		
 		greenFont.drawString(710, 202, "+====+");
@@ -74,10 +71,11 @@ public class PauseMenuState extends BasicGameState {
 		greenFont.drawString(576, 340, "Key Z-------------Strafe Left");
 		greenFont.drawString(576, 360, "Key X-------------Strafe Right");
 		greenFont.drawString(576, 380, "Left Control------Fire");
-		greenFont.drawString(576, 400, "Key C-------------Toggle Radar");
-		greenFont.drawString(576, 420, "Key A-------------Toggle Navs");
-		greenFont.drawString(576, 440, "Key W-------------Toggle Map");
-		greenFont.drawString(576, 460, "Key Esc-----------Leave game");
+		greenFont.drawString(576, 400, "Key C-------------Show Radar");
+		greenFont.drawString(576, 420, "Key A-------------Show Navs");
+		greenFont.drawString(576, 440, "Key W-------------Show Map");
+		greenFont.drawString(576, 460, "Tab---------------Show Tasks");
+		greenFont.drawString(576, 480, "Key Esc-----------Pause game");
 	}
 
 	@Override
@@ -101,22 +99,25 @@ public class PauseMenuState extends BasicGameState {
 				arg1.enterState(CoreStateManager.OPTIONSMENUSTATE);
 			}
 		}
-//		else if(hangar.intersects(mouse_rec)){
-//			hang = true;
-//			if(in.isMousePressed(0)){
-//				in.clearMousePressedRecord();
-//				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
-//			}
-//		}
+		else if(leave.intersects(mouse_rec)){
+			quit = true;
+			if(in.isMousePressed(0)){
+				in.clearMousePressedRecord();
+				in.clearKeyPressedRecord();
+				arg1.enterState(CoreStateManager.MAINMENUSTATE);
+			}
+		}
 		else if(unpause.intersects(mouse_rec)){
 			res = true;
 			if(in.isMousePressed(0)){
 				in.clearMousePressedRecord();
+				GameplayState gs = (GameplayState)  arg1.getState(CoreStateManager.GAMEPLAYSTATE);
+				gs.getGameDataBase().getSound(gs.getLevel().getMusic()).loop(1.0f, gs.getMusicVol());
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE);
 			}
 		}else{
 			opt = false;
-			hang =false;
+			quit =false;
 			res = false;
 		}
 		

@@ -172,6 +172,9 @@ public class GameplayState extends BasicGameState{
 				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
 			}
 			pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
+			pc.setRadarState(true);
+			
+			
 			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
 			
 			//add both ships to the Ship hashmap
@@ -181,7 +184,6 @@ public class GameplayState extends BasicGameState{
 			setCamX(0);
 			setCamY(0);
 		
-//			taskCount = levelToUse.getTotalObjectives();
 			gameIni = false;
 			gamePlay = true;
 			if(!(gdb.getSound(levelData.getMusic())==null)){
@@ -339,11 +341,7 @@ public class GameplayState extends BasicGameState{
 			}
 		}
 		if(p.isKeyPressed(Input.KEY_ESCAPE)){
-//			gameIni = true;
-//			gamePlay= false;
-//			gdb.getSound(levelData.getMusic()).stop();
-//			levelData = null;
-//			arg1.enterState(CoreStateManager.BRIEFING);
+			gdb.getSound(levelData.getMusic()).stop();
 			arg1.enterState(CoreStateManager.PAUSE);
 		}
 	}
