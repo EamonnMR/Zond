@@ -15,7 +15,7 @@ public class PursueState extends AIState{
 						angleDifference, 		//the difference between the two angles
 						shipAngle;				//the angle of the aiship
 //		Tuneable constants:
-//		Arc within which the ship consideres itself "pointed at" its target (and needs no correction): noise
+//		Arc within which the ship considers itself "pointed at" its target (and needs no correction): noise
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 //		How far from a perfect shot: miss

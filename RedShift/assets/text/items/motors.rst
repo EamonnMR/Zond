@@ -59,3 +59,18 @@
 	[sideThrst]   (sidethrust)
 	[tltip]		(an engine)
 }
+
+[satEngine]{
+	[name]	      (herpa derp)
+	[tltip]       (heavy booster, great top speed.)
+	[cost]        (3)
+	[weight]      (2300)
+	[turnrate]    (0.4)
+	[thrustx]     (0.0)
+	[thrusty]     (0.0)
+	[strafeRate]  (0.0)
+	[img]         (eng1)
+	[primeThrst]  (test)
+	[sideThrst]   (sidethrust)
+	[tltip]		(an engine)
+}
