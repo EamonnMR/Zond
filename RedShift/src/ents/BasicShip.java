@@ -110,8 +110,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void rotateLeft(int delta){
     	float rot = (-getEngine().getTurnrate())*delta;
 		getImg().rotate(rot);
-    	getWeapon().getImg().rotate(rot);
-    	getEngine().getInGameImg().rotate(rot);
+		if(getWeapon()!=null){
+			getWeapon().getImg().rotate(rot);	
+		}
+		if(getEngine()!=null){
+	    	getEngine().getInGameImg().rotate(rot);	
+		}
 		if(getEngine().getSideThrust().playing()){
 //			getEngine().getSideThrust().stop();
 		}
@@ -124,8 +128,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void rotateRight(int delta){
     	float rot = getEngine().getTurnrate()*delta;
     	getImg().rotate(rot);
-    	getWeapon().getImg().rotate(rot);
-    	getEngine().getInGameImg().rotate(rot);
+		if(getWeapon()!=null){
+			getWeapon().getImg().rotate(rot);	
+		}
+		if(getEngine()!=null){
+	    	getEngine().getInGameImg().rotate(rot);	
+		}
 		if(getEngine().getSideThrust().playing()){
 //			getEngine().getSideThrust().stop();
 		}
@@ -329,7 +337,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	}
 
 	public boolean tryShot() {
-		return gun.canIshoot();
+		if(getWeapon()!=null){
+			return gun.canIshoot();	
+		}else{
+			return false;
+		}
 	}
 
 	public Circle getRadarRadius() {

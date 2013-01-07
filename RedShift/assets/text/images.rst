@@ -1,13 +1,19 @@
 /Image locations/
 /Ships/
+/----NATO/
 [mercury]     (assets/images/ships/nasa/mercury.png)
 [gemini]      (assets/images/ships/nasa/gemini.png)
 [lunar]       (assets/images/ships/nasa/lunar.png)
+[skylab]      (assets/images/ships/nasa/skypost.png)
+[skypost]     (assets/images/ships/nasa/skypost_beta.png)
+[pionrSati]    (assets/images/ships/nasa/sat_pion_base.png)
+[pionrGuni]    (assets/images/ships/nasa/sat_pion_gun.png)
+
+/----Warsaw/
 [vostok]      (assets/images/ships/russia/vostok1.png)
 [voskhod]     (assets/images/ships/russia/voskhod.png)
 [zond4]       (assets/images/ships/russia/zond4.png)
-[skylab]      (assets/images/ships/nasa/skypost.png)
-[skypost]     (assets/images/ships/nasa/skypost_beta.png)
+
 
 /Weapons/
 [eng1]        (assets/images/engines/engine1.png)

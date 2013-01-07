@@ -82,6 +82,8 @@ Mission ends when all targets are destroyed.)
 			[targ0](spawnMerc)
 			[targ1](spawnGem)
 			[targ2](spawnLoon)
+			[targ3](spawnPionrS)
+			[targ4](spawnPionrG)
 		}	
 	}
 
@@ -136,7 +138,7 @@ Mission ends when all targets are destroyed.)
 			[kind]	(mercury)
 			[gun]	(60mm)
 			[engine](smallEngine)
-			[loc]	(-400 200)
+			[loc]	(-100 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
@@ -182,7 +184,56 @@ Mission ends when all targets are destroyed.)
 			[kind]	(lunar)
 			[gun]	(105mm)
 			[engine](largeEngine)
-			[loc]	(400 200)
+			[loc]	(100 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+
+	/make a pioneer sat/
+	{
+		[type]		(spawn)
+		[name]		(spawnPionrS)
+		[trigtype]	(TRIGGER)
+		[x]		(400)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(pionrSat)
+			[gun]	()
+			[engine](satEngine)
+			[loc]	(200 200)
+			[isAi]	(t)	
+			[deathtrig](targetscleared)
+		}
+	}
+
+
+	/make a pioneer sat wiv gunz!/
+	{
+		[type]		(spawn)
+		[name]		(spawnPionrG)
+		[trigtype]	(TRIGGER)
+		[x]		(400)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(pionrGun)
+			[gun]	(las)
+			[engine](satEngine)
+			[loc]	(300 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
