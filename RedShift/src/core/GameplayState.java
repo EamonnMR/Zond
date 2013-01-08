@@ -250,10 +250,7 @@ public class GameplayState extends BasicGameState{
 		if (winLose < 0) {
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
-			gamePlay = false;
-			gameIni = true;
-			gdb.getSound(levelData.getMusic()).stop();
-			levelData = null;
+			shutDown();
 			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 			gameO.setReason(deathReason);
 			if(winLose == -1){
@@ -269,10 +266,7 @@ public class GameplayState extends BasicGameState{
 		if(winLose== 1 ){
 			cleanEntities(removeShots, removeShips, removeDoodads,
 					removeObjective);
-			gamePlay = false;
-			gameIni = true;
-			gdb.getSound(levelData.getMusic()).stop();
-			levelData = null;
+			shutDown();
 			arg1.enterState(CoreStateManager.GAMEWINSTATE, new FadeOutTransition(Color.white) , null);
 		}
 	}
@@ -687,6 +681,21 @@ public class GameplayState extends BasicGameState{
 	
 	public Float getVoiceVol(){
 		return pc.getOptions().getVoicevol();
+	}
+	
+	public LevelDataModel getLevelData(){
+		return levelData;
+	}
+	
+	public void setLevelData(LevelDataModel ldm){
+		levelData = ldm;
+	}
+	
+	public void shutDown(){
+		gdb.getSound(levelData.getMusic()).stop();
+		levelData = null;
+		gameIni = true;
+		gamePlay = false;
 	}
 	
 	public void customInit(PlayerClient PC, GameDatabase gDB, EntityFactory ef, HudDataModel h){
