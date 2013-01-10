@@ -15,7 +15,7 @@ public class ParallaxStarField{
 	
 	//XXX:oi! clean up this language, you fuck nugget
 	public void FUCKsetImg(Image img){
-		//HURR CANT PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
+		//HURR CAN'T PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
 		if (this.img == null){
 			this.img = img;
 		}
@@ -33,9 +33,7 @@ public class ParallaxStarField{
 		maxY = screenY + extrasize;
 		this.randomizeDistanceFromBorder = randomizeDistanceFromBorder;
 		this.numStars = numStars;
-		x = new float[numStars];
-		y = new float[numStars];
-		z = new float[numStars];
+		//stars = new Star[maxStars];
 		drawMe = new boolean[numStars];
 		this.img = img;
 		this.minZ = minZ;
@@ -76,6 +74,22 @@ public class ParallaxStarField{
 		   	//   }
 		  }
 	 }
+	
+//	private class Star{
+//		float x, y, z;
+//		private Star(float x, float y, float z){
+//		//Yes, it's gonna be one of *those* constructors
+//			this.x = x;
+//			this.y = y;
+//			this.z = z;
+//		}
+//		
+//		//private update(int dCamX, int dCamY, int camX, int camY, int leftBound, int rightBound, int topBound, int bottomBound){
+//		
+//		}
+//		
+//	}
+	
 	
 	public void update(int dCamX, int dCamY, int camX, int camY){
 		
