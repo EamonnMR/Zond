@@ -71,13 +71,10 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		gfx.drawImage(montrBKG, 0, 0);
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
-		
 
 		gfx.setColor(Color.red);
 		gfx.draw(mouse_rec);
 		grayFont.drawString(512-((16*12)/2), 36, "=["+title+"v1.0]=");
-		
-
 		
 		if(campRollover){
 			grayFont.drawString(90, 90, "[(Campaign)]");
@@ -274,6 +271,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	//I really apologize putting this here, but I had no idea where else to put it
 	//method simply converts level client info to tangible info in the player client
 	private void spoolClient(LevelDataModel ldm) {
+		pc.setClientShips(null);
+		pc.setClientGuns(null);
+		pc.setClientEngines(null);
 		HashMap<String, BasicShip> ships = new HashMap<String, BasicShip>();
 		for(String s: ldm.getClientShips() ){
 			ships.put(s, entFac.buildShip(s, null, null, false, ""));

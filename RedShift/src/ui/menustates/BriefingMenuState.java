@@ -60,8 +60,11 @@ public class BriefingMenuState extends BasicGameState {
 		//	greenFont.drawString(138, yOffset, multiLineString.nextLine());
 		//}
 		//greenFont.drawString(138, 110, ldm.getUIDesc());
-		int y = drawMultilineString(greenFont, ldm.getUIDesc(), 138, 110, 20);
-		
+		if(!(ldm==null)){
+			int y = drawMultilineString(greenFont, ldm.getUIDesc(), 138, 110, 20);
+			//renderObjectives(gfx);
+			renderObjectivesAlt(gfx, y);
+		}
 		
 		if(backBool==true){
 			greenFont.drawString(140, 500, "[(Back)]");
@@ -73,9 +76,7 @@ public class BriefingMenuState extends BasicGameState {
 		}else{
 			greenFont.drawString(780, 500, " (Hangar) ");
 		}
-		
-		//renderObjectives(gfx);
-		renderObjectivesAlt(gfx, y);
+
 	}
 
 	private void renderObjectivesAlt(Graphics gfx, int y) {
@@ -117,6 +118,7 @@ public class BriefingMenuState extends BasicGameState {
 		
 		if(back_rec.intersects(mouse_rec)){
 			if(i.isMousePressed(0)){
+				ldm = null;
 				arg1.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 			backBool=true;
@@ -139,6 +141,7 @@ public class BriefingMenuState extends BasicGameState {
 		if(i.isKeyPressed(Input.KEY_ESCAPE)){
 			i.clearMousePressedRecord();
 			i.clearKeyPressedRecord();
+			ldm = null;
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
