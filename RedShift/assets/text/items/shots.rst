@@ -38,7 +38,7 @@
 
 [oneFiveShot]{
 	[img]  (shot3)
-	[dmg]  (15)
+	[dmg]  (30)	/(15)/
 	[speed](0.4)
 	[life] (5000)
 	[snd]  (twentyh)

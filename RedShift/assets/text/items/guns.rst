@@ -39,7 +39,7 @@
 [105mm]{
 	[name]	  (105mm Cannon)
 	[tltip]   (large/high damage cannon)
-	[cooldown](175);
+	[cooldown](300); /(175)/
 	[cost]    (3)
 	[img]     (gun3)
 	[weight]  (983)
