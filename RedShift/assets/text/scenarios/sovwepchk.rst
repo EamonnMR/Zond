@@ -17,6 +17,7 @@ You will be provided with some targets to test things on.)
 [plrGuns]{
 	[item0]	(60mm)
 	[item1]	(plas)
+        [item2] (105mm)
 }
 [plrMotors]{
 	[item0]	(medEngine)
