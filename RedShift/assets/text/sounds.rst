@@ -4,6 +4,8 @@
 /Gunfire/
 [twentys] 	(assets/sound/shot/test3.ogg)
 [smlFre]	(assets/sound/shot/smallLaserFire.ogg)
+[oneohfive]     (assets/sound/shot/boom.wav)
+[zap]           (assets/sound/shot/zap.wav)
 
 /Impact Noise/
 [twentyh]  	 (assets/sound/hit/test1.ogg)
@@ -17,4 +19,7 @@
 
 /Music/
 [loneRecon]	(assets/sound/music/LoneRecon.ogg)
+
+/gui/
+[click]         (assets/sound/gui/click.wav)
 

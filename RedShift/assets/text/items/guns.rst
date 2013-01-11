@@ -44,7 +44,7 @@
 	[img]     (gun3)
 	[weight]  (983)
 	[proj]    (oneFiveShot)
-	[fireSnd] (twentys)
+	[fireSnd] (oneohfive)
 	[wire]	  (105wire)
 }
 
@@ -57,7 +57,7 @@
 	[img]     (gun1) / Why aren't we loading the images? /
 	[weight]  (0)
 	[proj]    (plasShot) /No projectile type yet/
-	[fireSnd] (twentys)
+	[fireSnd] (zap)
 	[wire]	  (105wire)
 }
 
