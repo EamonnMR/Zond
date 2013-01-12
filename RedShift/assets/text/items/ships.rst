@@ -67,6 +67,29 @@
 	[wire] (lunWire)
 }
 
+[marinSat]{
+	[img](marinSati)
+	[tltip]       (its a satellite duuuuur)
+	[health](10)
+	[points](50)
+	[weight](0)
+	[gunPtLen](0)
+	[engPtLen](0)
+	[faction](1)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](4)
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](4400)
+	}
+	[deadsnd](shipexplode)
+	[wire] (mercWire)
+}
+
 [pionrSat]{
 	[img](pionrSati)
 	[tltip]       (its a satellite duuuuur)

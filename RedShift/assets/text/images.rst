@@ -8,6 +8,7 @@
 [skypost]     (assets/images/ships/nasa/skypost_beta.png)
 [pionrSati]    (assets/images/ships/nasa/sat_pion_base.png)
 [pionrGuni]    (assets/images/ships/nasa/sat_pion_gun.png)
+[marinSati]	(assets/images/ships/nasa/sat_marin_base.png)
 
 /----Warsaw/
 [vostok]      (assets/images/ships/russia/vostok1.png)
