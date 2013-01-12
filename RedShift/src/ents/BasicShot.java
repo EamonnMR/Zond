@@ -1,6 +1,7 @@
 package ents;
 
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.particles.ParticleEmitter;
 
 /**
  * derive any kind of projectile from this class
@@ -17,6 +18,7 @@ public class BasicShot extends BaseEnt {
 	private int interval;
 	private int timer;
 	private Sound impactSnd;
+	private ParticleEmitter impactPrtl;
 	
 	//constructor
 	public BasicShot(){
@@ -93,6 +95,14 @@ public class BasicShot extends BaseEnt {
 
 	public void setSnd(Sound snd) {
 		this.impactSnd = snd;
+	}
+
+	public ParticleEmitter getImpactPrtl() {
+		return impactPrtl;
+	}
+
+	public void setImpactPrtl(ParticleEmitter impactPrtl) {
+		this.impactPrtl = impactPrtl;
 	}
 	
 }

@@ -69,7 +69,20 @@
 	[cost]    (0)
 	[img]     (gun1)
 	[weight]  (984)
-	[proj]    (lazShot) /No projectile type yet/
+	[proj]    (lazShot)
+	[fireSnd] (smlFre)
+	[wire]	  (105wire)
+}
+
+/microwave/
+[mcrwv]{
+	[name]	  (Mirowave)
+	[tltip]   (very short range energy weapon)
+	[cooldown](60);
+	[cost]    (0)
+	[img]     (gun1)
+	[weight]  (984)
+	[proj]    (mcrwvShot)
 	[fireSnd] (smlFre)
 	[wire]	  (105wire)
 }

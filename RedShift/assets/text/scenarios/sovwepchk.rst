@@ -18,6 +18,7 @@ You will be provided with some targets to test things on.)
 	[item0]	(60mm)
 	[item1]	(plas)
         [item2] (105mm)
+	[item3]	(mcrwv)
 }
 [plrMotors]{
 	[item0]	(medEngine)
