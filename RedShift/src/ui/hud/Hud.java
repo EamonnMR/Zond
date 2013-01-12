@@ -17,14 +17,14 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
-import ai.PursueState;
-
 import ui.UILib;
+import ai.PursueState;
 import core.GameDatabase;
 import core.GameplayState;
 import core.PlayerClient;
 import ents.AIShip;
 import ents.BasicShip;
+import ents.BasicShot;
 
 /**
  * Hud class: responsible for rendering all heads up info for the player
@@ -262,6 +262,10 @@ public class Hud {
 				}
 
 			}
+		}
+		
+		for(BasicShot s : cgs.getShots().values()){
+			gfx.draw(offsetShape(s.getCollider(), camX, camY));
 		}
 
 	}

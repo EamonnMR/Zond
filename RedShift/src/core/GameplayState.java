@@ -108,6 +108,43 @@ public class GameplayState extends BasicGameState{
 		//stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
 		//FIXME: Add starfield back in
 	}
+	
+	//lame ini system is lame, so we have our own.
+	private void customIni(){
+		this.levelData = buildGamePlayLevel();
+		this.lh = new LevelHandler(levelData);
+		this.ships = new HashMap<Integer, BasicShip>();
+		this.shots = new HashMap<Integer, BasicShot>();
+		this.doodads = new HashMap<Integer, BaseEnt>();
+		this.clients = new HashMap<Integer, PlayerClient>();
+		this.incomingClientShips = new HashMap<String, BasicShip>();
+		this.winLose=0;
+		//create the client ship
+		if(pc.getPlayShip()==null){
+			pc.setPlayShip(entFac.buildShip("mercury", "20mm", "smallEngine", false, null));
+		}else{
+			pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
+		}
+		pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
+		pc.setRadarState(true);
+		
+		
+		playerHud = new Hud(pc, 1023, 767, hdm, gdb);
+		
+		//add both ships to the Ship hashmap
+		addShip(pc.getPlayShip());
+
+		//camera test
+		setCamX(0);
+		setCamY(0);
+	
+		gameIni = false;
+		gamePlay = true;
+		if(!(gdb.getSound(levelData.getMusic())==null)){
+			gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
+		}
+		
+	}
 
 	/**
 	 * render method, everything in the instance is drawn through this method
@@ -160,39 +197,7 @@ public class GameplayState extends BasicGameState{
 	public void update(GameContainer arg0, StateBasedGame arg1, int delta)
 			throws SlickException {
 		if(gameIni){
-			this.levelData = buildGamePlayLevel();
-			this.lh = new LevelHandler(levelData);
-			this.ships = new HashMap<Integer, BasicShip>();
-			this.shots = new HashMap<Integer, BasicShot>();
-			this.doodads = new HashMap<Integer, BaseEnt>();
-			this.clients = new HashMap<Integer, PlayerClient>();
-			this.incomingClientShips = new HashMap<String, BasicShip>();
-			this.winLose=0;
-			//create the client ship
-			if(pc.getPlayShip()==null){
-				pc.setPlayShip(entFac.buildShip("mercury", "20mm", "smallEngine", false, null));
-			}else{
-				pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
-			}
-			pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
-			pc.setRadarState(true);
-			
-			
-			playerHud = new Hud(pc, 1023, 767, hdm, gdb);
-			
-			//add both ships to the Ship hashmap
-			addShip(pc.getPlayShip());
-
-			//camera test
-			setCamX(0);
-			setCamY(0);
-		
-			gameIni = false;
-			gamePlay = true;
-			if(!(gdb.getSound(levelData.getMusic())==null)){
-				gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
-			}
-			
+			customIni();
 		}
 		
 		if (gamePlay) {
