@@ -23,7 +23,9 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.ParticleIO;
 
 import ents.BasicEngine;
 import ents.BasicGun;
@@ -62,11 +64,12 @@ public class GameDatabase {
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
 	private Map<String, LevelDataModel> indexScenarios;
-	private Map<String, ParticleEmitter> indexParticles;
+	private HashMap<String, ConfigurableEmitter> indexParticles;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
+	private ParticleIO prtclIO;
 	//constructor
 	public GameDatabase(){}
 
@@ -83,7 +86,7 @@ public class GameDatabase {
 		indexImages  = new HashMap<String, Image>();
 		indexSounds = new HashMap<String, Sound>();
 		indexLevelFiles = new HashMap<String, File>();
-		indexParticles = new HashMap<String, ParticleEmitter>();
+		indexParticles = new HashMap<String, ConfigurableEmitter>();
 		try {
 			try {
 				xloadImages();
@@ -165,11 +168,23 @@ public class GameDatabase {
 		}
 	}
 	
-	private void loadParticles() {
+	private void loadParticles() throws SlickException, FileNotFoundException, IOException{
+		StringTree s = loadRst("assets/text/particles.rst");
+		for(String child : s.childSet()){
+			File xmlFile = new File(s.getValue(child));
+			ConfigurableEmitter tEmitter = ParticleIO.loadEmitter(xmlFile);
+			tEmitter.setEnabled(false);
+			indexParticles.put(child, tEmitter);
+			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+		}
 		
 	}
 	
-	public ParticleEmitter getParticle(String pointer){
+	public HashMap<String,ConfigurableEmitter> getAllParticles(){
+		return indexParticles;
+	}
+	
+	public ConfigurableEmitter getParticle(String pointer){
 		return indexParticles.get(pointer);
 	}
 	
@@ -288,7 +303,7 @@ public class GameDatabase {
 			e.setPrimeThrust(indexSounds.get(s.getValue(child, "primeThrst")));
 			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
 			//TODO:thrust particles!
-			//e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
+			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
 			indexEng.put(child, e);
 		}
 	}

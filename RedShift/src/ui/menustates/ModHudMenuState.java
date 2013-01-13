@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,7 +19,7 @@ import ui.hud.HudDataModel;
 import core.CoreStateManager;
 import core.GameDatabase;
 
-public class ModHudMenuState extends BasicGameState {
+public class ModHudMenuState extends BasicGameState implements MouseListener{
 
 	private int id;
 	private Rectangle mouse_rec, resetBTN_rec, backBTN_rec, rad_rec, hp_rec, wep_rec, eng_rec, sh_rec, map_rec;
@@ -251,5 +252,10 @@ public class ModHudMenuState extends BasicGameState {
 	@Override
 	public int getID() {
 		return id;
+	}
+	
+	@Override
+	public void mouseClicked(int but, int x, int y, int cnt){
+		gdb.getSound("click").play();
 	}
 }

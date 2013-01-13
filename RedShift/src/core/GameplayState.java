@@ -20,6 +20,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -63,6 +65,7 @@ public class GameplayState extends BasicGameState{
 	private LevelDataModel levelData;
 	private HudDataModel hdm;
 	private String lvlPointer;
+	private ParticleSystem particleSys;
 	
 	//Constants	        //play with these till the tags are centered
 	float radius = 350,xoffset,yoffset; //Distance to draw tags from player
@@ -144,6 +147,10 @@ public class GameplayState extends BasicGameState{
 			gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
 		}
 		
+		particleSys = new ParticleSystem(gdb.getIMG("basePrt"));
+		particleSys.setRemoveCompletedEmitters(true);
+		particleSys.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
+		particleSys.setUsePoints(false);
 	}
 
 	/**
@@ -180,7 +187,8 @@ public class GameplayState extends BasicGameState{
 			for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()) {
 				entry.getValue().render(camX, camY);
 			}
-
+			particleSys.render();
+			
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
 			gfx.drawString("Screen Mouse X:"+String.valueOf(arg0.getInput().getMouseX()), 100, 10);
@@ -248,6 +256,11 @@ public class GameplayState extends BasicGameState{
 				winLose = -2;
 				deathReason = 0;
 			}
+			
+			for(int i = 0; i < particleSys.getEmitterCount(); i++){
+				particleSys.update(i);
+			}
+
 			pc.updateCamera(this);
 			// Check for win conditions
 			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
@@ -282,11 +295,11 @@ public class GameplayState extends BasicGameState{
 	private void procInput(GameContainer arg0, StateBasedGame arg1, int delta) {
 		Input p = arg0.getInput();
 		if (p.isKeyDown(Input.KEY_UP)) {
-			pc.getPlayShip().moveForward(delta);
+			pc.getPlayShip().moveForward(delta, getParticleSys());
 			
 		}
 		if (p.isKeyDown(Input.KEY_DOWN)) {
-			pc.getPlayShip().moveBackward(delta);
+			pc.getPlayShip().moveBackward(delta,getParticleSys());
 		}
 		if (p.isKeyDown(Input.KEY_LEFT)) {
 			pc.getPlayShip().rotateLeft(delta);
@@ -714,5 +727,9 @@ public class GameplayState extends BasicGameState{
 		this.gdb = gDB;
 		this.entFac = ef;
 		this.pc = PC;
+	}
+	
+	public ParticleSystem getParticleSys(){
+		return particleSys;
 	}
 }

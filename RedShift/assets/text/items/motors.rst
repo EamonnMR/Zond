@@ -26,8 +26,7 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
-	[tltip]		(an engine)
-	[thrstprtcl] (null)
+	[thrstprtcl] (smlEngPrt)
 }
 
 [medEngine]{
@@ -42,8 +41,7 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
-	[tltip]		(an engine)
-	[thrstprtcl] (null)
+	[thrstprtcl] (smlEngPrt)
 }
 
 
@@ -59,8 +57,7 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
-	[tltip]		(an engine)
-	[thrstprtcl] (null)
+	[thrstprtcl] (smlEngPrt)
 }
 
 [satEngine]{
@@ -75,6 +72,5 @@
 	[img]         (eng1)
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
-	[tltip]		(an engine)
-	[thrstprtcl] (null)
+	[thrstprtcl] (smlEngPrt)
 }

@@ -2,6 +2,8 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleSystem;
 
 import core.GameplayState;
 
@@ -137,14 +139,20 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine().getSideThrust().playing()){
 //			getEngine().getSideThrust().stop();
 		}
+		
+		
 //    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * move the ship forward
 	 * @param delta
 	 */
-	public void moveForward(int delta){
+	public void moveForward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
+		ConfigurableEmitter engprt = getEngine().getThrstPrtcl().duplicate();
+		engprt.setPosition(512, 368);
+		engprt.setEnabled(true);
+		//pe.addEmitter(engprt);
 //		if(getEngine().getPrimeThrust().playing()){
 //			getEngine().getPrimeThrust().stop();
 		}
@@ -159,8 +167,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 * move the ship backwards
 	 * @param delta
 	 */
-	public void moveBackward(int delta){
+	public void moveBackward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
+		
+		pe.addEmitter(getEngine().getThrstPrtcl().duplicate());
+		pe.reset();
 //		if(getEngine().getPrimeThrust().playing()){
 //			getEngine().getPrimeThrust().stop();
 //		}
