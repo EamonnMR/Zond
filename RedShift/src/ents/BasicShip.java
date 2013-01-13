@@ -98,6 +98,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getRadarRadius().setCenterX((float)getX());
 			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
+			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
 		if(getWeapon()!=null){
 			updateGun(angle, delta);
 		}
@@ -107,7 +108,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float tmpEngY = (float) (getY() + engineOffsetDistance *Math.sin(angle));
 			setEngOffX(tmpEngX);		//where to draw engine on ship
 			setEngOffY(tmpEngY);
-			mainThrusterEmitter.angularOffset.setValue((float)getRot());
+			//mainThrusterEmitter.setValue(5.0f/*(float)getRot()*/);
 			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
 		}
 		
