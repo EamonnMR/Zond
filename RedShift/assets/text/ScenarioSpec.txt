@@ -1,0 +1,114 @@
+/Scenario File alpha format/
+
+MULTILINE               /A string where line breaks are actually used as placed in the text file./
+NAME                    /An internal identifier that needs to match up with names specified elsewhere./
+
+[name] (NAME)			/name of the scenario, used as the name in the storage system/	
+
+[faction]	(INT)			/USSR(0) or NATO?(1)/
+
+[tltip]		(STRING)/this is displayed on the MAINMENU when the user goes to select a level/
+
+[desc]		(STRING)/this is used on the BREIFING menu as the mission overview /
+
+/scenario-specific things/
+[levelType]	(STRING - 'scen' || 'camp') /as opposed to camp for campaign/
+	
+[plrGuns]{
+	/gun descriptors here/
+}
+[plrMotors]{
+	/motor descriptors here/
+}
+[plrShips]{
+	/ship descriptors here/
+}
+
+[music]	(NAME)			/what kickass track to throw down/
+
+[spawnX]	(INT)			/what x coord the player spawns at/
+[spawnY]	(INT)			/what y coord the player spawns at/
+
+[active]{				/active playable area/
+	[type] (circle)
+	[x](INT)[y](INT)			
+	[radius](INT)
+}
+
+[margin]{
+	[type] (circle)			/space between active area and out of bounds/
+	[x](INT)[y](INT)			
+	[radius](INT)
+}
+	
+/NavPoints must be before trigs :P/
+[navpoints]<
+	{
+		[name]		(STRING)	/name for display and index/
+		[x]		(INT)		/x spawn coord/
+		[y]		(INT)		/y spawn coord/
+		[state]		(t || f)	/initial active state/
+	}
+>
+
+/objectives/
+[objectives]<
+	{
+		[name]	(NAME)		/name in the index system/
+		[tltip]	(MULTILINE)		/displayed on BRIEFING and HUD, should be 1 line/
+		[desc]	(MULTILINE)		/displayed on the BRIEFING menu/
+		[target](STRING)		/trigger target to fire on completion/
+		[state]	(false)			/initial 'active' state/
+	}
+>
+
+/Triggers/
+[triggers]<
+	{
+		[type]		(STRING)	/see types /
+		[name]		(NAME)	/name for the index system/
+		[trigtype]	(STRING)	/enum mask for what trips the trigger - SHIP, SHOT, ALL, TRIGGER, DOODAD/
+		[x]		(INT)		/trig's x/
+		[y]		(INT)		/trig's y/
+		[collider]{			//
+			[type] (circle)
+			[x](INT)[y](INT)
+			[radius](INT)
+		}
+		[target]	(NAME)	/trigger name to fire when done/
+		[trigstate]	(true || false)/starting state/
+			
+		TYPE = spawn
+		[toSpawn]{
+			[kind]	(NAME)	/ship name/
+			[gun]	(NAME)	/gun name/
+			[engine](NAME)	/engine name/
+			[loc]	(INT INT)	/spawn location/
+			[isAi]	(t || f)	/give ship AI/
+			[deathtrig](NAME)	/trigger to fire on death/
+		}
+			
+		TYPE = togglenav
+		[navPointName]	(NAME)		/name of nav point/
+		[setstate]	(t-f)		/state to give the nav point/
+		
+		TYPE = count
+		[total]		(INT)		/number for the trigger to count to/
+	
+		TYPE = multrig
+		[targets]<
+			[targ1]	(NAME)	/trigger names to fire/
+			...
+		>
+
+		TYPE = endobj
+		[objective]	(NAME)	/objective's name/
+
+		TYPE = togobj
+		[objective]	(STRING)	/objective's name/
+		[state]		(STRING)	/state to switch to/
+
+		TYPE = iwin
+		[state]		(INT)		/set to 1 to win the level!...or -1 to lose/
+	}
+>
