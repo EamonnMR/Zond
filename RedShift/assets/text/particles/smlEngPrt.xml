@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <emitter imageName="assets/images/fx/smlEngPrtFx.png" name="smlEngPrtFx">
   
-  <spawnInterval enabled="false" max="100.0" min="100.0" /><spawnCount enabled="true" max="20.0" min="5.0"/>
-  <initialLife enabled="true" max="1000.0" min="1000.0"/>
-  <initialSize enabled="true" max="25.0" min="25.0"></initialSize>
-  <xOffset enabled="true" max="8.0" min="-8.0"/>
-  <yOffset enabled="true" max="15.0" min="-8.0"/>
+  <spawnInterval enabled="false" max="100.0" min="100.0" />
+  <spawnCount enabled="true" max="20.0" min="5.0"/>
+  <initialLife enabled="true" max="500.0" min="500.0"/>
+  <initialSize enabled="true" max="10.0" min="5.0"></initialSize>
+  <xOffset enabled="false" max="8.0" min="-8.0"/>
+  <yOffset enabled="false" max="15.0" min="-8.0"/>
   <initialDistance enabled="false" max="0.0" min="0.0"/>
   <speed enabled="true" max="200.0" min="50.0"/>
   <length enabled="false" max="1000.0" min="1000.0"/>
-  <spread value="26.0"/>
+  <spread value="10.0"/>
   <angularOffset value="0.0"/>
   <growthFactor value="50.0"/>
   <gravityFactor value="0.0"/>
