@@ -15,6 +15,7 @@ import level.triggers.BasicTrigger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
@@ -77,7 +78,7 @@ public class GameplayState extends BasicGameState{
 	HashMap<String, BasicShip> incomingClientShips;
 	LevelHandler lh;
 	
-	//private ParallaxStarField stars;
+	private ParallaxStarField stars;
 	//FIXME: Parallax starfield
 	private int lCamx, lCamy;
 	//====================================================================
@@ -108,7 +109,7 @@ public class GameplayState extends BasicGameState{
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {	
 		gfx = arg0.getGraphics();
-		//stars = new ParallaxStarField(0, 1, 1024, 768, 50, null, 1, 1);
+		stars = new ParallaxStarField(50,1024,768, 50,null, .7f,1);
 		//FIXME: Add starfield back in
 	}
 	
@@ -167,13 +168,13 @@ public class GameplayState extends BasicGameState{
 			
 			//Star render stuff
 			//This is 'cause it won't fit in the initializer
-			//stars.FUCKsetImg(gdb.getIMG("shot1"));
+			stars.FUCKsetImg(gdb.getIMG("starImg"));
 			
 			//Calculate the camera delta and render the stars
-			//stars.update(camX - lCamx, camY - lCamy, camX, camY);
+			stars.update(camX - lCamx, camY - lCamy, camX, camY);
 			lCamx = camX; //Save the old camX and camY values
 			lCamy = camY;
-			//stars.draw(gfx);
+			stars.draw(gfx);
 			//FIXME: Starfield
 			
 			
@@ -226,7 +227,7 @@ public class GameplayState extends BasicGameState{
 			// update ships
 			
 			updateEntities(delta, removeShots, removeShips, removeObjective);
-
+			
 			// run collisions
 			checkCollisions(removeShots);
 

@@ -16,11 +16,12 @@ public class ParallaxStarField{
 	//That any given location in OffScreenStars is *not* on screen (see Star.Update for the sad truth about
 	//Why.)
 	Star[] stars;
-	int minZ, xWidth, yWidth, zWidth;
+	int xWidth, yWidth;
+	float zWidth, minZ;
 	int extrasize;
 	
-	public ParallaxStarField(int extrasize,int screenX, int screenY, int numStars, Image img, int minZ,
-		int maxZ) {
+	public ParallaxStarField(int extrasize,int screenX, int screenY, int numStars, Image img, float minZ,
+		float maxZ) {
 		this.extrasize = extrasize;
 		screen = new Rectangle(0,0, screenX, screenY);
 		offScreenStars = new Rectangle(-extrasize, -extrasize, screenX + extrasize, screenY + extrasize);
@@ -40,8 +41,8 @@ public class ParallaxStarField{
 	
 	public void update(int dCamX, int dCamY, int camX, int camY){
 		tempCamVector = new Vector2f(dCamX, dCamY);
-		screen.setLocation(camX, camY);
-		offScreenStars.setLocation(camX - extrasize, camY - extrasize);
+		
+		
 		for(Star i : stars){
 			i.update();
 		}
@@ -62,11 +63,15 @@ public class ParallaxStarField{
 		Vector2f position;
 		float z;
 		
+		protected Star(){
+			position = new Vector2f();
+		}
+		
 		public void randomize(){
 		    //Create a random star in the correct range
-			position.x = (float) (offScreenStars.getX() + Math.random() * offScreenStars.getHeight());
-			position.y = (float) (offScreenStars.getY() + Math.random() * offScreenStars.getWidth());
-			z          = (float) (minZ + Math.random() * zWidth);
+			position.x = (float) (offScreenStars.getX() + Math.random() * offScreenStars.getWidth());
+			position.y = (float) (offScreenStars.getY() + Math.random() * offScreenStars.getHeight());
+			z          = (float) ((float) minZ + Math.random() * zWidth);
 		}
 		
 		public void update(){
