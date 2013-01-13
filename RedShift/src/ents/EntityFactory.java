@@ -94,6 +94,7 @@ public class EntityFactory {
 		gun.setProj(gdb.getGun(gunPointer).getProj());
 		gun.setFireSnd(gdb.getGun(gunPointer).getFireSnd());
 		gun.setWireframe(gdb.getGun(gunPointer).getWireframe().copy());
+		gun.setMzlPrtcl(gdb.getGun(gunPointer).getMzlPrtcl());
 		return gun;
 	}
 	
@@ -133,6 +134,7 @@ public class EntityFactory {
 		shot.setSpeed(original.getSpeed());
 		shot.setInterval(original.getInterval());
 		shot.setSnd(original.getSnd());
+		shot.setImpactPrtl(original.getImpactPrtl());
 		return shot;
 	}
 	

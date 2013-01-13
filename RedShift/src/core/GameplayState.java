@@ -495,11 +495,13 @@ public class GameplayState extends BasicGameState{
 	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads, ArrayList<Integer>  removeTask ){
 		
 		for(int i : removeShots){
+			particleSys.removeEmitter(shots.get(i).getImpactPrtl());
 			shots.remove(i);
 		}
 		
 		for(int i : removeShips){
 			particleSys.removeEmitter(ships.get(i).mainThrusterEmitter);
+			particleSys.removeEmitter(ships.get(i).getWeapon().getMzlPrtcl());
 			ships.remove(i);
 		}
 		
@@ -521,7 +523,9 @@ public class GameplayState extends BasicGameState{
 		}else{
 			ships.put(entCount, baseEnt);
 		}
+		
 		particleSys.addEmitter(baseEnt.mainThrusterEmitter);
+		particleSys.addEmitter(baseEnt.getWeapon().getMzlPrtcl());
 		return entCount;
 		
 	}
