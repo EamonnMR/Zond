@@ -36,11 +36,13 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
 	private boolean radarState;					//i've got the derp, for some reason radar was in player client...<facepalm>
 	//(to replace death trigs)
-	
+	private boolean foreThr, aftThr, sideThr;
+	public ConfigurableEmitter mainThrusterEmitter, sideThrusterEmitter;
 	
 	//constructor
 	public BasicShip(){
 		physAnchor = new PhysMod(this, 0, 0, 0, 1000); //Other classes such as shot might wanna give it an initial velocity...
+	
 	}	                                         //But not the ship!  At least not yet.
 
 	//Just in case we decide to remove addX and addY from basic Entity - EMR
@@ -89,6 +91,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		//update ship
 			physAnchor.update(delta);
 			
+			
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
 			getRadarRadius().setCenterX((float)getX());
@@ -98,10 +101,17 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			updateGun(angle, delta);
 		}
 		if(getEngine()!=null){
-			//update engine			
-			setEngOffX(getX() + engineOffsetDistance *Math.cos(angle));		//where to draw engine on ship
-			setEngOffY(getY() + engineOffsetDistance *Math.sin(angle));
+			//update engine		
+			float tmpEngX = (float) (getX() + engineOffsetDistance *Math.cos(angle));
+			float tmpEngY = (float) (getY() + engineOffsetDistance *Math.sin(angle));
+			setEngOffX(tmpEngX);		//where to draw engine on ship
+			setEngOffY(tmpEngY);
+			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+			mainThrusterEmitter.angularOffset.setValue(getRot());
 		}
+		
+		mainThrusterEmitter.setEnabled(foreThr);
+		foreThr = false;
 
 	}
 	
@@ -149,10 +159,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void moveForward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
-		ConfigurableEmitter engprt = getEngine().getThrstPrtcl().duplicate();
-		engprt.setPosition(512, 368);
-		engprt.setEnabled(true);
+		//ConfigurableEmitter engprt = getEngine().getThrstPrtcl().duplicate();
+		//engprt.setPosition(512, 368);
+		//engprt.setEnabled(true);
 		//pe.addEmitter(engprt);
+		foreThr = true;
+		
 //		if(getEngine().getPrimeThrust().playing()){
 //			getEngine().getPrimeThrust().stop();
 		}
@@ -170,8 +182,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void moveBackward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
 		
-		pe.addEmitter(getEngine().getThrstPrtcl().duplicate());
-		pe.reset();
+		//pe.addEmitter(getEngine().getThrstPrtcl().duplicate());
+		//pe.reset();
 //		if(getEngine().getPrimeThrust().playing()){
 //			getEngine().getPrimeThrust().stop();
 //		}
@@ -290,6 +302,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public void setEngine(BasicEngine engine) {
 		this.engine = engine;
+		mainThrusterEmitter = getEngine().getThrstPrtcl().duplicate();
+		sideThrusterEmitter = getEngine().getThrstPrtcl().duplicate();
 	}
 	
 	public double getWepOffX() {
