@@ -37,7 +37,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
 	private boolean radarState;					//i've got the derp, for some reason radar was in player client...<facepalm>
 	//(to replace death trigs)
-	private boolean foreThr, aftThr, sideThr;
+	private boolean foreThr, aftThr, sideThr, fire;
 	public ConfigurableEmitter mainThrusterEmitter, sideThrusterEmitter;
 	
 	//constructor
@@ -99,6 +99,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
+
 		if(getWeapon()!=null){
 			updateGun(angle, delta);
 		}
@@ -108,12 +109,13 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float tmpEngY = (float) (getY() + engineOffsetDistance *Math.sin(angle));
 			setEngOffX(tmpEngX);		//where to draw engine on ship
 			setEngOffY(tmpEngY);
-			//mainThrusterEmitter.setValue(5.0f/*(float)getRot()*/);
 			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
 		}
 		
 		mainThrusterEmitter.setEnabled(foreThr);
+		gun.getMzlPrtcl().setEnabled(fire);
 		foreThr = false;
+		fire=false;
 
 	}
 	
@@ -237,6 +239,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		gun.setSpeed(physAnchor.getSpeedX(),physAnchor.getSpeedY());
 		gun.setAngle(getImg().getRotation());
 		gun.tickTimer(delta);
+		
+		gun.getMzlPrtcl().angularOffset.setValue(90+ getImg().getRotation());
+		gun.getMzlPrtcl().setPosition((float)wx, (float)wy);
 	}
 	
 	
@@ -361,8 +366,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public boolean tryShot() {
 		if(getWeapon()!=null){
+			fire = true;
 			return gun.canIshoot();	
 		}else{
+			fire = false;
 			return false;
 		}
 	}
