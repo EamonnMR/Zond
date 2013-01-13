@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
@@ -19,7 +20,7 @@ import core.CoreStateManager;
 import core.GameDatabase;
 import ents.OptionsEnt;
 
-public class OptionMenuState extends BasicGameState{
+public class OptionMenuState extends BasicGameState implements MouseListener{
 
 	private int id;
 	private OptionsEnt options;
@@ -368,6 +369,10 @@ public class OptionMenuState extends BasicGameState{
 		this.pause = pause;
 	}
 	
+	@Override
+	public void mouseClicked(int but, int x, int y, int cnt){
+		gdb.getSound("click").play();
+	}
 	
 	
 }

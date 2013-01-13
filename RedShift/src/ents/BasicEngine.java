@@ -2,6 +2,7 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 
 /**
@@ -22,7 +23,7 @@ public class BasicEngine {
 	private String name;
 	private Sound primeThrust;
 	private Sound sideThrust;
-	private ParticleEmitter thrstPrtcl;
+	private ConfigurableEmitter thrstPrtcl;
 	
 	//constructors
 	public BasicEngine(){}
@@ -129,11 +130,11 @@ public class BasicEngine {
 		this.toolTip = toolTip;
 	}
 
-	public ParticleEmitter getThrstPrtcl() {
+	public ConfigurableEmitter getThrstPrtcl() {
 		return thrstPrtcl;
 	}
 
-	public void setThrstPrtcl(ParticleEmitter thrstPrtcl) {
+	public void setThrstPrtcl(ConfigurableEmitter thrstPrtcl) {
 		this.thrstPrtcl = thrstPrtcl;
 	}
 }

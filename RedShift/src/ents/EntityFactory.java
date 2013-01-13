@@ -116,6 +116,7 @@ public class EntityFactory {
 		engine.setInGameImg(gdb.getEngine(engPointer).getInGameImg().copy());
 		engine.setPrimeThrust(gdb.getEngine(engPointer).getPrimeThrust());
 		engine.setSideThrust(gdb.getEngine(engPointer).getSideThrust());
+		engine.setThrstPrtcl(gdb.getEngine(engPointer).getThrstPrtcl());
 		return engine;
 	}
 	

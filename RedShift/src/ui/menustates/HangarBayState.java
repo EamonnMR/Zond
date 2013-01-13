@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
@@ -25,7 +26,7 @@ import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
 
-public class HangarBayState extends BasicGameState {
+public class HangarBayState extends BasicGameState implements MouseListener {
 
 	private int id, currentChoice, rolloverChoice;
 	private PlayerClient pc;
@@ -435,5 +436,10 @@ public class HangarBayState extends BasicGameState {
 
 	public void setLevelToPlay(String levelName){
 		this.levelToPlay = levelName;
+	}
+	
+	@Override
+	public void mouseClicked(int but, int x, int y, int cnt){
+		gdb.getSound("click").play();
 	}
 }

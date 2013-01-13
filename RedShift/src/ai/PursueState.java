@@ -68,7 +68,7 @@ public class PursueState extends AIState{
 				} else if (shipAngle > targetAngle) {
 					ship.rotateLeft(delta);
 				}
-				ship.moveForward(delta);
+				ship.moveForward(delta, gs.getParticleSys());
 				
 			}else if(distToTarg <= ship.getAttackRange()){
 				if (shipAngle < targetAngle) {
@@ -90,7 +90,7 @@ public class PursueState extends AIState{
 				} else if (shipAngle > targetAngle) {
 					ship.rotateLeft(delta);
 				}
-				ship.moveBackward(delta);
+				ship.moveBackward(delta, gs.getParticleSys());
 			//target in range
 				if((shipAngle > targetAngle-miss)&&(shipAngle < targetAngle+miss)){
 					if (ship.tryShot()) {
@@ -119,7 +119,7 @@ public class PursueState extends AIState{
 							} else if (shipAngle > fAngle) {
 								ship.rotateLeft(delta);
 							}
-							ship.moveForward(delta);
+							ship.moveForward(delta, gs.getParticleSys());
 						}
 					}
 				}

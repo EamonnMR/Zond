@@ -28,9 +28,12 @@
 [shot3]       (assets/images/fx/shot3.png)
 [laz]         (assets/images/fx/laz1.png)
 [plas]        (assets/images/fx/ppc.png)
-[mcrwvfx]     (assets/images/fx/mcrwvFx.png)	
+[mcrwvfx]     (assets/images/fx/mcrwvFx.png)
+
 /fx/
 [thrust1]     (assets/images/fx/engine1thrust.png)
+[smlEngPrtFx] (assets/images/fx/smlEngPrtFx.png)
+[basePrt]	(assets/images/fx/basePrt.png)
 
 /doodads/
 [asteroid]    (assets/images/doodads/ast1.png)

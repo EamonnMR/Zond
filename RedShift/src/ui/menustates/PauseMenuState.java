@@ -3,6 +3,7 @@ package ui.menustates;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
@@ -14,7 +15,7 @@ import core.CoreStateManager;
 import core.GameDatabase;
 import core.GameplayState;
 
-public class PauseMenuState extends BasicGameState {
+public class PauseMenuState extends BasicGameState implements MouseListener {
 
 	private int id;
 	private GameDatabase gdb;
@@ -137,5 +138,10 @@ public class PauseMenuState extends BasicGameState {
 
 	public void customInit(GameDatabase gb){
 		gdb = gb;
+	}
+	
+	@Override
+	public void mouseClicked(int but, int x, int y, int cnt){
+		gdb.getSound("click").play();
 	}
 }

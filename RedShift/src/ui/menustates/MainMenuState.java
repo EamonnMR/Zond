@@ -297,4 +297,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		entFac = ef;
 		pc = p;
 	}
+	
+	@Override
+	public void mouseClicked(int but, int x, int y, int cnt){
+		gdb.getSound("click").play();
+	}
 }
