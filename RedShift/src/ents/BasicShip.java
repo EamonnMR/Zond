@@ -3,6 +3,7 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ConfigurableEmitter.SimpleValue;
 import org.newdawn.slick.particles.ParticleSystem;
 
 import core.GameplayState;
@@ -106,8 +107,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float tmpEngY = (float) (getY() + engineOffsetDistance *Math.sin(angle));
 			setEngOffX(tmpEngX);		//where to draw engine on ship
 			setEngOffY(tmpEngY);
+			mainThrusterEmitter.angularOffset.setValue((float)getRot());
 			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
-			mainThrusterEmitter.angularOffset.setValue(getRot());
 		}
 		
 		mainThrusterEmitter.setEnabled(foreThr);
@@ -159,10 +160,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void moveForward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
-		//ConfigurableEmitter engprt = getEngine().getThrstPrtcl().duplicate();
-		//engprt.setPosition(512, 368);
-		//engprt.setEnabled(true);
-		//pe.addEmitter(engprt);
 		foreThr = true;
 		
 //		if(getEngine().getPrimeThrust().playing()){
