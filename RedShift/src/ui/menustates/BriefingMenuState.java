@@ -131,6 +131,7 @@ public class BriefingMenuState extends BasicGameState {
 				i.clearKeyPressedRecord();
 				HangarBayState hang = (HangarBayState)arg1.getState(CoreStateManager.HANGARBAYSTATE);
 				hang.setLevelToPlay(ldm.getFilename());
+				
 				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 			}
 			accptBool=true;

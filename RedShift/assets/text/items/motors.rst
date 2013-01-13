@@ -27,6 +27,7 @@
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
 	[tltip]		(an engine)
+	[thrstprtcl] (null)
 }
 
 [medEngine]{
@@ -42,6 +43,7 @@
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
 	[tltip]		(an engine)
+	[thrstprtcl] (null)
 }
 
 
@@ -58,6 +60,7 @@
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
 	[tltip]		(an engine)
+	[thrstprtcl] (null)
 }
 
 [satEngine]{
@@ -73,4 +76,5 @@
 	[primeThrst]  (test)
 	[sideThrst]   (sidethrust)
 	[tltip]		(an engine)
+	[thrstprtcl] (null)
 }

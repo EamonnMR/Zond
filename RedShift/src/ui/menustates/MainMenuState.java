@@ -82,7 +82,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}else{
 			grayFont.drawString(90, 90, " (Campaign) ");
 		}
-		//TODO:stub: display load / save features
+		
 		if(showCamp){
 			renderCamp(gfx);
 		}
@@ -110,12 +110,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}else{
 			greenFont.drawString(90, 285, " (Quit) ");
 		}
-		
-		//XXX:sanity stuff, remove when finalized
-//		gfx.draw(playBTN_rec);
-//		gfx.draw(scenBTN_rec);
-//		gfx.draw(optBTN_rec);
-//		gfx.draw(quitBTN_rec);
 	}
 
 	@Override
@@ -142,7 +136,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
 			arg0.reinit();
-			//XXX:change me to proper exit when released
+			//FIXME:change me to proper exit when released
 //			arg0.exit();
 		}
 	}

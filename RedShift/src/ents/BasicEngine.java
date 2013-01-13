@@ -2,6 +2,7 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.particles.ParticleEmitter;
 
 /**
  * The bare bones Engine class, this is necessary for any ship to move.
@@ -21,6 +22,7 @@ public class BasicEngine {
 	private String name;
 	private Sound primeThrust;
 	private Sound sideThrust;
+	private ParticleEmitter thrstPrtcl;
 	
 	//constructors
 	public BasicEngine(){}
@@ -125,5 +127,13 @@ public class BasicEngine {
 
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
+	}
+
+	public ParticleEmitter getThrstPrtcl() {
+		return thrstPrtcl;
+	}
+
+	public void setThrstPrtcl(ParticleEmitter thrstPrtcl) {
+		this.thrstPrtcl = thrstPrtcl;
 	}
 }
