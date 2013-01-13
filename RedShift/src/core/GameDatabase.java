@@ -210,8 +210,7 @@ public class GameDatabase {
 			current.setToolTip(s.getValue(child,"tltip"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
-			//TODO: muzzle flash particles!
-			//current.setMzlPrtcl(indexParticles.get(s.getValue(child, "fireprtcl")));
+			current.setMzlPrtcl(indexParticles.get(s.getValue(child, "fireprtcl")).duplicate());
 			indexGuns.put(child, current);
 		}
 	}
@@ -302,8 +301,7 @@ public class GameDatabase {
 			e.setInGameImg(indexImages.get(s.getValue(child, "img")).copy());
 			e.setPrimeThrust(indexSounds.get(s.getValue(child, "primeThrst")));
 			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
-			//TODO:thrust particles!
-			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
+			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")).duplicate());
 			indexEng.put(child, e);
 		}
 	}
@@ -331,8 +329,7 @@ public class GameDatabase {
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
 			h.setSnd(indexSounds.get(s.getValue(child, "snd")));
 			h.setCollider(parseShape(s, child, "collider"));
-			//TODO: shot particles
-			//h.setImpactPrtl(indexParticles.get((s.getValue(child, "prtcl"))));
+			h.setImpactPrtl(indexParticles.get((s.getValue(child, "prtcl"))).duplicate());
 			indexShot.put(child, h);
 		}
 	}

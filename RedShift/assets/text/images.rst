@@ -32,8 +32,8 @@
 
 /fx/
 [thrust1]     (assets/images/fx/engine1thrust.png)
-[smlEngPrtFx] (assets/images/fx/smlEngPrtFx.png)
-[basePrt]	(assets/images/fx/basePrt.png)
+[smlEngPrtFx] (assets/images/fx/particles/smlEngPrtFx.png)
+[basePrt]	(assets/images/fx/particles/basePrt.png)
 
 /doodads/
 [asteroid]    (assets/images/doodads/ast1.png)

@@ -6,7 +6,7 @@
 	[life]  (INT) Lifetime (miliseconds?)
 	[snd]   (STRING) name of the sound to use when the shot hits
 	[collider] SHAPE (see shapes.txt)
-	[prtcle] (STRING) the pointer to the particle in the system
+	[prtcl] (STRING) the pointer to the particle in the system
 }/
 
 [twentyShot]{
@@ -20,7 +20,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcle] (null)
+	[prtcl] (20HitPrt)
 }
 
 
@@ -35,7 +35,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcle] (null)
+	[prtcl] (60HitPrt)
 }
 
 
@@ -50,7 +50,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcle] (null)
+	[prtcl] (105HitPrt)
 }
 
 [plasShot]{
@@ -64,7 +64,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcle] (null)
+	[prtcl] (plasHitPrt)
 }
 
 [lazShot]{
@@ -78,7 +78,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcle] (null)
+	[prtcl] (lazHitPrt)
 }
 
 [mcrwvShot]{
@@ -92,5 +92,5 @@
 		[x](0)[y](0)
 		[radius](64)
 	}
-	[prtcle] (null)
+	[prtcl] (mcrHitPrt)
 }
