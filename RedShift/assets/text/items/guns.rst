@@ -20,7 +20,7 @@
 	[proj]    (twentyShot)
 	[fireSnd] (twentys)
 	[wire]    (20wire)
-	[firepartcl] (null)
+	[fireprtcl] (20MzlFls)
 }
 
 /60 mm cannon/
@@ -34,7 +34,7 @@
 	[proj]    (sixtyShot)
 	[fireSnd] (twentys)
 	[wire]    (60wire)
-	[firepartcl] (null)
+	[fireprtcl] (60MzlFls)
 }
 
 /105 mm cannon/
@@ -48,7 +48,7 @@
 	[proj]    (oneFiveShot)
 	[fireSnd] (oneohfive)
 	[wire]	  (105wire)
-	[firepartcl] (null)
+	[fireprtcl] (105MzlFls)
 }
 
 /small plasma/
@@ -62,7 +62,7 @@
 	[proj]    (plasShot) /No projectile type yet/
 	[fireSnd] (zap)
 	[wire]	  (105wire)
-	[firepartcl] (null)
+	[fireprtcl] (plasMzlFls)
 }
 
 /small laser/
@@ -76,7 +76,7 @@
 	[proj]    (lazShot)
 	[fireSnd] (smlFre)
 	[wire]	  (105wire)
-	[firepartcl] (null)
+	[fireprtcl] (lazMzlFls)
 }
 
 /microwave/
@@ -90,5 +90,5 @@
 	[proj]    (mcrwvShot)
 	[fireSnd] (smlFre)
 	[wire]	  (105wire)
-	[firepartcl] (null)
+	[fireprtcl] (mcrMzlFls)
 }

@@ -3,7 +3,9 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+
+import core.GameplayState;
 
 /**
  * 
@@ -27,7 +29,7 @@ public class BasicGun {
 	private String name;
 	private BasicShot proj;
 	private Sound fireSnd;
-	private ParticleEmitter mzlPrtcl;
+	private ConfigurableEmitter mzlPrtcl;
 
 	//constructor
 	public BasicGun(){}
@@ -188,11 +190,11 @@ public class BasicGun {
 		this.wireframe = wireframe;
 	}
 
-	public ParticleEmitter getMzlPrtcl() {
+	public ConfigurableEmitter getMzlPrtcl() {
 		return mzlPrtcl;
 	}
 
-	public void setMzlPrtcl(ParticleEmitter mzlPrtcl) {
+	public void setMzlPrtcl(ConfigurableEmitter mzlPrtcl) {
 		this.mzlPrtcl = mzlPrtcl;
 	}
 }
