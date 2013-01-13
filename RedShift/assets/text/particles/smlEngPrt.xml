@@ -10,8 +10,8 @@
   <initialDistance enabled="false" max="0.0" min="0.0"/>
   <speed enabled="true" max="200.0" min="50.0"/>
   <length enabled="false" max="1000.0" min="1000.0"/>
-  <spread value="10.0"/>
-  <angularOffset value="0.0"/>
+  <spread value="10.0"></spread>
+  <angularOffset value="0"></angularOffset>
   <growthFactor value="50.0"/>
   <gravityFactor value="0.0"/>
   <startAlpha value="255.0"/>
