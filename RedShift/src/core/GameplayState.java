@@ -446,7 +446,7 @@ public class GameplayState extends BasicGameState{
 			for(Map.Entry<Integer, BaseEnt> dood : doodads.entrySet()){
 				if(dood.getValue().getCollider().intersects(shot.getValue().getCollider())){
 					removeShots.add(shot.getKey());
-					//TODO: play shot collision sound
+					shot.getValue().onHit(pc.getOptions());
 				}
 			}
 		}
@@ -630,7 +630,7 @@ public class GameplayState extends BasicGameState{
 		return levelData;
 	}
 	
-	public void setLevelPointer(String s) throws FileNotFoundException, IOException{
+	public void setLevelPointer(String s) {
 		this.lvlPointer = s;
 	}
 	
@@ -701,6 +701,9 @@ public class GameplayState extends BasicGameState{
 	
 	public void shutDown(){
 		gdb.getSound(levelData.getMusic()).stop();
+		pc.setClientEngines(null);
+		pc.setClientGuns(null);
+		pc.setClientShips(null);
 		levelData = null;
 		gameIni = true;
 		gamePlay = false;

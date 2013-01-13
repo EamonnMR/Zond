@@ -23,6 +23,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.particles.ParticleEmitter;
 
 import ents.BasicEngine;
 import ents.BasicGun;
@@ -61,6 +62,7 @@ public class GameDatabase {
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
 	private Map<String, LevelDataModel> indexScenarios;
+	private Map<String, ParticleEmitter> indexParticles;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
 	private SpriteSheetFont greenFont;
@@ -81,11 +83,13 @@ public class GameDatabase {
 		indexImages  = new HashMap<String, Image>();
 		indexSounds = new HashMap<String, Sound>();
 		indexLevelFiles = new HashMap<String, File>();
+		indexParticles = new HashMap<String, ParticleEmitter>();
 		try {
 			try {
 				xloadImages();
 				loadSounds();
 				loadLevelFiles();
+				loadParticles();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -103,7 +107,7 @@ public class GameDatabase {
 		indexScenarios = new HashMap<String, LevelDataModel>();
 		populateAll();
 	}
-	
+
 	public static StringTree loadRst(String from) throws FileNotFoundException, IOException{
 		return StringTree.fromStream(new FileInputStream(from));
 	}
@@ -161,6 +165,14 @@ public class GameDatabase {
 		}
 	}
 	
+	private void loadParticles() {
+		
+	}
+	
+	public ParticleEmitter getParticle(String pointer){
+		return indexParticles.get(pointer);
+	}
+	
 	/**
 	 * Loads gun stats from assets/text/guns.rst
 	 * 
@@ -183,8 +195,18 @@ public class GameDatabase {
 			current.setToolTip(s.getValue(child,"tltip"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
+			//TODO: muzzle flash particles!
+			//current.setMzlPrtcl(indexParticles.get(s.getValue(child, "fireprtcl")));
 			indexGuns.put(child, current);
 		}
+	}
+	
+	/**
+	 * simple get gun method
+	 * @return BasicGun
+	 */
+	public BasicGun getGun(String index){
+		return indexGuns.get(index);
 	}
 	
 	/**
@@ -265,6 +287,8 @@ public class GameDatabase {
 			e.setInGameImg(indexImages.get(s.getValue(child, "img")).copy());
 			e.setPrimeThrust(indexSounds.get(s.getValue(child, "primeThrst")));
 			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
+			//TODO:thrust particles!
+			//e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
 			indexEng.put(child, e);
 		}
 	}
@@ -292,6 +316,8 @@ public class GameDatabase {
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
 			h.setSnd(indexSounds.get(s.getValue(child, "snd")));
 			h.setCollider(parseShape(s, child, "collider"));
+			//TODO: shot particles
+			//h.setImpactPrtl(indexParticles.get((s.getValue(child, "prtcl"))));
 			indexShot.put(child, h);
 		}
 	}
@@ -301,14 +327,6 @@ public class GameDatabase {
 	 */
 	public BasicShot getShot(String index){
 		return indexShot.get(index);
-	}
-
-	/**
-	 * simple get gun method
-	 * @return BasicGun
-	 */
-	public BasicGun getGun(String index){
-		return indexGuns.get(index);
 	}
 	
 	/**

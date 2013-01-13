@@ -64,7 +64,7 @@ public class LoaderState extends BasicGameState {
 			e.printStackTrace();
 		}
 		
-		createTestClientData(player);
+		//createTestClientData(player);
 	}
 	
 	@Override

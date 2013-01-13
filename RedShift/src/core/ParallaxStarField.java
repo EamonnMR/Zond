@@ -13,7 +13,7 @@
 //	boolean[] drawMe;
 //	private int numStars;
 //	
-//	//XXX:oi! clean up this language, you fuck nugget
+//	//FIXME:oi! clean up this language, you fuck nugget
 //	public void FUCKsetImg(Image img){
 //		//HURR CAN'T PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
 //		if (this.img == null){

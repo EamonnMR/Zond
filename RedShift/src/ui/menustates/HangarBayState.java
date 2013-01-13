@@ -1,8 +1,6 @@
 package ui.menustates;
 
 import java.awt.Point;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.newdawn.slick.Color;
@@ -251,6 +249,7 @@ public class HangarBayState extends BasicGameState {
 			if(i.isMousePressed(0)){
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
+				ini=true;
 				arg1.enterState(CoreStateManager.BRIEFING);
 			}
 		}else if(acceptBTN_rec.intersects(mouse_rec)){
@@ -260,15 +259,10 @@ public class HangarBayState extends BasicGameState {
 				pc.setPlayShip(displayShip);
 				pc.getPlayShip().setEngine(displayEngine);
 				pc.getPlayShip().setWeapon(displayGun);
+				ini=true;
 				GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gamePlay.setPlayerClient(pc);
-				try {
-					gamePlay.setLevelPointer(levelToPlay);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				gamePlay.setLevelPointer(levelToPlay);
 				arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 			}
 			accptBool=true;

@@ -104,7 +104,6 @@ public class PauseMenuState extends BasicGameState {
 			if(in.isMousePressed(0)){
 				in.clearMousePressedRecord();
 				in.clearKeyPressedRecord();
-				
 				GameplayState gs = (GameplayState)  arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 				gs.shutDown();
 				arg1.enterState(CoreStateManager.MAINMENUSTATE);
