@@ -114,6 +114,12 @@ public class GameplayState extends BasicGameState{
 	
 	//lame ini system is lame, so we have our own.
 	private void customIni(){
+		
+		particleSys = new ParticleSystem(gdb.getIMG("basePrt"));
+		particleSys.setRemoveCompletedEmitters(true);
+		particleSys.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
+		particleSys.setUsePoints(false);
+		
 		this.levelData = buildGamePlayLevel();
 		this.lh = new LevelHandler(levelData);
 		this.ships = new HashMap<Integer, BasicShip>();
@@ -147,10 +153,6 @@ public class GameplayState extends BasicGameState{
 			gdb.getSound(levelData.getMusic()).loop(1.0f, pc.getOptions().getMusevol());
 		}
 		
-		particleSys = new ParticleSystem(gdb.getIMG("basePrt"));
-		particleSys.setRemoveCompletedEmitters(true);
-		particleSys.setBlendingMode(ParticleSystem.BLEND_ADDITIVE);
-		particleSys.setUsePoints(false);
 	}
 
 	/**
@@ -187,6 +189,8 @@ public class GameplayState extends BasicGameState{
 			for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()) {
 				entry.getValue().render(camX, camY);
 			}
+			
+			particleSys.setPosition(camX, camY);
 			particleSys.render();
 			
 			playerHud.render(arg2, arg0, levelData, camX, camY);
@@ -495,6 +499,7 @@ public class GameplayState extends BasicGameState{
 		}
 		
 		for(int i : removeShips){
+			particleSys.removeEmitter(ships.get(i).mainThrusterEmitter);
 			ships.remove(i);
 		}
 		
@@ -516,7 +521,9 @@ public class GameplayState extends BasicGameState{
 		}else{
 			ships.put(entCount, baseEnt);
 		}
+		particleSys.addEmitter(baseEnt.mainThrusterEmitter);
 		return entCount;
+		
 	}
 	
 	/**
