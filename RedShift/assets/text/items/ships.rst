@@ -137,6 +137,30 @@
 	[wire] (mercWire)
 }
 
+[voyagSat]{
+	[img](voyagSati)
+	[tltip]       (its a satellite duuuuur)
+	[health](17)
+	[points](50)
+	[weight](0)
+	[gunPtLen](14)
+	[engPtLen](0)
+	[faction](1)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](10)
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](3200)
+	}
+	[deadsnd](shipexplode)
+	[wire] (mercWire)
+}
+
+
 
 [skylab]{
 	[img](skypost)
@@ -231,5 +255,28 @@
 
 }
 
+[sputnik3]{
+	[img](sputSati)
+	[tltip]       (test)
+	[health](17)
+	[points](5)
+	[weight](5)
+	[gunPtLen](38)
+	[engPtLen](-34)
+	[faction](0)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](3)
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](4000)
+	}
+	[deadsnd](shipexplode)
+	[wire] (zndWire)
+
+}
 
 //

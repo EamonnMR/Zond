@@ -9,12 +9,13 @@
 [pionrSati]    (assets/images/ships/nasa/sat_pion_base.png)
 [pionrGuni]    (assets/images/ships/nasa/sat_pion_gun.png)
 [marinSati]	(assets/images/ships/nasa/sat_marin_base.png)
+[voyagSati]	(assets/images/ships/nasa/sat_voy_base.png)
 
 /----Warsaw/
 [vostok]      (assets/images/ships/russia/vostok1.png)
 [voskhod]     (assets/images/ships/russia/voskhod.png)
 [zond4]       (assets/images/ships/russia/zond4.png)
-
+[sputSati]    (assets/images/ships/russia/sat_spt_base.png)
 
 /Weapons/
 [eng1]        (assets/images/engines/engine1.png)
@@ -37,9 +38,6 @@
 
 /doodads/
 [asteroid]    (assets/images/doodads/ast1.png)
-
-/backdrops/
-[level1field] (assets/images/ScratchLevel.png)
 
 /UI Main Menu/
 [campBTN_n]	(assets/images/gui/mainmenu/campBTN_n.png)
@@ -87,4 +85,4 @@
 [wep_i]		(assets/images/gui/hud/weapon_i.png)
 [shp_nm]	(assets/images/gui/hud/shp_nm.png)
 
-[starImg]	(assets/images/fx/particles/basePrt.png)
+[starImg]	(assets/images/doodads/mdStar.png)

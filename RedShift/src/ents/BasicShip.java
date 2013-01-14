@@ -113,7 +113,10 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		}
 		
 		mainThrusterEmitter.setEnabled(foreThr);
-		gun.getMzlPrtcl().setEnabled(fire);
+		if(getWeapon()!=null){
+			gun.getMzlPrtcl().setEnabled(fire);
+		}
+
 		foreThr = false;
 		fire=false;
 
