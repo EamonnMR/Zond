@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<emitter imageName="assets/images/fx/particles/smlEngPrtFx.png" name="smlEngPrtFx">
+<emitter imageName="assets/images/fx/particles/medEngPrtFx.png" name="smlEngPrtFx">
   
   <spawnInterval enabled="false" max="100.0" min="100.0" />
   <spawnCount enabled="true" max="20.0" min="5.0"/>

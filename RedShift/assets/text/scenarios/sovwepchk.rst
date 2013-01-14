@@ -37,13 +37,13 @@ You will be provided with some targets to test things on.)
 [active]{
 	[type] (circle)
 	[x](0)[y](0)
-	[radius](64000)
+	[radius](10000)
 }
 
 [margin]{
 	[type] (circle)
 	[x](0)[y](0)
-	[radius](96000)
+	[radius](10000)
 }
 [navpoints]<
 	{
@@ -86,6 +86,7 @@ Mission ends when all targets are destroyed.)
 			[targ2](spawnLoon)
 			[targ3](spawnPionrS)
 			[targ4](spawnPionrG)
+			[targ5](spawnVoyag)
 		}	
 	}
 
@@ -119,7 +120,7 @@ Mission ends when all targets are destroyed.)
 		}
 		[target]	(thewin)
 		[trigstate]	(f)
-		[total]		(3)
+		[total]		(6)
 	}
 
 	/make a mercury/
@@ -211,7 +212,7 @@ Mission ends when all targets are destroyed.)
 			[gun]	()
 			[engine](satEngine)
 			[loc]	(200 200)
-			[isAi]	(t)	
+			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
 	}
@@ -240,4 +241,30 @@ Mission ends when all targets are destroyed.)
 			[deathtrig](targetscleared)
 		}
 	}
+
+	/make a voyager sat wiv gunz!/
+	{
+		[type]		(spawn)
+		[name]		(spawnVoyag)
+		[trigtype]	(TRIGGER)
+		[x]		(400)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(voyagSat)
+			[gun]	(las)
+			[engine](satEngine)
+			[loc]	(300 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+
+
 >

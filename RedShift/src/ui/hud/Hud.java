@@ -306,9 +306,9 @@ public class Hud {
 		float lenX = w/3;
 		float lenY = h/3;	
 		Color col = Color.green;
-		if(s.getName().equals("lunar")||s.getName().equals("gemini")||s.getName().equals("mercury")||s.getName().equals("skylab")){
+		if(s.getFaction()==pc.getPlayShip().getFaction()){
 			col= Color.green;
-		}else if(s.getName().equals("vostok")||s.getName().equals("voskhod")||s.getName().equals("zond4")){
+		}else{
 			col = brightRed;
 		}
 			gfx.setColor(col);

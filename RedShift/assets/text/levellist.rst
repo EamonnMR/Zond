@@ -4,6 +4,5 @@
 /them here in reverse order/
 
 [scenario1]	(assets/text/scenarios/scenario1.rst)
-[trigtest]	(assets/text/scenarios/trigtest.rst)
 [sovwpchk]	(assets/text/scenarios/sovwepchk.rst)
 [natwpchk]	(assets/text/scenarios/natwepchk.rst)
