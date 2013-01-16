@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emitter imageName="assets/images/fx/particles/60mzlPrt.png" name="60mmMzlFls">
+  
+  <spawnInterval enabled="true" max="150.0" min="150.0" />
+  <spawnCount enabled="true" max="3.0" min="3.0"/>
+  <initialLife enabled="true" max="350.0" min="150.0"/>
+  <initialSize enabled="true" max="10.0" min="5.0"></initialSize>
+  <xOffset enabled="false" max="8.0" min="-8.0"/>
+  <yOffset enabled="false" max="15.0" min="-8.0"/>
+  <initialDistance enabled="false" max="0.0" min="0.0"/>
+  <speed enabled="true" max="200.0" min="200.0"/>
+  <length enabled="false" max="1000.0" min="1000.0"/>
+  <spread value="65.0"></spread>
+  <angularOffset value="0"></angularOffset>
+  <growthFactor value="15.0"/>
+  <gravityFactor value="0.0"/>
+  <startAlpha value="255.0"/>
+  <endAlpha value="0.0"/>
+  <color>
+    <step b="1.0" g="1.0" offset="0.0" r="1.0"/>
+    <step b="0.0" g="1.0" offset="0.336" r="1.0"/>
+    <step b="0.0" g="0.0" offset="1.0" r="1.0"/>
+  </color>
+</emitter>
