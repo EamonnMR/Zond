@@ -177,6 +177,8 @@ public class GameplayState extends BasicGameState{
 			stars.draw(gfx);
 			//FIXME: Starfield
 			
+			particleSys.setPosition(camX, camY);
+			particleSys.render();
 			
 			// draw all shots
 			for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()) {
@@ -190,9 +192,6 @@ public class GameplayState extends BasicGameState{
 			for (Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()) {
 				entry.getValue().render(camX, camY);
 			}
-			
-			particleSys.setPosition(camX, camY);
-			particleSys.render();
 			
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
@@ -502,9 +501,6 @@ public class GameplayState extends BasicGameState{
 		
 		for(int i : removeShips){
 			particleSys.removeEmitter(ships.get(i).mainThrusterEmitter);
-			if(!(ships.get(i).getWeapon()==null)){
-				particleSys.removeEmitter(ships.get(i).getWeapon().getMzlPrtcl());
-			}
 			ships.remove(i);
 		}
 		
@@ -528,9 +524,6 @@ public class GameplayState extends BasicGameState{
 		}
 		
 		particleSys.addEmitter(baseEnt.mainThrusterEmitter);
-		if(!(baseEnt.getWeapon()==null)){
-			particleSys.addEmitter(baseEnt.getWeapon().getMzlPrtcl());
-		}
 		return entCount;
 		
 	}

@@ -6,13 +6,16 @@ import java.io.IOException;
 import level.TriggerFactory;
 
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
 
 import ui.hud.HudDataModel;
 import ui.menustates.BriefingMenuState;
 import ui.menustates.HangarBayState;
+import ui.menustates.InfoState;
 import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
@@ -47,6 +50,8 @@ public class CoreStateManager extends StateBasedGame {
 	private BriefingMenuState brief;
 	public static int PAUSE = 8;
 	private PauseMenuState pause;
+	public static int INFO = 9;
+	private InfoState info;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
 	//perhaps in the future, any of these can be modular to install new content
@@ -63,7 +68,8 @@ public class CoreStateManager extends StateBasedGame {
 		createStates();	//queue up the list of states, add them to the game
 		loadResources();//populate our data classes with necessary info
 		customIniStates();	//sadly BasicGameState.init cannot be trusted as it only triggers when state is added to game
-		this.enterState(LOADERSTATE);
+//		this.enterState(LOADERSTATE);
+		this.enterState(INFO, null, new FadeInTransition(Color.black));
 	}
 
 	//methods
@@ -81,6 +87,7 @@ public class CoreStateManager extends StateBasedGame {
 		gamePlay = new GameplayState(GAMEPLAYSTATE);
 		brief = new BriefingMenuState(BRIEFING);
 		pause = new PauseMenuState(PAUSE);
+		info = new InfoState(INFO);
 	}
 	
 	/**
@@ -131,6 +138,8 @@ public class CoreStateManager extends StateBasedGame {
 		
 		gamePlay.customInit(player,gDB, entFac, hdm );
 		this.addState(gamePlay);
+		
+		this.addState(info);
 	}
 
 	@Override
@@ -142,6 +151,7 @@ public class CoreStateManager extends StateBasedGame {
 		this.getState(GAMEOVERSTATE).init(arg0, this);
 		this.getState(GAMEWINSTATE).init(arg0, this);
 		this.getState(GAMEPLAYSTATE).init(arg0, this);
+		this.getState(INFO).init(arg0, this);
 	}
 
 	

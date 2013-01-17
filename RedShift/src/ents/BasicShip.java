@@ -77,7 +77,16 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void render(int xOffset, int yOffset){
 		//draw the engine
 		if(gun!=null){
-			gun.getImg().drawCentered(xOffset + (float)getWepOffX(),yOffset + (float) getWepOffY());
+			float gX = xOffset + (float)getWepOffX();
+			float gY = yOffset + (float) getWepOffY();
+			gun.getImg().drawCentered(gX,gY);
+			if(fire){
+//				gun.getMzlImg().drawCentered(gX, gY+(getImg().getTextureHeight()));
+				float fx = xOffset +(float)gun.getMx();
+				float fy = yOffset +(float)gun.getMy();
+				
+				gun.getMzlImg().draw(fx,fy);
+			}
 		}
 		//draw the gun
 		if(engine!=null){
@@ -99,7 +108,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
-
 		if(getWeapon()!=null){
 			updateGun(angle, delta);
 		}
@@ -113,14 +121,40 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		}
 		
 		mainThrusterEmitter.setEnabled(foreThr);
-		if(getWeapon()!=null){
-			gun.getMzlPrtcl().setEnabled(fire);
-		}
-
 		foreThr = false;
-		fire=false;
+	}
+	
+	private void updateGun(double angle, int delta){
+		double wx = getX() + (gunOffsetDistance * Math.cos(angle));
+		double wy = getY() + (gunOffsetDistance * Math.sin(angle));
+		double mx = getX() + ((gunOffsetDistance* Math.cos(angle))+gun.getImg().getTextureWidth()/2); 
+		double my = getY() + ((gunOffsetDistance* Math.sin(angle))+gun.getImg().getTextureHeight()/2);
+			
+		setWepOffX(wx);		//where to draw gun on ship
+		setWepOffY(wy);
+		gun.setMx(mx);
+		gun.setMy(my);
+		
+		gun.setX(wx);	//pushes location down to basic shot
+		gun.setY(wy);
+		gun.setSpeed(physAnchor.getSpeedX(),physAnchor.getSpeedY());
+		gun.setAngle(getImg().getRotation());
+		gun.getMzlImg().setRotation(getImg().getRotation());
+		gun.tickTimer(delta);
+		
 
 	}
+	
+	public boolean tryShot() {
+		if(getWeapon()!=null){
+			fire = true;
+			return gun.canIshoot();
+		}else{
+			fire = false;
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * rotate the ship to the left
@@ -184,9 +218,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void moveBackward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
-		
-		//pe.addEmitter(getEngine().getThrstPrtcl().duplicate());
-		//pe.reset();
 //		if(getEngine().getPrimeThrust().playing()){
 //			getEngine().getPrimeThrust().stop();
 //		}
@@ -228,25 +259,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public double length(double x, double y){ //How far this point is away from the origin. -EMR
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}
-
-	
-	private void updateGun(double angle, int delta){
-		double wx = getX() + (gunOffsetDistance * Math.cos(angle));
-		double wy = getY() + (gunOffsetDistance * Math.sin(angle));
-		
-		setWepOffX(wx);		//where to draw gun on ship
-		setWepOffY(wy);
-		
-		gun.setX(wx);	//pushes location down to basic shot
-		gun.setY(wy);
-		gun.setSpeed(physAnchor.getSpeedX(),physAnchor.getSpeedY());
-		gun.setAngle(getImg().getRotation());
-		gun.tickTimer(delta);
-		
-		gun.getMzlPrtcl().angularOffset.setValue(90+ getImg().getRotation());
-		gun.getMzlPrtcl().setPosition((float)wx, (float)wy);
-	}
-	
 	
 	/*Begin massive list of getters & setters.
 	 * Yuck.
@@ -365,16 +377,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean tryShot() {
-		if(getWeapon()!=null){
-			fire = true;
-			return gun.canIshoot();	
-		}else{
-			fire = false;
-			return false;
-		}
 	}
 
 	public Circle getRadarRadius() {

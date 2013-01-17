@@ -22,14 +22,14 @@ public class BasicGun {
 	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
 	private Image wireframe;
-	private double x,y;
+	private double x,y, mx, my;
 	private double speedX, speedY;
 	private double angle;
 	private int coolDown;
 	private String name;
 	private BasicShot proj;
 	private Sound fireSnd;
-	private ConfigurableEmitter mzlPrtcl;
+	private Image mzlPrtcl;
 
 	//constructor
 	public BasicGun(){}
@@ -44,6 +44,14 @@ public class BasicGun {
 	}
 	
 	//methods
+
+	public boolean canIshoot() {
+		if(timer == 0){
+			timer = getRof();
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * creates a shot at the gunpoint and moves in direction of gun at shot time
 	 * @return BasicShot
@@ -150,14 +158,6 @@ public class BasicGun {
 		this.name = name;
 	}
 
-	public boolean canIshoot() {
-		if(timer == 0){
-			timer = getRof();
-			return true;
-		}
-		return false;
-	}
-
 	public Sound getFireSnd() {
 		return fireSnd;
 	}
@@ -190,11 +190,27 @@ public class BasicGun {
 		this.wireframe = wireframe;
 	}
 
-	public ConfigurableEmitter getMzlPrtcl() {
+	public Image getMzlImg() {
 		return mzlPrtcl;
 	}
 
-	public void setMzlPrtcl(ConfigurableEmitter mzlPrtcl) {
+	public void setMzlImg(Image mzlPrtcl) {
 		this.mzlPrtcl = mzlPrtcl;
+	}
+
+	public double getMx() {
+		return mx;
+	}
+
+	public void setMx(double mx) {
+		this.mx = mx;
+	}
+
+	public double getMy() {
+		return my;
+	}
+
+	public void setMy(double my) {
+		this.my = my;
 	}
 }

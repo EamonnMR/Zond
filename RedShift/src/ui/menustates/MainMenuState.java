@@ -135,9 +135,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		if(in.isKeyPressed(Input.KEY_ESCAPE)){
 			AL.destroy();
-			arg0.reinit();
-			//FIXME:change me to proper exit when released
-//			arg0.exit();
+			arg0.exit();
 		}
 	}
 	/**

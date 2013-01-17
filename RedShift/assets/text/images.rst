@@ -22,6 +22,15 @@
 [gun1]        (assets/images/weapons/20mm.png)
 [gun2]        (assets/images/weapons/60mm.png)
 [gun3]        (assets/images/weapons/105mm.png)
+[laser]	      (assets/images/weapons/laser.png)
+
+/muzzle flash/
+[20MzlFls]	(assets/images/fx/mzlfls/20MzlFls.png)
+[60MzlFls]	(assets/images/fx/mzlfls/60MzlFls.png)
+[105MzlFls]	(assets/images/fx/mzlfls/105MzlFls.png)
+[lazMzlFls]	(assets/images/fx/mzlfls/lasMzlFls.png)
+[plasMzlFls]	(assets/images/fx/mzlfls/plasMzlFls.png)
+[mcrMzlFls]	(assets/images/fx/mzlfls/mcrMzlFls.png)
 
 /projectiles/
 [shot1]       (assets/images/fx/shot1.png)
@@ -76,7 +85,7 @@
 [20wire]	(assets/images/gui/wireframes/guns/20mmWire.png)
 [60wire]	(assets/images/gui/wireframes/guns/60mmWire.png)
 [105wire]	(assets/images/gui/wireframes/guns/105mmWire.png)
-
+[laserWire]	(assets/images/gui/wireframes/guns/laserWire.png)
 
 /HUD/
 [radar_i]	(assets/images/gui/hud/radar_i.png)
