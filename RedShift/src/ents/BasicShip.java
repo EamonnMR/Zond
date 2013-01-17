@@ -39,6 +39,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	//(to replace death trigs)
 	private boolean foreThr, aftThr, sideThr, fire;
 	public ConfigurableEmitter mainThrusterEmitter, sideThrusterEmitter;
+	private float muzzleCoolDown = 2, muzzleState;
 	
 	//constructor
 	public BasicShip(){
@@ -80,12 +81,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float gX = xOffset + (float)getWepOffX();
 			float gY = yOffset + (float) getWepOffY();
 			gun.getImg().drawCentered(gX,gY);
-			if(fire){
+			if(muzzleState > 0.0){
 //				gun.getMzlImg().drawCentered(gX, gY+(getImg().getTextureHeight()));
-				float fx = xOffset +(float)gun.getMx();
-				float fy = yOffset +(float)gun.getMy();
+				//float fx = xOffset +(float)gun.getMx();
+				//float fy = yOffset +(float)gun.getMy();
 				
-				gun.getMzlImg().draw(fx,fy);
+				gun.getMzlImg().drawCentered(gX,gY);
 			}
 		}
 		//draw the gun
@@ -122,6 +123,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		
 		mainThrusterEmitter.setEnabled(foreThr);
 		foreThr = false;
+		muzzleState -= delta;
 	}
 	
 	private void updateGun(double angle, int delta){
@@ -147,10 +149,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	public boolean tryShot() {
 		if(getWeapon()!=null){
-			fire = true;
+			//Store wether or not the weapon has successfully fired, so that the muzzle flash
+			//Only lasts a frame
+			muzzleState = muzzleCoolDown;
 			return gun.canIshoot();
 		}else{
-			fire = false;
 			return false;
 		}
 	}
