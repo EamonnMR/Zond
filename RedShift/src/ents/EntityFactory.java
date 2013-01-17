@@ -94,7 +94,7 @@ public class EntityFactory {
 		gun.setProj(gdb.getGun(gunPointer).getProj());
 		gun.setFireSnd(gdb.getGun(gunPointer).getFireSnd());
 		gun.setWireframe(gdb.getGun(gunPointer).getWireframe().copy());
-		gun.setMzlPrtcl(gdb.getGun(gunPointer).getMzlPrtcl());
+		gun.setMzlImg(gdb.getGun(gunPointer).getMzlImg().copy());
 		return gun;
 	}
 	

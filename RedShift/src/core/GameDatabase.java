@@ -210,7 +210,7 @@ public class GameDatabase {
 			current.setToolTip(s.getValue(child,"tltip"));
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
-			current.setMzlPrtcl(indexParticles.get(s.getValue(child, "fireprtcl")).duplicate());
+			current.setMzlImg(indexImages.get(s.getValue(child, "firespr")).copy());
 			indexGuns.put(child, current);
 		}
 	}
