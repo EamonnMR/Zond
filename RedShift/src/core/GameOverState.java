@@ -71,7 +71,7 @@ public class GameOverState extends BasicGameState {
 		
 		if(ip.isKeyDown(Input.KEY_ESCAPE)){
 			ip.clearKeyPressedRecord();
-			arg1.enterState(CoreStateManager.HANGARBAYSTATE);
+			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
 	
