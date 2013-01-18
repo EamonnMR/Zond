@@ -90,7 +90,7 @@
 	[collider]{
 		[type](circle)
 		[x](0)[y](0)
-		[radius](64)
+		[radius](18)
 	}
 	[prtcl] (mcrHitPrt)
 }

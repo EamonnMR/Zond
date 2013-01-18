@@ -513,17 +513,18 @@ public class GameplayState extends BasicGameState{
 		}
 	}
 	
-	public int addShip(BasicShip baseEnt){
+	public int addShip(BasicShip ship){
 		entCount++;
-		if(baseEnt.getClass().equals(AIShip.class)){
-			AIShip s = (AIShip) baseEnt;
-			s.setState(new ScanState((AIShip)baseEnt), this);
-			ships.put(entCount, baseEnt);
+		if(ship.getClass().equals(AIShip.class)){
+			AIShip s = (AIShip) ship;
+			s.setState(new ScanState((AIShip)ship), this);
+			ships.put(entCount, ship);
 		}else{
-			ships.put(entCount, baseEnt);
+			ships.put(entCount, ship);
 		}
-		
-		particleSys.addEmitter(baseEnt.mainThrusterEmitter);
+		if(ship.mainThrusterEmitter!=null){
+			particleSys.addEmitter(ship.mainThrusterEmitter);
+		}
 		return entCount;
 		
 	}

@@ -57,11 +57,11 @@
 	[tltip]   (quick fire, medium range energy emitter.)
 	[cooldown](100);
 	[cost]    (0)
-	[img]     (gun1) / Why aren't we loading the images? /
+	[img]     (plasWep) / Why aren't we loading the images? /
 	[weight]  (0)
 	[proj]    (plasShot) /No projectile type yet/
 	[fireSnd] (zap)
-	[wire]	  (105wire)
+	[wire]	  (plasWire)
 	[firespr] (plasMzlFls)
 }
 
@@ -85,10 +85,10 @@
 	[tltip]   (very short range energy weapon)
 	[cooldown](60);
 	[cost]    (0)
-	[img]     (gun1)
+	[img]     (micro)
 	[weight]  (984)
 	[proj]    (mcrwvShot)
 	[fireSnd] (smlFre)
-	[wire]	  (105wire)
+	[wire]	  (microWire)
 	[firespr] (mcrMzlFls)
 }
