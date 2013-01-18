@@ -162,7 +162,7 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 		[toSpawn]{
 			[kind]	(skylab)
 			[gun]	()
-			[engine]()
+			[engine](satEngine)
 			[loc]	(768 0)
 			[deatheffects](null)
 			[isAi]	(f)

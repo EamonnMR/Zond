@@ -161,8 +161,6 @@ public class CoreStateManager extends StateBasedGame {
          app.setMouseGrabbed(false);
          app.setDisplayMode(1024, 768, false);
          app.setShowFPS(true);
-//         app.setTargetFrameRate(120);
-//         app.setVSync(true);
          app.start();
     }
 }

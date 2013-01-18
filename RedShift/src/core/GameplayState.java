@@ -502,7 +502,6 @@ public class GameplayState extends BasicGameState{
 		}
 		
 		for(int i : removeShips){
-			particleSys.removeEmitter(ships.get(i).mainThrusterEmitter);
 			ships.remove(i);
 		}
 		

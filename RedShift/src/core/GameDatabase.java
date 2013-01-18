@@ -301,7 +301,7 @@ public class GameDatabase {
 			e.setInGameImg(indexImages.get(s.getValue(child, "img")).copy());
 			e.setPrimeThrust(indexSounds.get(s.getValue(child, "primeThrst")));
 			e.setSideThrust(indexSounds.get(s.getValue(child, "sideThrst")));
-			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")).duplicate());
+			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
 			indexEng.put(child, e);
 		}
 	}
