@@ -18,13 +18,18 @@
 [sputSati]    (assets/images/ships/russia/sat_spt_base.png)
 
 /Weapons/
-[eng1]        (assets/images/engines/engine1.png)
 [gun1]        (assets/images/weapons/20mm.png)
 [gun2]        (assets/images/weapons/60mm.png)
 [gun3]        (assets/images/weapons/105mm.png)
 [laser]	      (assets/images/weapons/laser.png)
 [plasWep]	(assets/images/weapons/plas.png)
 [micro]		(assets/images/weapons/micro.png)
+
+/engines/
+[eng1]        (assets/images/engines/engine1.png)
+[rockDyne]        (assets/images/engines/rockDyne.png)
+[mcDon]        (assets/images/engines/mcDon.png)
+
 
 /muzzle flash/
 [20MzlFls]	(assets/images/fx/mzlfls/20MzlFls.png)
@@ -90,6 +95,12 @@
 [laserWire]	(assets/images/gui/wireframes/guns/laserWire.png)
 [plasWire]	(assets/images/gui/wireframes/guns/plasWire.png)
 [microWire]	(assets/images/gui/wireframes/guns/microWire.png)
+
+[thiokWire]        (assets/images/gui/wireframes/thiokWire.png)
+[rockDyneWire]       (assets/images/gui/wireframes/rockDyneWire.png)
+[mcDonWire]        (assets/images/gui/wireframes/mcDonWire.png)
+
+
 /HUD/
 [radar_i]	(assets/images/gui/hud/radar_i.png)
 [engine_i]	(assets/images/gui/hud/engine_i.png)

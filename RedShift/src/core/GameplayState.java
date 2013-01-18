@@ -168,7 +168,7 @@ public class GameplayState extends BasicGameState{
 			
 			//Star render stuff
 			//This is 'cause it won't fit in the initializer
-			stars.FUCKsetImg(gdb.getIMG("starImg"));
+			stars.setImg(gdb.getIMG("starImg"));
 			
 			//Calculate the camera delta and render the stars
 			stars.update(camX - lCamx, camY - lCamy, camX, camY);
