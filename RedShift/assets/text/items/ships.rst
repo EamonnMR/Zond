@@ -214,7 +214,7 @@
 	[health](42)
 	[points](5)
 	[weight](5)
-	[gunPtLen](30)
+	[gunPtLen](34)
 	[engPtLen](-26)
 	[faction](0)
 	[collider]{
@@ -237,7 +237,7 @@
 	[health](60)
 	[points](5)
 	[weight](5)
-	[gunPtLen](38)
+	[gunPtLen](42)
 	[engPtLen](-34)
 	[faction](0)
 	[collider]{
