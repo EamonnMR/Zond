@@ -177,9 +177,10 @@ public class GameplayState extends BasicGameState{
 			stars.draw(gfx);
 			//FIXME: Starfield
 			
-			particleSys.setPosition(camX, camY);
-			particleSys.render();
-			
+			if(pc.getOptions().getParticleStatus()){
+				particleSys.setPosition(camX, camY);
+				particleSys.render();
+			}
 			// draw all shots
 			for (Map.Entry<Integer, BasicShot> entry : shots.entrySet()) {
 				entry.getValue().render(camX, camY);
@@ -261,8 +262,10 @@ public class GameplayState extends BasicGameState{
 				deathReason = 0;
 			}
 			
-			for(int i = 0; i < particleSys.getEmitterCount(); i++){
-				particleSys.update(i);
+			if(pc.getOptions().getParticleStatus()){
+				for(int i = 0; i < particleSys.getEmitterCount(); i++){
+					particleSys.update(i);
+				}
 			}
 
 			pc.updateCamera(this);
