@@ -329,7 +329,7 @@ public class GameDatabase {
 			h.setInterval(Integer.parseInt(s.getValue(child, "life")));
 			h.setSnd(indexSounds.get(s.getValue(child, "snd")));
 			h.setCollider(parseShape(s, child, "collider"));
-			h.setImpactPrtl(indexParticles.get((s.getValue(child, "prtcl"))).duplicate());
+//			h.setImpactPrtl(indexParticles.get((s.getValue(child, "prtcl"))).duplicate());
 			indexShot.put(child, h);
 		}
 	}

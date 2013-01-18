@@ -495,7 +495,9 @@ public class GameplayState extends BasicGameState{
 	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads, ArrayList<Integer>  removeTask ){
 		
 		for(int i : removeShots){
-			particleSys.removeEmitter(shots.get(i).getImpactPrtl());
+//			if(shots.get(i).getImpactPrtl()!=null){
+//				particleSys.removeEmitter(shots.get(i).getImpactPrtl());	
+//			}
 			shots.remove(i);
 		}
 		
