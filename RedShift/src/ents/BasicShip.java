@@ -3,7 +3,6 @@ package ents;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ConfigurableEmitter.SimpleValue;
 import org.newdawn.slick.particles.ParticleSystem;
 
 import core.GameplayState;
@@ -82,10 +81,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float gY = yOffset + (float) getWepOffY();
 			gun.getImg().drawCentered(gX,gY);
 			if(muzzleState > 0.0){
-//				gun.getMzlImg().drawCentered(gX, gY+(getImg().getTextureHeight()));
-				//float fx = xOffset +(float)gun.getMx();
-				//float fy = yOffset +(float)gun.getMy();
-				
 				gun.getMzlImg().drawCentered(gX,gY);
 			}
 		}
@@ -108,7 +103,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			getRadarRadius().setCenterX((float)getX());
 			getRadarRadius().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
-			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
 		if(getWeapon()!=null){
 			updateGun(angle, delta);
 		}
@@ -119,9 +113,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			setEngOffX(tmpEngX);		//where to draw engine on ship
 			setEngOffY(tmpEngY);
 			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
+			mainThrusterEmitter.setEnabled(foreThr);
 		}
 		
-		mainThrusterEmitter.setEnabled(foreThr);
+
 		foreThr = false;
 		muzzleState -= delta;
 	}

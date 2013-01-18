@@ -69,9 +69,11 @@ public class BasicGun {
 			
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
-			shot.setCollider(new Circle(0,0,4));
+			Circle temp = new Circle(0,0,0);
+			temp.setRadius( proj.getCollider().getBoundingCircleRadius());
+			shot.setCollider(temp);
 			shot.setX(getX());
-			shot.setY(getY()-(getImg().getTextureHeight()/2));
+			shot.setY(getY()-(getImg().getTextureHeight()));
 			shot.setSnd(proj.getSnd());
 //			getFireSnd().playAt(0.6f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			getFireSnd().playAt(1.0f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
