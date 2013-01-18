@@ -118,6 +118,7 @@ public class EntityFactory {
 		engine.setPrimeThrust(gdb.getEngine(engPointer).getPrimeThrust());
 		engine.setSideThrust(gdb.getEngine(engPointer).getSideThrust());
 		engine.setThrstPrtcl(gdb.getEngine(engPointer).getThrstPrtcl().duplicate());
+		engine.setWireFrame(gdb.getEngine(engPointer).getWireFrame().copy());
 		return engine;
 	}
 	

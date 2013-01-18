@@ -67,7 +67,7 @@ public class UILib {
 			x=p.x-prox.getWidth()/2;
 			y=(p.y-h/2)-(prox.getHeight()+dist);
 		}else if(dir==3){
-			x=p.x;
+			x=p.x-prox.getWidth()/2;
 			y=(p.y+h/2)+(+dist);
 		}
 		gfx.drawImage(prox, x, y);

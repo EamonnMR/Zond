@@ -90,7 +90,7 @@ public class ParallaxStarField{
 			g.drawImage(img, position.x, position.y);
 		}
 	}
-	public void FUCKsetImg(Image img){
+	public void setImg(Image img){
 		//HURR CAN'T PUT SET IMG IN THE INITIALIZER BECAUSE IT WONT WORK
 		if (this.img == null){
 			this.img = img;

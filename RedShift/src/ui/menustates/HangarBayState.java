@@ -113,6 +113,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 		}
 		ulib.drawImageCenteredOnPoint(gfx, displayShip.getWireframe(), new Point(509,310));
 		ulib.drawImageNextToImage(gfx, displayShip.getWireframe(), displayGun.getWireframe(), new Point(509,310), 2, 10);
+		ulib.drawImageNextToImage(gfx, displayShip.getWireframe(), displayEngine.getWireFrame(), new Point(509,310), 3, 10);
 		if(backBool==true){
 			greenFont.drawString(140, 500, "[(Back)]");
 		}else{
