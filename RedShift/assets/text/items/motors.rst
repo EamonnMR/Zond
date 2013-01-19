@@ -1,19 +1,3 @@
-/ ENGINES 
-	[className]{	
-		[name]	      (STRING) the display name
-		[tltip]       (STRING) the tooltip string
-		[cost]        (INT)    Price of the engine
-		[weight]      (INT)    How heavy the engine is
-		[turnrate]    (FLOAT)  Turn rate
-		[thrustx]     (FLOAT)  Forward thrust
-		[thrusty]     (FLOAT)  Reverse thrust (?)
-		[strafeRate]  (FLOAT)  Sideways thrust (?)
-		[img]         (STRING) What image to use
-		[primeThrst]  (STRING) sfx to use for main thrust
-		[sideThrst]   (STRING) sfx to use for side thrust
-	}
-/
-
 [smallEngine]{
 	[name]	      (Thiokol 15b)
 	[tltip]       (light weight engine, good for strafing)
