@@ -1,14 +1,3 @@
-/Shot types
-[name]{
-	[img]   (STRING)  Image
-	[dmg]   (INT)     Damage
-	[speed] (FLOAT)Speed
-	[life]  (INT) Lifetime (miliseconds?)
-	[snd]   (STRING) name of the sound to use when the shot hits
-	[collider] SHAPE (see shapes.txt)
-	[prtcl] (STRING) the pointer to the particle in the system
-}/
-
 [twentyShot]{
 	[img]  (shot1)
 	[dmg]  (5)

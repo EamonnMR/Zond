@@ -1,14 +1,3 @@
-/GUN DEFINITIONS:
-	[NAME]{
-		[cooldown](INT)     Delay between shots
-		[cost]    (INT)     Price of the gun
-		[img]     (STRING)  Image to use
-		[weight]  (INT)     Weight of the gun
-		[proj]    (STRING)  Type of projectile to use
-	}
-/
-
-
 /20 mm cannon/
 [20mm]{
 	[name]	  (20mm Chaingun)

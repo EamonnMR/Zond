@@ -1,0 +1,78 @@
+/SHIPS
+[STRING]{
+	[img]	     (STRING)   the in-game name of the image file
+	[tltip]	     (STRING)   tooltip description for the hangar bay 
+	[health]     (INT)      amount of hitpoints
+	[points]     (INT)      unused
+	[weight]     (INT)      cosmetic, unused
+	[gunPtLen]   (INT)      distance forward of ship center to draw guns
+	[engPtLen]   (INT)      distance backward of ship center to draw engines
+				 must be negative: (-X)
+	[faction]    (INT)      Warsaw 0 NATO 1
+	
+	[collider]{	       collision detection shape	
+		[type] (STRING)  only 'circle' works, so just use that
+		[x](INT)[y](INT) position is set by ship,  just keep it 0,0
+		[radius](INT)   size of the circle, this you can modify
+	}
+	
+	[radar]{	       radar is same deal as collider tag
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](2000)
+	}
+
+	[deadsnd](STRING)       in game name of sound to play on ship death
+	[wire] (STRING)         in game name of wireframe image
+}
+/
+
+/GUNS
+[NAME]{
+	[name]	  (String)   In game name used for display
+	[tltip]   (String)   tooltip description for the hangar bay
+	[cooldown](INT)      the refire rate in milliseconds
+	[cost]    (INT)      unused
+	[img]     (STRING)   the in-game name of the image file
+	[weight]  (INT)      weight of the item, cosmetic
+	[proj]    (String)   in game name of the projectile to fire
+	[fireSnd] (String)   in game name of sound to play when fird
+	[wire]    (String)   in game name of image used for the wireframe
+	[firespr] (String)   in game name of image used for muzzle flash
+}
+/
+
+/ ENGINES
+[STRING]{
+	[name]	      (STRING)  In game name used for display
+	[tltip]       (STRING)  tooltip description for the hangar bay
+	[cost]        (INT)     unused
+	[weight]      (INT)     weight of the item, cosmetic
+	[turnrate]    (DEC)     rate at which the engine turns, DEC decimal (X.Y)
+	[thrustx]     (DEC)     forward thrust rate 
+	[thrusty]     (DEC)     forward thrust rate, both combined
+	[strafeRate]  (DEC)     rate at which ship moves side to side
+	[img]         (STRING)  the in-game name of the image file
+	[wireframe]   (STRING)  in game name of image used for the wireframe
+	[primeThrst]  (STRING)  in game name of sound to use for forward/reverse
+	[sideThrst]   (STRING)  in game name of sound to use for side to side strafe
+	[thrstprtcl]  (STRING)  in game name of particle to use for thrust
+	}
+	
+/
+
+/Shots
+[STRING]{
+	[img]  	     (STRING)   the in-game name of the image file
+	[dmg]  	     (INT)      amount of damage dealt, its 1:1 with hit points  
+	[speed]	     (DEC)      movement rate added to ship's velocity when fired
+	[life] 	     (INT)      how long in milliseconds does the projectile live
+	[snd] 	     (STRING)   in game name of sound to play when proj hits an object
+	[collider]{
+		[type] (STRING)  only 'circle' works, so just use that
+		[x](INT)[y](INT) position is set by ship,  just keep it 0,0
+		[radius](INT)   size of the circle, this you can modify
+	}
+	[prtcl] (STRING)        in game name of the particle to use on impact
+}
+/

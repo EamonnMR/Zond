@@ -304,6 +304,7 @@ public class GameDatabase {
 			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
 			e.setWireFrame(indexImages.get(s.getValue(child, "wireframe")));
 			indexEng.put(child, e);
+			System.out.println("Loaded:: Engine - " + e.getName());
 		}
 	}
 	

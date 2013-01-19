@@ -1,5 +1,5 @@
 /Image locations/
-/Ships/
+/===============Ships===============/
 /----NATO/
 [mercury]     (assets/images/ships/nasa/mercury.png)
 [gemini]      (assets/images/ships/nasa/gemini.png)
@@ -17,7 +17,15 @@
 [zond4]       (assets/images/ships/russia/zond4.png)
 [sputSati]    (assets/images/ships/russia/sat_spt_base.png)
 
-/Weapons/
+/Wire Frames/
+[gemWire]	(assets/images/gui/wireframes/ship/gemWire.png)
+[mercWire]	(assets/images/gui/wireframes/ship/mercWire.png)
+[lunWire]	(assets/images/gui/wireframes/ship/lunWire.png)
+[vkdWire]	(assets/images/gui/wireframes/ship/vkhdWire.png)
+[vksWire]	(assets/images/gui/wireframes/ship/vstkWire.png)
+[zndWire]	(assets/images/gui/wireframes/ship/zndWire.png)
+
+/===============Weapons===============/
 [gun1]        (assets/images/weapons/20mm.png)
 [gun2]        (assets/images/weapons/60mm.png)
 [gun3]        (assets/images/weapons/105mm.png)
@@ -25,13 +33,15 @@
 [plasWep]	(assets/images/weapons/plas.png)
 [micro]		(assets/images/weapons/micro.png)
 
-/engines/
-[eng1]        (assets/images/engines/engine1.png)
-[rockDyne]        (assets/images/engines/rockDyne.png)
-[mcDon]        (assets/images/engines/mcDon.png)
+/Wire Frames/
+[20wire]	(assets/images/gui/wireframes/guns/20mmWire.png)
+[60wire]	(assets/images/gui/wireframes/guns/60mmWire.png)
+[105wire]	(assets/images/gui/wireframes/guns/105mmWire.png)
+[laserWire]	(assets/images/gui/wireframes/guns/laserWire.png)
+[plasWire]	(assets/images/gui/wireframes/guns/plasWire.png)
+[microWire]	(assets/images/gui/wireframes/guns/microWire.png)
 
-
-/muzzle flash/
+/===============Muzzle Flash===============/
 [20MzlFls]	(assets/images/fx/mzlfls/20MzlFls.png)
 [60MzlFls]	(assets/images/fx/mzlfls/60MzlFls.png)
 [105MzlFls]	(assets/images/fx/mzlfls/105MzlFls.png)
@@ -39,7 +49,17 @@
 [plasMzlFls]	(assets/images/fx/mzlfls/plasMzlFls.png)
 [mcrMzlFls]	(assets/images/fx/mzlfls/mcrMzlFls.png)
 
-/projectiles/
+/===============engines===============/
+[eng1]        (assets/images/engines/engine1.png)
+[rockDyne]        (assets/images/engines/rockDyne.png)
+[mcDon]        (assets/images/engines/mcDon.png)
+
+/wireframes/
+[thiokWire]        (assets/images/gui/wireframes/thiokWire.png)
+[rockDyneWire]     (assets/images/gui/wireframes/rockDyneWire.png)
+[mcDonWire]        (assets/images/gui/wireframes/mcDonWire.png)
+
+/===============Projectiles===============/
 [shot1]       (assets/images/fx/shot1.png)
 [shot2]       (assets/images/fx/shot2.png)
 [shot3]       (assets/images/fx/shot3.png)
@@ -47,15 +67,16 @@
 [plas]        (assets/images/fx/ppc.png)
 [mcrwvfx]     (assets/images/fx/mcrwvFx.png)
 
-/fx/
+/===============Parrticles/Effects===============/
 [thrust1]     (assets/images/fx/engine1thrust.png)
 [smlEngPrtFx] (assets/images/fx/particles/smlEngPrtFx.png)
 [basePrt]	(assets/images/fx/particles/basePrt.png)
-
-/doodads/
+[starImg]	(assets/images/doodads/mdStar.png)
+/===============Doodads===============/
 [asteroid]    (assets/images/doodads/ast1.png)
 
-/UI Main Menu/
+/===============UI===============/
+/Main Menu/
 [campBTN_n]	(assets/images/gui/mainmenu/campBTN_n.png)
 [scenBTN_n]	(assets/images/gui/mainmenu/scenBTN_n.png)
 [optBTN_n]	(assets/images/gui/mainmenu/optBTN_n.png)
@@ -80,32 +101,10 @@
 /HangarBay/
 [small_scrn]	(assets/images/gui/small_screen.png)
 
-/Hangar Wire Frame Ships/
-[gemWire]	(assets/images/gui/wireframes/ship/gemWire.png)
-[mercWire]	(assets/images/gui/wireframes/ship/mercWire.png)
-[lunWire]	(assets/images/gui/wireframes/ship/lunWire.png)
-[vkdWire]	(assets/images/gui/wireframes/ship/vkhdWire.png)
-[vksWire]	(assets/images/gui/wireframes/ship/vstkWire.png)
-[zndWire]	(assets/images/gui/wireframes/ship/zndWire.png)
-
-/Hangar Wire Frame Guns/
-[20wire]	(assets/images/gui/wireframes/guns/20mmWire.png)
-[60wire]	(assets/images/gui/wireframes/guns/60mmWire.png)
-[105wire]	(assets/images/gui/wireframes/guns/105mmWire.png)
-[laserWire]	(assets/images/gui/wireframes/guns/laserWire.png)
-[plasWire]	(assets/images/gui/wireframes/guns/plasWire.png)
-[microWire]	(assets/images/gui/wireframes/guns/microWire.png)
-
-[thiokWire]        (assets/images/gui/wireframes/thiokWire.png)
-[rockDyneWire]       (assets/images/gui/wireframes/rockDyneWire.png)
-[mcDonWire]        (assets/images/gui/wireframes/mcDonWire.png)
-
-
-/HUD/
+/===============HUD===============/
 [radar_i]	(assets/images/gui/hud/radar_i.png)
 [engine_i]	(assets/images/gui/hud/engine_i.png)
 [hp_i]		(assets/images/gui/hud/hp_i.png)
 [wep_i]		(assets/images/gui/hud/weapon_i.png)
 [shp_nm]	(assets/images/gui/hud/shp_nm.png)
 
-[starImg]	(assets/images/doodads/mdStar.png)
