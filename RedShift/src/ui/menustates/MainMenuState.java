@@ -69,8 +69,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.drawImage(montrBKG, 0, 0);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 
 		gfx.setColor(Color.red);
 		gfx.draw(mouse_rec);

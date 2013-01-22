@@ -36,6 +36,7 @@ public class PlayerClient {
 		options.setFxvol(0.5f);
 		options.setMusevol(0.5f);
 		options.setVoicevol(0.5f);
+		options.setParticleStatus(true);
 	}
 	
 	//methods

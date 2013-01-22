@@ -41,8 +41,8 @@ public class ModHudMenuState extends BasicGameState implements MouseListener{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		mouse_rec.setCenterX(arg0.getInput().getMouseX());
-		mouse_rec.setCenterY(arg0.getInput().getMouseY());
+//		mouse_rec.setCenterX(arg0.getInput().getMouseX());
+//		mouse_rec.setCenterY(arg0.getInput().getMouseY());
 		
 		inst1 = "Click and drag the HUD icons to anywhere on the screen.";
 		inst2 = "Reset resets their location, accept saves your settings.";

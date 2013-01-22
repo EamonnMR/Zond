@@ -73,8 +73,8 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
 		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		renderMainDisplay(gfx);
 		

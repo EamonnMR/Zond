@@ -137,11 +137,8 @@ public class GameplayState extends BasicGameState{
 			pc.setPlayShip(entFac.buildShip(pc.getPlayShip().getName(), pc.getPlayShip().getWeapon().getName(), pc.getPlayShip().getEngine().getName(), false, null));
 		}
 		pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
-		pc.setRadarState(true);
-		
-		
 		playerHud = new Hud(pc, 1023, 767, hdm, gdb);
-		
+		pc.setRadarState(true);
 		//add both ships to the Ship hashmap
 		addShip(pc.getPlayShip());
 
@@ -202,10 +199,10 @@ public class GameplayState extends BasicGameState{
 			
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
-			gfx.drawString("Screen Mouse X:"+String.valueOf(arg0.getInput().getMouseX()), 100, 10);
-			gfx.drawString("Screen Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()), 400, 10);
-			gfx.drawString("Cam Mouse X:"+String.valueOf(arg0.getInput().getMouseX()+camX), 100, 25);
-			gfx.drawString("Cam Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()+camY), 400, 25);
+//			gfx.drawString("Screen Mouse X:"+String.valueOf(arg0.getInput().getMouseX()), 100, 10);
+//			gfx.drawString("Screen Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()), 400, 10);
+//			gfx.drawString("Cam Mouse X:"+String.valueOf(arg0.getInput().getMouseX()+camX), 100, 25);
+//			gfx.drawString("Cam Mouse Y:"+String.valueOf(arg0.getInput().getMouseY()+camY), 400, 25);
 		}
 	}
 
