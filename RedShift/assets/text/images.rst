@@ -16,6 +16,7 @@
 [voskhod]     (assets/images/ships/russia/voskhod.png)
 [zond4]       (assets/images/ships/russia/zond4.png)
 [sputSati]    (assets/images/ships/russia/sat_spt_base.png)
+[marsSati]    (assets/images/ships/russia/mars3.png)
 
 /Wire Frames/
 [gemWire]	(assets/images/gui/wireframes/ship/gemWire.png)
