@@ -54,6 +54,9 @@
 [eng1]        (assets/images/engines/engine1.png)
 [rockDyne]        (assets/images/engines/rockDyne.png)
 [mcDon]        (assets/images/engines/mcDon.png)
+[rd109i]	(assets/images/engines/rd109.png)
+[ang191i]	(assets/images/engines/ang191.png)
+[7kl3i]		(assets/images/engines/7kl3.png)
 
 /wireframes/
 [thiokWire]        (assets/images/gui/wireframes/thiokWire.png)

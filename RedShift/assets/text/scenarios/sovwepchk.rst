@@ -21,7 +21,9 @@ You will be provided with some targets to test things on.)
 	[item3]	(mcrwv)
 }
 [plrMotors]{
-	[item0]	(medEngine)
+	[item0]	(rd109)
+	[item1] (ang191)
+	[item2] (7kl3)
 }
 [plrShips]{
 	[item0]	(zond4)
