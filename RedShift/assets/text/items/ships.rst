@@ -261,8 +261,8 @@
 	[health](17)
 	[points](5)
 	[weight](5)
-	[gunPtLen](38)
-	[engPtLen](-34)
+	[gunPtLen](0)
+	[engPtLen](0)
 	[faction](0)
 	[collider]{
 		[type] (circle)
@@ -273,6 +273,30 @@
 		[type] (circle)
 		[x](0)[y](0)
 		[radius](4000)
+	}
+	[deadsnd](shipexplode)
+	[wire] (zndWire)
+
+}
+
+[mars3]{
+	[img](marsSati)
+	[tltip]       (test)
+	[health](20)
+	[points](5)
+	[weight](5)
+	[gunPtLen](40)
+	[engPtLen](0)
+	[faction](0)
+	[collider]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](8)
+	}
+	[radar]{
+		[type] (circle)
+		[x](0)[y](0)
+		[radius](5000)
 	}
 	[deadsnd](shipexplode)
 	[wire] (zndWire)

@@ -92,6 +92,8 @@ Mission ends when all targets are destroyed.)
 			[targ0](spawnVoskhd)
 			[targ1](spawnVostk)
 			[targ2](spawnZond)
+			[targ3](spawnSpud)
+			[targ4](spawnMars3)
 		}	
 	}
 
@@ -125,7 +127,7 @@ Mission ends when all targets are destroyed.)
 		}
 		[target]	(thewin)
 		[trigstate]	(f)
-		[total]		(3)
+		[total]		(5)
 	}
 
 	/make a vostok/
@@ -156,7 +158,7 @@ Mission ends when all targets are destroyed.)
 		[type]		(spawn)
 		[name]		(spawnVostk)
 		[trigtype]	(TRIGGER)
-		[x]		(0)
+		[x]		(-300)
 		[y]		(200)
 		[collider]{
 			[type] (circle)
@@ -169,7 +171,7 @@ Mission ends when all targets are destroyed.)
 			[kind]	(vostok)
 			[gun]	(plas)
 			[engine](smallEngine)
-			[loc]	(0 200)
+			[loc]	(-300 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
@@ -179,7 +181,7 @@ Mission ends when all targets are destroyed.)
 		[type]		(spawn)
 		[name]		(spawnZond)
 		[trigtype]	(TRIGGER)
-		[x]		(400)
+		[x]		(-200)
 		[y]		(200)
 		[collider]{
 			[type] (circle)
@@ -192,7 +194,54 @@ Mission ends when all targets are destroyed.)
 			[kind]	(zond4)
 			[gun]	(plas)
 			[engine](smallEngine)
-			[loc]	(400 200)
+			[loc]	(-200 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+	/make a spud/
+	{
+		[type]		(spawn)
+		[name]		(spawnSpud)
+		[trigtype]	(TRIGGER)
+		[x]		(-100)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(sputnik3)
+			[gun]	()
+			[engine](satEngine)
+			[loc]	(-100 200)
+			[isAi]	(f)	
+			[deathtrig](targetscleared)
+		}
+	}
+	}
+	/make a mars3/
+	{
+		[type]		(spawn)
+		[name]		(spawnMars3)
+		[trigtype]	(TRIGGER)
+		[x]		(0)
+		[y]		(200)
+		[collider]{
+			[type] (circle)
+			[x](96000)[y](96000)
+			[radius](1)
+		}
+		[target]	()
+		[trigstate]	(f)
+		[toSpawn]{
+			[kind]	(mars3)
+			[gun]	(plas)
+			[engine](satEngine)
+			[loc]	(0 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
