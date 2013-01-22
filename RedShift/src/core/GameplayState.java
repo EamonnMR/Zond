@@ -15,13 +15,11 @@ import level.triggers.BasicTrigger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -34,6 +32,7 @@ import ents.AIShip;
 import ents.BaseEnt;
 import ents.BasicShip;
 import ents.BasicShot;
+import ents.Effect;
 import ents.EntityFactory;
 
 /**
@@ -60,7 +59,7 @@ public class GameplayState extends BasicGameState{
 	}
 	
 	//INTERNAL VARIABLES AND DATA============================
-	private int id, entCount, objCount, shotCount, clientCount, winLose;
+	private int id, entCount, objCount, shotCount, eCount, clientCount, winLose;
 	private boolean gameOver, gamePlay, gameIni;	//instance internal state
 	int camX, camY, boundsCheck, deathReason;
 	private LevelDataModel levelData;
@@ -74,6 +73,7 @@ public class GameplayState extends BasicGameState{
 	HashMap<Integer, BasicShip> ships;		//instance data
 	HashMap<Integer, BasicShot> shots;
 	HashMap<Integer, BaseEnt> doodads;
+	HashMap<Integer, Effect> explosions;
 	HashMap<Integer, PlayerClient> clients;
 	HashMap<String, BasicShip> incomingClientShips;
 	LevelHandler lh;
@@ -126,6 +126,7 @@ public class GameplayState extends BasicGameState{
 		this.ships = new HashMap<Integer, BasicShip>();
 		this.shots = new HashMap<Integer, BasicShot>();
 		this.doodads = new HashMap<Integer, BaseEnt>();
+		this.explosions = new HashMap<Integer, Effect>();
 		this.clients = new HashMap<Integer, PlayerClient>();
 		this.incomingClientShips = new HashMap<String, BasicShip>();
 		this.winLose=0;
@@ -194,6 +195,11 @@ public class GameplayState extends BasicGameState{
 				entry.getValue().render(camX, camY);
 			}
 			
+			//draw effects
+			for (Effect e : explosions.values()){
+				e.render(camX, camY);
+			}
+			
 			playerHud.render(arg2, arg0, levelData, camX, camY);
 			lh.render(arg2, camX, camY);
 			gfx.drawString("Screen Mouse X:"+String.valueOf(arg0.getInput().getMouseX()), 100, 10);
@@ -219,14 +225,14 @@ public class GameplayState extends BasicGameState{
 			ArrayList<Integer> removeShips = new ArrayList<Integer>();
 			ArrayList<Integer> removeDoodads = new ArrayList<Integer>();
 			ArrayList<Integer> removeObjective = new ArrayList<Integer>();
-			
+			ArrayList<Integer> removeEffect = new ArrayList<Integer>();
 			procInput(arg0, arg1, delta);
 			
 
 			// ======Begin updates!
 			// update ships
 			
-			updateEntities(delta, removeShots, removeShips, removeObjective);
+			updateEntities(delta, removeShots, removeShips, removeObjective, removeEffect);
 			
 			// run collisions
 			checkCollisions(removeShots);
@@ -247,7 +253,7 @@ public class GameplayState extends BasicGameState{
 
 			playerHud.update(pc, this);
 			cleanEntities(removeShots, removeShips, removeDoodads,
-					removeObjective);
+					removeObjective, removeEffect);
 
 			int boundsCheck = lh.checkBounds(pc.getPlayShip().getCollider());
 			if (boundsCheck == 1) {
@@ -270,14 +276,18 @@ public class GameplayState extends BasicGameState{
 
 			pc.updateCamera(this);
 			// Check for win conditions
-			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective);
+			checkForWin(arg1,removeShots,removeShips,removeDoodads,removeObjective, removeEffect);
 		}
 	}
 
-	private void checkForWin(StateBasedGame arg1,ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeDoodads, ArrayList<Integer> removeObjective) {
+	private void checkForWin(StateBasedGame arg1,ArrayList<Integer> removeShots,
+							ArrayList<Integer> removeShips, 
+							ArrayList<Integer> removeDoodads,
+							ArrayList<Integer> removeObjective,
+							ArrayList<Integer> removeEffect) {
 		if (winLose < 0) {
 			cleanEntities(removeShots, removeShips, removeDoodads,
-					removeObjective);
+					removeObjective, removeEffect);
 			shutDown();
 			GameOverState gameO = (GameOverState)arg1.getState(CoreStateManager.GAMEOVERSTATE);
 			gameO.setReason(deathReason);
@@ -293,7 +303,7 @@ public class GameplayState extends BasicGameState{
 		
 		if(winLose== 1 ){
 			cleanEntities(removeShots, removeShips, removeDoodads,
-					removeObjective);
+					removeObjective, removeEffect);
 			shutDown();
 			arg1.enterState(CoreStateManager.GAMEWINSTATE, new FadeOutTransition(Color.white) , null);
 		}
@@ -373,7 +383,7 @@ public class GameplayState extends BasicGameState{
 	 * @param delta
 	 * @param removeShots
 	 */
-	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeObjs){
+	public void updateEntities(int delta, ArrayList<Integer> removeShots, ArrayList<Integer> removeShips, ArrayList<Integer> removeObjs, ArrayList<Integer> removeEffect){
 		
 		//update ships
 		for (Map.Entry<Integer, BasicShip> entry : ships.entrySet()) {
@@ -382,6 +392,7 @@ public class GameplayState extends BasicGameState{
 			if(ship.isDead()){
 				removeShips.add(entry.getKey());
 				ship.onDie(this);
+				makeExplosion((float)ship.getX(), (float) ship.getY(), "explo1");
 				if(ship.getOnDeathTriggerName()!=null){
 					levelData.getTrigger(ship.getOnDeathTriggerName()).trigger(true);
 					levelData.setNeedUpdate(true);
@@ -403,8 +414,16 @@ public class GameplayState extends BasicGameState{
 		for(Map.Entry<Integer, BaseEnt> entry : doodads.entrySet()){
 			entry.getValue().update(delta);
 		}
+		
+		//effects
+		for(Map.Entry<Integer, Effect> e : explosions.entrySet()){
+			e.getValue().update(delta);
+			if(e.getValue().getIsDone()){
+				removeEffect.add(e.getKey());
+			}
+		}
 	}
-	
+
 	/**
 	 * check all collisions
 	 * @param removeShots
@@ -495,7 +514,11 @@ public class GameplayState extends BasicGameState{
 	 * @param removeShips
 	 * @param removeDoodads
 	 */
-	public void cleanEntities(ArrayList<Integer> removeShots, ArrayList<Integer> removeShips,ArrayList<Integer> removeDoodads, ArrayList<Integer>  removeTask ){
+	public void cleanEntities(ArrayList<Integer> removeShots,
+								ArrayList<Integer> removeShips,
+								ArrayList<Integer> removeDoodads,
+								ArrayList<Integer>  removeTask,
+								ArrayList<Integer> removeEffect){
 		
 		for(int i : removeShots){
 //			if(shots.get(i).getImpactPrtl()!=null){
@@ -514,6 +537,10 @@ public class GameplayState extends BasicGameState{
 		
 		for(int i : removeTask){
 			levelData.getObjectives().remove(i);
+		}
+		
+		for(int i : removeEffect){
+			explosions.remove(i);
 		}
 	}
 	
@@ -542,6 +569,12 @@ public class GameplayState extends BasicGameState{
 		objCount++;
 		doodads.put(objCount, e);
 		return objCount;
+	}
+	
+	public int addEffect(Effect e){
+		eCount++;
+		explosions.put(eCount, e);
+		return eCount;
 	}
 	
 	/**
@@ -745,5 +778,12 @@ public class GameplayState extends BasicGameState{
 	
 	public ParticleSystem getParticleSys(){
 		return particleSys;
+	}
+	private void makeExplosion(float x, float y, String type) {
+		// TODO Auto-generated method stub
+		Effect e = new Effect(gdb, type, x, y);
+		e.setX((double)x);
+		e.setY((double)y);
+		addEffect(e);
 	}
 }
