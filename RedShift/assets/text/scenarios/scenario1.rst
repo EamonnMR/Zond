@@ -203,7 +203,7 @@
 		[toSpawn]{
 			[kind]	(voskhod)
 			[gun]	(plas)
-			[engine](smallEngine)
+			[engine](rd109)
 			[loc]	(2000 2088)
 			[isAi]	(t)
 			[deathtrig](killatalpha)
@@ -226,7 +226,7 @@
 		[toSpawn]{
 			[kind]	(voskhod)
 			[gun]	(plas)
-			[engine](smallEngine)
+			[engine](rd109)
 			[loc]	(2584 1500)
 			[isAi]	(t)	
 			[deathtrig](killatalpha)		
@@ -249,7 +249,7 @@
 		[toSpawn]{
 			[kind]	(vostok)
 			[gun]	(60mm)
-			[engine](medEngine)
+			[engine](rd109)
 			[loc]	(3000 2088)
 			[isAi]	(t)
 			[deathtrig](killatalpha)			
