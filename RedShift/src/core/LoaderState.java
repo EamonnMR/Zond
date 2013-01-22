@@ -2,7 +2,6 @@ package core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import level.TriggerFactory;
 
@@ -12,9 +11,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import ents.BasicEngine;
-import ents.BasicGun;
-import ents.BasicShip;
 import ents.EntityFactory;
 
 public class LoaderState extends BasicGameState {
@@ -84,47 +80,5 @@ public class LoaderState extends BasicGameState {
 		this.entFac = e;
 		this.player = p;
 		this.trigFac = t;
-	}
-	
-	private void createTestClientData(PlayerClient client) {
-		//build some engines
-		HashMap<String, BasicEngine> testEngines = new HashMap<String, BasicEngine>();
-		BasicEngine small =entFac.buildEngine("smallEngine");
-		testEngines.put(small.getName(), small);
-		BasicEngine med =entFac.buildEngine("medEngine");
-		testEngines.put(med.getName(), med);
-		BasicEngine large =entFac.buildEngine("largeEngine");
-		testEngines.put(large.getName(), large);
-		player.setClientEngines(testEngines);
-		
-		//get some guns
-		HashMap<String, BasicGun> testGuns = new HashMap<String, BasicGun>();
-		BasicGun g1 = entFac.buildGun("20mm");
-		testGuns.put(g1.getName(), g1);
-		BasicGun g2 = entFac.buildGun("60mm");
-		testGuns.put(g2.getName(), g2);
-		BasicGun g3 = entFac.buildGun("105mm");
-		testGuns.put(g3.getName(), g3);
-		BasicGun g4 = entFac.buildGun("plas");
-		testGuns.put(g4.getName(), g4);
-		BasicGun g5 = entFac.buildGun("las");
-		testGuns.put(g5.getName(), g5);
-		player.setClientGuns(testGuns);
-		
-		//get some ships
-		HashMap<String, BasicShip> testShips = new HashMap<String, BasicShip>();
-		BasicShip s1 = entFac.buildShip("mercury", null, null, false, null);
-		testShips.put(s1.getName(), s1);
-		BasicShip s2 =  entFac.buildShip("gemini", null, null, false, null);
-		testShips.put(s2.getName(), s2);
-		BasicShip s3 =  entFac.buildShip("lunar", null, null, false, null);
-		testShips.put(s3.getName(), s3);
-		BasicShip s4 =  entFac.buildShip("voskhod", null, null, false, null);
-		testShips.put(s4.getName(), s4);
-		BasicShip s5 =  entFac.buildShip("vostok", null, null, false, null);
-		testShips.put(s5.getName(), s5);
-		BasicShip s6 =  entFac.buildShip("zond4", null, null, false, null);
-		testShips.put(s6.getName(), s6);
-		player.setClientShips(testShips);
 	}
 }
