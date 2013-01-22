@@ -14,6 +14,7 @@ public class Effect extends BaseEnt{
 		setX(x);
 		setY(y);
 	}
+	
 	@Override
 	public void render(int xOffset, int yOffset){
 		int w,h;
