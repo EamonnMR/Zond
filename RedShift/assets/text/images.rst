@@ -62,6 +62,9 @@
 [thiokWire]        (assets/images/gui/wireframes/thiokWire.png)
 [rockDyneWire]     (assets/images/gui/wireframes/rockDyneWire.png)
 [mcDonWire]        (assets/images/gui/wireframes/mcDonWire.png)
+[rd109Wire]	(assets/images/gui/wireframes/rd109Wire.png)
+[ang191Wire]	(assets/images/gui/wireframes/ang191Wire.png)
+[7kl3Wire]	(assets/images/gui/wireframes/7kl3Wire.png)
 
 /===============Projectiles===============/
 [shot1]       (assets/images/fx/shot1.png)

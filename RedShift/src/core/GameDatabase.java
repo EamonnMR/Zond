@@ -14,6 +14,7 @@ import level.NavPoint;
 import level.TriggerFactory;
 import level.triggers.BasicTrigger;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -24,7 +25,6 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.ParticleIO;
 
 import ents.BasicEngine;
@@ -64,6 +64,7 @@ public class GameDatabase {
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
 	private Map<String, LevelDataModel> indexScenarios;
+	private Map<String, Animation> indexAnimations;
 	private HashMap<String, ConfigurableEmitter> indexParticles;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
@@ -87,12 +88,14 @@ public class GameDatabase {
 		indexSounds = new HashMap<String, Sound>();
 		indexLevelFiles = new HashMap<String, File>();
 		indexParticles = new HashMap<String, ConfigurableEmitter>();
+		indexAnimations = new HashMap<String, Animation>();
 		try {
 			try {
 				xloadImages();
 				loadSounds();
 				loadLevelFiles();
 				loadParticles();
+				loadAnimations();
 			} catch (SlickException e) {
 				System.out.println("Problem loading image/sound)");
 				e.printStackTrace();
@@ -168,6 +171,29 @@ public class GameDatabase {
 		}
 	}
 	
+	private void loadAnimations()  throws SlickException, FileNotFoundException, IOException{
+		StringTree s = loadRst("assets/text/anims.rst");
+		for(String child : s.childSet()){
+			ldAnim(child, s.getValue(child));
+		}
+	}
+	
+	private void ldAnim(String child, String value) {
+		try{
+			SpriteSheet s = new SpriteSheet(new Image(value), 124, 124);
+			Animation a = new Animation(s, 100);
+			a.setLooping(false);
+			indexAnimations.put(child, a);
+			System.out.println("Name ''" + child + "'' Location: ''" + value + "''.");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Animation getAnimation(String pointer){
+		return indexAnimations.get(pointer);
+	}
+
 	private void loadParticles() throws SlickException, FileNotFoundException, IOException{
 		StringTree s = loadRst("assets/text/particles.rst");
 		for(String child : s.childSet()){
@@ -372,6 +398,7 @@ public class GameDatabase {
 	public HashMap<String, LevelDataModel> getScenarios(){
 		return (HashMap<String, LevelDataModel>) indexScenarios;
 	}
+	
 	
 	/**
 	 * loads the listed level rust files from the levellist file
