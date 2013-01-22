@@ -192,7 +192,7 @@
 	[points](5)
 	[weight](5)
 	[gunPtLen](34)
-	[engPtLen](-28)
+	[engPtLen](-30)
 	[faction](0)
 	[collider]{
 		[type] (circle)

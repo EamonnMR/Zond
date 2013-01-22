@@ -62,3 +62,51 @@
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
+
+[rd109]{
+	[name]	      (Glushka RD-109)
+	[tltip]       (Small engine, incredible rotation rate)
+	[cost]        (1)
+	[weight]      (1160)
+	[turnrate]    (0.6)
+	[thrustx]     (0.08)
+	[thrusty]     (0.08)
+	[strafeRate]  (0.2)
+	[img]         (rd109i)
+	[wireframe]	(thiokWire)
+	[primeThrst]  (test)
+	[sideThrst]   (sidethrust)
+	[thrstprtcl] (smlEngPrt)
+}
+
+[ang191]{
+	[name]	      (Angara RD-109)
+	[tltip]       (Medium size motor, average ability)
+	[cost]        (1)
+	[weight]      (1452)
+	[turnrate]    (0.3)
+	[thrustx]     (0.3)
+	[thrusty]     (0.3)
+	[strafeRate]  (0.3)
+	[img]         (ang191i)
+	[wireframe]	(thiokWire)
+	[primeThrst]  (test)
+	[sideThrst]   (sidethrust)
+	[thrstprtcl] (smlEngPrt)
+}
+
+[7kl3]{
+	[name]	      (LOX 7K-L3)
+	[tltip]       (Large motor)
+	[cost]        (1)
+	[weight]      (1452)
+	[turnrate]    (0.1)
+	[thrustx]     (0.4)
+	[thrusty]     (0.4)
+	[strafeRate]  (0.2)
+	[img]         (7kl3i)
+	[wireframe]	(thiokWire)
+	[primeThrst]  (test)
+	[sideThrst]   (sidethrust)
+	[thrstprtcl] (smlEngPrt)
+}
