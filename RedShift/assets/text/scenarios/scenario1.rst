@@ -2,11 +2,11 @@
 
 [filename]	(scenario1)		
 
-[uiname] 	(scenario1)		/name of the scenario, used as the name in the storage system/	
+[uiname] 	(Nato 1)		/name of the scenario, used as the name in the storage system/	
 
 [faction]	(1)			/USSR or NATO?/
 
-[tltip]		(A short test scnenario)
+[tltip]		(Simple Patrol)
 
 [desc]		(We're having problems around the Neptune Transit.
  I need you to run a patrol this morning.)
@@ -18,21 +18,17 @@
 [plrGuns]{
 	[item0]	(20mm)
 	[item1]	(60mm)
-	[item2]	(las)
+	[item2] (las)
 }
 
 /motor descriptors here/
 [plrMotors]{
-	[item0]	(smallEngine)
-	[item1]	(medEngine)
-	[item2]	(largeEngine)
+	[item0]	(medEngine)
 }
 
 /ship descriptors here/
 [plrShips]{
-	[item0]	(mercury)
-	[item1]	(gemini)
-	[item2]	(lunar)
+	[item0]	(gemini)
 }
 
 [music]	(loneRecon)
@@ -61,24 +57,6 @@
 		[state]		(t)
 	}
 	{
-		[name]		(beta)
-		[x]		(-2336)
-		[y]		(5670)
-		[state]		(t)
-	}
-	{
-		[name]		(cappa)
-		[x]		(-2816)
-		[y]		(-2104)
-		[state]		(t)
-	}
-	{
-		[name]		(delta)
-		[x]		(1928)
-		[y]		(-2104)
-		[state]		(t)
-	}
-	{
 		[name]		(epsilon)
 		[x]		(0)
 		[y]		(0)
@@ -95,42 +73,10 @@
 		[target]()
 		[state]	(false)	
 	}
-	{
-		[name]	(SweepBeta)
-		[tltip]	(Remove 5 asteroids from Nav Beta)
-		[desc]	(We're installing a new listening post at Nav Beta, we need you to clear 
-asteroids around Beta. Careful large asteroids will damage your hull.)
-		[target]()
-		[state]	(false)
-	}
 >
 
 /Triggers/
 [triggers]<
-	/{/
-		/[type]		(?)/
-		/[name]		(NAME)/
-		/[trigtype]	(TYPE)/
-		/[x]		(0)/
-		/[y]		(0)/
-		/[collider]{SHAPE}/
-		/[target]	(trg1)/
-		/[trigstate]	(true-false)/
-			
-		/for spawn type/
-		/[toSpawn]{SHIPDESC}/
-			
-		/for togglenav type/
-		/[navPointName]	(NAME)/
-		/[setstate]	(t-f)/
-		
-		/for count type/
-		/[total]	(number)/
-	
-		/for multrig type/
-		/[target]	(string) for every trig name/
-			
-	/}/
 	/INI triggers - fired at level start/
 	{
 		[type]		(ini)
@@ -163,32 +109,9 @@ asteroids around Beta. Careful large asteroids will damage your hull.)
 			[kind]	(skylab)
 			[gun]	()
 			[engine](satEngine)
-			[loc]	(768 0)
+			[loc]	(0 -100)
 			[deatheffects](null)
 			[isAi]	(f)
-			[deathtrig]()
-		}
-	}
-	{
-		[type]		(spawn)
-		[name]		(iniAIShipTest)
-		[trigtype]	(TRIGGER)
-		[x]		(96000)
-		[y]		(96000)
-		[collider]{
-			[type] (circle)
-			[x](96000)[y](96000)
-			[radius](1)
-		}
-		[target]	()
-		[trigstate]	(f)
-		[toSpawn]{
-			[kind]	(zond4)
-			[gun]	(plas)
-			[engine](medEngine)
-			[loc]	(-256 -256)
-			[deatheffects](null)
-			[isAi]	(t)
 			[deathtrig]()
 		}
 	}
