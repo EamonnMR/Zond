@@ -174,14 +174,16 @@ public class GameDatabase {
 	private void loadAnimations()  throws SlickException, FileNotFoundException, IOException{
 		StringTree s = loadRst("assets/text/anims.rst");
 		for(String child : s.childSet()){
-			ldAnim(child, s.getValue(child));
+			ldAnim(child, s.getSubTree(child));
 		}
 	}
 	
-	private void ldAnim(String child, String value) {
+	private void ldAnim(String child, StringTree value) {
 		try{
-			SpriteSheet s = new SpriteSheet(new Image(value), 124, 124);
-			Animation a = new Animation(s, 100);
+			SpriteSheet s = new SpriteSheet(new Image(value.getValue("img")),
+											Integer.valueOf(value.getValue("w")),
+											Integer.valueOf(value.getValue("h")));
+			Animation a = new Animation(s, Integer.valueOf(value.getValue("rate")));
 			a.setLooping(false);
 			indexAnimations.put(child, a);
 			System.out.println("Name ''" + child + "'' Location: ''" + value + "''.");
