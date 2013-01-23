@@ -18,7 +18,7 @@ public class BasicShot extends BaseEnt {
 	private int interval;
 	private int timer;
 	private Sound impactSnd;
-	private ParticleEmitter impactPrtl;
+	private String impactEffect;
 	
 	//constructor
 	public BasicShot(){
@@ -97,12 +97,12 @@ public class BasicShot extends BaseEnt {
 		this.impactSnd = snd;
 	}
 
-	public ParticleEmitter getImpactPrtl() {
-		return impactPrtl;
+	public String getImpactPrtl() {
+		return impactEffect;
 	}
 
-	public void setImpactPrtl(ParticleEmitter impactPrtl) {
-		this.impactPrtl = impactPrtl;
+	public void setImpactPrtl(String impactPrtl) {
+		this.impactEffect = impactPrtl;
 	}
 	
 }

@@ -154,6 +154,8 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		
 		greenFont = gdb.getFont("green");
 		grayFont = gdb.getFont("gray");
+		
+		gdb.getSound("menuPrelude").loop(1.0f, pc.getOptions().getMusevol());
 	}
 
 	private void updateCollisions(GameContainer gc, StateBasedGame stbg) {
@@ -196,7 +198,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 				u.setState(false);
 			}
 		}
-
+		if(!gdb.getSound("menuPrelude").playing()){
+			gdb.getSound("menuPrelude").loop(1.0f, pc.getOptions().getMusevol());
+		}
 	}
 	
 	private void updateRollOvers() {

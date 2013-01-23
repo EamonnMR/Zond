@@ -63,7 +63,7 @@ public class BasicGun {
 			//speedx and speedy are the current speed of the gun and therefore bullet
 			//it uses the cos / sin algorithm plus the initial speeds to get the projectile's speed.
 			shot.setSpeeds( (spd * Math.cos(Math.toRadians(angle)) ) + speedX, (spd * Math.sin(Math.toRadians(angle)) ) + speedY);
-			
+			shot.setImpactPrtl(proj.getImpactPrtl());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
 			Circle temp = new Circle(0,0,0);

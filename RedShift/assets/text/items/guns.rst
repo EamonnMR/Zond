@@ -21,7 +21,7 @@
 	[img]     (gun2)
 	[weight]  (540)
 	[proj]    (sixtyShot)
-	[fireSnd] (twentys)
+	[fireSnd] (sixtyFire)
 	[wire]    (60wire)
 	[firespr] (60MzlFls)
 }
@@ -71,7 +71,7 @@
 /microwave/
 [mcrwv]{
 	[name]	  (Mirowave)
-	[tltip]   (very short range energy weapon)
+	[tltip]   (very short range, very powerful energy weapon)
 	[cooldown](60);
 	[cost]    (0)
 	[img]     (micro)

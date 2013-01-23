@@ -2,6 +2,7 @@ package core;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
@@ -19,6 +20,8 @@ public class GameSuccessState extends BasicGameState {
 	private SpriteSheetFont greenF;
 	private GameDatabase gdb;
 	private boolean ini;
+	private PlayerClient p;
+	private Image backdrop;
 	
 	public GameSuccessState(int i){
 		id = i;
@@ -32,8 +35,9 @@ public class GameSuccessState extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
-		greenF.drawString(512-288, 358.5f, "[Mission Status] Success");
-		greenF.drawString(512-288, 378.5f, "-Press Enter or Escape to continue-");
+		backdrop.draw(0, 0);
+		greenF.drawString(410, 338.5f, "[Status] Success!");
+		greenF.drawString(410, 355.5f, "-Press Enter or Escape to continue-");
 	}
 
 	@Override
@@ -50,10 +54,14 @@ public class GameSuccessState extends BasicGameState {
 		}else if(i.isKeyPressed(Input.KEY_ESCAPE)){
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
+		if(!gdb.getSound("menuPrelude").playing()){
+			gdb.getSound("menuPrelude").loop(1.0f, p.getOptions().getMusevol());
+		}
 	}
 	
 	public void loadResources(){
 		greenF = gdb.getFont("green");
+		backdrop = gdb.getIMG("montrBKC");
 	}
 	
 
@@ -62,7 +70,8 @@ public class GameSuccessState extends BasicGameState {
 		return id;
 	}
 	
-	public void customInit(GameDatabase g){
+	public void customInit(GameDatabase g, PlayerClient pc){
 		gdb = g;
+		p = pc;
 	}
 }
