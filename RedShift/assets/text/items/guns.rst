@@ -3,7 +3,6 @@
 	[name]	  (20mm Chaingun)
 	[tltip]   (low damage, rapid-fire, short range gun)
 	[cooldown](125)
-	[cost]    (1)
 	[img]     (gun1)
 	[weight]  (119)
 	[proj]    (twentyShot)
@@ -17,7 +16,6 @@
 	[name]	  (60mm Rifle)
 	[tltip]   (medium range, average rate cannon)
 	[cooldown](150);
-	[cost]    (2)
 	[img]     (gun2)
 	[weight]  (540)
 	[proj]    (sixtyShot)
@@ -31,7 +29,6 @@
 	[name]	  (105mm Cannon)
 	[tltip]   (large/high damage cannon)
 	[cooldown](300); /(175)/
-	[cost]    (3)
 	[img]     (gun3)
 	[weight]  (983)
 	[proj]    (oneFiveShot)
@@ -45,7 +42,6 @@
 	[name]	  (Plasma Rifle)
 	[tltip]   (quick fire, medium range energy emitter.)
 	[cooldown](100);
-	[cost]    (0)
 	[img]     (plasWep) / Why aren't we loading the images? /
 	[weight]  (0)
 	[proj]    (plasShot) /No projectile type yet/
@@ -59,7 +55,6 @@
 	[name]	  (Laser)
 	[tltip]   (short range beam of light.)
 	[cooldown](25);
-	[cost]    (0)
 	[img]     (laser)
 	[weight]  (984)
 	[proj]    (lazShot)
@@ -73,7 +68,6 @@
 	[name]	  (Mirowave)
 	[tltip]   (very short range, very powerful energy weapon)
 	[cooldown](60);
-	[cost]    (0)
 	[img]     (micro)
 	[weight]  (984)
 	[proj]    (mcrwvShot)

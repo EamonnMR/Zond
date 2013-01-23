@@ -36,7 +36,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
 	private boolean radarState;					//i've got the derp, for some reason radar was in player client...<facepalm>
 	//(to replace death trigs)
-	private boolean foreThr, aftThr, sideThr, fire;
+	private boolean foreThr, aftThr, sideThr, fire, thrstOn;
 	public ConfigurableEmitter mainThrusterEmitter, sideThrusterEmitter;
 	private float muzzleCoolDown = 2, muzzleState;
 	
@@ -112,13 +112,19 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			float tmpEngY = (float) (getY() + engineOffsetDistance *Math.sin(angle));
 			setEngOffX(tmpEngX);		//where to draw engine on ship
 			setEngOffY(tmpEngY);
-			mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
-			mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
-			mainThrusterEmitter.setEnabled(foreThr);
+			if(foreThr){
+				mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+				mainThrusterEmitter.angularOffset.setValue(-90 + getImg().getRotation());
+			}
+			if(aftThr){
+				mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+				mainThrusterEmitter.angularOffset.setValue(90+getImg().getRotation());
+			}
+			mainThrusterEmitter.setEnabled(thrstOn);
 		}
-		
-
 		foreThr = false;
+		aftThr = false;
+		thrstOn = false;
 		muzzleState -= delta;
 	}
 	
@@ -168,10 +174,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine()!=null){
 	    	getEngine().getInGameImg().rotate(rot);	
 		}
-		if(getEngine().getSideThrust().playing()){
-//			getEngine().getSideThrust().stop();
-		}
-//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+
 	}
 	/**
 	 * rotate the ship to the right
@@ -186,12 +189,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine()!=null){
 	    	getEngine().getInGameImg().rotate(rot);	
 		}
-		if(getEngine().getSideThrust().playing()){
-//			getEngine().getSideThrust().stop();
-		}
-		
-		
-//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
 	}
 	/**
 	 * move the ship forward
@@ -200,30 +197,17 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void moveForward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), getEngine().getThrustX() * delta * SCLSPD);
 		foreThr = true;
-		
-//		if(getEngine().getPrimeThrust().playing()){
-//			getEngine().getPrimeThrust().stop();
-		}
-//		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
-		
-//		if(getEngine().getPt().playing()){
-//			getEngine().getPt().stop();
-//		}
-//		getEngine().getPt().play(1.0f, 1.0f);
-//	}
+		thrstOn = true;
+	}
+
 	/**
 	 * move the ship backwards
 	 * @param delta
 	 */
 	public void moveBackward(int delta, ParticleSystem pe){
 		physAnchor.pushDir(getRot(), - getEngine().getThrustY() * delta * SCLSPD);
-//		if(getEngine().getPrimeThrust().playing()){
-//			getEngine().getPrimeThrust().stop();
-//		}
-//		getEngine().getPrimeThrust().playAsSoundEffect(0.5f, 1.0f, false, (float)getX(), (float)getY(), 0.0f);
-
-//		getEngine().getPt().play(1.0f, 1.0f);
-//		getEngine().getPt().playAt(0.5f, 0.75f, (float)getX(), (float)getY(), 0.0f);
+		aftThr = true;
+		thrstOn = true;
 	}
 	
 	/**
@@ -270,7 +254,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void onDie(GameplayState c){
 		//Play sound
 		getDeathSnd().playAt(0.6f, 1.0f, (float)getX(), (float)getY(), 0.0f);
-
+		mainThrusterEmitter.setEnabled(false);
 	}
 	
 	public int getTotalWeight() {

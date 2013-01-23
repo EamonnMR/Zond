@@ -19,7 +19,7 @@ public class PursueState extends AIState{
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 //		How far from a perfect shot: miss
-		float miss = 0.5f;
+		float miss = 0.1f;
 //		How wide is the definition of "pointing towards": pointing
 		float pointing = 0.50f;
 		BasicShip targ;
