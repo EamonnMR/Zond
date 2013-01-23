@@ -1,7 +1,6 @@
 [smallEngine]{
 	[name]	      (Thiokol 15b)
 	[tltip]       (light weight engine, good for strafing)
-	[cost]        (1)
 	[weight]      (1500)
 	[turnrate]    (0.3)
 	[thrustx]     (0.2)
@@ -17,7 +16,6 @@
 [medEngine]{
 	[name]	      (McDonnel OAMS-25)
 	[tltip]       (middle grade motor; average handling)
-	[cost]        (2)
 	[weight]      (1996)
 	[turnrate]    (0.2)
 	[thrustx]     (0.3)
@@ -34,7 +32,6 @@
 [largeEngine]{
 	[name]	      (RocketDyne OCS-35/8)
 	[tltip]       (heavy booster, great top speed.)
-	[cost]        (3)
 	[weight]      (2300)
 	[turnrate]    (0.15)
 	[thrustx]     (0.4)
@@ -50,7 +47,6 @@
 [satEngine]{
 	[name]	      (herpa derp)
 	[tltip]       (heavy booster, great top speed.)
-	[cost]        (3)
 	[weight]      (2300)
 	[turnrate]    (0.4)
 	[thrustx]     (0.0)
@@ -66,7 +62,6 @@
 [rd109]{
 	[name]	      (Glushka RD-109)
 	[tltip]       (Small engine, incredible rotation rate)
-	[cost]        (1)
 	[weight]      (1160)
 	[turnrate]    (0.5)
 	[thrustx]     (0.09)
@@ -82,7 +77,6 @@
 [ang191]{
 	[name]	      (Angara RD-109)
 	[tltip]       (Medium size motor, average ability)
-	[cost]        (1)
 	[weight]      (1452)
 	[turnrate]    (0.3)
 	[thrustx]     (0.3)
@@ -98,7 +92,6 @@
 [7kl3]{
 	[name]	      (LOX 7K-L3)
 	[tltip]       (Large motor)
-	[cost]        (1)
 	[weight]      (1452)
 	[turnrate]    (0.1)
 	[thrustx]     (0.4)

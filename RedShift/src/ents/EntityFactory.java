@@ -40,7 +40,6 @@ public class EntityFactory {
 		build.setWireframe(gdb.getShip(shipPointer).getWireframe().copy());
 		build.setImg(gdb.getShip(shipPointer).getImg().copy());
 		build.setHealth(gdb.getShip(shipPointer).getHealth());
-		build.setPoints(gdb.getShip(shipPointer).getPoints());
 		build.setTotalWeight(gdb.getShip(shipPointer).getTotalWeight());
 		build.setGunPtLength(gdb.getShip(shipPointer).getGunPtLength());
 		build.setEngPtLength(gdb.getShip(shipPointer).getEngPtLength());
@@ -89,7 +88,6 @@ public class EntityFactory {
 		gun.setUiName(gdb.getGun(gunPointer).getUiName());
 		gun.setImg(gdb.getGun(gunPointer).getImg().copy());
 		gun.setCoolDown(gdb.getGun(gunPointer).getCoolDown());
-		gun.setCost(gdb.getGun(gunPointer).getCost());
 		gun.setWeight(gdb.getGun(gunPointer).getWeight());
 		gun.setProj(gdb.getGun(gunPointer).getProj());
 		gun.setFireSnd(gdb.getGun(gunPointer).getFireSnd());
@@ -108,7 +106,6 @@ public class EntityFactory {
 		engine.setName(engPointer);
 		engine.setToolTip(gdb.getEngine(engPointer).getToolTip());
 		engine.setUiName(gdb.getEngine(engPointer).getUiName());
-		engine.setCost(gdb.getEngine(engPointer).getCost());
 		engine.setWeight(gdb.getEngine(engPointer).getWeight());
 		engine.setTurnrate(gdb.getEngine(engPointer).getTurnrate());
 		engine.setThrustX(gdb.getEngine(engPointer).getThrustX());

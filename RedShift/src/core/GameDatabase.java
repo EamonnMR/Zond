@@ -229,7 +229,6 @@ public class GameDatabase {
 		for (String child : s.childSet()){
 			BasicGun current = new BasicGun();
 			current.setCoolDown(Integer.parseInt(s.getValue(child, "cooldown")));
-			current.setCost(Integer.parseInt(s.getValue(child, "cost")));
 			current.setImg(indexImages.get(s.getValue(child, "img")).copy());
 			current.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			current.setProj(indexShot.get(s.getValue(child, "proj")));
@@ -286,7 +285,6 @@ public class GameDatabase {
 			BasicShip m = new BasicShip();
 			m.setImg(indexImages.get(s.getValue(child, "img")).copy());
 			m.setHealth(Integer.parseInt(s.getValue(child, "health")));
-			m.setPoints(Integer.parseInt(s.getValue(child, "points")));
 			m.setTotalWeight(Integer.parseInt(s.getValue(child, "weight")));
 			m.setGunPtLength(Integer.parseInt(s.getValue(child, "gunPtLen")));
 			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
@@ -320,7 +318,6 @@ public class GameDatabase {
 			e.setName(child);
 			e.setUiName(s.getValue(child,"name"));
 			e.setToolTip(s.getValue(child,"tltip"));
-			e.setCost(Integer.parseInt(s.getValue(child, "cost")));
 			e.setWeight(Integer.parseInt(s.getValue(child, "weight")));
 			e.setTurnrate(Float.parseFloat(s.getValue(child, "turnrate")));
 			e.setThrustX(Float.parseFloat(s.getValue(child, "thrustx")));
