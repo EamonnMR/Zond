@@ -19,8 +19,29 @@
 }
 
 [plasHit]{
-	[img](assets/images/fx/explosionAlpha.png)
-	[w](124)
-	[h](124)
+	[img](assets/images/fx/explosionGren.png)
+	[w](16)
+	[h](32)
 	[rate](50)
+}
+
+[smlHit]{
+	[img](assets/images/fx/smlExplo.png)
+	[w](16)
+	[h](16)
+	[rate](25)
+}
+
+[mdHit]{
+	[img](assets/images/fx/mdExplo.png)
+	[w](24)
+	[h](24)
+	[rate](25)
+}
+
+[lgHit]{
+	[img](assets/images/fx/lgExplo.png)
+	[w](32)
+	[h](32)
+	[rate](25)
 }

@@ -6,6 +6,7 @@
 [smlFre]	(assets/sound/shot/smallLaserFire.ogg)
 [oneohfive]     (assets/sound/shot/boom.wav)
 [zap]           (assets/sound/shot/zap.wav)
+[sixtyFire]	(assets/sound/shot/60Fire.ogg)
 
 /Impact Noise/
 [twentyh]  	 (assets/sound/hit/test1.ogg)
@@ -19,6 +20,7 @@
 
 /Music/
 [loneRecon]	(assets/sound/music/LoneRecon.ogg)
+[menuPrelude]	(assets/sound/music/PreludeMenu.ogg)
 
 /gui/
 [click]         (assets/sound/gui/click.wav)

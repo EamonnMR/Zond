@@ -71,7 +71,7 @@
 		[tltip]	(Patrol Nav Alpha)
 		[desc]	(Enemy activity reported at Nav Alpha, at least two Voskhod class ships.)
 		[target]()
-		[state]	(false)	
+		[state]	(true)	
 	}
 >
 

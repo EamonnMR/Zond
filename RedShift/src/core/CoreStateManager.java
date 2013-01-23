@@ -127,7 +127,7 @@ public class CoreStateManager extends StateBasedGame {
 		gameOver.customInit(gDB);
 		this.addState(gameOver);
 		
-		gameWin.customInit(gDB);
+		gameWin.customInit(gDB, player);
 		this.addState(gameWin);
 		
 		brief.customInit(gDB);

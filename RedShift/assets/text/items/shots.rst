@@ -9,7 +9,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcl] (20HitPrt)
+	[impFx] (smlHit)
 }
 
 
@@ -24,7 +24,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcl] (60HitPrt)
+	[impFx] (mdHit)
 }
 
 
@@ -39,7 +39,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcl] (105HitPrt)
+	[impFx] (lgHit)
 }
 
 [plasShot]{
@@ -53,7 +53,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcl] (plasHitPrt)
+	[impFx] (plasHit)
 }
 
 [lazShot]{
@@ -67,7 +67,7 @@
 		[x](0)[y](0)
 		[radius](4)
 	}
-	[prtcl] (lazHitPrt)
+	[impFx] (plasHit)
 }
 
 [mcrwvShot]{
@@ -81,5 +81,5 @@
 		[x](0)[y](0)
 		[radius](18)
 	}
-	[prtcl] (mcrHitPrt)
+	[impFx] (plasHit)
 }

@@ -120,13 +120,13 @@
 	[health](17)
 	[points](50)
 	[weight](0)
-	[gunPtLen](14)
+	[gunPtLen](18)
 	[engPtLen](0)
 	[faction](1)
 	[collider]{
 		[type] (circle)
 		[x](0)[y](0)
-		[radius](8)
+		[radius](6)
 	}
 	[radar]{
 		[type] (circle)
@@ -143,7 +143,7 @@
 	[health](17)
 	[points](50)
 	[weight](0)
-	[gunPtLen](14)
+	[gunPtLen](48)
 	[engPtLen](0)
 	[faction](1)
 	[collider]{
@@ -187,7 +187,7 @@
 
 [voskhod]{
 	[img](voskhod)
-	[tltip]       (test)
+	[tltip]       (Smallest Warsaw fighter, slim profile.)
 	[health](28)
 	[points](5)
 	[weight](5)
@@ -210,7 +210,7 @@
 
 [vostok]{
 	[img](vostok)
-	[tltip]       (test)
+	[tltip]       (Middle weight craft, good for long missions)
 	[health](42)
 	[points](5)
 	[weight](5)
@@ -233,7 +233,7 @@
 
 [zond4]{
 	[img](zond4)
-	[tltip]       (test)
+	[tltip]       (Heavy brawler that can soak damage)
 	[health](60)
 	[points](5)
 	[weight](5)

@@ -256,6 +256,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 			}
 		}else if(acceptBTN_rec.intersects(mouse_rec)){
 			if(i.isMousePressed(0)){
+				gdb.getSound("menuPrelude").stop();
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
 				pc.setPlayShip(displayShip);

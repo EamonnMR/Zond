@@ -385,10 +385,10 @@ public class Hud {
 				if (len < cgs.getPlayerShip().getRadarRadius().getRadius() && len > 600) {
 					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 150);
-					if(ship.getFaction()==0){
+					if(ship.getFaction()!=pc.getPlayShip().getFaction()){
 						grayFont.drawString(point.getX(),  point.getY(), "!["+ship.getName()+"]!", brightRed);
 						grayFont.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightRed);
-					}else if(ship.getFaction()==1){
+					}else if(ship.getFaction()==pc.getPlayShip().getFaction()){
 						grayFont.drawString(point.getX(),  point.getY(), "["+ship.getName()+"]", brightBlue);
 						grayFont.drawString(point.getX(), point.getY() + 25, String.valueOf(len), brightBlue);
 					}

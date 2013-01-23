@@ -433,6 +433,7 @@ public class GameplayState extends BasicGameState{
 					double tempHP =ship.getValue().getHealth();
 					ship.getValue().setHealth(tempHP -shot.getValue().getDamage());
 					removeShots.add(shot.getKey());
+					makeExplosion((float)shot.getValue().getX(), (float)shot.getValue().getY(), shot.getValue().getImpactPrtl());
 					shot.getValue().onHit(pc.getOptions());
 					if(ship.getValue().equals(pc.getPlayShip())){
 						pc.setAlive(false);
@@ -778,9 +779,11 @@ public class GameplayState extends BasicGameState{
 	}
 	private void makeExplosion(float x, float y, String type) {
 		// TODO Auto-generated method stub
-		Effect e = new Effect(gdb, type, x, y);
-		e.setX((double)x);
-		e.setY((double)y);
-		addEffect(e);
+		if((type!="")){
+			Effect e = new Effect(gdb, type, x, y);
+			e.setX((double)x);
+			e.setY((double)y);
+			addEffect(e);
+		}
 	}
 }

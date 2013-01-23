@@ -15,10 +15,9 @@ You will be provided with some targets to test things on.)
 [levelType]	(scen)
 	
 [plrGuns]{
-	[item0]	(60mm)
-	[item1]	(plas)
-        [item2] (105mm)
-	[item3]	(mcrwv)
+	[item0]	(plas)
+        [item1] (105mm)
+	[item2]	(mcrwv)
 }
 [plrMotors]{
 	[item0]	(rd109)
@@ -262,7 +261,7 @@ Mission ends when all targets are destroyed.)
 			[kind]	(voyagSat)
 			[gun]	(las)
 			[engine](satEngine)
-			[loc]	(300 200)
+			[loc]	(400 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
 		}
