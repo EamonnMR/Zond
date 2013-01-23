@@ -21,7 +21,7 @@
 /Music/
 [loneRecon]	(assets/sound/music/LoneRecon.ogg)
 [menuPrelude]	(assets/sound/music/PreludeMenu.ogg)
-
+[systemWide]	(assets/sound/music/systemWide.ogg)
 /gui/
 [click]         (assets/sound/gui/click.wav)
 
