@@ -35,7 +35,7 @@ asteroids, we need you to:)
 	[item1]	(vostok)
 }
 
-[music]	(loneRecon)
+[music]	(systemWide)
 
 [spawnX]	(0)
 [spawnY]	(0)
