@@ -15,7 +15,6 @@ public class BasicEngine {
 	private String uiName;
 	private String toolTip;						 //UI tooltip string
 	private int weight;						//in-game weight of engine
-	private int cost;						//in-game cost of engine
 	private Image inGameImg, wireFrame;			//images
 	private float forwardThrust, reverseThrust, turnRate,strafeRate;
 	private double thrustPtX, thrustPtY;	//where to show particles
@@ -33,12 +32,6 @@ public class BasicEngine {
 	}
 	public void setWeight(int weight) {
 		this.weight = weight;
-	}
-	public int getCost() {
-		return cost;
-	}
-	public void setCost(int cost) {
-		this.cost = cost;
 	}
 	public Image getInGameImg() {
 		return inGameImg;

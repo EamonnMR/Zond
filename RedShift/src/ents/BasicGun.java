@@ -16,7 +16,6 @@ public class BasicGun {
 	private String toolTip;						 //UI tooltip string
 	private double timer;
 	private int weight;
-	private int cost;	
 	private Image img;	//img is for in-game/on-ship, shot is for makeShot
 	private Image wireframe;
 	private double x,y, mx, my;
@@ -108,12 +107,6 @@ public class BasicGun {
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}
-	public int getCost() {
-		return cost;
-	}
-	public void setCost(int cost) {
-		this.cost = cost;
-	}	
 	public Image getImg() {
 		return img;
 	}

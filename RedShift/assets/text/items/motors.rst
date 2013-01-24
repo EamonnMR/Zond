@@ -8,7 +8,7 @@
 	[strafeRate]  (0.5)
 	[img]         (eng1)
 	[wireframe]	(thiokWire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -23,7 +23,7 @@
 	[strafeRate]  (0.2)
 	[img]         (mcDon)
 	[wireframe]	(mcDonWire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -39,7 +39,7 @@
 	[strafeRate]  (0.15)
 	[img]         (rockDyne)
 	[wireframe]	(rockDyneWire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -54,7 +54,7 @@
 	[strafeRate]  (0.0)
 	[img]         (eng1)
 	[wireframe]   (thiokWire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -69,7 +69,7 @@
 	[strafeRate]  (0.2)
 	[img]         (rd109i)
 	[wireframe]	(rd109Wire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -84,7 +84,7 @@
 	[strafeRate]  (0.3)
 	[img]         (ang191i)
 	[wireframe]	(ang191Wire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }
@@ -99,7 +99,7 @@
 	[strafeRate]  (0.2)
 	[img]         (7kl3i)
 	[wireframe]	(7kl3Wire)
-	[primeThrst]  (test)
+	[primeThrst]  (thrust1)
 	[sideThrst]   (sidethrust)
 	[thrstprtcl] (smlEngPrt)
 }

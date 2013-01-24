@@ -2,6 +2,7 @@ package ents;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
 
@@ -22,7 +23,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private String toolTip;						 //UI tooltip string
 	private Image wireframe;					 //UI wireframe image
 	private int totalWeight;		             //maximum equipment
-	private double points;				         //points to award to killer
 	private double health;			             //base health of the ship
 	private BasicArmor armor;		             //not implemented
 	private BasicGun gun;			             //the current weapon on the ship
@@ -36,7 +36,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	private int faction;						 // which allegiance is this ship? 0 RUS 1 NAS
 	private boolean radarState;					//i've got the derp, for some reason radar was in player client...<facepalm>
 	//(to replace death trigs)
-	private boolean foreThr, aftThr, sideThr, fire, thrstOn;
+	private boolean foreThr, aftThr, lefThr, rihThr, fire, thrstOn;
 	public ConfigurableEmitter mainThrusterEmitter, sideThrusterEmitter;
 	private float muzzleCoolDown = 2, muzzleState;
 	
@@ -120,12 +120,25 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 				mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
 				mainThrusterEmitter.angularOffset.setValue(90+getImg().getRotation());
 			}
+			if(lefThr){
+				mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+				mainThrusterEmitter.angularOffset.setValue(getImg().getRotation());
+			}
+			if(rihThr){
+				mainThrusterEmitter.setPosition(tmpEngX, tmpEngY);
+				mainThrusterEmitter.angularOffset.setValue(180+getImg().getRotation());
+			}
+
 			mainThrusterEmitter.setEnabled(thrstOn);
 		}
 		foreThr = false;
 		aftThr = false;
+		lefThr = false;
+		rihThr = false;
 		thrstOn = false;
 		muzzleState -= delta;
+		
+		SoundStore.get().poll(0);
 	}
 	
 	private void updateGun(double angle, int delta){
@@ -145,8 +158,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		gun.setAngle(getImg().getRotation());
 		gun.getMzlImg().setRotation(getImg().getRotation());
 		gun.tickTimer(delta);
-		
-
 	}
 	
 	public boolean tryShot() {
@@ -174,7 +185,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine()!=null){
 	    	getEngine().getInGameImg().rotate(rot);	
 		}
-
+		lefThr = true;
+		thrstOn = true;
 	}
 	/**
 	 * rotate the ship to the right
@@ -189,6 +201,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		if(getEngine()!=null){
 	    	getEngine().getInGameImg().rotate(rot);	
 		}
+		rihThr = true;
+		thrstOn = true;
 	}
 	/**
 	 * move the ship forward
@@ -216,10 +230,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void strafeLeft(int delta){
 		physAnchor.pushDir(getRot() - HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
-//		if(getEngine().getSideThrust().playing()){
-//			getEngine().getSideThrust().stop();
-//		}
-//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+		rihThr = true;
+		thrstOn = true;
 	}
 	/**
 	 * this will strafe the ship right
@@ -227,10 +239,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	 */
 	public void strafeRight(int delta){
 		physAnchor.pushDir(getRot() + HALFPI, getEngine().getStrafeRate() * delta * SCLSPD);
-//		if(getEngine().getSideThrust().playing()){
-//			getEngine().getSideThrust().stop();
-//		}
-//    	getEngine().getSideThrust().playAt(1.0f, 0.5f, (float)getX(), (float)getY(), 1.0f);
+		lefThr = true;
+		thrstOn = true;
 	}
 	
 	/**
@@ -253,8 +263,9 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	public void onDie(GameplayState c){
 		//Play sound
-		getDeathSnd().playAt(0.6f, 1.0f, (float)getX(), (float)getY(), 0.0f);
+		getDeathSnd().playAt(0.6f, c.getSFXVol(), (float)getX(), (float)getY(), 0.0f);
 		mainThrusterEmitter.setEnabled(false);
+		sideThrusterEmitter.setEnabled(false);
 	}
 	
 	public int getTotalWeight() {
@@ -263,14 +274,6 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 
 	public void setTotalWeight(int wt) {
 		totalWeight = wt;
-	}
-
-	public double getPoints() {
-		return points;
-	}
-
-	public void setPoints(double points) {
-		this.points = points;
 	}
 
 	public double getHealth() {

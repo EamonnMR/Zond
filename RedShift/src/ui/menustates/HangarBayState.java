@@ -181,7 +181,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 		if(currentChoice==0){
 			greenFont.drawString(725, 390, "Damage:  "+displayGun.getProj().getDamage()+"kt");
 			greenFont.drawString(725, 410, "Cooldown:"+(double)displayGun.getCoolDown()/1000+"sec");
-			greenFont.drawString(725, 430, "Size:    "+displayGun.getCost());
+			greenFont.drawString(725, 430, "Weight:    "+displayGun.getWeight());
 		}else if(currentChoice==1){
 			greenFont.drawString(725, 390, "Name: "+displayShip.getName());
 			greenFont.drawString(725, 410, "Health: "+displayShip.getHealth());
@@ -196,7 +196,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 			greenFont.drawString(725, 390, "Thrust:"+displayEngine.getThrustX());
 			greenFont.drawString(725, 410, "Turn:  "+displayEngine.getTurnrate());
 			greenFont.drawString(725 ,430, "Strafe:"+displayEngine.getStrafeRate());
-			greenFont.drawString(725, 450, "Size:  "+displayEngine.getCost());
+			greenFont.drawString(725, 450, "Weight:  "+displayEngine.getWeight());
 		}
 		
 	}
@@ -207,7 +207,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 			if(!(tempGun==null)){
 				greenFont.drawString(725, 105, "Damage:  "+tempGun.getProj().getDamage()+"kt");
 				greenFont.drawString(725, 125, "Cooldown:"+(double)tempGun.getCoolDown()/1000+"sec");
-				greenFont.drawString(725, 145, "Size:    "+tempGun.getCost());
+				greenFont.drawString(725, 145, "Weight:    "+tempGun.getWeight());
 				greenFont.drawString(72, 590, tempGun.getToolTip());
 			}
 		}else if(rolloverChoice==1){
@@ -227,7 +227,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 				greenFont.drawString(725, 105, "Thrust:"+tempEng.getThrustX());
 				greenFont.drawString(725, 125, "Turn:  "+tempEng.getTurnrate());
 				greenFont.drawString(725 ,145, "Strafe:"+tempEng.getStrafeRate());
-				greenFont.drawString(725, 165, "Size:  "+tempEng.getCost());
+				greenFont.drawString(725, 165, "Weight:  "+tempEng.getWeight());
 				greenFont.drawString(72, 590, tempEng.getToolTip());
 			}
 		}
@@ -274,13 +274,16 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 			accptBool=false;
 		}
 		if(i.isKeyPressed(Input.KEY_ENTER)){
+			gdb.getSound("menuPrelude").stop();
 			i.clearMousePressedRecord();
 			i.clearKeyPressedRecord();
 			pc.setPlayShip(displayShip);
 			pc.getPlayShip().setEngine(displayEngine);
 			pc.getPlayShip().setWeapon(displayGun);
+			ini=true;
 			GameplayState gamePlay = (GameplayState)arg1.getState(CoreStateManager.GAMEPLAYSTATE);
 			gamePlay.setPlayerClient(pc);
+			gamePlay.setLevelPointer(levelToPlay);
 			arg1.enterState(CoreStateManager.GAMEPLAYSTATE, new FadeOutTransition(Color.lightGray) , null);
 		}
 		

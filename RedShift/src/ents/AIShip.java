@@ -9,7 +9,7 @@ public class AIShip extends BasicShip {
 
 	private AIState brains;					//the ai state 
 	private Polygon sight;					
-	private double attackRange = 400;		//range bracket to shoot in
+	private double attackRange = 500;		//range bracket to shoot in
 	private double sightRange = 800;		//range bracket to pursue in
 	
 	public void setState(AIState p, GameplayState g){
