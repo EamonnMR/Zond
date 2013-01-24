@@ -64,7 +64,7 @@ public class CoreStateManager extends StateBasedGame {
 	
 	//constructor
 	public CoreStateManager() {
-		super("RedShift v1.5");		
+		super("RedShift v1.0");		
 		createStates();	//queue up the list of states, add them to the game
 		loadResources();//populate our data classes with necessary info
 		customIniStates();	//sadly BasicGameState.init cannot be trusted as it only triggers when state is added to game
