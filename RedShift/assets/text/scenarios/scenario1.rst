@@ -176,7 +176,7 @@
 		[collider]{
 			[type] (circle)
 			[x](2584)[y](2088)
-			[radius](64)
+			[radius](128)
 		}
 		[target]	()
 		[trigstate]	(f)

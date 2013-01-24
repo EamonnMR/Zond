@@ -25,6 +25,7 @@ public class PursueState extends AIState{
 		BasicShip targ;
 		GameplayState g;
 		static double TWOPI = Math.PI * 2;
+		boolean fire = true;
 		
 	public PursueState(AIShip p, BasicShip target){
 		ship = p;
@@ -49,6 +50,15 @@ public class PursueState extends AIState{
 				(double)targVec.getX(), 
 				(double)targVec.getY());
 		shipAngle = ship.getRot();
+		for(BasicShip s : gs.getShips().values()){
+			if((!s.equals(ship))&&(s.getCollider().intersects(lineToTarg))){
+				if(ship.getFaction()==s.getFaction()){
+					fire = false;
+				}
+			}else{
+				fire = true;
+			}
+		}
 		//checks
 		//--targ not dead
 		//--targ in range
@@ -78,9 +88,11 @@ public class PursueState extends AIState{
 				}
 			//target in range
 				if((shipAngle > targetAngle-miss)&&(shipAngle < targetAngle+miss)){
-					if (ship.tryShot()) {
-						GameplayState.getME().addShot(
-								ship.getWeapon().makeShot(gs.getSFXVol()));
+					if(fire){
+						if (ship.tryShot()) {
+							GameplayState.getME().addShot(
+									ship.getWeapon().makeShot(gs.getSFXVol()));
+						}
 					}
 				}
 			//TARGET TOO CLOSE! D:
@@ -93,39 +105,41 @@ public class PursueState extends AIState{
 				ship.moveBackward(delta, gs.getParticleSys());
 			//target in range
 				if((shipAngle > targetAngle-miss)&&(shipAngle < targetAngle+miss)){
-					if (ship.tryShot()) {
-						GameplayState.getME().addShot(
-								ship.getWeapon().makeShot(gs.getSFXVol()));
-					}
-				}
-			}else if (ship.getHealth()<=ship.getHealth()/4){
-			for (BasicShip s : gs.getShips().values()) {
-				if (!(s.equals(ship))) {
-					if (s.getFaction() == ship.getFaction()) {
-						Vector2f sVec = new Vector2f((float) targ.getX(),
-								(float) targ.getY());
-						Vector2f fVec = new Vector2f((float) s.getX(),
-								(float) s.getY());
-
-						Line lineToFriend = new Line(sVec, fVec);
-						double distToF = lineToFriend.length();
-						if (distToF >= 1000) {
-							double fAngle = getAngle((double) sVec.getX(),
-									(double) sVec.getY(),
-									(double) fVec.getX(),
-									(double) fVec.getY());
-							if (shipAngle < fAngle) {
-								ship.rotateRight(delta);
-							} else if (shipAngle > fAngle) {
-								ship.rotateLeft(delta);
-							}
-							ship.moveForward(delta, gs.getParticleSys());
+					if(fire){
+						if (ship.tryShot()) {
+							GameplayState.getME().addShot(
+									ship.getWeapon().makeShot(gs.getSFXVol()));
 						}
 					}
 				}
+			}else if (ship.getHealth()<=ship.getHealth()/4){
+				for (BasicShip s : gs.getShips().values()) {
+					if (!(s.equals(ship))) {
+						if (s.getFaction() == ship.getFaction()) {
+							Vector2f sVec = new Vector2f((float) targ.getX(),
+									(float) targ.getY());
+							Vector2f fVec = new Vector2f((float) s.getX(),
+									(float) s.getY());
 
+							Line lineToFriend = new Line(sVec, fVec);
+							double distToF = lineToFriend.length();
+							if (distToF >= 1000) {
+								double fAngle = getAngle((double) sVec.getX(),
+										(double) sVec.getY(),
+										(double) fVec.getX(),
+										(double) fVec.getY());
+								if (shipAngle < fAngle) {
+									ship.rotateRight(delta);
+								} else if (shipAngle > fAngle) {
+									ship.rotateLeft(delta);
+								}
+								ship.moveForward(delta, gs.getParticleSys());
+							}	
+						}
+					}
+
+				}
 			}
-		}
 		}else{
 			ship.setState(new ScanState(ship), gs);
 		}
