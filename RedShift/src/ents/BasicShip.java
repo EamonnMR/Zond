@@ -42,7 +42,7 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	
 	//constructor
 	public BasicShip(){
-		physAnchor = new PhysMod(this, 0, 0, 0, 300); //Other classes such as shot might wanna give it an initial velocity...
+		physAnchor = new PhysMod(this, 0, 0, 0, 100); //Other classes such as shot might wanna give it an initial velocity...
 	
 	}	                                         //But not the ship!  At least not yet.
 

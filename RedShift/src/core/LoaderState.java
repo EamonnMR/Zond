@@ -5,11 +5,14 @@ import java.io.IOException;
 
 import level.TriggerFactory;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ents.EntityFactory;
 
@@ -21,7 +24,6 @@ public class LoaderState extends BasicGameState {
 	private TriggerFactory trigFac;
 	private int id;
 	public PlayerClient player;			//PlayerClient for the whole game
-//	public LevelBuilder lvbr;
 	
 	//constructor
 	public LoaderState(int i){
@@ -31,7 +33,6 @@ public class LoaderState extends BasicGameState {
 	@Override
 	public void enter(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		//TODO: do loading screen setup here
 	}
 
 	@Override
@@ -59,8 +60,6 @@ public class LoaderState extends BasicGameState {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//createTestClientData(player);
 	}
 	
 	@Override
@@ -72,7 +71,7 @@ public class LoaderState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 
-		arg1.enterState(CoreStateManager.MAINMENUSTATE);
+		arg1.enterState(CoreStateManager.INFO,  null, new FadeInTransition(Color.black));
 	}
 	
 	public void customInit(GameDatabase g, EntityFactory e, TriggerFactory t, PlayerClient p){

@@ -11,6 +11,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import ui.hud.HudDataModel;
 import ui.menustates.BriefingMenuState;
@@ -20,6 +21,8 @@ import ui.menustates.MainMenuState;
 import ui.menustates.ModHudMenuState;
 import ui.menustates.OptionMenuState;
 import ui.menustates.PauseMenuState;
+import ui.menustates.TitleStates2;
+import ui.menustates.TitlesState;
 import ents.EntityFactory;
 
 /**
@@ -52,24 +55,25 @@ public class CoreStateManager extends StateBasedGame {
 	private PauseMenuState pause;
 	public static int INFO = 9;
 	private InfoState info;
+	public static int PRESENTS = 10;
+	private TitlesState titles;
+	public static int PRESENTS2 = 11;
+	private TitleStates2 titles2;
 	
 	//optionals - these are defined here so that they can be modified before gameplay runtime,
-	//perhaps in the future, any of these can be modular to install new content
 	private GameDatabase gDB;			//GameDataBase instance for whole game
 	private PlayerClient player;			//PlayerClient for the whole game
 	private EntityFactory entFac;		//Entity Factory for the whole game
-//	private LevelBuilder lvbr;
 	private HudDataModel hdm;
 	private TriggerFactory trigFac;
 	
 	//constructor
 	public CoreStateManager() {
-		super("RedShift v1.0");		
+		super("RedShift v1.1");		
 		createStates();	//queue up the list of states, add them to the game
 		loadResources();//populate our data classes with necessary info
 		customIniStates();	//sadly BasicGameState.init cannot be trusted as it only triggers when state is added to game
-//		this.enterState(LOADERSTATE);
-		this.enterState(INFO, null, new FadeInTransition(Color.black));
+		this.enterState(LOADERSTATE,  new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 	}
 
 	//methods
@@ -88,6 +92,8 @@ public class CoreStateManager extends StateBasedGame {
 		brief = new BriefingMenuState(BRIEFING);
 		pause = new PauseMenuState(PAUSE);
 		info = new InfoState(INFO);
+		titles = new TitlesState(PRESENTS);
+		titles2 = new TitleStates2(PRESENTS2);
 	}
 	
 	/**
@@ -140,6 +146,12 @@ public class CoreStateManager extends StateBasedGame {
 		this.addState(gamePlay);
 		
 		this.addState(info);
+		
+		titles.customInit(gDB);
+		this.addState(titles);
+		
+		titles2.customInit(gDB);
+		this.addState(titles2);
 	}
 
 	@Override
@@ -151,7 +163,6 @@ public class CoreStateManager extends StateBasedGame {
 		this.getState(GAMEOVERSTATE).init(arg0, this);
 		this.getState(GAMEWINSTATE).init(arg0, this);
 		this.getState(GAMEPLAYSTATE).init(arg0, this);
-		this.getState(INFO).init(arg0, this);
 	}
 
 	
