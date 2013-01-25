@@ -19,7 +19,7 @@ public class PursueState extends AIState{
 		double margin = 0.1f;
 //		Absolute longest range the ships will fire from: range
 //		How far from a perfect shot: miss
-		float miss = 0.1f;
+		float miss = 0.2f;
 //		How wide is the definition of "pointing towards": pointing
 		float pointing = 0.50f;
 		BasicShip targ;
@@ -46,9 +46,9 @@ public class PursueState extends AIState{
 		Line lineToTarg = new Line(shipVec,targVec);
 		distToTarg = lineToTarg.length();
 		targetAngle = getAngle((double)shipVec.getX(), 
-				(double)shipVec.getY(), 
-				(double)targVec.getX(), 
-				(double)targVec.getY());
+								(double)shipVec.getY(), 
+								(double)targVec.getX(), 
+								(double)targVec.getY());
 		shipAngle = ship.getRot();
 		for(BasicShip s : gs.getShips().values()){
 			if((!s.equals(ship))&&(s.getCollider().intersects(lineToTarg))){
@@ -78,9 +78,12 @@ public class PursueState extends AIState{
 				} else if (shipAngle > targetAngle) {
 					ship.rotateLeft(delta);
 				}
+
 				ship.moveForward(delta, gs.getParticleSys());
 				
-			}else if(distToTarg <= ship.getAttackRange()){
+			}
+			
+			if(distToTarg <= ship.getAttackRange()){
 				if (shipAngle < targetAngle) {
 					ship.rotateRight(delta);
 				} else if (shipAngle > targetAngle) {
@@ -95,11 +98,14 @@ public class PursueState extends AIState{
 						}
 					}
 				}
+			
+			}
 			//TARGET TOO CLOSE! D:
-			}else if(distToTarg <= 200){
+			if(distToTarg <= 200){
 				if (shipAngle < targetAngle) {
 					ship.rotateRight(delta);
-				} else if (shipAngle > targetAngle) {
+				} 
+				if (shipAngle > targetAngle) {
 					ship.rotateLeft(delta);
 				}
 				ship.moveBackward(delta, gs.getParticleSys());
@@ -111,33 +117,6 @@ public class PursueState extends AIState{
 									ship.getWeapon().makeShot(gs.getSFXVol()));
 						}
 					}
-				}
-			}else if (ship.getHealth()<=ship.getHealth()/4){
-				for (BasicShip s : gs.getShips().values()) {
-					if (!(s.equals(ship))) {
-						if (s.getFaction() == ship.getFaction()) {
-							Vector2f sVec = new Vector2f((float) targ.getX(),
-									(float) targ.getY());
-							Vector2f fVec = new Vector2f((float) s.getX(),
-									(float) s.getY());
-
-							Line lineToFriend = new Line(sVec, fVec);
-							double distToF = lineToFriend.length();
-							if (distToF >= 1000) {
-								double fAngle = getAngle((double) sVec.getX(),
-										(double) sVec.getY(),
-										(double) fVec.getX(),
-										(double) fVec.getY());
-								if (shipAngle < fAngle) {
-									ship.rotateRight(delta);
-								} else if (shipAngle > fAngle) {
-									ship.rotateLeft(delta);
-								}
-								ship.moveForward(delta, gs.getParticleSys());
-							}	
-						}
-					}
-
 				}
 			}
 		}else{

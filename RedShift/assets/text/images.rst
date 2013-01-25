@@ -83,6 +83,10 @@
 [asteroid]    (assets/images/doodads/ast1.png)
 
 /===============UI===============/
+/splash pages/
+[tools]		(assets/images/gui/infoPage.png)
+[mta]		(assets/images/gui/titlePage.png)
+
 /Main Menu/
 [campBTN_n]	(assets/images/gui/mainmenu/campBTN_n.png)
 [scenBTN_n]	(assets/images/gui/mainmenu/scenBTN_n.png)
