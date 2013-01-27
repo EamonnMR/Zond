@@ -18,16 +18,18 @@ public class ScanState extends AIState {
 	}
 	
 	public void onUpdate(int delta, GameplayState gs){
-		for(BasicShip s : gs.getShips().values()){
-			if(!s.equals(ship)){	//don't target self, though this may be hilarious
-				if(ship.getRadarRadius().intersects(s.getCollider())){	//find a ship inside my radar radius
-					if(!(s.getFaction()==ship.getFaction())){			//is this ship on my side?
-						double range = distToTarget(ship, s);
-						//check closest available target
-						if(range <= ship.getSightRange()){
+		for (BasicShip s : gs.getShips().values()) {
+			if (s.getFaction() != ship.getFaction()) {
+				if (!s.equals(ship)) { // don't target self, though this may be hilarious
+					double range = distToTarget(ship, s);
+					if(range > ship.getSightRange()){
+						if(ship.getRadarRadius().intersects(s.getRadarRadius())){
 							targ = s;
 							ship.setState(new PursueState(ship, targ), gs);
 						}
+					}else if (range <= ship.getSightRange()){
+						targ = s;
+						ship.setState(new PursueState(ship, targ), gs);
 					}
 				}
 			}

@@ -7,3 +7,4 @@
 [sovwpchk]	(assets/text/scenarios/sovwepchk.rst)
 [natwpchk]	(assets/text/scenarios/natwepchk.rst)
 [soviet1]	(assets/text/scenarios/soviet1.rst)
+[nato2]		(assets/text/scenarios/Nato2.rst)

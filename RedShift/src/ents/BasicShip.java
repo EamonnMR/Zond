@@ -264,8 +264,12 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 	public void onDie(GameplayState c){
 		//Play sound
 		getDeathSnd().playAt(0.6f, c.getSFXVol(), (float)getX(), (float)getY(), 0.0f);
-		mainThrusterEmitter.setEnabled(false);
-		sideThrusterEmitter.setEnabled(false);
+		if(mainThrusterEmitter!=null){
+			mainThrusterEmitter.setEnabled(false);
+		}
+		if(sideThrusterEmitter!=null){
+			sideThrusterEmitter.setEnabled(false);
+		}
 	}
 	
 	public int getTotalWeight() {

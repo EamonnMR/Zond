@@ -101,7 +101,7 @@ public class PursueState extends AIState{
 			
 			}
 			//TARGET TOO CLOSE! D:
-			if(distToTarg <= 200){
+			if(distToTarg <= 400){
 				if (shipAngle < targetAngle) {
 					ship.rotateRight(delta);
 				} 
@@ -119,8 +119,12 @@ public class PursueState extends AIState{
 					}
 				}
 			}
+			
+			if(!(ship.getRadarRadius().intersects(targ.getRadarRadius()))){
+				ship.setState(new ScanState(ship), gs);
+			}
 		}else{
-			ship.setState(new ScanState(ship), gs);
+
 		}
 	}
 
@@ -147,20 +151,12 @@ public class PursueState extends AIState{
 		return angle;
 	}
 	
-	private double calcDiff(double sAngle, double targAngle) {
-		
-		if(targAngle > sAngle){
-			double diff = targAngle - sAngle;
-			return Math.signum(diff) * (TWOPI % Math.abs(diff));
-		}else if(targAngle < sAngle){
-			double diff = sAngle-  targAngle;
-			return Math.signum(diff) * (TWOPI % Math.abs(diff));
-		}
-		
-		return 0.0;
-	}
-
-	private boolean arc(double width, double difference){
-		 return (-1 * width) > difference && difference > width;
+	private double distToTarget(BasicShip ship, BasicShip targ){
+		double distToTarg = 0.0;
+		Vector2f s = new Vector2f((float)ship.getX(), (float)ship.getY());
+		Vector2f t = new Vector2f((float)targ.getX(), (float)targ.getY());
+		Line dist = new Line(s, t);
+		distToTarg = dist.length();
+		return distToTarg;
 	}
 }
