@@ -127,7 +127,6 @@ public class GameDatabase {
 		StringTree s = loadRst("assets/text/sounds.rst");
 		for (String child : s.childSet()){
 			ldSnd(child, s.getValue(child));
-			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
 		}
 	}
 	
@@ -148,7 +147,7 @@ public class GameDatabase {
 	private void ldSnd(String name, String location) {
 		try{
 		indexSounds.put(name, new Sound(location));
-			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
+			System.out.println("Loaded Sound:: "+ name);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -167,7 +166,6 @@ public class GameDatabase {
 		StringTree s = loadRst("assets/text/images.rst");
 		for (String child : s.childSet()){
 			ldImg(child, s.getValue(child));
-			//System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
 		}
 	}
 	
@@ -186,7 +184,7 @@ public class GameDatabase {
 			Animation a = new Animation(s, Integer.valueOf(value.getValue("rate")));
 			a.setLooping(false);
 			indexAnimations.put(child, a);
-			System.out.println("Name ''" + child + "'' Location: ''" + value + "''.");
+			System.out.println("Loaded Animation:: "+ a);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -203,7 +201,7 @@ public class GameDatabase {
 			ConfigurableEmitter tEmitter = ParticleIO.loadEmitter(xmlFile);
 			tEmitter.setEnabled(false);
 			indexParticles.put(child, tEmitter);
-			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
+			System.out.println("Loaded Particle:: "+ tEmitter.name);
 		}
 		
 	}
@@ -239,6 +237,7 @@ public class GameDatabase {
 			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
 			current.setMzlImg(indexImages.get(s.getValue(child, "firespr")).copy());
 			indexGuns.put(child, current);
+			System.out.println("Loaded Item:: Gun - "+current.getName());
 		}
 	}
 	
@@ -259,9 +258,9 @@ public class GameDatabase {
 		try{
 			indexImages.put(name, new Image(location) );
 			
-			System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");
+			System.out.println("Loaded Image:: "+name);
 		} catch (SlickException e){
-			System.out.println("Failed ''" + name + "'' at location: ''" + location + "''.");
+			System.out.println("Failed on Image:: "+name);
 			e.printStackTrace();
 		}
 	}
@@ -290,12 +289,13 @@ public class GameDatabase {
 			m.setEngPtLength(Integer.parseInt(s.getValue(child, "engPtLen")));
 			m.setFaction(Integer.parseInt(s.getValue(child, "faction")));
 			m.setCollider(parseShape(s, child, "collider"));
-			m.setRadarRadius((Circle)parseShape(s, child, "radar"));
+			m.setRadarShape((Circle)parseShape(s, child, "radar"));
 			m.setName(child);
 			m.setToolTip(s.getValue(child,"tltip"));
 			m.setDeathSnd(indexSounds.get(s.getValue(child, "deadsnd")));
 			m.setWireframe(indexImages.get(s.getValue(child, "wire")));
 			indexShip.put(child, m);
+			System.out.println("Loaded Item:: Ship - " + m.getName());
 		}
 	}
 	
@@ -329,7 +329,7 @@ public class GameDatabase {
 			e.setThrstPrtcl(indexParticles.get(s.getValue(child, "thrstprtcl")));
 			e.setWireFrame(indexImages.get(s.getValue(child, "wireframe")));
 			indexEng.put(child, e);
-			System.out.println("Loaded:: Engine - " + e.getName());
+			System.out.println("Loaded Item:: Engine - " + e.getName());
 		}
 	}
 	
@@ -358,6 +358,7 @@ public class GameDatabase {
 			h.setCollider(parseShape(s, child, "collider"));
 			h.setImpactPrtl(s.getValue(child,"impFx"));
 			indexShot.put(child, h);
+			System.out.println("Loaded Item:: Shot - " + h);
 		}
 	}
 	/**
@@ -409,7 +410,6 @@ public class GameDatabase {
 		StringTree s = loadRst("assets/text/levellist.rst");
 		for (String child : s.childSet()){
 			ldLevelFile(child, s.getValue(child));
-			System.out.println("Name ''" + child + "'' Location: ''" + s.getValue(child) + "''.");
 		}
 	}
 	
@@ -422,7 +422,7 @@ public class GameDatabase {
 	 * @throws SlickException
 	 */
 	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
-		System.out.println("Loaded ''" + name + "'' at location: ''" + location + "''.");	
+		System.out.println("Loaded Level:: "+ name);
 		File f = new File(location);
 		indexLevelFiles.put(name, f);
 	}
@@ -476,7 +476,7 @@ public class GameDatabase {
 
 
 		indexScenarios.put(level.getName(),level);
-		System.out.println("Loaded ''" + indexLevelFiles.get(name).getName() + "'' at location: ''" + indexLevelFiles.get(name).getAbsolutePath() + "''.");
+		System.out.println("Loaded Scenario: " + indexLevelFiles.get(name).getName());
 		return level;
 	}
 	
@@ -534,7 +534,7 @@ public class GameDatabase {
 
 
 			indexScenarios.put(level.getName(),level);
-			System.out.println("Loaded ''" + f.getName() + "'' at location: ''" + f.getAbsolutePath() + "''.");
+			System.out.println("Loaded Scenario:: " + f.getName());
 		}
 	}
 	

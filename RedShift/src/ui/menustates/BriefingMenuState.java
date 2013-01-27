@@ -45,7 +45,7 @@ public class BriefingMenuState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, backdrop, new Point(512,384));
-		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.2]=");
 		
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);

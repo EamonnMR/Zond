@@ -5,46 +5,58 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import core.CoreStateManager;
+import core.GameDatabase;
 
 public class InfoState extends BasicGameState{
 
 	public static int id;
-	private String header1, header2;
+	private String header1, header2,header3,header4,header5,header6;
 	private int timer=0;
+	private SpriteSheetFont gFont;
+	private GameDatabase gdb;
+	private boolean ini;
 	
 	public InfoState(int i){
 		id = i;
+		ini = true;
 	}
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		header1 = "[Attention]";
-		header2 = "The following is a game in its early / Alpha stages." +
-				"\nThere will be bugs and imbalances in game mechanics.\n" +
-				"If you encounter a bug, let me know at:\n" +
-				"Mortarion12@yahoo.com\n\n" +
-				"-to skip hit ESC or SPACE-";
-		
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
-		gfx.setColor(Color.white);
-		gfx.drawString(header1, 468, 268);
-		gfx.drawString(header2, 350, 300);
+		gFont.drawString(425, 268, header1);
+		gFont.drawString(300, 300, header2);
+		gFont.drawString(300, 320, header3);
+		gFont.drawString(300, 340, header4);
+		gFont.drawString(300, 360, header5);
+		gFont.drawString(300, 380, header6);
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
+		if(ini){
+			gFont = gdb.getFont("green");
+			header1 = "[Attention]";
+			header2 = "The following is a game in its early / Alpha stages.";
+			header3 = "There will be bugs and imbalances in game mechanics.";
+			header4 = "If you encounter a bug, let me know at:";
+			header5 = "Mortarion12@yahoo.com";
+			header6 = "-to skip hit ESC or SPACE-";
+			ini = false;
+		}
 		timer++;
 		Input i = arg0.getInput();
 		if(i.isKeyPressed(Input.KEY_SPACE)){
@@ -61,6 +73,10 @@ public class InfoState extends BasicGameState{
 	@Override
 	public int getID() {
 		return id;
+	}
+	
+	public void customInit(GameDatabase gDB){
+		this.gdb = gDB;
 	}
 
 }

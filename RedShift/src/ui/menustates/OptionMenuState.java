@@ -77,7 +77,7 @@ public class OptionMenuState extends BasicGameState implements MouseListener{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		gfx.drawImage(bkIMG, 0, 0);
-		grayFont.drawString(512-((16*12)/2), 36, "=[Redshiftv1.0]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.2]=");
 		gfx.setColor(Color.green);
 		
 		String x = String.valueOf(arg0.getInput().getMouseX());

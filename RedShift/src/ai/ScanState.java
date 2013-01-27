@@ -23,7 +23,7 @@ public class ScanState extends AIState {
 				if (!s.equals(ship)) { // don't target self, though this may be hilarious
 					double range = distToTarget(ship, s);
 					if(range > ship.getSightRange()){
-						if(ship.getRadarRadius().intersects(s.getRadarRadius())){
+						if(ship.getRadarShape().intersects(s.getRadarShape())){
 							targ = s;
 							ship.setState(new PursueState(ship, targ), gs);
 						}

@@ -120,7 +120,7 @@ public class PursueState extends AIState{
 				}
 			}
 			
-			if(!(ship.getRadarRadius().intersects(targ.getRadarRadius()))){
+			if(!(ship.getRadarShape().intersects(targ.getRadarShape()))){
 				ship.setState(new ScanState(ship), gs);
 			}
 		}else{

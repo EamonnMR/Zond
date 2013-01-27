@@ -69,7 +69,7 @@ public class CoreStateManager extends StateBasedGame {
 	
 	//constructor
 	public CoreStateManager() {
-		super("RedShift v1.1");		
+		super("Zond v1.2");		
 		createStates();	//queue up the list of states, add them to the game
 		loadResources();//populate our data classes with necessary info
 		customIniStates();	//sadly BasicGameState.init cannot be trusted as it only triggers when state is added to game
@@ -145,6 +145,7 @@ public class CoreStateManager extends StateBasedGame {
 		gamePlay.customInit(player,gDB, entFac, hdm );
 		this.addState(gamePlay);
 		
+		info.customInit(gDB);
 		this.addState(info);
 		
 		titles.customInit(gDB);

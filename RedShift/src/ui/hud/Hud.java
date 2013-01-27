@@ -140,7 +140,7 @@ public class Hud {
 	public void shipRadarCheck(GameplayState cgs, Graphics gfx, int camX, int camY){
 		for(BasicShip s : cgs.getShips().values()){
 			if(!s.equals(pc.getPlayShip())){
-				if(pc.getPlayShip().getRadarRadius().intersects(s.getCollider())||pc.getPlayShip().getRadarRadius().contains(s.getCollider())){
+				if(pc.getPlayShip().getRadarShape().intersects(s.getCollider())||pc.getPlayShip().getRadarShape().contains(s.getCollider())){
 					drawTargetBox(s, 0, gfx, camX, camY);
 				}
 			}
@@ -191,10 +191,10 @@ public class Hud {
 			gfx.setColor(Color.blue);
 			Circle rad = new Circle((float)((pc.getPlayShip().getX()*ratio)+xOffset),
 									(float)((pc.getPlayShip().getY()*ratio)+yOffset),
-									pc.getPlayShip().getRadarRadius().getRadius()*ratio);
+									pc.getPlayShip().getRadarShape().getRadius()*ratio);
 			gfx.draw(rad);
 			for(BasicShip s : cgs.getShips().values()){
-				if(pc.getPlayShip().getRadarRadius().intersects(s.getRadarRadius())){
+				if(pc.getPlayShip().getRadarShape().intersects(s.getRadarShape())){
 					if(!(pc.getPlayShip().equals(s))){
 						if(pc.getPlayShip().getFaction()==s.getFaction()){
 							gfx.setColor(Color.green);
@@ -203,7 +203,7 @@ public class Hud {
 						}
 						Circle targ = new Circle((float)((s.getX()*ratio)+xOffset),
 												(float)((s.getY()*ratio)+yOffset),
-												s.getRadarRadius().radius*ratio);
+												s.getRadarShape().radius*ratio);
 						gfx.draw(targ);
 					}
 				}
@@ -232,7 +232,7 @@ public class Hud {
 		
 		if(radarOn){
 			gfx.setColor(Color.blue);
-			gfx.draw(offsetShape(pc.getPlayShip().getRadarRadius(), camX, camY));
+			gfx.draw(offsetShape(pc.getPlayShip().getRadarShape(), camX, camY));
 			
 		}
 		gfx.draw(offsetShape(pc.getPlayShip().getCollider(), camX, camY));
@@ -249,7 +249,7 @@ public class Hud {
 		gfx.setColor(Color.yellow);
 		for (BasicShip s : cgs.getShips().values()) {
 			gfx.draw(offsetShape(s.getCollider(), camX, camY));
-			gfx.draw(offsetShape(s.getRadarRadius(), camX, camY));
+			gfx.draw(offsetShape(s.getRadarShape(), camX, camY));
 			gfx.drawString("X:"+String.valueOf(s.getX()), (float)s.getX()-100+camX, (float)s.getY()+100+camY);
 			gfx.drawString("Y:"+String.valueOf(s.getY()), (float)s.getX()-100+camX, (float)s.getY()+75+camY);
 			gfx.drawString(String.valueOf("Angle:"+s.getRot()), (float)s.getX()-100+camX, (float)s.getY()+50+camY);
@@ -382,7 +382,7 @@ public class Hud {
 				Vector2f target = new Vector2f((float)(ship.getX()), (float)(ship.getY()));
 				Line toTarg = new Line(player, target);
 				int len = (int) toTarg.length();
-				if (len < cgs.getPlayerShip().getRadarRadius().getRadius() && len > 600) {
+				if (len < cgs.getPlayerShip().getRadarShape().getRadius() && len > 600) {
 					double angle = Math.atan2((player.getY() - target.getY()),(player.getX() - target.getX()));
 					Vector2f point = cgs.circularFunction((float) angle, 150);
 					if(ship.getFaction()!=pc.getPlayShip().getFaction()){

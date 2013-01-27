@@ -71,7 +71,7 @@ public class LoaderState extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 
-		arg1.enterState(CoreStateManager.INFO,  null, new FadeInTransition(Color.black));
+		arg1.enterState(CoreStateManager.INFO);
 	}
 	
 	public void customInit(GameDatabase g, EntityFactory e, TriggerFactory t, PlayerClient p){

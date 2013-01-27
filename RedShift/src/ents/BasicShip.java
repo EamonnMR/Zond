@@ -100,8 +100,8 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 			
 			getCollider().setCenterX((float)getX());
 			getCollider().setCenterY((float)getY());
-			getRadarRadius().setCenterX((float)getX());
-			getRadarRadius().setCenterY((float)getY());
+			getRadarShape().setCenterX((float)getX());
+			getRadarShape().setCenterY((float)getY());
 			double angle = (Math.toRadians(getImg().getRotation()));
 		if(getWeapon()!=null){
 			updateGun(angle, delta);
@@ -369,11 +369,11 @@ public class BasicShip extends BaseEnt implements PhysMod.Target
 		this.name = name;
 	}
 
-	public Circle getRadarRadius() {
+	public Circle getRadarShape() {
 		return radar;
 	}
 
-	public void setRadarRadius(Circle radarRadius) {
+	public void setRadarShape(Circle radarRadius) {
 		this.radar = radarRadius;
 	}
 	
