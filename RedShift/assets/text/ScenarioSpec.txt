@@ -77,7 +77,9 @@ NAME                    /An internal identifier that needs to match up with name
 		}
 		[target]	(NAME)	/trigger name to fire when done/
 		[trigstate]	(true || false)/starting state/
-			
+		
+
+		-TYPES-	
 		TYPE = spawn
 		[toSpawn]{
 			[kind]	(NAME)	/ship name/
