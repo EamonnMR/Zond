@@ -45,7 +45,7 @@ public class EntityFactory {
 		build.setEngPtLength(gdb.getShip(shipPointer).getEngPtLength());
 		build.setCollider(new Circle(gdb.getShip(shipPointer).getCollider().getX(),gdb.getShip(shipPointer).getCollider().getY(),gdb.getShip(shipPointer).getCollider().getHeight(),24));
 		build.setRadarState(false);
-		build.setRadarRadius(new Circle(gdb.getShip(shipPointer).getRadarRadius().getX(),gdb.getShip(shipPointer).getRadarRadius().getY(),gdb.getShip(shipPointer).getRadarRadius().getWidth(),24));
+		build.setRadarShape(new Circle(gdb.getShip(shipPointer).getRadarShape().getX(),gdb.getShip(shipPointer).getRadarShape().getY(),gdb.getShip(shipPointer).getRadarShape().getWidth(),24));
 		build.setFaction(gdb.getShip(shipPointer).getFaction());
 		build.setDeathSnd(gdb.getShip(shipPointer).getDeathSnd());
 		build.getImg().setRotation(0);
