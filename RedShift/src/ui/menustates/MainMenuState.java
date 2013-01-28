@@ -3,6 +3,8 @@ package ui.menustates;
 import java.util.HashMap;
 
 import level.LevelDataModel;
+import level.TriggerFactory;
+import level.triggers.BasicTrigger;
 
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.Color;
@@ -14,6 +16,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -25,9 +28,11 @@ import ents.BasicEngine;
 import ents.BasicGun;
 import ents.BasicShip;
 import ents.EntityFactory;
+import ents.ShipDesc;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
+	//private static final String GameDatabase.get() = null;
 	private int id, natoX=700, natoY=195, warsX=400,warsY=195;
 	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
@@ -144,12 +149,10 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private void loadResources() {
 		montrBKG = gdb.getIMG("montrBKC");
 		
-		if(!(gdb.getScenarios()==null)){
-			for(LevelDataModel s : gdb.getScenarios().values()){
-				UIButton b = new UIButton(s.getName(), false, s);
-				b.setRectangle(new Rectangle(0,0,(s.getName().length()+2)*12, 17));
-				uiButtons.put(s.getName(), b);
-			}
+		for(String s : gdb.getScenarios()){
+			UIButton b = new UIButton(s, false, s);
+			b.setRectangle(new Rectangle(0,0,(s.length()+2)*12, 17));
+			uiButtons.put(s, b);
 		}
 		
 		greenFont = gdb.getFont("green");
@@ -189,7 +192,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 					spoolClient((LevelDataModel)u.getThing());
 					
 					BriefingMenuState brief = (BriefingMenuState)stbg.getState(CoreStateManager.BRIEFING);
-					brief.setLevel((LevelDataModel)u.getThing());
+					brief.setLevel((String)u.getThing());
 					
 					stbg.enterState(CoreStateManager.BRIEFING);
 				}
@@ -232,7 +235,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		natoY = 195;
 		warsY = 195;
 		for(UIButton u : uiButtons.values()){
-			LevelDataModel s = (LevelDataModel) u.getThing();
+			LevelDataModel s = GameDatabase.getDummyScen(u.getThing());
 			if(s.getFaction()==0){
 				u.getRectangle().setX(warsX);
 				u.getRectangle().setY(warsY);
@@ -257,6 +260,11 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		}
 
 	}
+	
+	/**
+	 * Creates a dummy scenareo - Triggers aren't functional.
+	 */
+
 	private void campRollovers() {
 
 	}

@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import level.LevelDataModel;
 import level.LevelObjective;
@@ -63,7 +64,7 @@ public class GameDatabase {
 	private Map<String, Sound> indexSounds;
 	private Map<String, SpriteSheetFont> indexFonts;
 	private Map<String, File> indexLevelFiles;
-	private Map<String, LevelDataModel> indexScenarios;
+	private Map<String, StringTree> indexScenarios;
 	private Map<String, Animation> indexAnimations;
 	private HashMap<String, ConfigurableEmitter> indexParticles;
 	private SpriteSheet greenAlphaNms;
@@ -71,9 +72,25 @@ public class GameDatabase {
 	private SpriteSheetFont greenFont;
 	private SpriteSheetFont grayFont;
 	private ParticleIO prtclIO;
+	private static GameDatabase GAMEDB;
+	
+	public static GameDatabase get(){
+		//NOW ITS A SINGLETON!!!
+		return GAMEDB;
+	}
 	//constructor
-	public GameDatabase(){}
+	public GameDatabase(){
+		GAMEDB = this;
+	}
 
+	public static LevelDataModel getDummyScen(Object thing) {
+		return GAMEDB.getScenario((String) thing, new TriggerFactory(){
+			public BasicTrigger buildTrigger(Shape cldr, ShipDesc d, String classType,String... args){
+				return null;
+			}
+		});
+	}
+	
 	/**
 	 * initialize the gamedatabase for this instance of the game
 	 * !ORDER OF THESE METHODS MATTER!
@@ -110,7 +127,7 @@ public class GameDatabase {
 		indexEng = new HashMap<String, BasicEngine>();
 		indexShip = new HashMap<String, BasicShip>();
 		indexFonts = new HashMap<String, SpriteSheetFont>();
-		indexScenarios = new HashMap<String, LevelDataModel>();
+		indexScenarios = new HashMap<String, StringTree>();
 		populateAll();
 	}
 
@@ -391,12 +408,12 @@ public class GameDatabase {
 		return indexFonts.get(s);
 	}
 	
-	public LevelDataModel getScenario(String pointer){
-		return indexScenarios.get(pointer);
+	public LevelDataModel getScenario(String pointer, TriggerFactory trigFac){
+		return levelFromRst(indexScenarios.get(pointer), trigFac);
 	}
 	
-	public HashMap<String, LevelDataModel> getScenarios(){
-		return (HashMap<String, LevelDataModel>) indexScenarios;
+	public Set<String> getScenarios(){
+		return indexScenarios.keySet();
 	}
 	
 	
@@ -475,7 +492,7 @@ public class GameDatabase {
 		level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
 
 
-		indexScenarios.put(level.getName(),level);
+		indexScenarios.put(level.getName(),s);
 		System.out.println("Loaded Scenario: " + indexLevelFiles.get(name).getName());
 		return level;
 	}
@@ -486,54 +503,58 @@ public class GameDatabase {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
+	
+	public LevelDataModel levelFromRst(StringTree s, TriggerFactory trigfac){
+		LevelDataModel level = new LevelDataModel(s.getValue("filename"));
+		
+		//set the uiname
+		level.setName(s.getValue("uiname"));
+		
+		//set the filename
+		level.setFilename(s.getValue("filename"));
+		
+		//set the faction
+		level.setFaction(Integer.valueOf(s.getValue("faction")));
+		
+		//set the tooltip for the ui
+		level.setToolTip(s.getValue("tltip"));
+		
+		//short description for briefing
+		level.setUIDesc(s.getValue("desc"));
+		
+		//get client info
+		level.setClientGuns(parseClientInfo(s.getSubTree("plrGuns")));
+		level.setClientShips(parseClientInfo(s.getSubTree("plrShips")));
+		level.setClientEngs(parseClientInfo(s.getSubTree("plrMotors")));
+		
+		//Get the name of the music to use
+		level.setMusic(s.getValue( "music"));
+		
+		//set the spawn point
+		level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
+		
+		//set the play area
+		level.setActiveArea(parseShape(s, "active"));
+		
+		//set the warning area
+		level.setWarnArea(parseShape(s, "margin"));
+		
+		//create nav points
+		level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
+		
+		//create objectives
+		level.setObjectives(parseObjectives(s.getSubTree("objectives")));
+		
+		//Create the trigger set
+		level.setTriggerMap(parseTriggers(trigfac, s.getSubTree("triggers")));
+		
+		return level;
+	}
+	
 	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
 		for(File f : indexLevelFiles.values()){
 			StringTree s = loadRst(f.getAbsolutePath());
-			LevelDataModel level = new LevelDataModel(s.getValue("filename"));
-			
-			//set the uiname
-			level.setName(s.getValue("uiname"));
-			
-			//set the filename
-			level.setFilename(s.getValue("filename"));
-			
-			//set the faction
-			level.setFaction(Integer.valueOf(s.getValue("faction")));
-			
-			//set the tooltip for the ui
-			level.setToolTip(s.getValue("tltip"));
-			
-			//short description for briefing
-			level.setUIDesc(s.getValue("desc"));
-			
-			//get client info
-			level.setClientGuns(parseClientInfo(s.getSubTree("plrGuns")));
-			level.setClientShips(parseClientInfo(s.getSubTree("plrShips")));
-			level.setClientEngs(parseClientInfo(s.getSubTree("plrMotors")));
-			
-			//Get the name of the music to use
-			level.setMusic(s.getValue( "music"));
-			
-			//set the spawn point
-			level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
-			
-			//set the play area
-			level.setActiveArea(parseShape(s, "active"));
-			
-			//set the warning area
-			level.setWarnArea(parseShape(s, "margin"));
-			
-			//create nav points
-			level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
-			
-			//create objectives
-			level.setObjectives(parseObjectives(s.getSubTree("objectives")));
-			
-			//Create the trigger set
-			level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
-
-
-			indexScenarios.put(level.getName(),level);
+			indexScenarios.put(s.getValue("filename"),s);
 			System.out.println("Loaded Scenario:: " + f.getName());
 		}
 	}
