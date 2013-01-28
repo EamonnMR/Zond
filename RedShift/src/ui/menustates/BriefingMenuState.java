@@ -162,8 +162,8 @@ public class BriefingMenuState extends BasicGameState {
 		return id;
 	}
 
-	public void setLevel(LevelDataModel ldm){
-		this.ldm = ldm;
+	public void setLevel(String ldm){
+		this.ldm = GameDatabase.getDummyScen(ldm);
 	}
 	public void customInit(GameDatabase g){
 		gdb = g;

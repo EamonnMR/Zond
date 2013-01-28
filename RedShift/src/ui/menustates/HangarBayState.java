@@ -435,9 +435,9 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 		this.inputStarted();
 	}
 	
-	public String getLevelToPlay(){
-		return this.levelToPlay;
-	}
+	//public String getLevelToPlay(){
+	//	return this.levelToPlay;
+	//}
 
 	public void setLevelToPlay(String levelName){
 		this.levelToPlay = levelName;
