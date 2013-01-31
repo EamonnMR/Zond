@@ -2,12 +2,9 @@ package ui.menustates;
 
 import java.util.HashMap;
 
-import level.LevelDataModel;
-import level.TriggerFactory;
-import level.triggers.BasicTrigger;
+import level.LevelMetaData;
 
 import org.lwjgl.openal.AL;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -16,7 +13,6 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheetFont;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -24,17 +20,12 @@ import ui.UIButton;
 import core.CoreStateManager;
 import core.GameDatabase;
 import core.PlayerClient;
-import ents.BasicEngine;
-import ents.BasicGun;
-import ents.BasicShip;
 import ents.EntityFactory;
-import ents.ShipDesc;
 
 public class MainMenuState extends BasicGameState implements MouseListener {
 
 	//private static final String GameDatabase.get() = null;
 	private int id, natoX=700, natoY=195, warsX=400,warsY=195;
-	private String title;
 	private Rectangle playBTN_rec, scenBTN_rec, optBTN_rec, quitBTN_rec, mouse_rec;
 	private GameDatabase gdb;
 	private Image montrBKG;
@@ -56,9 +47,6 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-
-		title = "RedShift";
-		
 		mouse_rec = new Rectangle(0,0,1,1);
 		
 		playBTN_rec = new Rectangle(90, 90,144,17);
@@ -79,7 +67,7 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 
 //		gfx.setColor(Color.red);
 //		gfx.draw(mouse_rec);
-		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.2]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.3]=");
 		
 		if(campRollover){
 			grayFont.drawString(90, 90, "[(Campaign)]");
@@ -149,8 +137,9 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 	private void loadResources() {
 		montrBKG = gdb.getIMG("montrBKC");
 		
-		for(String s : gdb.getScenarios()){
-			UIButton b = new UIButton(s, false, s);
+		for(LevelMetaData lmd : gdb.getAllLevelMetaData().values()){
+			String s = lmd.getUiname();
+			UIButton b = new UIButton(s, false, lmd);
 			b.setRectangle(new Rectangle(0,0,(s.length()+2)*12, 17));
 			uiButtons.put(s, b);
 		}
@@ -189,14 +178,15 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		for(UIButton u : uiButtons.values()){
 			if(u.getRectangle().intersects(mouse_rec)){
 				if(gc.getInput().isMouseButtonDown(0)){
-					spoolClient((LevelDataModel)u.getThing());
+//					
 					
 					BriefingMenuState brief = (BriefingMenuState)stbg.getState(CoreStateManager.BRIEFING);
-					brief.setLevel((String)u.getThing());
-					
+					LevelMetaData dat = (LevelMetaData)u.getThing();
+					brief.setLevel(dat.getName());
 					stbg.enterState(CoreStateManager.BRIEFING);
 				}
 				u.setState(true);
+				break;
 			}else{
 				u.setState(false);
 			}
@@ -235,66 +225,36 @@ public class MainMenuState extends BasicGameState implements MouseListener {
 		natoY = 195;
 		warsY = 195;
 		for(UIButton u : uiButtons.values()){
-			LevelDataModel s = GameDatabase.getDummyScen(u.getThing());
-			if(s.getFaction()==0){
+			LevelMetaData lmd = (LevelMetaData)u.getThing();
+			if(lmd.getFaction()==0){
 				u.getRectangle().setX(warsX);
 				u.getRectangle().setY(warsY);
 				if(u.isState()){
-					greenFont.drawString(warsX, warsY, "["+s.getName()+"]");
-					greenFont.drawString(90, 600, s.getToolTip());
+					greenFont.drawString(warsX, warsY, "["+lmd.getUiname()+"]");
+					greenFont.drawString(90, 600, lmd.getTltip());
 				}else{
-					greenFont.drawString(warsX, warsY, " "+s.getName()+" ");
+					greenFont.drawString(warsX, warsY, " "+lmd.getUiname()+" ");
 				}
 				warsY+=30;
-			}else if(s.getFaction()==1){
+			}else if(lmd.getFaction()==1){
 				u.getRectangle().setX(natoX);
 				u.getRectangle().setY(natoY);			
 				if(u.isState()){
-					greenFont.drawString(natoX, natoY, "["+s.getName()+"]");
-					greenFont.drawString(90, 600, s.getToolTip());
+					greenFont.drawString(natoX, natoY, "["+lmd.getUiname()+"]");
+					greenFont.drawString(90, 600, lmd.getTltip());
 				}else{
-					greenFont.drawString(natoX, natoY, " "+s.getName()+" ");
+					greenFont.drawString(natoX, natoY, " "+lmd.getUiname()+" ");
 				}
 				natoY+=30;
 			}
 		}
 
 	}
-	
-	/**
-	 * Creates a dummy scenareo - Triggers aren't functional.
-	 */
-
 	private void campRollovers() {
 
 	}
 	private void renderCamp(Graphics gfx) {
 
-	}
-
-	//I really apologize putting this here, but I had no idea where else to put it
-	//method simply converts level client info to tangible info in the player client
-	private void spoolClient(LevelDataModel ldm) {
-		pc.setClientShips(null);
-		pc.setClientGuns(null);
-		pc.setClientEngines(null);
-		HashMap<String, BasicShip> ships = new HashMap<String, BasicShip>();
-		for(String s: ldm.getClientShips() ){
-			ships.put(s, entFac.buildShip(s, null, null, false, ""));
-		}
-		pc.setClientShips(ships);
-		
-		HashMap<String, BasicGun> gunz = new HashMap<String, BasicGun>();
-		for(String s: ldm.getClientGuns() ){
-			gunz.put(s, entFac.buildGun(s));
-		}
-		pc.setClientGuns(gunz);
-		
-		HashMap<String, BasicEngine> engs = new HashMap<String, BasicEngine>();
-		for(String s: ldm.getClientEngs()){
-			engs.put(s, entFac.buildEngine(s));
-		}
-		pc.setClientEngines(engs);
 	}
 	
 	@Override

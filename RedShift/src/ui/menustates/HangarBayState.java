@@ -72,7 +72,7 @@ public class HangarBayState extends BasicGameState implements MouseListener {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, mainScn_i, new Point(512,384));
-		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.2]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.3]=");
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
