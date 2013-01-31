@@ -1,9 +1,11 @@
 package ui.menustates;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import level.LevelDataModel;
+import level.LevelMetaData;
 import level.LevelObjective;
 
 import org.newdawn.slick.GameContainer;
@@ -19,6 +21,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import ui.UILib;
 import core.CoreStateManager;
 import core.GameDatabase;
+import core.PlayerClient;
+import ents.BasicEngine;
+import ents.BasicGun;
+import ents.BasicShip;
+import ents.EntityFactory;
 
 public class BriefingMenuState extends BasicGameState {
 
@@ -28,8 +35,10 @@ public class BriefingMenuState extends BasicGameState {
 	private boolean ini, backBool, accptBool;
 	private SpriteSheetFont greenFont, grayFont;
 	private Image backdrop;
-	private LevelDataModel ldm;
+	private LevelMetaData levelMeta;
 	private Rectangle mouse_rec, back_rec, accpt_rec;
+	private PlayerClient cl;
+	private EntityFactory ef;
 	
 	public BriefingMenuState(int i){
 		id = i;
@@ -45,24 +54,15 @@ public class BriefingMenuState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics gfx)
 			throws SlickException {
 		ulib.drawImageCenteredOnPoint(gfx, backdrop, new Point(512,384));
-		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.2]=");
+		grayFont.drawString(512-((16*12)/2), 36, "=[Zondv1.3]=");
 		
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseX()), 100, 10);
 //		gfx.drawString(String.valueOf(arg0.getInput().getMouseY()), 200, 10);
 		
 		
 		greenFont.drawString(90, 90, "Mission Briefing:");
-		//int yOffset = 110;
-		//int lineSpacing = 20; 
-		//Scanner multiLineString = new Scanner(ldm.getUIDesc());
-		//while(multiLineString.hasNextLine()){
-		//	yOffset += lineSpacing;
-		//	greenFont.drawString(138, yOffset, multiLineString.nextLine());
-		//}
-		//greenFont.drawString(138, 110, ldm.getUIDesc());
-		if(!(ldm==null)){
-			int y = drawMultilineString(greenFont, ldm.getUIDesc(), 138, 110, 20);
-			//renderObjectives(gfx);
+		if(!(levelMeta==null)){
+			int y = drawMultilineString(greenFont, levelMeta.getDescrip(), 138, 110, 20);
 			renderObjectivesAlt(gfx, y);
 		}
 		
@@ -81,29 +81,13 @@ public class BriefingMenuState extends BasicGameState {
 
 	private void renderObjectivesAlt(Graphics gfx, int y) {
 		int i = 1;
-		for(LevelObjective o : ldm.getObjectives().values()){
-			y = drawMultilineString(greenFont, i+": " + o.getTltip(), 90, y, 20);
-			y = drawMultilineString(greenFont, o.getDesc(), 90, y, 20);
+		for(LevelObjective lo : levelMeta.getObjectives().values()){
+			y = drawMultilineString(greenFont, i+": " + lo.getTltip(), 90, y, 20); // o.getTltip()
+			y = drawMultilineString(greenFont,lo.getDesc(), 90, y, 20);				//o.getDesc(
 			y += 20;
 			i++;
 		}
 	}
-
-//	private void renderObjectives(Graphics gfx) {
-//		int x=90,y=195, i=1;
-//		//nuts, strings instead of ints
-//		for(Map.Entry<String, LevelObjective> obj : ldm.getObjectives().entrySet()){
-//			LevelObjective o = obj.getValue();
-//			greenFont.drawString(x, y, i+": "+o.getTltip());
-//			if(o.getDesc()!=null && o.getDesc().length() > rowLimiter){
-//				y=prepareTextRow(o.getDesc(), y);
-//				y+=40;
-//			}else {
-//				y=+40;
-//			}
-//			i++;
-//		}
-//	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
@@ -118,7 +102,7 @@ public class BriefingMenuState extends BasicGameState {
 		
 		if(back_rec.intersects(mouse_rec)){
 			if(i.isMousePressed(0)){
-				ldm = null;
+				levelMeta = null;
 				arg1.enterState(CoreStateManager.MAINMENUSTATE);
 			}
 			backBool=true;
@@ -130,8 +114,8 @@ public class BriefingMenuState extends BasicGameState {
 				i.clearMousePressedRecord();
 				i.clearKeyPressedRecord();
 				HangarBayState hang = (HangarBayState)arg1.getState(CoreStateManager.HANGARBAYSTATE);
-				hang.setLevelToPlay(ldm.getFilename());
-				
+				hang.setLevelToPlay(levelMeta.getName());
+				spoolClientData(levelMeta);
 				arg1.enterState(CoreStateManager.HANGARBAYSTATE);
 			}
 			accptBool=true;
@@ -142,7 +126,7 @@ public class BriefingMenuState extends BasicGameState {
 		if(i.isKeyPressed(Input.KEY_ESCAPE)){
 			i.clearMousePressedRecord();
 			i.clearKeyPressedRecord();
-			ldm = null;
+			levelMeta = null;
 			arg1.enterState(CoreStateManager.MAINMENUSTATE);
 		}
 	}
@@ -163,11 +147,38 @@ public class BriefingMenuState extends BasicGameState {
 	}
 
 	public void setLevel(String ldm){
-		this.ldm = GameDatabase.getDummyScen(ldm);
+		this.levelMeta = gdb.getSingleMetaData(ldm);
 	}
-	public void customInit(GameDatabase g){
+	public void customInit(GameDatabase g, PlayerClient pc, EntityFactory entFac){
 		gdb = g;
+		cl = pc;
+		ef = entFac;
 	}
+	
+	//method simply converts level client info to tangible info in the player client
+	private void spoolClientData(LevelMetaData meta) {
+		cl.setClientShips(null);
+		cl.setClientGuns(null);
+		cl.setClientEngines(null);
+		HashMap<String, BasicShip> ships = new HashMap<String, BasicShip>();
+		for(String s: meta.getClient_Ships() ){
+			ships.put(s, ef.buildShip(s, null, null, false, ""));
+		}
+		cl.setClientShips(ships);
+			
+		HashMap<String, BasicGun> gunz = new HashMap<String, BasicGun>();
+		for(String s: meta.getClient_Guns() ){
+			gunz.put(s, ef.buildGun(s));
+		}
+		cl.setClientGuns(gunz);
+			
+		HashMap<String, BasicEngine> engs = new HashMap<String, BasicEngine>();
+		for(String s: meta.getClient_Engines()){
+			engs.put(s, ef.buildEngine(s));
+		}
+		cl.setClientEngines(engs);
+	}
+	
 	
 	/**
 	 * Returns the new Y position so you can add more lines after it without messing them up.

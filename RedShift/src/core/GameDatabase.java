@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import level.LevelDataModel;
+import level.LevelMetaData;
 import level.LevelObjective;
 import level.NavPoint;
 import level.TriggerFactory;
@@ -58,14 +59,15 @@ public class GameDatabase {
 //	private static GameDatabase instance;
 	private Map<String, Image> indexImages;
 	private Map<String, BasicShip> indexShip;
-	private Map<String, BasicGun> indexGuns;
-	private Map<String, BasicEngine> indexEng;
-	private Map<String, BasicShot> indexShot;
-	private Map<String, Sound> indexSounds;
-	private Map<String, SpriteSheetFont> indexFonts;
-	private Map<String, File> indexLevelFiles;
-	private Map<String, StringTree> indexScenarios;
-	private Map<String, Animation> indexAnimations;
+	private HashMap<String, BasicGun> indexGuns;
+	private HashMap<String, BasicEngine> indexEng;
+	private HashMap<String, BasicShot> indexShot;
+	private HashMap<String, Sound> indexSounds;
+	private HashMap<String, SpriteSheetFont> indexFonts;
+	private HashMap<String, File> indexLevelFiles;
+	private HashMap<String, LevelMetaData> indexLevelMeta;
+	private HashMap<String, StringTree> indexScenarios;
+	private HashMap<String, Animation> indexAnimations;
 	private HashMap<String, ConfigurableEmitter> indexParticles;
 	private SpriteSheet greenAlphaNms;
 	private SpriteSheet grayAlphaNms;
@@ -82,14 +84,6 @@ public class GameDatabase {
 	public GameDatabase(){
 		GAMEDB = this;
 	}
-
-	public static LevelDataModel getDummyScen(Object thing) {
-		return GAMEDB.getScenario((String) thing, new TriggerFactory(){
-			public BasicTrigger buildTrigger(Shape cldr, ShipDesc d, String classType,String... args){
-				return null;
-			}
-		});
-	}
 	
 	/**
 	 * initialize the gamedatabase for this instance of the game
@@ -104,8 +98,15 @@ public class GameDatabase {
 		indexImages  = new HashMap<String, Image>();
 		indexSounds = new HashMap<String, Sound>();
 		indexLevelFiles = new HashMap<String, File>();
+		indexLevelMeta = new HashMap<String, LevelMetaData>();
+		indexScenarios = new HashMap<String, StringTree>();
 		indexParticles = new HashMap<String, ConfigurableEmitter>();
 		indexAnimations = new HashMap<String, Animation>();
+		indexShot = new HashMap<String, BasicShot>();
+		indexGuns = new HashMap<String, BasicGun>();
+		indexEng = new HashMap<String, BasicEngine>();
+		indexShip = new HashMap<String, BasicShip>();
+		indexFonts = new HashMap<String, SpriteSheetFont>();
 		try {
 			try {
 				xloadImages();
@@ -121,19 +122,27 @@ public class GameDatabase {
 			System.out.println("Problem opening images/sounds file)");
 			e.printStackTrace();
 		}
-		
-		indexShot = new HashMap<String, BasicShot>();
-		indexGuns = new HashMap<String, BasicGun>();
-		indexEng = new HashMap<String, BasicEngine>();
-		indexShip = new HashMap<String, BasicShip>();
-		indexFonts = new HashMap<String, SpriteSheetFont>();
-		indexScenarios = new HashMap<String, StringTree>();
-		populateAll();
+		populateGameObjects();
 	}
 
 	public static StringTree loadRst(String from) throws FileNotFoundException, IOException{
 		return StringTree.fromStream(new FileInputStream(from));
 	}
+	
+	/**
+	 * populates all indices with their respective resources
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * 
+	 */
+	public void populateGameObjects() throws FileNotFoundException, IOException{
+		xpopulateShot();
+		xpopulateEngine();
+		xpopulateGun(); //Now you're cooking with external data!
+		xpopulateShips();
+		populateFonts();
+	}
+	
 	/**
 	* Loads all sound files
 	* @throws FileNotFoundException
@@ -147,20 +156,6 @@ public class GameDatabase {
 		}
 	}
 	
-	/**
-	 * populates all indices with their respective resources
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * 
-	 */
-	public void populateAll() throws FileNotFoundException, IOException{
-		xpopulateShot();
-		xpopulateEngine();
-		xpopulateGun(); //Now you're cooking with external data!
-		xpopulateShips();
-		populateFonts();
-	}
-
 	private void ldSnd(String name, String location) {
 		try{
 		indexSounds.put(name, new Sound(location));
@@ -184,6 +179,15 @@ public class GameDatabase {
 		for (String child : s.childSet()){
 			ldImg(child, s.getValue(child));
 		}
+	}
+	
+	/**
+	 * gets an images, whoopee
+	 * @param s
+	 * @return
+	 */
+	public Image getIMG(String s){
+		return indexImages.get(s);
 	}
 	
 	private void loadAnimations()  throws SlickException, FileNotFoundException, IOException{
@@ -281,15 +285,7 @@ public class GameDatabase {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * gets an images, whoopee
-	 * @param s
-	 * @return
-	 */
-	public Image getIMG(String s){
-		return indexImages.get(s);
-	}
+
 	
 	/**
 	 *build all ship instances
@@ -375,7 +371,7 @@ public class GameDatabase {
 			h.setCollider(parseShape(s, child, "collider"));
 			h.setImpactPrtl(s.getValue(child,"impFx"));
 			indexShot.put(child, h);
-			System.out.println("Loaded Item:: Shot - " + h);
+			System.out.println("Loaded Item:: Shot - " + h.getImg().getName());
 		}
 	}
 	/**
@@ -408,17 +404,13 @@ public class GameDatabase {
 		return indexFonts.get(s);
 	}
 	
-	public LevelDataModel getScenario(String pointer, TriggerFactory trigFac){
-		return levelFromRst(indexScenarios.get(pointer), trigFac);
-	}
-	
 	public Set<String> getScenarios(){
 		return indexScenarios.keySet();
 	}
 	
 	
 	/**
-	 * loads the listed level rust files from the levellist file
+	 * Opens LevelList.rst and walks through, parsing files into StringTrees
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws SlickException
@@ -426,22 +418,55 @@ public class GameDatabase {
 	public void loadLevelFiles()throws FileNotFoundException, IOException, SlickException{
 		StringTree s = loadRst("assets/text/levellist.rst");
 		for (String child : s.childSet()){
-			ldLevelFile(child, s.getValue(child));
+			parseLevelFile(child, s.getValue(child));
 		}
 	}
 	
 	/**
-	 * one-off method that loads a single level rust file into the level index
+	 * one-off method that loads a StringTree from a file and puts it into the indexScenarios
+	 * method also creates an associated LevelMetaData class for ui
 	 * @param name
 	 * @param location
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws SlickException
 	 */
-	private void ldLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
-		System.out.println("Loaded Level:: "+ name);
-		File f = new File(location);
-		indexLevelFiles.put(name, f);
+	private void parseLevelFile(String name, String location) throws FileNotFoundException, IOException, SlickException {
+		StringTree level = loadRst(location);
+		indexScenarios.put(name, level);
+		System.out.println("Loaded LevelTree:: "+ level.getValue("uiname"));
+		indexLevelMeta.put(name, buildMetaData(name,level));
+	}
+	
+	/**
+	 * constructs a LevelMetaData class for the associated level 
+	 * @param level
+	 * @return
+	 */
+	private LevelMetaData buildMetaData(String filename,StringTree level) {
+		LevelMetaData lmd = new LevelMetaData();
+		lmd.setName(filename);
+		lmd.setUiname(level.getValue("uiname"));
+		lmd.setFaction(Integer.valueOf(level.getValue("faction")));
+		lmd.setTltip(level.getValue("tltip"));
+		lmd.setDescrip(level.getValue("desc"));
+		lmd.setLevelType(level.getValue("levelType"));
+		lmd.setClient_Ships(parseClientInfo(level.getSubTree("plrShips")));
+		lmd.setClient_Guns(parseClientInfo(level.getSubTree("plrGuns")));
+		lmd.setClient_Engines(parseClientInfo(level.getSubTree("plrMotors")));
+		//FIXME: get level objectives to copy over correctly
+		HashMap<String, LevelObjective> tempObjs = parseObjectives(level.getSubTree("objectives"));
+		lmd.setObjectives(tempObjs);
+		System.out.println("Loaded LevelMetaData:: "+ lmd.getUiname() + " MetaData");
+		return lmd;
+	}
+	
+	public HashMap<String, LevelMetaData> getAllLevelMetaData(){
+		return indexLevelMeta;
+	}
+	
+	public LevelMetaData getSingleMetaData(String s){
+		return indexLevelMeta.get(s);
 	}
 	
 	/**
@@ -455,7 +480,8 @@ public class GameDatabase {
 	 * @throws IOException
 	 */
 	public LevelDataModel buildLevel(TriggerFactory trigFac, String name) throws FileNotFoundException, IOException{
-		StringTree s = loadRst(indexLevelFiles.get(name).getAbsolutePath());
+//		StringTree s = loadRst(indexLevelFiles.get(name).getPath());
+		StringTree s = indexScenarios.get(name);
 		LevelDataModel level = new LevelDataModel(s.getValue("filename"));
 		
 		//set the file name
@@ -490,73 +516,9 @@ public class GameDatabase {
 		
 		//Create the trigger set
 		level.setTriggerMap(parseTriggers(trigFac, s.getSubTree("triggers")));
-
-
-		indexScenarios.put(level.getName(),s);
-		System.out.println("Loaded Scenario: " + indexLevelFiles.get(name).getName());
+		
+		System.out.println("Loaded Scenario: " + indexScenarios.get(name));
 		return level;
-	}
-	
-	/**
-	 * NOTE:: the trigFac references the entFac, which is out of load flow at this stage
-	 * so dont call this internally in gdb, loader state will call it
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	
-	public LevelDataModel levelFromRst(StringTree s, TriggerFactory trigfac){
-		LevelDataModel level = new LevelDataModel(s.getValue("filename"));
-		
-		//set the uiname
-		level.setName(s.getValue("uiname"));
-		
-		//set the filename
-		level.setFilename(s.getValue("filename"));
-		
-		//set the faction
-		level.setFaction(Integer.valueOf(s.getValue("faction")));
-		
-		//set the tooltip for the ui
-		level.setToolTip(s.getValue("tltip"));
-		
-		//short description for briefing
-		level.setUIDesc(s.getValue("desc"));
-		
-		//get client info
-		level.setClientGuns(parseClientInfo(s.getSubTree("plrGuns")));
-		level.setClientShips(parseClientInfo(s.getSubTree("plrShips")));
-		level.setClientEngs(parseClientInfo(s.getSubTree("plrMotors")));
-		
-		//Get the name of the music to use
-		level.setMusic(s.getValue( "music"));
-		
-		//set the spawn point
-		level.setSpawn( new Point(Integer.valueOf(s.getValue("spawnX")),Integer.valueOf(s.getValue("spawnY"))));
-		
-		//set the play area
-		level.setActiveArea(parseShape(s, "active"));
-		
-		//set the warning area
-		level.setWarnArea(parseShape(s, "margin"));
-		
-		//create nav points
-		level.setNavMap(parseNavPoints(s.getSubTree("navpoints")));
-		
-		//create objectives
-		level.setObjectives(parseObjectives(s.getSubTree("objectives")));
-		
-		//Create the trigger set
-		level.setTriggerMap(parseTriggers(trigfac, s.getSubTree("triggers")));
-		
-		return level;
-	}
-	
-	public void populateLevels(TriggerFactory trigFac) throws FileNotFoundException, IOException {
-		for(File f : indexLevelFiles.values()){
-			StringTree s = loadRst(f.getAbsolutePath());
-			indexScenarios.put(s.getValue("filename"),s);
-			System.out.println("Loaded Scenario:: " + f.getName());
-		}
 	}
 	
 	private String[] parseClientInfo(StringTree t) {

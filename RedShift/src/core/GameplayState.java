@@ -79,7 +79,6 @@ public class GameplayState extends BasicGameState{
 	LevelHandler lh;
 	
 	private ParallaxStarField stars;
-	//FIXME: Parallax starfield
 	private int lCamx, lCamy;
 	//====================================================================
 	
@@ -110,7 +109,6 @@ public class GameplayState extends BasicGameState{
 			throws SlickException {	
 		gfx = arg0.getGraphics();
 		stars = new ParallaxStarField(50,1024,768, 50,null, .7f,1);
-		//FIXME: Add starfield back in
 	}
 	
 	//lame ini system is lame, so we have our own.
@@ -139,7 +137,7 @@ public class GameplayState extends BasicGameState{
 		pc.getPlayShip().ini(levelData.getSpawn().x, levelData.getSpawn().y, 0.0f);
 		playerHud = new Hud(pc, 1023, 767, hdm, gdb);
 		pc.setRadarState(true);
-		//add both ships to the Ship hashmap
+		
 		addShip(pc.getPlayShip());
 
 		//camera test
@@ -161,9 +159,6 @@ public class GameplayState extends BasicGameState{
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		if(gamePlay){
-			//Level render replaced by starfield?  Temporary measure?
-			//level.render(arg2, 0, 0);
-			
 			//Star render stuff
 			//This is 'cause it won't fit in the initializer
 			stars.setImg(gdb.getIMG("starImg"));
@@ -225,7 +220,6 @@ public class GameplayState extends BasicGameState{
 			ArrayList<Integer> removeEffect = new ArrayList<Integer>();
 			procInput(arg0, arg1, delta);
 			
-
 			// ======Begin updates!
 			// update ships
 			
@@ -463,7 +457,7 @@ public class GameplayState extends BasicGameState{
 			}
 		}
 		
-		//check ship to ship collision - is out for now
+		//check ship to ship collision - is out for now because it's not fun
 //		for(Map.Entry<Integer, BasicShip> ship : ships.entrySet()){
 //			for(Map.Entry<Integer, BasicShip> s : ships.entrySet()){
 //				if(s.getValue().getCollider().intersects(ship.getValue().getCollider())){
@@ -519,9 +513,6 @@ public class GameplayState extends BasicGameState{
 								ArrayList<Integer> removeEffect){
 		
 		for(int i : removeShots){
-//			if(shots.get(i).getImpactPrtl()!=null){
-//				particleSys.removeEmitter(shots.get(i).getImpactPrtl());	
-//			}
 			shots.remove(i);
 		}
 		
@@ -692,19 +683,12 @@ public class GameplayState extends BasicGameState{
 		this.lvlPointer = s;
 	}
 	
-	public String getLevelPointer(){
-		return this.lvlPointer;
-	}
-	
 	public LevelDataModel getLevel(){
 		return levelData;
 	}
 	
 	public void setWinLose(int i){
 		this.winLose = i;
-//		if (i == -1){
-//			gameOver = true; //It might make out lives easier if we get rid of gameOver...
-//		}
 	}
 	
 	public int getWinLose(){
@@ -716,7 +700,7 @@ public class GameplayState extends BasicGameState{
 	}
 
 	public void tripTrigger(String trigName){
-		Dbg.line("Trigger ''" + trigName + "'' fired off.");
+		Dbg.line("Trigger:: " + trigName + " fired.");
 		levelData.getTrigger(trigName).trigger(true);
 		levelData.setNeedUpdate(true);
 	}
@@ -778,7 +762,6 @@ public class GameplayState extends BasicGameState{
 		return particleSys;
 	}
 	private void makeExplosion(float x, float y, String type) {
-		// TODO Auto-generated method stub
 		if((type!="")){
 			Effect e = new Effect(gdb, type, x, y);
 			e.setX((double)x);

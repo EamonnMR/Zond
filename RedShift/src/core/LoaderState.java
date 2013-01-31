@@ -53,13 +53,13 @@ public class LoaderState extends BasicGameState {
 		entFac.ini(gdb);
 		
 		//try loading levels here
-		try {
-			gdb.populateLevels(trigFac);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			gdb.populateLevels(trigFac)
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Override

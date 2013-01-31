@@ -15,6 +15,12 @@ public class UIButton {
 	private boolean state;
 	private Object thing;
 	
+	/**
+	 * 
+	 * @param s name of button
+	 * @param b clicked / rolled over
+	 * @param obj 
+	 */
 	public UIButton(String s, boolean b, Object obj){
 		name = s;
 		state = b;
