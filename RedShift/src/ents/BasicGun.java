@@ -1,5 +1,7 @@
 package ents;
 
+import java.util.Random;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
@@ -26,7 +28,7 @@ public class BasicGun {
 	private BasicShot proj;
 	private Sound fireSnd;
 	private Image mzlPrtcl;
-
+	private int spread;
 	//constructor
 	public BasicGun(){}
 	
@@ -55,13 +57,17 @@ public class BasicGun {
 	public BasicShot makeShot(Float vol){
 			BasicShot shot = new BasicShot();
 			shot.setImg(proj.getImg().copy());
-			shot.getImg().setRotation(img.getRotation());  //+0.001f
+			shot.getImg().setRotation(img.getRotation());
 			
 			//Setting up the speed is complicated, yes, but now it's also sane
 			float spd = proj.getSpeed(); //The muzzle velocity of the projectile...
 			//speedx and speedy are the current speed of the gun and therefore bullet
 			//it uses the cos / sin algorithm plus the initial speeds to get the projectile's speed.
-			shot.setSpeeds( (spd * Math.cos(Math.toRadians(angle)) ) + speedX, (spd * Math.sin(Math.toRadians(angle)) ) + speedY);
+			
+			Random rand = new Random();
+			int spr = rand.nextInt(spread);
+			double rangle = angle +spr;
+			shot.setSpeeds( (spd * Math.cos(Math.toRadians(rangle)) ) + speedX, (spd * Math.sin(Math.toRadians(rangle)) ) + speedY);
 			shot.setImpactPrtl(proj.getImpactPrtl());
 			shot.setInterval(proj.getInterval());
 			shot.setDamage(proj.getDamage());
@@ -71,7 +77,6 @@ public class BasicGun {
 			shot.setX(getX());
 			shot.setY(getY()-(getImg().getTextureHeight()));
 			shot.setSnd(proj.getSnd());
-//			getFireSnd().playAt(0.6f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			getFireSnd().playAt(1.0f, vol, (float)shot.getX(), (float)shot.getY(), 0.0f);
 			return shot;
 	}
@@ -204,5 +209,13 @@ public class BasicGun {
 
 	public void setMy(double my) {
 		this.my = my;
+	}
+
+	public int getSpread() {
+		return spread;
+	}
+
+	public void setSpread(int spread) {
+		this.spread = spread;
 	}
 }

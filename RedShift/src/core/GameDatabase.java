@@ -257,6 +257,7 @@ public class GameDatabase {
 			current.setFireSnd(indexSounds.get(s.getValue(child, "fireSnd")));
 			current.setWireframe(indexImages.get(s.getValue(child, "wire")));
 			current.setMzlImg(indexImages.get(s.getValue(child, "firespr")).copy());
+			current.setSpread(Integer.valueOf(s.getValue(child, "spread")));
 			indexGuns.put(child, current);
 			System.out.println("Loaded Item:: Gun - "+current.getName());
 		}

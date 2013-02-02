@@ -23,7 +23,7 @@
 
 /motor descriptors here/
 [plrMotors]{
-	[item0]	(medEngine)
+	[item0]	(mcdonnel)
 }
 
 /ship descriptors here/
