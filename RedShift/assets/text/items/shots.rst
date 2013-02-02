@@ -1,8 +1,8 @@
 [twentyShot]{
 	[img]  (shot1)
 	[dmg]  (5)
-	[speed](0.4)
-	[life] (10000)
+	[speed](0.7)
+	[life] (750)
 	[snd]  (twentyh)	
 	[collider]{
 		[type](circle)
@@ -15,9 +15,9 @@
 
 [sixtyShot]{
 	[img]  (shot2)
-	[dmg]  (5)
-	[speed](0.4)
-	[life] (7500)
+	[dmg]  (10)
+	[speed](0.6)
+	[life] (800)
 	[snd]  (twentyh)
 	[collider]{
 		[type](circle)
@@ -31,8 +31,8 @@
 [oneFiveShot]{
 	[img]  (shot3)
 	[dmg]  (30)	/(15)/
-	[speed](0.4)
-	[life] (5000)
+	[speed](0.5)
+	[life] (1000)
 	[snd]  (twentyh)
 	[collider]{
 		[type](circle)
@@ -45,8 +45,8 @@
 [plasShot]{
 	[img]  (plas)
 	[dmg]  (5)
-	[speed](0.5)
-	[life] (5000)
+	[speed](0.7)
+	[life] (725)
 	[snd]  (twentyh)
 	[collider]{
 		[type](circle)
@@ -59,8 +59,8 @@
 [lazShot]{
 	[img]  (laz)
 	[dmg]  (1)
-	[speed](1.4)
-	[life] (325)
+	[speed](2.0)
+	[life] (250)
 	[snd]  (smlHt)
 	[collider]{
 		[type](circle)

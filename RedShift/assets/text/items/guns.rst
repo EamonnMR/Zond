@@ -2,13 +2,14 @@
 [20mm]{
 	[name]	  (20mm Chaingun)
 	[tltip]   (low damage, rapid-fire, short range gun)
-	[cooldown](125)
+	[cooldown](115)
 	[img]     (gun1)
 	[weight]  (119)
 	[proj]    (twentyShot)
 	[fireSnd] (twentys)
 	[wire]    (20wire)
 	[firespr] (20MzlFls)
+	[spread]  (10)
 }
 
 /60 mm cannon/
@@ -22,19 +23,21 @@
 	[fireSnd] (sixtyFire)
 	[wire]    (60wire)
 	[firespr] (60MzlFls)
+	[spread]  (8)
 }
 
 /105 mm cannon/
 [105mm]{
 	[name]	  (105mm Cannon)
 	[tltip]   (large/high damage cannon)
-	[cooldown](300); /(175)/
+	[cooldown](225); /(175)/
 	[img]     (gun3)
 	[weight]  (983)
 	[proj]    (oneFiveShot)
 	[fireSnd] (oneohfive)
 	[wire]	  (105wire)
 	[firespr] (105MzlFls)
+	[spread]  (6)
 }
 
 /small plasma/
@@ -48,6 +51,7 @@
 	[fireSnd] (zap)
 	[wire]	  (plasWire)
 	[firespr] (plasMzlFls)
+	[spread]  (10)
 }
 
 /small laser/
@@ -61,6 +65,7 @@
 	[fireSnd] (smlFre)
 	[wire]	  (laserWire)
 	[firespr] (lazMzlFls)
+	[spread]  (2)
 }
 
 /microwave/
@@ -74,4 +79,5 @@
 	[fireSnd] (smlFre)
 	[wire]	  (microWire)
 	[firespr] (mcrMzlFls)
+	[spread]  (14)
 }

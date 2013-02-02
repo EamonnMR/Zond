@@ -24,8 +24,8 @@ for defense. Reinforce the local garrison and protect the SkyPost.)
 
 /motor descriptors here/
 [plrMotors]{
-	[item0]	(medEngine)
-	[item1]	(largeEngine)
+	[item0]	(mcdonnel)
+	[item1]	(rockdyne)
 }
 
 /ship descriptors here/
@@ -37,7 +37,7 @@ for defense. Reinforce the local garrison and protect the SkyPost.)
 [music]	(systemWide)
 
 [spawnX]	(0)
-[spawnY]	(0)
+[spawnY]	(-100)
 
 [active]{
 	[type] (circle)
@@ -132,7 +132,7 @@ with the defense.)
 			[x](0) [y] (0)
 			[collider]{
 				[type] (circle)
-				[x](0) [y](0)
+				[x](500) [y](500)
 				[radius] (1)
 			}
 			[target] (wv1spwn)
@@ -177,31 +177,8 @@ with the defense.)
 			[target]	()
 			[trigstate]	(false)
 			[targets]{
-				[targ0] (spwnmerc1)
-				[targ1] (spwnvskhd1)
-				[targ2] (spwnvskhd2)
-			}
-		}
-		/spawn vosk, point to wave counter/
-		{
-			[type]	(spawn)
-			[name]	(spwnmerc1)
-			[trigtype]	(TRIGGER)
-			[x](0) [y] (0)
-			[collider]{
-				[type] (circle)
-				[x](0) [y](0)
-				[radius] (1)
-			}
-			[target] ()
-			[trigstate]	(false)
-			[toSpawn]{
-				[kind]	(mercury)
-				[gun]	(20mm)
-				[engine](smallEngine)
-				[loc]	(24 -10)
-				[isAi]	(t)
-				[deathtrig]()
+				[targ0] (spwnvskhd1)
+				[targ1] (spwnvskhd2)
 			}
 		}
 		{

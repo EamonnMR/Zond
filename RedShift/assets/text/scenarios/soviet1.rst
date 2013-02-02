@@ -2,9 +2,9 @@
 
 [filename]	(soviet1)		
 
-[uiname] 	(Soviet 1)		/name of the scenario, used as the name in the storage system/	
+[uiname] 	(Soviet 1)	
 
-[faction]	(0)			/USSR or NATO?/
+[faction]	(0)
 
 [tltip]		(Area Denial)
 
@@ -14,7 +14,7 @@ This is a mission of the utmost secrecy. In order to secure vital
 asteroids, we need you to:)
 
 /scenario-specific things/
-[levelType]	(scen) /as opposed to camp for campaign/
+[levelType]	(scen)
 
 /gun descriptors here/	
 [plrGuns]{
@@ -24,9 +24,9 @@ asteroids, we need you to:)
 
 /motor descriptors here/
 [plrMotors]{
-	[item0]	(rd109)
+	[item0]	(7kl3)
 	[item1]	(ang191)
-	[item2]	(7kl3)
+	[item2]	(rd109)
 }
 
 /ship descriptors here/
@@ -415,7 +415,7 @@ asteroids, we need you to:)
 		[toSpawn]{
 			[kind] (mercury)
 			[gun]	(20mm)
-			[engine](smallEngine)
+			[engine](thiokol)
 			[loc](4600 5400)
 			[isAi](t)
 			[deathtrig](shipcounter)
@@ -439,7 +439,7 @@ asteroids, we need you to:)
 		[toSpawn]{
 			[kind] (mercury)
 			[gun]	(20mm)
-			[engine](smallEngine)
+			[engine](thiokol)
 			[loc](4400 5400)
 			[isAi](t)
 			[deathtrig](shipcounter)
@@ -463,7 +463,7 @@ asteroids, we need you to:)
 		[toSpawn]{
 			[kind] (gemini)
 			[gun]	(60mm)
-			[engine](medEngine)
+			[engine](mcdonnel)
 			[loc](4500 5400)
 			[isAi](t)
 			[deathtrig](shipcounter)

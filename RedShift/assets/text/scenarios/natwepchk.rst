@@ -24,16 +24,16 @@ You will be provided with some targets to test things on.)
 
 /motor descriptors here/
 [plrMotors]{
-	[item0]	(smallEngine)
-	[item1]	(medEngine)
-	[item2]	(largeEngine)
+	[item0]	(thiokol)
+	[item1]	(mcdonnel)
+	[item2]	(rockdyne)
 }
 
 /ship descriptors here/
 [plrShips]{
-	[item0]	(mercury)
+	[item0]	(lunar)
 	[item1]	(gemini)
-	[item2]	(lunar)
+	[item2]	(mercury)
 }
 
 [music]	(loneRecon)
@@ -147,7 +147,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(voskhod)
 			[gun]	(plas)
-			[engine](smallEngine)
+			[engine](rd109)
 			[loc]	(-400 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
@@ -170,7 +170,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(vostok)
 			[gun]	(plas)
-			[engine](smallEngine)
+			[engine](ang191)
 			[loc]	(-300 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
@@ -193,7 +193,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(zond4)
 			[gun]	(plas)
-			[engine](smallEngine)
+			[engine](7kl3)
 			[loc]	(-200 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)

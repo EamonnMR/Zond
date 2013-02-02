@@ -16,13 +16,13 @@ You will be provided with some targets to test things on.)
 	
 [plrGuns]{
 	[item0]	(plas)
-        [item1] (105mm)
+	[item1] (105mm)
 	[item2]	(mcrwv)
 }
 [plrMotors]{
-	[item0]	(rd109)
+	[item0]	(7kl3)
 	[item1] (ang191)
-	[item2] (7kl3)
+	[item2] (rd109)
 }
 [plrShips]{
 	[item0]	(zond4)
@@ -141,7 +141,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(mercury)
 			[gun]	(60mm)
-			[engine](smallEngine)
+			[engine](thiokol)
 			[loc]	(-100 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
@@ -164,7 +164,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(gemini)
 			[gun]	(60mm)
-			[engine](medEngine)
+			[engine](mcdonnel)
 			[loc]	(0 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)
@@ -187,7 +187,7 @@ Mission ends when all targets are destroyed.)
 		[toSpawn]{
 			[kind]	(lunar)
 			[gun]	(105mm)
-			[engine](largeEngine)
+			[engine](rockdyne)
 			[loc]	(100 200)
 			[isAi]	(f)	
 			[deathtrig](targetscleared)

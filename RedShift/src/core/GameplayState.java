@@ -168,7 +168,6 @@ public class GameplayState extends BasicGameState{
 			lCamx = camX; //Save the old camX and camY values
 			lCamy = camY;
 			stars.draw(gfx);
-			//FIXME: Starfield
 			
 			if(pc.getOptions().getParticleStatus()){
 				particleSys.setPosition(camX, camY);

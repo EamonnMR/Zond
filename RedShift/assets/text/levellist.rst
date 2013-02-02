@@ -3,8 +3,8 @@
 /therefore to have a defined order of listing just add/
 /them here in reverse order/
 
+[nato2]		(assets/text/scenarios/Nato2.rst)
 [scenario1]	(assets/text/scenarios/scenario1.rst)
-[sovwpchk]	(assets/text/scenarios/sovwepchk.rst)
 [natwpchk]	(assets/text/scenarios/natwepchk.rst)
 [soviet1]	(assets/text/scenarios/soviet1.rst)
-[nato2]		(assets/text/scenarios/Nato2.rst)
+[sovwpchk]	(assets/text/scenarios/sovwepchk.rst)

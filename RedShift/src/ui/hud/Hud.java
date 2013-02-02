@@ -201,10 +201,10 @@ public class Hud {
 						}else{
 							gfx.setColor(Color.red);
 						}
-						Circle targ = new Circle((float)((s.getX()*ratio)+xOffset),
+						Circle targRad = new Circle((float)((s.getX()*ratio)+xOffset),
 												(float)((s.getY()*ratio)+yOffset),
 												s.getRadarShape().radius*ratio);
-						gfx.draw(targ);
+						gfx.draw(targRad);
 					}
 				}
 			}
