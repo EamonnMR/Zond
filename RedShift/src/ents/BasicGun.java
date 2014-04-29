@@ -66,7 +66,13 @@ public class BasicGun {
 			
 			Random rand = new Random();
 			int spr = rand.nextInt(spread);
-			double rangle = angle +spr;
+			double rangle;
+			if(getName().equals("las") || getName().equals("mcrwv")){
+				rangle = angle;
+			}else{
+				rangle = angle +spr;
+			}
+
 			shot.setSpeeds( (spd * Math.cos(Math.toRadians(rangle)) ) + speedX, (spd * Math.sin(Math.toRadians(rangle)) ) + speedY);
 			shot.setImpactPrtl(proj.getImpactPrtl());
 			shot.setInterval(proj.getInterval());

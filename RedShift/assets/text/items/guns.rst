@@ -70,7 +70,7 @@
 
 /microwave/
 [mcrwv]{
-	[name]	  (Mirowave)
+	[name]	  (Microwave)
 	[tltip]   (very short range, very powerful energy weapon)
 	[cooldown](60);
 	[img]     (micro)
