@@ -38,7 +38,7 @@ public class StringTree{
 	
 	public StringTree getSubTree(String... path){
 		//The only ugly parts of this code are the ones that make a new path array.
-		//Sadly, the notion of a string array path thing is only there because it makes the syntax HOT.
+		//The notion of an array path is there because it makes the syntax nice with varargs.
 		Dbg.psa("Path inside getSubTree", path);
 		return new StringTree(descend(root, path));
 	}
